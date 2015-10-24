@@ -1,5 +1,10 @@
 # Object file
-*.o
+cache/*
+public_assets/*
+logs/*
+config/config.php
+config/access.php
+admin/cache/*
+admin/logs/*
+admin/config/config.php
 
-# Ada Library Information
-*.ali
