@@ -1,37 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<title>E-Learning | BSN</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="" />
-<!-- css -->
-<link href="{$basedomain}assets/css/css.css" rel='stylesheet' type='text/css'>
-<link href="{$basedomain}assets/css/bootstrap.min.css" rel="stylesheet" />
-<link href="{$basedomain}assets/css/fancybox/jquery.fancybox.css" rel="stylesheet">
-<link href="{$basedomain}assets/css/jcarousel.css" rel="stylesheet" />
-<link href="{$basedomain}assets/css/flexslider.css" rel="stylesheet" />
-<link href="{$basedomain}assets/css/font-awesome.css" rel="stylesheet" />
-<link href="{$basedomain}assets/js/owl-carousel/owl.carousel.css" rel="stylesheet">
-<link href="{$basedomain}assets/css/style.css" rel="stylesheet" />
-<link href="{$basedomain}assets/css/hover.css" rel="stylesheet" />
-<link href="{$basedomain}assets/css/texteffect.css" rel="stylesheet" />
-<link href="{$basedomain}plugin/video-js/video-js.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="{$basedomain}assets/css/bootstrap-select.css">
-  <link rel="stylesheet" type="text/css" href="{$basedomain}assets/css/datepicker.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin | E-Learning BSN</title>
 
-		<link rel="stylesheet" type="text/css" href="{$basedomain}assets/css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="{$basedomain}assets/css/component.css" />
- <script src="{$basedomain}assets/js/jquery.js"></script>
- <script src='https://www.google.com/recaptcha/api.js'></script>
- 
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 
-<script type="text/javascript">
-	var basedomain = "{$basedomain}";
-</script>
+	<!--STYLESHEET-->
+	<!--=================================================-->
+
+	<!--Open Sans Font [ OPTIONAL ] -->
+ 	<link href="{$basedomain}assets/css/googlefonts.css" rel="stylesheet">
+
+
+	<!--Bootstrap Stylesheet [ REQUIRED ]-->
+	<link href="{$basedomain}assets/css/bootstrap.min.css" rel="stylesheet">
+
+
+	<!--Nifty Stylesheet [ REQUIRED ]-->
+	<link href="{$basedomain}assets/css/nifty.min.css" rel="stylesheet">
+
+	
+	<!--Font Awesome [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+
+	<!--Switchery [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/switchery/switchery.min.css" rel="stylesheet">
+
+
+	<!--Bootstrap Select [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+
+	<!--Bootstrap Table [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
+	<link href="{$basedomain}assets/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet">
+
+	<!--Bootstrap Tags Input [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+
+
+	<!--Chosen [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/chosen/chosen.min.css" rel="stylesheet">
+
+
+	<!--noUiSlider [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/noUiSlider/jquery.nouislider.min.css" rel="stylesheet">
+	<link href="{$basedomain}assets/plugins/noUiSlider/jquery.nouislider.pips.min.css" rel="stylesheet">
+
+
+	<!--Bootstrap Timepicker [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+
+
+	<!--Bootstrap Datepicker [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet">
+
+
+	<!--Dropzone [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/dropzone/dropzone.css" rel="stylesheet">
+
+
+	<!--Summernote [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/summernote/summernote.min.css" rel="stylesheet">
+
+	<!--Bootstrap Validator [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/bootstrap-validator/bootstrapValidator.min.css" rel="stylesheet">
+
+	<!--Morris.js [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/morris-js/morris.min.css" rel="stylesheet">
+
+	<!--Bootstrap Validator [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/bootstrap-validator/bootstrapValidator.min.css" rel="stylesheet">
+
+	<!--Bootstrap UploadFile [ OPTIONAL ]-->
+	<link rel="stylesheet" href="{$basedomain}assets/plugins/fileupload/bootstrap-fileupload.css" type="text/css" />
+
+	<!--Demo [ DEMONSTRATION ]-->
+	<link href="{$basedomain}assets/css/demo/nifty-demo.min.css" rel="stylesheet">
+
+
+
+
+	<!--SCRIPT-->
+	<!--=================================================-->
+
+	<!--Page Load Progress Bar [ OPTIONAL ]-->
+	<link href="{$basedomain}assets/plugins/pace/pace.min.css" rel="stylesheet">
+	<script src="{$basedomain}assets/plugins/pace/pace.min.js"></script>
+
+	<!--jQuery [ REQUIRED ]-->
+	<script src="{$basedomain}assets/js/jquery-2.1.1.min.js"></script>
+
+	<!--BootstrapJS [ RECOMMENDED ]-->
+	<script src="{$basedomain}assets/js/bootstrap.min.js"></script>
+		
+	<!--Fast Click [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/fast-click/fastclick.min.js"></script>
+
+	<!--Switchery [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/switchery/switchery.min.js"></script>
+
+
+	<!--Bootstrap Select [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+
+	<!--DataTables [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/datatables/media/js/jquery.dataTables.js"></script>
+	<script src="{$basedomain}assets/plugins/datatables/media/js/dataTables.bootstrap.js"></script>
+	<script src="{$basedomain}assets/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+
+	<!--Bootstrap Tags Input [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+
+
+	<!--Chosen [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/chosen/chosen.jquery.min.js"></script>
+
+
+	<!--noUiSlider [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/noUiSlider/jquery.nouislider.all.min.js"></script>
+
+
+	<!--Bootstrap Timepicker [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
+
+	<!--Bootstrap Datepicker [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+
+
+	<!--Dropzone [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/dropzone/dropzone.min.js"></script>
+
+	<!--Upload File [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/fileupload/bootstrap-fileupload.js"></script>
+
+
+	<!--Summernote [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/summernote/summernote.min.js"></script>
+
+	<!--Bootstrap Wizard [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+
+	<!--Bootstrap Validator [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-validator/bootstrapValidator.min.js"></script>
+
+	<!--Masked Input [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/masked-input/jquery.maskedinput.min.js"></script>
+
+	<!--Morris.js [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/morris-js/morris.min.js"></script>
+	<script src="{$basedomain}assets/plugins/morris-js/raphael-js/raphael.min.js"></script>
+
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootbox/bootbox.min.js"></script>
+
+	<!--Bootstrap Wizard [ ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+
+
+	<!--Bootstrap Validator [ OPTIONAL ]-->
+	<script src="{$basedomain}assets/plugins/bootstrap-validator/bootstrapValidator.min.js"></script>
+
+	<!--Modals [ HELPER ]-->
+	<script src="{$basedomain}assets/js/demo/jshelper.js"></script>
+
+	<!--Form Wizard [ SAMPLE ]-->
+	<script src="{$basedomain}assets/js/demo/form-wizard.js"></script>
+	<script>
+		{literal}
+		$('.selectpicker').selectpicker();
+		{/literal}
+	</script>
 </head>
-<body>

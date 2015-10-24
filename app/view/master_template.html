@@ -1,13 +1,37 @@
-  
+
 {include file="template/meta.html"}
+
+<body>
+	<script>
+		var basedomain = "{$basedomain}";
+	</script>
 	
-    <!-- HEADER DEFAULT -->
-    {include file="template/header.html"}
-    
+	{if ($user)}
+	<div id="container" class="effect mainnav-lg">
+		
 
-    <!-- CONTENT -->
+			
+			{include file= "template/header.html"} 
 
-	{$content}
+			<div class="boxed">
 
-	<!-- FOOTER -->
-    {include file="template/footer.html"}
+				<!--CONTENT CONTAINER-->
+				<!--===================================================-->
+				<div id="content-container">
+					
+					
+					{$content}
+
+				</div>
+			{include file= "template/sidebar.html"}
+
+			{include file= "template/top-bar.html"}
+
+			</div>
+			{include file= "template/footer.html"}
+			{include file= "template/jsplugin.html"}
+	</div>
+	{else}
+		{$content}
+		{include file= "template/jsplugin.html"}
+	{/if}			

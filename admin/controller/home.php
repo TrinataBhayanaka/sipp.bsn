@@ -32,15 +32,7 @@ class home extends Controller {
 		
 		// $quizStatistic = $this->contentHelper->quizStatistic();
 		// db($quizStatistic);
-		$register = $this->contentHelper->getRegistrant();
-		$course = $this->contentHelper->getCourse();
-		$online = $this->contentHelper->getOnlineUser();
-		$download = $this->contentHelper->getDownloadEbook();
-		// pr($download);
-		$this->view->assign('register',$register[0]['total']);
-		$this->view->assign('course',$course[0]['total']);
-		$this->view->assign('online',$online[0]['total']);
-		$this->view->assign('download',intval($download[0]['total']));
+		
 
 		return $this->loadView('home/home');
 

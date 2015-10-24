@@ -1,146 +1,198 @@
 
-{$classHome=''}
-{$classBerita=''}
-{$classProfil=''}
-{$classQuiz=''}
-{$classKursus=''}
+<!--NAVBAR-->
+<!--===================================================-->
+<header id="navbar">
+	<div id="navbar-container" class="boxed">
 
-{if $page.page=='home'}
-    {$classHome='active'}
-{/if}
-{if $page.page=='berita'}
-    {$classBerita='active'}
-{/if}
-{if $page.page=='tutorial'}
-    {$classTutorial='active'}
-{/if}
-{if $page.page=='profil'}
-    {$classProfil='active'}
-{/if}
-{if $page.page=='quiz'}
-    {$classQuiz='active'}
-{/if}
+		<!--Brand logo & name-->
+		<!--================================-->
+		<div class="navbar-header">
+			<a href="{$basedomain}" class="navbar-brand">
+				<img src="{$basedomain}images/logo.png" alt="Logo" class="brand-icon">
+				<div class="brand-title">
+					<span class="brand-text">E-Learning BSN</span>
+				</div>
+			</a>
+		</div>
+		<!--================================-->
+		<!--End brand logo & name-->
 
-{if $page.page=='kursus'}
-    {$classKursus='active'}
-{/if}
 
-{if $page.page=='search'}
-    {$classSearch='active'}
-{/if}
-{if $page.page=='user'}
-    {$classNilai='active'}
-{/if}
-<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button> -->
+		<!--Navbar Dropdown-->
+		<!--================================-->
+		<div class="navbar-content clearfix">
+			<ul class="nav navbar-top-links pull-left">
 
-<a href="#" class="userOnline"><i class="fa fa-users"></i>  {$userOnline} Online</a><section id="featured">
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">FORM LOGIN</h4>
-      </div>
-      <form method="POST" action="{$basedomain}login/local" class="form-horizontal" onsubmit="return checkBefore()" >
-      <div class="modal-body">
-       
-            <div class="form-group">
-                <!-- <label for="inputEmail3" class="col-sm-2 control-label">Username</label><br/> -->
-                <div class="col-sm-12">
-                    <div class="input-group">
-                      <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Username..." name="username"/>
-                </div>
-                </div>
-              </div>
-            <div class="form-group">
-             <!--    <label for="inputEmail3" class="col-sm-2 control-label">Password</label><br/> -->
-                <div class="col-sm-12">
-                    <div class="input-group">
+				<!--Navigation toogle button-->
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<li class="tgl-menu-btn">
+					<a class="mainnav-toggle" href="#">
+						<i class="fa fa-navicon fa-lg"></i>
+					</a>
+				</li>
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<!--End Navigation toogle button-->
 
-                      <span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
-                    <input type="password" class="form-control" placeholder="Password..." name="password"/>
-                    <input type="hidden" name="is_applykursus" value="" id="is_applykursus">
-                </div>
-                </div>
-              </div>
 
-              <button type="submit" class="btn btn-primary pull-right">Sign In</button>
-              <br/>
-        
-      </div>
-      <div class="modal-footer">
-        <input type="hidden" name="token" value="1"/>
-       <span  style="font-size:14px;padding-top:10px;color:#333333"> Belum memiliki akun? <a href="{$basedomain}register">Sign Up</a></span>
-        
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-<div id="wrapper">
-  <!-- start header -->
-  <header>
+				<!--Messages Dropdown-->
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<!-- <li class="dropdown">
+					<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+						<i class="fa fa-envelope fa-lg"></i>
+						<span class="badge badge-header badge-warning">1</span>
+					</a> -->
 
-        
-    <div class="navbar logo navbar-default white navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    
-                    <a class="navbar-brand" href="{$basedomain}"><img src="{$basedomain}assets/img/bsni.jpeg" alt="logo" width="200px"/> 
-                    <p style="border:0px solid #eee;margin-left:220px;margin-top:-70px;color:#281870;font-size:22px;">
-                      E-Learning  Standardisasi  dan<br/> Penilaian  Kesesuaian</p></a>
-                    
+					<!--Message dropdown menu-->
+					<!-- <div class="dropdown-menu dropdown-menu-md with-arrow">
+						<div class="pad-all bord-btm">
+							<p class="text-lg text-muted text-thin mar-no">You have 1 message.</p>
+						</div>
+						<div class="nano scrollable">
+							<div class="nano-content">
+								<ul class="head-list"> -->
+							
+									<!-- Dropdown list-->
+									<!-- <li>
+										<a href="#" class="media">
+											<div class="media-left">
+												<img src="{$basedomain}images/ava/av2.png" alt="Profile Picture" class="img-circle img-sm">
+											</div>
+											<div class="media-body">
+												<div class="text-nowrap">Any message goes here</div>
+												<small class="text-muted">15 minutes ago</small>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div> -->
 
-                </div>
+						<!--Dropdown footer-->
+						<!-- <div class="pad-all bord-top">
+							<a href="#" class="btn-link text-dark box-block">
+								<i class="fa fa-angle-right fa-lg pull-right"></i>Show All Messages
+							</a>
+						</div>
+					</div> -->
+				</li>
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<!--End message dropdown-->
 
-            </div>
-        </div>
-        <div class="navbar navbar-default navbar-static-top menuTop" >
-            <div class="container">
-                <div class="navbar-collapse 2 collapse2 " style="overflow:auto;">
-                    <ul class="nav menuTop navbar-nav">
-                        
-                          {if $user}
-                          <li><h4><i class="fa fa-user"></i> Selamat Datang, <i>{$user.0.name}</i></h4></li>
-                          {/if}
-                        <li class="menu {$classSearch}" ><a href="{$basedomain}search" ><i class="fa fa-search"></i> Cari  Sertifikat </a></li> 
-                        
-                          {if $user}
-                        <li class="menu"><a href="{$basedomain}home/logout">LOGOUT <i class="fa fa-log-out"></i></a></li>
-                        {else}
-                        <li class="menu"><a href="#" data-toggle="modal" data-target="#myModal">LOGIN <i class="fa fa-sign-in"></i></a></li>
-                        {/if}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="navbar-collapse collapse " style="overflow:auto">
-                    <ul class="nav navbar-nav">
-                        <li class="menu {$classHome}"><a href="{$basedomain}">BERANDA</a></li> 
-                      <li class="menu {$classProfil}"><a href="{$basedomain}profil">PROFIL</a></li>
-                      {*}<li class="menu {$classQuiz}"><a href="{$basedomain}">E-LEARNING</a></li>{/*}
-                        <li class="menu {$classKursus}"><a href="{$basedomain}kursus">KURSUS</a></li>
-                        <li class="menu {$classBerita}"><a href="{$basedomain}berita">BERITA</a></li>
-                        <li class="menu {$classTutorial}"><a href="{$basedomain}tutorial">TUTORIAL</a></li>
-                        {if $user}
-                        <li class="menu {$classNilai}"><a href="{$basedomain}user/setting">NILAI</a></li>
-                        {/if}
-                    </ul>
-                </div>
-            </div>
-        </div>
-  </header>
-  <!-- end header -->
+
+
+
+				<!--Notification dropdown-->
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<!-- <li class="dropdown">
+					<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+						<i class="fa fa-bell fa-lg"></i>
+						<span class="badge badge-header badge-danger">1</span>
+					</a> -->
+
+					<!--Notification dropdown menu-->
+					<!-- <div class="dropdown-menu dropdown-menu-md with-arrow">
+						<div class="pad-all bord-btm">
+							<p class="text-lg text-muted text-thin mar-no">You have 1 notification.</p>
+						</div>
+						<div class="nano scrollable">
+							<div class="nano-content">
+								<ul class="head-list">
+									<li>
+										<a href="#" class="media">
+											<div class="media-left">
+												<span class="icon-wrap icon-circle bg-primary">
+													<i class="fa fa-comment fa-lg"></i>
+												</span>
+											</div>
+											<div class="media-body">
+												<div class="text-nowrap">Any notification goes here.</div>
+												<small class="text-muted">15 minutes ago</small>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div> -->
+
+						<!--Dropdown footer-->
+						<!-- <div class="pad-all bord-top">
+							<a href="#" class="btn-link text-dark box-block">
+								<i class="fa fa-angle-right fa-lg pull-right"></i>Show All Notifications
+							</a>
+						</div>
+					</div>
+				</li> -->
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<!--End notifications dropdown-->
+
+
+
+				
+
+			</ul>
+			<ul class="nav navbar-top-links pull-right">
+
+				<!--User dropdown-->
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<li id="dropdown-user" class="dropdown">
+					<a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+						<span class="pull-right">
+							<img class="img-circle img-user media-object" src="{$basedomain}images/ava/av1.png" alt="Profile Picture">
+						</span>
+						<div class="username hidden-xs">user</div>
+					</a>
+
+
+					<div class="dropdown-menu dropdown-menu-md dropdown-menu-right with-arrow panel-default">
+
+						<!-- User dropdown menu -->
+						<ul class="head-list">
+							<li>
+								<a href="#">
+									<i class="fa fa-user fa-fw fa-lg"></i> Profile
+								</a>
+							</li>
+							<!-- <li>
+								<a href="#">
+									<span class="badge badge-danger pull-right">9</span>
+									<i class="fa fa-envelope fa-fw fa-lg"></i> Messages
+								</a>
+							</li> -->
+							<li>
+								<a href="#">
+									<span class="label label-success pull-right">Upcoming</span>
+									<i class="fa fa-gear fa-fw fa-lg"></i> Settings
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa fa-question-circle fa-fw fa-lg"></i> Help
+								</a>
+							</li>
+							<!-- <li>
+								<a href="#">
+									<i class="fa fa-lock fa-fw fa-lg"></i> Lock screen
+								</a>
+							</li> -->
+						</ul>
+
+						<!-- Dropdown footer -->
+						<div class="pad-all text-right">
+							<a href="{$basedomain}logout.php" class="btn btn-primary">
+								<i class="fa fa-sign-out fa-fw"></i> Logout
+							</a>
+						</div>
+					</div>
+				</li>
+				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+				<!--End user dropdown-->
+
+			</ul>
+		</div>
+		<!--================================-->
+		<!--End Navbar Dropdown-->
+
+	</div>
+</header>
+<!--===================================================-->
+<!--END NAVBAR-->

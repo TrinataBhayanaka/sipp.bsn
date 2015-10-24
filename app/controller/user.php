@@ -1,31 +1,32 @@
 <?php
 
 class user extends Controller {
-	
-	var $models = FALSE;
-	var $view;
+    
+    var $models = FALSE;
+    var $view;
 
-	
-	function __construct()
-	{
-		global $basedomain;
-		$this->loadmodule();
-		$this->view = $this->setSmarty();
-		$this->view->assign('basedomain',$basedomain);
+    
+    function __construct()
+    {
+        global $basedomain;
+        $this->loadmodule();
+        $this->view = $this->setSmarty();
+        $this->view->assign('basedomain',$basedomain);
         $getUserLogin = $this->isUserOnline();
         $this->user = $getUserLogin[0];
     }
-	
-	function loadmodule()
-	{
+    
+    function loadmodule()
+    {
         $this->contentHelper = $this->loadModel('contentHelper');
         $this->loginHelper = $this->loadModel('loginHelper');
         $this->userHelper = $this->loadModel('userHelper');
         $this->quizHelper = $this->loadModel('quizHelper');
-	}
-	
-	function index(){
-    	//return $this->loadView('gallery/gallery');
+        $this->models = $this->loadModel('mkursus');
+    }
+    
+    function index(){
+        //return $this->loadView('gallery/gallery');
     }
     
     function local()
@@ -51,11 +52,11 @@ class user extends Controller {
 
         
 
-    	return $this->loadView('user/login');
+        return $this->loadView('user/login');
     }
     
     function register(){
-    	return $this->loadView('user/register');
+        return $this->loadView('user/register');
     }
     
     function register_step1(){
@@ -69,7 +70,7 @@ class user extends Controller {
                 redirect($basedomain.'user/register_step2');
             }
         }
-    	return $this->loadView('user/register_step1');
+        return $this->loadView('user/register_step1');
     }
     
     function register_step2(){
@@ -94,7 +95,7 @@ class user extends Controller {
         }
 
         $this->view->assign('rumpun',$getNomenklatur);
-    	return $this->loadView('user/register_step2');
+        return $this->loadView('user/register_step2');
     }
     
     function register_step3(){
@@ -122,7 +123,7 @@ class user extends Controller {
             }
         }
 
-    	return $this->loadView('user/register_step3');
+        return $this->loadView('user/register_step3');
     }
     
     function register_step4(){
@@ -162,7 +163,7 @@ class user extends Controller {
             exit;
             
         }
-    	return $this->loadView('user/register_step4');
+        return $this->loadView('user/register_step4');
     }
 
     function register_step5(){
@@ -196,7 +197,7 @@ class user extends Controller {
         
         $quiz = $this->quizHelper->getNilaiByProfile();
         // pr($profile);
-        // pr($quiz);
+        // db($quiz);
         if ($quiz){
             foreach ($quiz as $key => $value) {
                 $groupid[$value['idGroupKursus']][$value['idNilai']] = $value['nilai'];
@@ -222,8 +223,10 @@ class user extends Controller {
             }
             // pr($newData);
         }
-
-
+    if($value['idGroupKursus']){
+            $attempt = $this->models->get_attempt_user($value['idGroupKursus'],$this->user['idUser']);
+    }        
+        $this->view->assign('attempts',$attempt['jml']);
         $this->view->assign('profile',$profile);
         $this->view->assign('quiz',$newData);
         return $this->loadView('akun/setting');

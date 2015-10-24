@@ -6,6 +6,15 @@
 */
 
 $ROUTES = array(
-				'home',
-                );
+		'home',
+		'register',
+                'recovery',
+                'kontak',
+                'gallery',
+                'kepakaran',
+                'paket',
+                'login',
+                'user'
+        );
 ?>
+
