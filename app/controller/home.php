@@ -18,18 +18,20 @@ class home extends Controller {
 	
 	function loadmodule()
 	{
+        /*
         $this->contentHelper = $this->loadModel('contentHelper');
         $this->userHelper = $this->loadModel('userHelper');
         $this->userGallery=$this->loadModel('mgallery');
         $this->userNews=$this->loadModel('mnews');
         $this->quizHelper = $this->loadModel('quizHelper');
+        */
 	}
 	
 	function index(){
 
 		global $CONFIG,$basedomain;
 		
-		redirect($basedomain.$CONFIG['admin']['default_view']);
+		redirect($basedomain . 'admin/');
 		exit;
     }
 

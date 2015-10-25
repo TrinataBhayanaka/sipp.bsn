@@ -17,10 +17,17 @@ class Database
 	protected $dbConfig = array();
 	protected $keyconfig = null;
 	var $link = false;
+	var $prefif;
+	var $preftable;
 	
 	public function __construct() {
 		
 		/* nothing here */
+
+		global $dbConfig;
+
+		$this->prefix = $dbConfig[0]['prefix'];
+		$this->preftable = $dbConfig[0]['preftable'];
 	}
 	
 	function setAppKey()
@@ -156,7 +163,7 @@ class Database
 						while ($data = mysql_fetch_assoc($this->var_result)){
 								$dataArray[] = $data;
 						}
-						
+						$this->free_result($this->var_result);
 						return $dataArray;
 					}else{
 						return false;
@@ -165,6 +172,7 @@ class Database
 					
 					$dataArray = mysql_fetch_assoc($this->var_result);
 					
+					$this->free_result($this->var_result);
 					return $dataArray;
 				}
 				$this->close_connection();
@@ -225,7 +233,7 @@ class Database
 	
 	public function free_result($result)
 	{
-		return mysql_free_result($result);
+		mysql_free_result($result);
 	}
 	
 	public function real_escape_string($data)
