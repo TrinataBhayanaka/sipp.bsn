@@ -1,31 +1,22 @@
 <?php 
 
-/* Class Name = Database
+/* Class Name = engine_mysql
  * Variabel Input : query, result, connect, numRec
  * Variabel Input Type : Protected
  * Created By : Ovan Cop
  * Class Desc : Kumpulan fungsi database (db helper)
  */
 
-class Database
+class Database  
 {
-	protected $var_query = null;
-	protected $var_result = null;
-	protected $var_connect = null;
-	protected $var_numRec = null;
-	protected $config = array();
-	protected $dbConfig = array();
-	protected $keyconfig = null;
-	var $link = false;
-	var $prefif;
-	var $preftable;
 	
+	var $dbserver;
+
 	public function __construct() {
 		
 		/* nothing here */
 
 		global $dbConfig;
-
 		$this->prefix = $dbConfig[0]['prefix'];
 		$this->preftable = $dbConfig[0]['preftable'];
 	}
@@ -41,16 +32,24 @@ class Database
 		return $keyconfig;
 	}
 	
-	function setDbConfig()
+	function initialitation()
+	{
+		$this->cacheTable();
+	}
+
+	function setDbConfig($dbuse)
 	{
 		global $dbConfig;
-		
+		$this->dbserver = $dbConfig[$dbuse]['server'];
+
 	}
 	
 	public function open_connection($dbuse) {
 		
 		global $dbConfig, $CONFIG;
 		
+		$this->setDbConfig($dbuse);
+
 		$this->keyconfig = $this->setAppKey();
 		
 		if ((is_array($dbConfig)) and ($dbConfig !=''))
@@ -85,8 +84,6 @@ class Database
 						}else{
 							mysql_select_db(trim($dbConfig[$dbuse]['name']),$connect) or die ($this->db_error('No Database Selected'));
 							
-							// mysql_select_db('florakalbar', $connect) or die ($this->db_error('No Database Selected'));
-							
 						}
 						
 						$this->link = $connect;
@@ -118,7 +115,6 @@ class Database
 		global $dbConfig, $CONFIG;
 		$this->keyconfig = $this->setAppKey();
 		
-		logFile($data);
 		$this->open_connection($dbuse);
                 // cek server database yang dipakai
 		switch ($dbConfig[$dbuse]['server'])
@@ -163,7 +159,7 @@ class Database
 						while ($data = mysql_fetch_assoc($this->var_result)){
 								$dataArray[] = $data;
 						}
-						$this->free_result($this->var_result);
+						
 						return $dataArray;
 					}else{
 						return false;
@@ -172,9 +168,9 @@ class Database
 					
 					$dataArray = mysql_fetch_assoc($this->var_result);
 					
-					$this->free_result($this->var_result);
 					return $dataArray;
 				}
+				$this->free_result($this->var_result);
 				$this->close_connection();
 			break;
                     
@@ -233,7 +229,7 @@ class Database
 	
 	public function free_result($result)
 	{
-		mysql_free_result($result);
+		return mysql_free_result($result);
 	}
 	
 	public function real_escape_string($data)
@@ -358,36 +354,30 @@ class Database
 				if ($condition) $whereCondition = " {$condition} ";
 				else $whereCondition = " 1 ";
 
-				if (isset($data['join'])){
+				$jointmp = @$data['join'];
+				$join = explode(',', $jointmp);
 
-					$jointmp = $data['join'];
-					$join = explode(',', $jointmp);
+				$joinmethod = @$data['joinmethod'];
+				if ($joinmethod){
+					$tmpTable = explode(',', $table);
+					$length = count($tmpTable);
 
-					if (isset($data['joinmethod'])) $joinmethod = $data['joinmethod'];
-					if ($joinmethod){
-						$tmpTable = explode(',', $table);
-						$length = count($tmpTable);
-
-						$joinIndex = 0;
-						for ($i=1; $i<$length; $i++){
-							$tatement[] = $joinmethod . $tmpTable[$i] . ' ON ' . $join[$joinIndex];
-							$joinIndex++;
-						}
-
-						$tmpStatement = implode(' ',$tatement);
-
-						$primaryTable = $tmpTable[0];
-
-						$sql = "SELECT {$field} FROM {$primaryTable} {$tmpStatement} WHERE {$whereCondition} {$limit}";
+					$joinIndex = 0;
+					for ($i=1; $i<$length; $i++){
+						$tatement[] = $joinmethod . $tmpTable[$i] . ' ON ' . $join[$joinIndex];
+						$joinIndex++;
 					}
 
+					$tmpStatement = implode(' ',$tatement);
+
+					$primaryTable = $tmpTable[0];
+
+					$sql = "SELECT {$field} FROM {$primaryTable} {$tmpStatement} WHERE {$whereCondition} {$limit}";
 				}else{
 					$sql = "SELECT {$field} FROM {$table} WHERE {$whereCondition} {$limit}";
-				} 
-				
-				
+				}
+
 				logFile($sql);
-				
 				if ($debug){
 					if ($debug>1){
 						pr($sql);
@@ -429,8 +419,7 @@ class Database
 			break;
 
 			case '2':
-				/*		
-
+				/*
 				$sql = array(
                 'table'=>'aset',
                 'field'=>'Aset_ID = 1, KodeSatker = 1010',
@@ -438,14 +427,12 @@ class Database
                 );
 				*/
 				$condition = $data['condition'];
-
-				if (isset($data['limit'])) $limit = intval($data['limit']);
-				else $limit = " ";
-				
+				$limit = intval($data['limit']);
 				if ($limit>0) $limit = " LIMIT {$limit}";
 				else $limit = "";
 
 				$sql = "UPDATE {$table} SET {$field} WHERE {$condition} {$limit}";
+				logFile($sql);
 				if ($debug){
 					if ($debug>1){
 						pr($sql);
@@ -468,6 +455,126 @@ class Database
 		}
 
 		
+		return false;
+	}
+
+	function getTableList()
+	{
+		global $dbConfig;
+
+		$sql = "SHOW TABLES FROM {$dbConfig[0]['name']}";
+		$res = $this->fetch($sql,1);
+		if ($res){
+			foreach ($res as $key => $value) {
+				$listTable[] = $value['Tables_in_' . $dbConfig[0]['name']];
+			}
+			return $listTable;	
+		} 
+		return false;
+	}
+
+	function getTableStructure($table)
+	{
+		$sql = "DESC {$table}";
+		$res = $this->fetch($sql,1);
+		if ($res) return $res;	
+		return false;
+	}
+
+	function cacheTable()
+	{
+		$pathcache = CACHE . 'table/';
+
+		if (!file_exists($pathcache)) {
+			mkdir($pathcache);
+		}
+
+		$getTableList = $this->getTableList();
+		if ($getTableList){
+
+			foreach ($getTableList as $key => $value) {
+				if (!file_exists($pathcache . $value)){
+
+					$sturcture = $this->getTableStructure($value);
+					logFile('create table cache '. $value);
+					$handle = fopen($pathcache.$value, "a");
+					
+					fwrite($handle, serialize($sturcture) ."\n");
+					fclose($handle);
+					
+				}
+			}
+		}
+		
+	}
+
+	function save($method = "insert", $table=false, $data=false, $condition=false, $debug=false)
+	{
+
+		// $method = $param['method'];
+		// $action = $param['action'];
+
+		$filepath = CACHE . 'table/';
+		
+		if ($table){
+			if (is_array($table)){
+
+			}else{
+				$openFile = openFile($filepath . $table);
+				$tablestructure = $this->unserialTable($openFile);
+				
+				if ($data){
+					foreach ($data as $key => $value) {
+						if (in_array($key, $tablestructure['fields'])){
+							$fields[] = $key;
+							$values[] = "'{$value}'";
+							$field_values[] = "{$key} = '{$value}'";
+						}
+					}
+
+					$impFields = implode(',', $fields);
+					$impValues = implode(',', $values);
+					$impfield_values = implode(',', $field_values);
+
+					if ($method == 'insert') {
+						$sql = array(
+				                    'table' =>"{$table}",
+				                    'field' => "{$impFields}",
+				                    'value' => "{$impValues}",
+				                );
+						$runmethod = 1;
+					} else if ($method == 'update') {
+						$sql = array(
+				                    'table' =>"{$table}",
+				                    'field' => "{$impfield_values}",
+				                    'condition' => "{$condition}",
+				                );
+						$runmethod = 2;
+					}
+					
+			        $result = $this->lazyQuery($sql,$debug,$runmethod);
+			        if ($result) return true;
+			        return false;
+				}
+			}
+		}
+	}
+
+	function unserialTable($serialize=false, $rawdata=false)
+	{
+
+		$unserial = unserialize($serialize);
+		
+		$dataArr = array();
+		if ($unserial){
+			foreach ($unserial as $key => $value) {
+				$dataArr['fields'][] = $value['Field'];
+			}
+
+			if ($rawdata) $dataArr['raw'] = $unserial;
+			
+			return $dataArr;
+		}
 		return false;
 	}
 }

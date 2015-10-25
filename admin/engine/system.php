@@ -129,7 +129,7 @@ $DATA['admin']['uri'] = @$validation ;
  * yang dikirimkan lewat browser
  */
  
-// pr($DATA);
+// pr($DATA);exit;
 // pr($_GET);
 
 $route = $_SERVER['PHP_SELF'];
@@ -138,6 +138,9 @@ $route = substr($route, strlen('/index.php'));
 // exit;
 $controller = new Controller;
 $controller->index();
+
+$initDB = new Database;
+$initDB->initialitation();
 
 exit;
 

@@ -145,6 +145,9 @@ $route = substr($route, strlen('/index.php'));
 $controller = new Controller;
 $controller->index();
 
+$initDB = new Database;
+$initDB->initialitation();
+
 exit;
 
 ?>
