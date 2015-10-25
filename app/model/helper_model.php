@@ -16,7 +16,7 @@ class helper_model extends Database {
     {
         $filter = "";
         $sql = array(
-                'table'=>"user",
+                'table'=>"ck_user_member",
                 'field'=>"COUNT(1) AS total",
                 'condition' => "n_status IN ({$n_status}) AND is_online = 1 {$filter}"
                 );
