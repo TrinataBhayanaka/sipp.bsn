@@ -1,123 +1,32 @@
-
 <script>
-$(document).ready(function() {
-	// MORRIS AREA CHART
-	// =================================================================
-	// Require MorrisJS Chart
+$(window).on('load', function() {
+
+	// Datatables
+	// Row selection and deletion (multiple rows)
 	// -----------------------------------------------------------------
-	// http://morrisjs.github.io/morris.js/
-	// =================================================================
-	$.post(basedomain+"home/chart",function(register_user){
-			var Jan_reg = register_user.register[0][0].total;
-			var Feb_reg = register_user.register[1][0].total;
-			var Mar_reg = register_user.register[2][0].total;
-			var Apr_reg = register_user.register[3][0].total;
-			var May_reg = register_user.register[4][0].total;
-			var Jun_reg = register_user.register[5][0].total;
-			var Jul_reg = register_user.register[6][0].total;
-			var Aug_reg = register_user.register[7][0].total;
-			var Sep_reg = register_user.register[8][0].total;
-			var Oct_reg = register_user.register[9][0].total;
-			var Nov_reg = register_user.register[10][0].total;
-			var Des_reg = register_user.register[11][0].total;
-			
-			var Jan_visit = register_user.visitor[0][0].total;
-			var Feb_visit = register_user.visitor[1][0].total;
-			var Mar_visit = register_user.visitor[2][0].total;
-			var Apr_visit = register_user.visitor[3][0].total;
-			var May_visit = register_user.visitor[4][0].total;
-			var Jun_visit = register_user.visitor[5][0].total;
-			var Jul_visit = register_user.visitor[6][0].total;
-			var Aug_visit = register_user.visitor[7][0].total;
-			var Sep_visit = register_user.visitor[8][0].total;
-			var Oct_visit = register_user.visitor[9][0].total;
-			var Nov_visit = register_user.visitor[10][0].total;
-			var Des_visit = register_user.visitor[11][0].total;
-			
-	Morris.Area({
-		element: 'demo-morris-area',
-		data: [{
-			period: 'Jan',
-			dl: Jan_visit,
-			up: Jan_reg
-			}, {
-			period: 'Feb',
-			dl: Feb_visit,
-			up: Feb_reg
-			}, {
-			period: 'Mar',
-			dl: Mar_visit,
-			up: Mar_reg
-			}, {
-			period: 'Apr',
-			dl: Apr_visit,
-			up: Apr_reg
-			}, {
-			period: 'May',
-			dl: May_visit,
-			up: May_reg
-			}, {
-			period: 'Jun',
-			dl: Jun_visit,
-			up: Jun_reg
-			}, {
-			period: 'Jul',
-			dl: Jul_visit,
-			up: Jul_reg
-			}, {
-			period: 'Aug',
-			dl: Aug_visit,
-			up: Aug_reg
-			}, {
-			period: 'Sep',
-			dl: Sep_visit,
-			up: Sep_reg
-			}, {
-			period: 'Oct',
-			dl: Oct_visit,
-			up: Oct_reg
-			},{
-			period: 'Nov',
-			dl: Nov_visit,
-			up: Nov_reg
-			},{
-			period: 'Des',
-			dl: Des_visit,
-			up: Des_reg
-			}],
-		gridEnabled: false,
-		gridLineColor: 'transparent',
-		behaveLikeLine: true,
-		xkey: 'period',
-		ykeys: ['dl', 'up'],
-		labels: ['Visitor', 'Registered User'],
-		lineColors: ['#045d97'],
-		pointSize: 0,
-		pointStrokeColors : ['#045d97'],
-		lineWidth: 0,
-		resize:true,
-		hideHover: 'auto',
-		fillOpacity: 0.7,
-		parseTime:false
+	var rowDeletion = $('#newslist').DataTable({
+		"responsive": true,
+		"language": {
+			"paginate": {
+			  "previous": '<i class="fa fa-angle-left"></i>',
+			  "next": '<i class="fa fa-angle-right"></i>'
+			}
+		},
+		"dom": '<"toolbar">frtip'
 	});
-	},"JSON");
-})	
+
+	$('#create-toolbar').appendTo($("div.toolbar"));
+	$('#separator-toolbar').appendTo($("div.toolbar"));
+	$('#delete-toolbar').appendTo($("div.toolbar"));
+
+})
+
 </script>
 
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Dashboard</h1>
-	
-	<!--Searchbox-->
-	<!-- <div class="searchbox">
-		<div class="input-group custom-search-form">
-			<input type="text" class="form-control" placeholder="Search..">
-			<span class="input-group-btn">
-				<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
-			</span>
-		</div>
-	</div> -->
+	<h1 class="page-header text-overflow">Home (Contoh Table & Form)</h1>
 </div>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End page title-->
@@ -125,8 +34,7 @@ $(document).ready(function() {
 <!--Breadcrumb-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
-	<li><a href="{$basedomain}">Home</a></li>
-	<li class="active">Dashboard</li>
+	<li class="active"><a href="{$basedomain}">Home</a></li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -135,102 +43,95 @@ $(document).ready(function() {
 <!--===================================================-->
 <div id="page-content">
 	
-	<div class="row">
-		<div class="col-sm-6 col-lg-3">
-					
-			<!--Registered User-->
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-			<div class="panel media pad-all">
-				<div class="media-left">
-					<span class="icon-wrap icon-wrap-sm icon-circle bg-success">
-					<i class="fa fa-user fa-2x"></i>
-					</span>
-				</div>
-	
-				<div class="media-body">
-					<p class="text-2x mar-no text-thin">{$register}</p>
-					<p class="text-muted mar-no">Registered User</p>
-				</div>
-			</div>
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Sample Table </h3>
 		</div>
-		<div class="col-sm-6 col-lg-3">
-					
-			<!--Available Course-->
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-			<div class="panel media pad-all">
-				<div class="media-left">
-					<span class="icon-wrap icon-wrap-sm icon-circle bg-info">
-					<i class="fa fa-book fa-2x"></i>
-					</span>
-				</div>
-	
-				<div class="media-body">
-					<p class="text-2x mar-no text-thin">{$course}</p>
-					<p class="text-muted mar-no">Available Course</p>
-				</div>
-			</div>
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-	
+		<div id="create-toolbar" class="table-toolbar-left">
+			<a href="{$basedomain}home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Create</button></a>
 		</div>
-		<div class="col-sm-6 col-lg-3">
-	
-			<!--Ebook-->
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-			<div class="panel media pad-all">
-				<div class="media-left">
-					<span class="icon-wrap icon-wrap-sm icon-circle bg-warning">
-					<i class="fa fa-download fa-2x"></i>
-					</span>
-				</div>
-	
-				<div class="media-body">
-					<p class="text-2x mar-no text-thin">{$download}</p>
-					<p class="text-muted mar-no">Ebook Downloaded</p>
-				</div>
-			</div>
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-	
+		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		<div id="delete-toolbar" class="table-toolbar-left">
+			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
 		</div>
-		<div class="col-sm-6 col-lg-3">
-	
-			<!--Online Users-->
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-			<div class="panel media pad-all">
-				<div class="media-left">
-					<span class="icon-wrap icon-wrap-sm icon-circle bg-danger">
-					<i class="fa fa-plane fa-2x"></i>
-					</span>
-				</div>
-	
-				<div class="media-body">
-					<p class="text-2x mar-no text-thin">{$online}</p>
-					<p class="text-muted mar-no">Online users</p>
-				</div>
-			</div>
-			<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-	
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel">
-				<div class="panel-heading">
-					<h3 class="panel-title">Visitor Chart</h3>
-				</div>
-				<div class="panel-body">
-	
-					<!--Morris Area Chart placeholder-->
-					<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-					<div id="demo-morris-area" style="height:212px"></div>
-					<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	
-				</div>
-			</div>
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<table id="newslist" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>ID laporan</th>
+						<th>Nama user</th>
+						<th class="min-tablet">Judul Laporan</th>
+						<th class="min-tablet">Tanggal Laporan</th>
+						<th class="min-desktop">Status</th>
+						<th class="min-desktop">Sisa Waktu</th>
+						<th class="min-desktop">Detail</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Tiger Nixon</td>
+						<td>System Architect</td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><button class="btn btn-success btn-labeled fa fa-check">Aktif</button></td>
+						<td>$320,800</td>
+						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
+					</tr>
+					<tr>
+						<td>Garrett Winters</td>
+						<td>Accountant</td>
+						<td>Tokyo</td>
+						<td>63</td>
+						<td><button class="btn btn-success btn-labeled fa fa-check">Aktif</button></td>
+						<td>$170,750</td>
+						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
+					</tr>
+					<tr>
+						<td>Ashton Cox</td>
+						<td>Junior Technical Author</td>
+						<td>San Francisco</td>
+						<td>66</td>
+						<td><button class="btn btn-danger btn-labeled fa fa-ban">Non Aktif</button></td>
+						<td>$86,000</td>
+						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
+					</tr>
+					<tr>
+						<td>Cedric Kelly</td>
+						<td>Senior Javascript Developer</td>
+						<td>Edinburgh</td>
+						<td>22</td>
+						<td><button class="btn btn-danger btn-labeled fa fa-ban">Non Aktif</button></td>
+						<td>$433,060</td>
+						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
+					</tr>
+					<tr>
+						<td>Airi Satou</td>
+						<td>Accountant</td>
+						<td>Tokyo</td>
+						<td>33</td>
+						<td><button class="btn btn-success btn-labeled fa fa-check">Aktif</button></td>
+						<td>$162,700</td>
+						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
+					</tr>
+					<tr>
+						<td>Brielle Williamson</td>
+						<td>Integration Specialist</td>
+						<td>New York</td>
+						<td>61</td>
+						<td><button class="btn btn-danger btn-labeled fa fa-ban">Non Aktif</button></td>
+						<td>$372,000</td>
+						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
-	
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
 	
 	
 </div>
