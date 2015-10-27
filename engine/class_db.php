@@ -526,9 +526,9 @@ class Database
 				if ($data){
 					foreach ($data as $key => $value) {
 						if (in_array($key, $tablestructure['fields'])){
-							$fields[] = $key;
+							$fields[] = "`{$key}`";
 							$values[] = "'{$value}'";
-							$field_values[] = "{$key} = '{$value}'";
+							$field_values[] = "`{$key}` = '{$value}'";
 						}
 					}
 

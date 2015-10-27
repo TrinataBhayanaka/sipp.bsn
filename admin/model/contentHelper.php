@@ -3,6 +3,11 @@ class contentHelper extends Database {
 	
 	var $prefix = "lelang";
 
+	function __construct()
+	{
+		parent::__construct();
+	}
+
 	function getData()
 	{
 		$sql = "SELECT * FROM code_activity";
@@ -56,42 +61,7 @@ class contentHelper extends Database {
 		return $result;
 	}
 	
-	function importData($name=null)
-	{
-		$query = "INSERT INTO import (name,n_status) VALUES ('{$name}', 1)";
-		// pr($query);
-		$result = $this->query($query);
-		
-		return $result;
-	}
-
-	function getRegistrant($n_status=1, $debug=0)
-	{
-		$filter = "";
-		$sql = array(
-                'table'=>"user",
-                'field'=>"COUNT(1) AS total",
-                'condition' => "n_status IN ({$n_status}) {$filter}"
-                );
-
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
-		return false;
-	}
-
-	function getCourse($n_status=1, $debug=0)
-	{
-		$filter = "";
-		$sql = array(
-                'table'=>"kursus",
-                'field'=>"COUNT(1) AS total",
-                'condition' => "n_status IN ({$n_status}) {$filter}"
-                );
-
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
-		return false;
-	}
+	
 
 	function getOnlineUser($n_status=1, $debug=0)
 	{
@@ -107,36 +77,59 @@ class contentHelper extends Database {
 		return false;
 	}
 
-	function getDownloadEbook($n_status=1,$debug=0)
+	/* renstra */
+	
+	function getVisi($id=false, $type=5, $cat=0, $parent=0, $debug=false)
 	{
 		$filter = "";
+		if ($id) $filter .= " AND id = {$id}";
+		if ($type) $filter .= " AND type = {$type}";
+		if ($cat) $filter .= " AND category = {$cat}";
+		// if ($parent) $filter .= " AND parent_id = {$parent}";
+
 		$sql = array(
-                'table'=>"file",
-                'field'=>"SUM(downloadCount) AS total",
-                'condition' => "n_status IN ({$n_status}) {$filter}"
+                'table'=>"{$this->prefix}_news_content",
+                'field'=>"*",
+                'condition' => "n_status = 1 {$filter}"
                 );
 
         $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
+        if ($res){
+        	/*foreach ($res as $key => $value) {
+        		$sql = array(
+		                'table'=>"{$this->prefix}_news_content",
+		                'field'=>"*",
+		                'condition' => "n_status = 1 AND parent_id = {$value['id']}"
+		                );
+
+		        $result = $this->lazyQuery($sql,$debug);
+		        if ($result) $res[$key]['child'] = $result;
+        	}*/
+
+        	return $res;
+        }
 		return false;
 	}
 
-	function quizStatistic()
+	function saveData($data)
 	{
-		$sql = array(
-                'table'=>"nilai AS n, grup_kursus AS gk",
-                'field'=>"COUNT(n.idUser) AS total, gk.namagrup",
-                'joinmethod'=>'LEFT JOIN',
-                'join'=>'n.idGroupKursus = gk.idGrup_kursus',
-                'condition' => "n.n_status = 1 {$filter}"
-                );
 
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
-        return false;
+		$id = $data['id'];
+
+		if ($id){
+
+			$run = $this->save("update", "{$this->prefix}_news_content", $data, "id = {$id}");
+
+		}else{
+			$data['createDate'] = date('Y-m-d H:i;s');
+			$run = $this->save("insert", "{$this->prefix}_news_content", $data);
+	
+		}
+
+		if ($run) return true;
+		return false;
 	}
 
 	
-
 }
 ?>
