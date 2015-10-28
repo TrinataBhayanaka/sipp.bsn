@@ -85,7 +85,7 @@ class contentHelper extends Database {
 		if ($id) $filter .= " AND id = {$id}";
 		if ($type) $filter .= " AND type = {$type}";
 		if ($cat) $filter .= " AND category = {$cat}";
-		// if ($parent) $filter .= " AND parent_id = {$parent}";
+		if ($parent) $filter .= " AND parent_id = {$parent}";
 
 		$sql = array(
                 'table'=>"{$this->prefix}_news_content",
@@ -94,21 +94,8 @@ class contentHelper extends Database {
                 );
 
         $res = $this->lazyQuery($sql,$debug);
-        if ($res){
-        	/*foreach ($res as $key => $value) {
-        		$sql = array(
-		                'table'=>"{$this->prefix}_news_content",
-		                'field'=>"*",
-		                'condition' => "n_status = 1 AND parent_id = {$value['id']}"
-		                );
-
-		        $result = $this->lazyQuery($sql,$debug);
-		        if ($result) $res[$key]['child'] = $result;
-        	}*/
-
-        	return $res;
-        }
-		return false;
+        if ($res)return $res;
+        return false;
 	}
 
 	function saveData($data)
@@ -130,6 +117,14 @@ class contentHelper extends Database {
 		return false;
 	}
 
-	
+	function getStruktur($data=false)
+	{
+
+		$data['n_status'] = 1;
+
+		$getData = $this->fetchSingleTable("{$this->prefix}_struktur", $data);
+		if ($getData) return $getData;
+		return false;
+	}
 }
 ?>
