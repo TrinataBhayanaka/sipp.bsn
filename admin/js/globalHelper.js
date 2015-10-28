@@ -53,3 +53,16 @@ function inputvisimisi(req, iddata)
   }
   
 }
+
+function inputsasaran(req, iddata)
+{
+  var id = $('.eselonid').val();
+  
+  if (iddata){
+    redirect(basedomain+"renstra/editSasaran/?req=" + req + "&parent_id="+id+"&id="+iddata);
+
+  }else{
+    redirect(basedomain+"renstra/editSasaran/?req=" + req + "&parent_id="+id);
+  }
+  
+}

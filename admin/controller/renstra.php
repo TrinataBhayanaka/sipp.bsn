@@ -71,6 +71,31 @@ class renstra extends Controller {
 		
 	}
 
+	public function sasaran()
+	{
+		global $basedomain;
+		$parent_id = _g('parent_id');
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		if (!$parent_id){
+			redirect($basedomain."renstra/sasaran/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+		$getVisiBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		$getMisiBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('visi', $getVisiBsn);
+		$this->view->assign('misi', $getMisiBsn);
+		$this->view->assign('tujuan', $getTujuanBsn);
+
+		$this->view->assign('struktur', $getStruktur);
+
+		return $this->loadView('renstra/matrik/sasaran');
+		
+	}
 
 	function edit()
 	{
@@ -265,6 +290,55 @@ class renstra extends Controller {
 		return $this->loadView('renstra/visi/input-eselon');
 	}
 
+	function editSasaran()
+	{
+		global $basedomain;
+
+
+		
+		$id = _g('id');
+		$req = _g('req');
+		$dataStruktur['id'] = _g('parent_id');
+		
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		// pr($getStruktur);
+
+		if ($req==1){
+
+			if ($id){
+				$getVisiBsn = $this->contentHelper->getVisi($id, 7, 1);
+				$this->view->assign('text1value', $getVisiBsn[0]['brief']);
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				$this->view->assign('text3value', $getVisiBsn[0]['desc']);
+				$this->view->assign('valueid', $id);
+				
+			}else{
+				$this->view->assign('text1value', "2015-2019");
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				
+			}
+			
+			$this->view->assign('parent_id', $dataStruktur['id']);
+			$this->view->assign('text1', "Rentra");
+			$this->view->assign('text2', "Unit Kerja");
+			$this->view->assign('text3', "Sasaran");
+			$this->view->assign('submit', "submit");
+			$this->view->assign('type', 7);
+			$this->view->assign('category', 1);
+		}
+
+		if ($_POST['submit']){
+			
+			$_POST['create_date'] = date('Y-m-d H:i:s');
+			$_POST['publish_date'] = date('Y-m-d H:i:s');
+			$_POST['n_status'] = 1;
+
+			$save = $this->contentHelper->saveData($_POST);
+			if ($save) redirect($basedomain . 'renstra/sasaran');
+		}
+		return $this->loadView('renstra/matrik/input-sasaran');
+	}
+
 	function delete()
 	{
 
@@ -274,6 +348,7 @@ class renstra extends Controller {
 		$req = _g('req');
 
 		if ($req == 2) $link = 'renstra/visi_eselon';
+		if ($req == 3) $link = 'renstra/sasaran';
 		else $link = 'renstra/visi_bsn';
 
 		$data['id'] = $id;
