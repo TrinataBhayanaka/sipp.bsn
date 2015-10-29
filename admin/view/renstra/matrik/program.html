@@ -51,10 +51,10 @@
 		<div class="panel-heading">
 			<h3 class="panel-title">Visi Misi BSN</h3>
 		</div>
-		{*}
+		
 		<div id="create-toolbar" class="table-toolbar-left">
-			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Sasaran Strategis</button></a>
-		</div>
+			<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$parent_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Program</button></a>
+		</div>{*}
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		
 		<div id="delete-toolbar" class="table-toolbar-left">
@@ -68,11 +68,18 @@
 			<table id="newslist" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th class="text-center">Kementrian / Lembaga</th>
-						<th class="text-center">Sasaran Strategis (SS)</th>
-						<th class="text-center">Aksi</th>
+						<th class="text-center" rowspan="2">Lembaga</th>
+						<th class="text-center" colspan="2">Nama Program</th>
+						<th class="text-center" rowspan="2">Aksi</th>
+
+					</tr>
+					<tr>
+						<th class="text-center">Sasaran Program (Outcome)</th>
+						<th class="text-center">Eselon 1 Pelaksana Program</th>
+						
 					</tr>
 				</thead>
+
 				<tbody>
 					{if $sasaran}
 					{foreach $sasaran as $k=> $val}
@@ -107,6 +114,7 @@
 							{/foreach}
 							{/if}
 						</td>
+						<td>Sekretariat</td>
 						<td>
 							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input IKSS</button></a>
 							
@@ -126,6 +134,7 @@
 					{/if}
 					
 				</tbody>
+				
 			</table>
 			
 			
