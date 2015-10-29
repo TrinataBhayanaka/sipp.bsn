@@ -97,6 +97,141 @@ class renstra extends Controller {
 		
 	}
 
+	function dokumenBsn()
+	{
+		global $basedomain;
+		$parent_id = _g('parent_id');
+		$newData = array();
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		if (!$parent_id){
+			redirect($basedomain."renstra/dokumenBsn/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+
+		$getVisiBsn = $this->contentHelper->getVisi(false, 5, 1);
+		$getMisiBsn = $this->contentHelper->getVisi(false, 5, 2);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, 5, 3);
+		
+		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
+		
+		if ($getDokumen){
+			foreach ($getDokumen as $key => $value) {
+				$tags[$value['id']] = $value['tags'];
+			}
+
+			if (is_array($tags)){
+				asort($tags);
+				foreach ($tags as $key => $val) {
+					foreach ($getDokumen as $k => $value) {
+						if ($key == $value['id']) $newData[] = $value;
+					}
+				}
+			}
+			
+
+		}
+
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('visi', $getVisiBsn);
+		$this->view->assign('misi', $getMisiBsn);
+		$this->view->assign('tujuan', $getTujuanBsn);
+		$this->view->assign('dokumen', $newData);
+		$this->view->assign('struktur', $getStruktur);
+		return $this->loadView('renstra/dokumen/bsn');
+	}
+
+	function dokumenEselon1()
+	{
+		global $basedomain;
+		$parent_id = _g('parent_id');
+		$newData = array();
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		if (!$parent_id){
+			redirect($basedomain."renstra/dokumenEselon1/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+
+		$getVisiBsn = $this->contentHelper->getVisi(false, 6, 1);
+		$getMisiBsn = $this->contentHelper->getVisi(false, 6, 2);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, 6, 3);
+		
+		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
+		
+		if ($getDokumen){
+			foreach ($getDokumen as $key => $value) {
+				$tags[$value['id']] = $value['tags'];
+			}
+
+			if (is_array($tags)){
+				asort($tags);
+				foreach ($tags as $key => $val) {
+					foreach ($getDokumen as $k => $value) {
+						if ($key == $value['id']) $newData[] = $value;
+					}
+				}
+			}
+			
+
+		}
+
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('visi', $getVisiBsn);
+		$this->view->assign('misi', $getMisiBsn);
+		$this->view->assign('tujuan', $getTujuanBsn);
+		$this->view->assign('dokumen', $newData);
+		$this->view->assign('struktur', $getStruktur);
+		return $this->loadView('renstra/dokumen/bsn');
+	}
+
+	function dokumenEselon2()
+	{
+		global $basedomain;
+		$parent_id = _g('parent_id');
+		$newData = array();
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		if (!$parent_id){
+			redirect($basedomain."renstra/dokumenEselon2/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+
+		$getVisiBsn = $this->contentHelper->getVisi(false, 7, 1);
+		$getMisiBsn = $this->contentHelper->getVisi(false, 7, 2);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, 7, 3);
+		
+		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
+		
+		if ($getDokumen){
+			foreach ($getDokumen as $key => $value) {
+				$tags[$value['id']] = $value['tags'];
+			}
+
+			if (is_array($tags)){
+				asort($tags);
+				foreach ($tags as $key => $val) {
+					foreach ($getDokumen as $k => $value) {
+						if ($key == $value['id']) $newData[] = $value;
+					}
+				}
+			}
+			
+
+		}
+
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('visi', $getVisiBsn);
+		$this->view->assign('misi', $getMisiBsn);
+		$this->view->assign('tujuan', $getTujuanBsn);
+		$this->view->assign('dokumen', $newData);
+		$this->view->assign('struktur', $getStruktur);
+		return $this->loadView('renstra/dokumen/bsn');
+	}
+
 	function edit()
 	{
 		global $basedomain;
@@ -337,6 +472,85 @@ class renstra extends Controller {
 			if ($save) redirect($basedomain . 'renstra/sasaran');
 		}
 		return $this->loadView('renstra/matrik/input-sasaran');
+	}
+
+	function editDokumen()
+	{	
+		global $basedomain;
+
+
+		
+		$id = _g('id');
+		$req = _g('req');
+		$dataStruktur['id'] = _g('parent_id');
+		
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		// pr($getStruktur);
+		$getSetting = $this->contentHelper->getSetting();
+		$this->view->assign('setting', $getSetting);
+		if ($req==1){
+
+			if ($id){
+				$getVisiBsn = $this->contentHelper->getVisi($id, 15, 1);
+				$this->view->assign('text1value', $getVisiBsn[0]['title']);
+				$this->view->assign('text2value', $getVisiBsn[0]['desc']);
+				$this->view->assign('text3value', $getVisiBsn[0]['filename']);
+				$this->view->assign('valueid', $id);
+				$this->view->assign('parent_id', $getStruktur);
+				$this->view->assign('parent_name', $id);
+				
+			}else{
+				$this->view->assign('parent_id', $getStruktur[0]['id']);
+				$this->view->assign('parent_name', $getStruktur[0]['nama_satker']);
+				$this->view->assign('text1value', $getSetting[0]['kode']);
+				$this->view->assign('text2value', "");
+				
+			}
+			
+			$this->view->assign('text1', "Tahun Anggaran");
+			$this->view->assign('text2', "Teks yang tampil");
+			$this->view->assign('text3', "Nama File");
+			$this->view->assign('text4', "No. Urut");
+			$this->view->assign('submit', "submit");
+			$this->view->assign('type', 15);
+			$this->view->assign('category', 1);
+		}
+
+		if ($_POST['submit']){
+			
+			$_POST['create_date'] = date('Y-m-d H:i:s');
+			$_POST['publish_date'] = date('Y-m-d H:i:s');
+			$_POST['n_status'] = 1;
+
+			$save = $this->contentHelper->saveData($_POST);
+			if ($save){
+
+				$getLastData = $this->contentHelper->getDocument(false, 15);
+				if ($getLastData){
+					if(!empty($_FILES)){
+						if($_FILES['file']['name'] != ''){
+							$image = uploadFile('file',null,'all');
+
+							// pr($image);exit;
+							if ($image['status']){
+								$dataArr['id'] = $getLastData[0]['id'];
+								$dataArr['filename'] = $image['full_name'];
+								$updateData = $this->contentHelper->saveData($dataArr);
+								if ($updateData) redirect($basedomain.'renstra/dokumenBsn');
+							}else{
+								echo "<script>alert('File type not allowed');</script>";
+								redirect($basedomain.'renstra/dokumenBsn');
+							}	
+						}
+
+					}
+				}
+				
+			}
+			
+			// if ($save) redirect($basedomain . 'renstra/sasaran');
+		}
+		return $this->loadView('renstra/dokumen/input-bsn');
 	}
 
 	function delete()

@@ -66,3 +66,16 @@ function inputsasaran(req, iddata)
   }
   
 }
+
+function inputdokumen(req, iddata)
+{
+  var id = $('.eselonid').val();
+  
+  if (iddata){
+    redirect(basedomain+"renstra/editDokumen/?req=" + req + "&parent_id="+id+"&id="+iddata);
+
+  }else{
+    redirect(basedomain+"renstra/editDokumen/?req=" + req + "&parent_id="+id);
+  }
+  
+}

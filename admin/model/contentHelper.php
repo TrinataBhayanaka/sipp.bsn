@@ -126,5 +126,39 @@ class contentHelper extends Database {
 		if ($getData) return $getData;
 		return false;
 	}
+
+	function getSetting()
+	{
+		$data['n_status'] = 1;
+		$data['desc'] = "tahun_sistem";
+
+		$getData = $this->fetchSingleTable("{$this->prefix}_sistem_setting", $data);
+		if ($getData) return $getData;
+		return false;
+	}
+
+	function getDocument($id=false, $type=1, $debug=false)
+	{
+		$filter = "";
+		$sql = array(
+                'table'=>"{$this->prefix}_news_content",
+                'field'=>"*",
+                'condition' => "type = {$type} AND n_status = 1 {$filter} ORDER BY id DESC",
+                'limit'=>1
+                );
+
+        $res = $this->lazyQuery($sql,$debug);
+        if ($res)return $res;
+        return false;
+	}
+
+	function getDataTable($table, $data)
+	{
+		$data['n_status'] = 1;
+		
+		$getData = $this->fetchSingleTable("{$table}", $data);
+		if ($getData) return $getData;
+		return false;
+	}
 }
 ?>
