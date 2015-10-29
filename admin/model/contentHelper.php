@@ -3,6 +3,11 @@ class contentHelper extends Database {
 	
 	var $prefix = "lelang";
 
+	function __construct()
+	{
+		parent::__construct();
+	}
+
 	function getData()
 	{
 		$sql = "SELECT * FROM code_activity";
@@ -56,42 +61,7 @@ class contentHelper extends Database {
 		return $result;
 	}
 	
-	function importData($name=null)
-	{
-		$query = "INSERT INTO import (name,n_status) VALUES ('{$name}', 1)";
-		// pr($query);
-		$result = $this->query($query);
-		
-		return $result;
-	}
-
-	function getRegistrant($n_status=1, $debug=0)
-	{
-		$filter = "";
-		$sql = array(
-                'table'=>"user",
-                'field'=>"COUNT(1) AS total",
-                'condition' => "n_status IN ({$n_status}) {$filter}"
-                );
-
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
-		return false;
-	}
-
-	function getCourse($n_status=1, $debug=0)
-	{
-		$filter = "";
-		$sql = array(
-                'table'=>"kursus",
-                'field'=>"COUNT(1) AS total",
-                'condition' => "n_status IN ({$n_status}) {$filter}"
-                );
-
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
-		return false;
-	}
+	
 
 	function getOnlineUser($n_status=1, $debug=0)
 	{
@@ -107,36 +77,96 @@ class contentHelper extends Database {
 		return false;
 	}
 
-	function getDownloadEbook($n_status=1,$debug=0)
+	/* renstra */
+	
+	function getVisi($id=false, $type=5, $cat=0, $parent=0, $debug=false)
 	{
 		$filter = "";
+		if ($id) $filter .= " AND id = {$id}";
+		if ($type) $filter .= " AND type = {$type}";
+		if ($cat) $filter .= " AND category = {$cat}";
+		if ($parent) $filter .= " AND parent_id = {$parent}";
+
 		$sql = array(
-                'table'=>"file",
-                'field'=>"SUM(downloadCount) AS total",
-                'condition' => "n_status IN ({$n_status}) {$filter}"
+                'table'=>"{$this->prefix}_news_content",
+                'field'=>"*",
+                'condition' => "n_status = 1 {$filter}"
                 );
 
         $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
-		return false;
-	}
-
-	function quizStatistic()
-	{
-		$sql = array(
-                'table'=>"nilai AS n, grup_kursus AS gk",
-                'field'=>"COUNT(n.idUser) AS total, gk.namagrup",
-                'joinmethod'=>'LEFT JOIN',
-                'join'=>'n.idGroupKursus = gk.idGrup_kursus',
-                'condition' => "n.n_status = 1 {$filter}"
-                );
-
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
+        if ($res)return $res;
         return false;
 	}
 
+	function saveData($data=array(), $table="_news_content")
+	{
+
+		if ($table == "_news_content"){
+			$getSetting = $this->getSetting();
+			$data['year'] = $getSetting[0]['kode'];
+
+		}
+		
+		$id = $data['id'];
+
+		if ($id){
+
+			$run = $this->save("update", "{$this->prefix}{$table}", $data, "id = {$id}");
+
+		}else{
+			$data['createDate'] = date('Y-m-d H:i;s');
+			$run = $this->save("insert", "{$this->prefix}{$table}", $data);
 	
+		}
+
+		if ($run) return true;
+		return false;
+	}
+
+	function getStruktur($data=false)
+	{
+
+		$data['n_status'] = 1;
+
+		$getData = $this->fetchSingleTable("{$this->prefix}_struktur", $data);
+		if ($getData) return $getData;
+		return false;
+	}
+
+	function getSetting($activity="tahun_sistem")
+	{
+		$data['n_status'] = 1;
+		$data['desc'] = $activity;
+
+		$getData = $this->fetchSingleTable("{$this->prefix}_sistem_setting", $data);
+		if ($getData) return $getData;
+		return false;
+	}
+
+	function getDocument($id=false, $type=1, $debug=false)
+	{
+		$filter = "";
+		$sql = array(
+                'table'=>"{$this->prefix}_news_content",
+                'field'=>"*",
+                'condition' => "type = {$type} AND n_status = 1 {$filter} ORDER BY id DESC",
+                'limit'=>1
+                );
+
+        $res = $this->lazyQuery($sql,$debug);
+        if ($res)return $res;
+        return false;
+	}
+
+	function getDataTable($table, $data)
+	{
+		$data['n_status'] = 1;
+		
+		$getData = $this->fetchSingleTable("{$table}", $data);
+		if ($getData) return $getData;
+		return false;
+	}
+
 
 }
 ?>

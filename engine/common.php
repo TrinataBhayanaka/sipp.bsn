@@ -892,4 +892,37 @@ function array2flat($data=array(), $acceptVar=array())
 
 	return false;
 }
+
+function openFile($filePath)
+{
+
+	if(file_exists($filePath)) {
+		$handle = fopen($filePath, "r");
+		$fileContents = fread($handle, filesize($filePath));
+		fclose($handle);
+		return $fileContents;
+	}
+	return false;
+}
+
+	
+function load($param=false)
+{
+	
+	if (!$param) return false;
+	
+	if ($param['file'] !='') $fileName = $param['file'].'.php';
+	
+	if (is_file($param['path'].$fileName)){
+	
+		require_once $param['path'].$fileName;
+		
+		$$param['file'] = new $param['file']();
+		
+		ob_get_clean();
+		return $$param['file'];
+	}
+	
+	return false;
+}
 ?>
