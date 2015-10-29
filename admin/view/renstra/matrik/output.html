@@ -1,0 +1,252 @@
+<script>
+{literal}
+	
+	$(document).on('click', '#inputvisi', function(){
+
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Visi Misi</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Visi Misi BSN</h3>
+		</div>
+		{*}
+		<div id="create-toolbar" class="table-toolbar-left">
+			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Sasaran Strategis</button></a>
+		</div>
+		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		
+		<div id="delete-toolbar" class="table-toolbar-left">
+			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
+		</div>
+		{/*}
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th colspan="3"class="text-center">Kegiatan</th>
+							<th rowspan="2" colspan="3"class="text-center">Aksi</th>
+						</tr>
+						<tr>
+							<th colspan="3"class="text-center">Aksi Output / Indikator Kinerja Kegiatan (IKK)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="text-center">084.01.01</td>
+							<td  colspan="2">Program Dukungan Manajemen dan Pelaksanaan Tugas Teknis Lainnya BSN</td>
+							<td class="text-center" colspan="3">
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
+								</div>
+							</td>
+						</tr>
+						 <tr>
+							<td class="text-center">1</td>
+							<td colspan="2">Dokumen perencanaan dan monitoring evaluasi
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>&nbsp;</th>
+											<th>2015</th>
+											<th>2016</th>
+											<th>2017</th>
+											<th>2018</th>
+											<th>2019</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Anggaran (Ribuan Rp.)</td>
+											<td>1.423.225</td>
+											<td>3.240.000</td>
+											<td>3.499.200</td>
+											<td>3.779.136</td>
+											<td>4.081.467</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td>
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								</div>
+							</td>
+							<td>
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+							</td>
+							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
+						</tr>
+						<tr>
+							<td class="text-center">&nbsp;</td>
+							<td class="text-center">1</td>
+							<td>Dokumen perencanaan dan monitoring evaluasi
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>&nbsp;</th>
+											<th>2015</th>
+											<th>2016</th>
+											<th>2017</th>
+											<th>2018</th>
+											<th>2019</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Anggaran (Ribuan Rp.)</td>
+											<td>1.423.225</td>
+											<td>3.240.000</td>
+											<td>3.499.200</td>
+											<td>3.779.136</td>
+											<td>4.081.467</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td>
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								</div>
+							</td>
+							<td>
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+							</td>
+							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
+						</tr>
+						<!--<tr>
+							<td class="text-center">&nbsp;</td>
+							<td><a class="btn-link" href="#">&nbsp;</a></td>
+							<td><span class="label label-purple">3549</span></td>
+							<td > 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
+							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
+							<td>0</td>
+							<td>
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								</div>
+							</td>
+							<td>
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="text-center">&nbsp;</td>
+							<td><a class="btn-link" href="#">&nbsp;</a></td>
+							<td><span class="label label-purple">3549</span></td>
+							<td > 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
+							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
+							<td>0</td>
+							<td>
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								</div>
+							</td>
+							<td>
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center">084.01.01</td>
+							<td  colspan="5">Program Dukungan Manajemen dan Pelaksanaan Tugas Teknis Lainnya BSN</td>
+							<td class="text-center" colspan="2">
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="text-center">&nbsp;</td>
+							<td><a class="btn-link" href="#">&nbsp;</a></td>
+							<td><span class="label label-purple">3549</span></td>
+							<td> 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
+							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
+							<td>0</td>
+							<td>
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								</div>
+							</td>
+							<td>
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="text-center">&nbsp;</td>
+							<td><a class="btn-link" href="#">&nbsp;</a></td>
+							<td><span class="label label-purple">3549</span></td>
+							<td> 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
+							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
+							<td>0</td>
+							<td>
+								<div id="create-toolbar" >
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								</div>
+							</td>
+							<td>
+									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+							</td>
+						</tr> -->
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

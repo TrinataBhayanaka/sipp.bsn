@@ -225,7 +225,7 @@ class renstra extends Controller {
 
 	function output()
 	{
-
+		return $this->loadView('renstra/matrik/output');
 	}
 
 	function dokumenBsn()
