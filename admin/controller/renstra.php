@@ -83,18 +83,98 @@ class renstra extends Controller {
 		}
 
 		$getVisiBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
-		$getMisiBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		// $getMisiBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		// $getTujuanBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
 		
 		$this->view->assign('parent_id', $parent_id);
 		$this->view->assign('visi', $getVisiBsn);
-		$this->view->assign('misi', $getMisiBsn);
-		$this->view->assign('tujuan', $getTujuanBsn);
+		// $this->view->assign('misi', $getMisiBsn);
+		// $this->view->assign('tujuan', $getTujuanBsn);
 
 		$this->view->assign('struktur', $getStruktur);
 
 		return $this->loadView('renstra/matrik/sasaran');
 		
+	}
+
+	function kinerja()
+	{
+
+		global $basedomain;
+		$parent_id = _g('parent_id');
+		
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		$getSetting = $this->contentHelper->getSetting();
+		if (!$parent_id){
+			redirect($basedomain."renstra/kinerja/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+		if ($getSetting){
+			$tahun = $getSetting[0]['kode'];
+			$start = 1;
+			for($i=1; $i<=10; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahun;
+				}
+				$tahun++;
+				$start++;
+			}
+		}
+
+		// pr($arrayTahun);
+		$getSasaran = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		if ($getSasaran){
+			foreach ($getSasaran as $key => $value) {
+				$getData = $this->contentHelper->getVisi(false, 8, 1, $value['id']);
+				if ($getData) $getKinerja[] = $getData;
+			}
+
+			if ($getKinerja){
+				foreach ($getKinerja as $k => $val) {
+					foreach ($val as $key => $value) {
+						if ($value['data']) $getKinerja[$k][$key]['target'] = unserialize($value['data']);
+						
+					}
+				}
+				// pr($getKinerja);
+				foreach ($getSasaran as $key => $value) {
+					
+					foreach ($getKinerja as $b) {
+						foreach ($b as $k => $v) {
+							if ($value['id']==$v['parent_id']){
+								$getSasaran[$key]['target'][] = $v;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// pr($getKinerja);
+		// pr($getSasaran);
+		$this->view->assign('tahuntarget', $arrayTahun);
+		$this->view->assign('kinerja', $getKinerja[0]);
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('sasaran', $getSasaran);
+
+		return $this->loadView('renstra/matrik/kinerja');
+	}
+
+	function program()
+	{
+
+	}
+
+	function kegiatan()
+	{
+
+	}
+
+	function output()
+	{
+
 	}
 
 	function dokumenBsn()
@@ -392,6 +472,79 @@ class renstra extends Controller {
 			if ($save) redirect($basedomain . 'renstra/sasaran');
 		}
 		return $this->loadView('renstra/matrik/input-sasaran');
+	}
+
+	function editKinerja()
+	{
+		global $basedomain;
+
+		$id = _g('id');
+		$dataStruktur['id'] = _g('parent_id');
+		$child_id = _g('child');
+
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		$getSetting = $this->contentHelper->getSetting();
+		if ($getSetting){
+			$tahun = $getSetting[0]['kode'];
+			$start = 1;
+			for($i=1; $i<=10; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahun;
+				}
+				$tahun++;
+				$start++;
+			}
+		}
+		// pr($arrayTahun);
+		$getSasaran = $this->contentHelper->getVisi($child_id, 7, 1, $dataStruktur['id']);
+		// pr($getSasaran);
+		if ($id){
+			$getTarget = $this->contentHelper->getVisi($id, 8, 1);
+			
+			if ($getTarget){
+				foreach ($getTarget as $key => $value) {
+					if ($value['data']) $getTarget[$key]['target'] = unserialize($value['data']);
+				}
+			}
+			// pr($getTarget);
+			$this->view->assign('text4value', $getTarget[0]['desc']);
+			$this->view->assign('target', $getTarget);
+			$this->view->assign('id', $getTarget[0]['id']);
+			
+		}else{
+			
+			$this->view->assign('text4value', "");
+			
+		}
+
+		$this->view->assign('text1value', $getSetting[0]['kode']);
+		$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+		$this->view->assign('text3value', $getSasaran[0]['desc']);
+
+		$this->view->assign('tahuntarget', $arrayTahun);
+		$this->view->assign('text1', "Renstra");
+		$this->view->assign('text2', "Lembaga");
+		$this->view->assign('text3', "Sasaran Strategis");
+		$this->view->assign('text4', "Indikator Kinerja Sasaran Strategis");
+		$this->view->assign('text5', "Target");
+		$this->view->assign('submit', "submit");
+		$this->view->assign('parent_id', $child_id);
+		$this->view->assign('type', 8);
+		$this->view->assign('category', 1);
+		
+
+		if ($_POST['submit']){
+			
+			$serial = serialize($_POST['input']);
+			$_POST['create_date'] = date('Y-m-d H:i:s');
+			$_POST['publish_date'] = date('Y-m-d H:i:s');
+			$_POST['n_status'] = 1;
+			$_POST['data'] = $serial;
+			$save = $this->contentHelper->saveData($_POST);
+			if ($save) redirect($basedomain . 'renstra/kinerja');
+		}
+
+		return $this->loadView('renstra/matrik/input-kinerja');
 	}
 
 	function editDokumen()

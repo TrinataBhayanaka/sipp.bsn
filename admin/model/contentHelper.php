@@ -98,18 +98,24 @@ class contentHelper extends Database {
         return false;
 	}
 
-	function saveData($data)
+	function saveData($data=array(), $table="_news_content")
 	{
 
+		if ($table == "_news_content"){
+			$getSetting = $this->getSetting();
+			$data['year'] = $getSetting[0]['kode'];
+
+		}
+		
 		$id = $data['id'];
 
 		if ($id){
 
-			$run = $this->save("update", "{$this->prefix}_news_content", $data, "id = {$id}");
+			$run = $this->save("update", "{$this->prefix}{$table}", $data, "id = {$id}");
 
 		}else{
 			$data['createDate'] = date('Y-m-d H:i;s');
-			$run = $this->save("insert", "{$this->prefix}_news_content", $data);
+			$run = $this->save("insert", "{$this->prefix}{$table}", $data);
 	
 		}
 
@@ -127,10 +133,10 @@ class contentHelper extends Database {
 		return false;
 	}
 
-	function getSetting()
+	function getSetting($activity="tahun_sistem")
 	{
 		$data['n_status'] = 1;
-		$data['desc'] = "tahun_sistem";
+		$data['desc'] = $activity;
 
 		$getData = $this->fetchSingleTable("{$this->prefix}_sistem_setting", $data);
 		if ($getData) return $getData;
@@ -160,5 +166,7 @@ class contentHelper extends Database {
 		if ($getData) return $getData;
 		return false;
 	}
+
+
 }
 ?>

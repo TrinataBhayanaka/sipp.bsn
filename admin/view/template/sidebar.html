@@ -98,10 +98,10 @@
 							<!--Submenu-->
 							<ul class="collapse {if $page.page eq 'news'}in{/if}">
 								<li><a href="{$basedomain}renstra/sasaran">Sasaran Utama</a></li>
-								<li><a href="#">SS dan IKSS BSN</a></li>
-								<li><a href="#">Program, SP & IKP</a></li>
-								<li><a href="#">Nama Kegiatan</a></li>
-								<li><a href="#">Output dan IKK</a></li>
+								<li><a href="{$basedomain}renstra/kinerja">SS dan IKSS BSN</a></li>
+								<li><a href="{$basedomain}renstra/program">Program, SP & IKP</a></li>
+								<li><a href="{$basedomain}renstra/kegiatan">Nama Kegiatan</a></li>
+								<li><a href="{$basedomain}renstra/output">Output dan IKK</a></li>
 							</ul>
 						</li>
 
@@ -329,6 +329,14 @@
 						<li class="list-header">Pengaturan Sistem</li>
 
 						<!--Menu list item-->
+						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}setting/tahun">
+								
+								<span class="menu-title">Pengaturan Tahun Aktif </span>
+							</a>
+			
+						</li>
+
 						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
 							<a href="{$basedomain}course/viewvisitor">
 								
