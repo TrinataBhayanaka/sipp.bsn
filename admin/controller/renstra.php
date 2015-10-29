@@ -101,18 +101,26 @@ class renstra extends Controller {
 	{
 		global $basedomain;
 		$parent_id = _g('parent_id');
+		$pid = _g('pid');
 		$newData = array();
 
 		$getStruktur = $this->contentHelper->getStruktur();
 		if (!$parent_id){
-			redirect($basedomain."renstra/dokumenBsn/?parent_id=".$getStruktur[0]['id']);
+			if (!$pid) $pid = 1;
+			redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id=".$getStruktur[0]['id']);
 			exit;
 		}
 
+		if ($pid ==1){
+			$type = 5;
+			$this->view->assign('isbsn', 1);
+		} 
+		if ($pid ==2) $type = 6;
+		if ($pid ==3) $type = 7;
 
-		$getVisiBsn = $this->contentHelper->getVisi(false, 5, 1);
-		$getMisiBsn = $this->contentHelper->getVisi(false, 5, 2);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, 5, 3);
+		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
+		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);
 		
 		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
 		
@@ -133,6 +141,7 @@ class renstra extends Controller {
 
 		}
 
+		$this->view->assign('pid', $pid);
 		$this->view->assign('parent_id', $parent_id);
 		$this->view->assign('visi', $getVisiBsn);
 		$this->view->assign('misi', $getMisiBsn);
@@ -142,96 +151,7 @@ class renstra extends Controller {
 		return $this->loadView('renstra/dokumen/bsn');
 	}
 
-	function dokumenEselon1()
-	{
-		global $basedomain;
-		$parent_id = _g('parent_id');
-		$newData = array();
-
-		$getStruktur = $this->contentHelper->getStruktur();
-		if (!$parent_id){
-			redirect($basedomain."renstra/dokumenEselon1/?parent_id=".$getStruktur[0]['id']);
-			exit;
-		}
-
-
-		$getVisiBsn = $this->contentHelper->getVisi(false, 6, 1);
-		$getMisiBsn = $this->contentHelper->getVisi(false, 6, 2);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, 6, 3);
-		
-		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
-		
-		if ($getDokumen){
-			foreach ($getDokumen as $key => $value) {
-				$tags[$value['id']] = $value['tags'];
-			}
-
-			if (is_array($tags)){
-				asort($tags);
-				foreach ($tags as $key => $val) {
-					foreach ($getDokumen as $k => $value) {
-						if ($key == $value['id']) $newData[] = $value;
-					}
-				}
-			}
-			
-
-		}
-
-		$this->view->assign('parent_id', $parent_id);
-		$this->view->assign('visi', $getVisiBsn);
-		$this->view->assign('misi', $getMisiBsn);
-		$this->view->assign('tujuan', $getTujuanBsn);
-		$this->view->assign('dokumen', $newData);
-		$this->view->assign('struktur', $getStruktur);
-		return $this->loadView('renstra/dokumen/bsn');
-	}
-
-	function dokumenEselon2()
-	{
-		global $basedomain;
-		$parent_id = _g('parent_id');
-		$newData = array();
-
-		$getStruktur = $this->contentHelper->getStruktur();
-		if (!$parent_id){
-			redirect($basedomain."renstra/dokumenEselon2/?parent_id=".$getStruktur[0]['id']);
-			exit;
-		}
-
-
-		$getVisiBsn = $this->contentHelper->getVisi(false, 7, 1);
-		$getMisiBsn = $this->contentHelper->getVisi(false, 7, 2);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, 7, 3);
-		
-		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
-		
-		if ($getDokumen){
-			foreach ($getDokumen as $key => $value) {
-				$tags[$value['id']] = $value['tags'];
-			}
-
-			if (is_array($tags)){
-				asort($tags);
-				foreach ($tags as $key => $val) {
-					foreach ($getDokumen as $k => $value) {
-						if ($key == $value['id']) $newData[] = $value;
-					}
-				}
-			}
-			
-
-		}
-
-		$this->view->assign('parent_id', $parent_id);
-		$this->view->assign('visi', $getVisiBsn);
-		$this->view->assign('misi', $getMisiBsn);
-		$this->view->assign('tujuan', $getTujuanBsn);
-		$this->view->assign('dokumen', $newData);
-		$this->view->assign('struktur', $getStruktur);
-		return $this->loadView('renstra/dokumen/bsn');
-	}
-
+	
 	function edit()
 	{
 		global $basedomain;
@@ -482,6 +402,7 @@ class renstra extends Controller {
 		
 		$id = _g('id');
 		$req = _g('req');
+		$pid = _g('pid');
 		$dataStruktur['id'] = _g('parent_id');
 		
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
@@ -507,6 +428,7 @@ class renstra extends Controller {
 				
 			}
 			
+			$this->view->assign('pid', $pid);
 			$this->view->assign('text1', "Tahun Anggaran");
 			$this->view->assign('text2', "Teks yang tampil");
 			$this->view->assign('text3', "Nama File");
@@ -522,6 +444,8 @@ class renstra extends Controller {
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 
+			$pid = $_POST['pid'];
+			$parent_id = $_POST['parent_id'];
 			$save = $this->contentHelper->saveData($_POST);
 			if ($save){
 
@@ -536,10 +460,10 @@ class renstra extends Controller {
 								$dataArr['id'] = $getLastData[0]['id'];
 								$dataArr['filename'] = $image['full_name'];
 								$updateData = $this->contentHelper->saveData($dataArr);
-								if ($updateData) redirect($basedomain.'renstra/dokumenBsn');
+								if ($updateData) redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
 							}else{
 								echo "<script>alert('File type not allowed');</script>";
-								redirect($basedomain.'renstra/dokumenBsn');
+								redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
 							}	
 						}
 
@@ -563,6 +487,7 @@ class renstra extends Controller {
 
 		if ($req == 2) $link = 'renstra/visi_eselon';
 		if ($req == 3) $link = 'renstra/sasaran';
+		if ($req == 4) $link = 'renstra/dokumenBsn';
 		else $link = 'renstra/visi_bsn';
 
 		$data['id'] = $id;

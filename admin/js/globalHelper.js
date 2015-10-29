@@ -67,15 +67,15 @@ function inputsasaran(req, iddata)
   
 }
 
-function inputdokumen(req, iddata)
+function inputdokumen(pid, req, iddata)
 {
   var id = $('.eselonid').val();
   
   if (iddata){
-    redirect(basedomain+"renstra/editDokumen/?req=" + req + "&parent_id="+id+"&id="+iddata);
+    redirect(basedomain+"renstra/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id+"&id="+iddata);
 
   }else{
-    redirect(basedomain+"renstra/editDokumen/?req=" + req + "&parent_id="+id);
+    redirect(basedomain+"renstra/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id);
   }
   
 }

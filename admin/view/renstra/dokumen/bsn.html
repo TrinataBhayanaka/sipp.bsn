@@ -1,23 +1,17 @@
 <script>
+
+var pid = {$pid}
+
 {literal}
 	
 	$(document).on('click', '#inputdokumen', function(){
 
-		inputdokumen(1);
+		inputdokumen(pid, 1);
 	})
-
-	
-
-	$(document).on('click', '#editvisi', function(){
-		var iddata = $(this).attr('data-id');
-		inputsasaran(1, iddata);
-	})
-
-	
 
 	$(document).on('change', '.eselonid', function(){
 		var id = $(this).val();
-		redirect(basedomain+"renstra/dokumenBsn/?parent_id="+id);
+		redirect(basedomain+"renstra/dokumenBsn/?pid="+pid+"&parent_id="+id);
 	})
 
 
@@ -61,6 +55,7 @@
 			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
 		</div>
 		{/*}
+		{if !$isbsn}
 		<div class="col-md-12 table-toolbar-right">
 			<div class="form-group">
               
@@ -73,6 +68,7 @@
                   </select>
           	</div>
 		</div>
+		{/if}
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<br>
@@ -91,7 +87,7 @@
 		            <div class="col-md-12">
 		              <div class="form-group">
 		              <label for="text-input"><a href="{$app_domain}public_assets/{$val.filename}" target="_blank">{$val.brief}</a></label>
-		              	<a href="{$basedomain}renstra/delete/?id={$val.id}"><button id="demo-dt-delete-btn-course-list" class="btn btn-danger fa fa-times"></button></a>
+		              	<a href="{$basedomain}renstra/delete/?req=4&id={$val.id}"><button id="demo-dt-delete-btn-course-list" class="btn btn-danger fa fa-times"></button></a>
 		              </div>
 		            </div>
 		            {/foreach}
