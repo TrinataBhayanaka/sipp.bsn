@@ -79,7 +79,12 @@ var pid = {$pid}
 			        
 		            <div class="col-md-12">
 		              	<div class="form-group">
-			              <img src="{$app_domain}assets/images/no-image.jpeg" width="80%">
+		              		{if $dokumen[0].filename}
+		              			<img src="{$app_domain}public_assets/{$dokumen[0].filename}" width="80%">
+		              		{else}
+		              			<img src="{$app_domain}assets/images/no-image.jpeg" width="80%">
+		              		{/if}
+			              
 			            </div>
 		        	</div>
 		            {if $dokumen}
