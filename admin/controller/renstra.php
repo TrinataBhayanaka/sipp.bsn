@@ -220,6 +220,7 @@ class renstra extends Controller {
 	function kegiatan()
 	{
 
+		return $this->loadView('renstra/matrik/kegiatan');
 	}
 
 	function output()
