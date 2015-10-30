@@ -35,6 +35,16 @@ class pelaporanKeuangan extends Controller {
 
 		return $this->loadView('pelaporanKeuangan/importSKKA');
 	}
+
+	public function realisasiBulanan(){
+
+		return $this->loadView('pelaporanKeuangan/laporanBulanan/realisasiBulanan');
+	}
+	public function anggaranTotal(){
+
+		return $this->loadView('pelaporanKeuangan/laporanTriwulan/anggaranTotal');
+	}
+
 	public function sampleform()
 	{
 		return $this->loadView('home/sample_form');
