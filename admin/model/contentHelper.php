@@ -98,7 +98,7 @@ class contentHelper extends Database {
         return false;
 	}
 
-	function getContent($data=array(), $debug=false)
+	function getContent($data=array(), $table="_news_content", $debug=false)
 	{
 		$filter = "";
 		$data['n_status'] = 1;
@@ -109,7 +109,7 @@ class contentHelper extends Database {
 		$filter .= implode(' AND ', $field);
 
 		$sql = array(
-                'table'=>"{$this->prefix}_news_content",
+                'table'=>"{$this->prefix}{$table}",
                 'field'=>"*",
                 'condition' => "{$filter}"
                 );
