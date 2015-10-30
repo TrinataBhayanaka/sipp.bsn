@@ -40,34 +40,35 @@
 				</div>
 				
 				<!--===================================================-->
-				<form class="form-horizontal" method="POST" action="{$basedomain}renstra/editKinerja" enctype="multipart/form-data">
+				<form class="form-horizontal" method="POST" action="{$basedomain}renstra/editProgram" enctype="multipart/form-data">
 					<div class="panel-body">
+						
+						{if $form}
+						{foreach $form as $val}
+							{$val}
+						{/foreach}
+						{/if}
+						
+						{if $req ==2}
+						
 						<div class="form-group">
-							<label class="col-sm-3 control-label">{$text1}</label>
-							<div class="col-sm-4">
-								<input type="text" name="title" class="form-control" value="{$text1value}" required disabled>
-							</div>
+							<label class="col-sm-3 control-label">Eselon 1</label>
+				    		<div class="col-sm-4">
+				    			
+				              		<select class="form-control eselonid" name="tags">
+				                    {if $struktur}
+				                    {foreach $struktur as $val}
+				                    <option value="{$val.id}" {if $val.id == $outcome.0.tags}selected{/if}>{$val.singkatan}</option>
+				                    {/foreach}
+				                    {/if}
+				                  	</select>
+				          	</div>
 						</div>
+						
+						{/if}
+						{if $req == 3}
 						<div class="form-group">
-							<label class="col-sm-3 control-label">{$text2}</label>
-							<div class="col-sm-4">
-								<input type="text" name="title" class="form-control" value="{$text2value}" required readonly>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">{$text3}</label>
-							<div class="col-sm-6">
-								<textarea rows="5" id="desc" name="desc" class="form-control" disabled>{$text3value}</textarea> 
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">{$text4}</label>
-							<div class="col-sm-6">
-								<textarea rows="5" id="ikss" name="desc" class="form-control">{$text4value}</textarea> 
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">{$text5}</label>
+							<label class="col-sm-3 control-label">Target</label>
 							<div class="col-sm-6">
 								<table>
 									<thead>
@@ -82,19 +83,24 @@
 									<tbody>
 										<tr>
 											{foreach $tahuntarget as $k => $a}
-											<td><input type="text" name="input[]" value="{$target.0.target.$k}"></td>
+											<td><input type="text" name="input[]" value="{$outcome.0.target.$k}"></td>
 											{/foreach}
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						{*}
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Eselon 1</label>
+				    		<div class="col-sm-4">
+				    			<button class="form-control" type="text" name="indikator[]" value='1'>Ya</button>
+				    			<button class="form-control" type="text" name="indikator[]" value='0'>Tidak</button>
+				          	</div>
+						</div>{/*}
+						{/if}
 					</div>
 					<div class="panel-footer text-right">
-						<input type="hidden" name="id" value="{$id}">
-						<input type="hidden" name="type" value="{$type}">
-						<input type="hidden" name="category" value="{$category}">
-						<input type="hidden" name="parent_id" value="{$parent_id}">
 						<button class="btn btn-info" type="submit" name="{$submit}" value='1'>Save</button>
 					</div>
 				</form>

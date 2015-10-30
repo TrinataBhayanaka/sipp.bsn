@@ -53,7 +53,7 @@
 		</div>
 		
 		<div id="create-toolbar" class="table-toolbar-left">
-			<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$parent_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Program</button></a>
+			<a href="{$basedomain}renstra/editProgram/?req=1&parent_id={$parent_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Program</button></a>
 		</div>{*}
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		
@@ -85,41 +85,98 @@
 					{foreach $sasaran as $k=> $val}
 					<tr>
 						<td>{if $k==0}{$val.title}{else}&nbsp;{/if}</td>
-						<td>{$val.desc}
+						<td colspan="2">{$val.brief} - {$val.desc}
 							
-							{if $val.target}
-							{foreach $val.target as $value}
+							{if $val.outcome}
+							{foreach $val.outcome as $value}
 							<br><br>
-							<div id="delete-toolbar" class="table-toolbar-left">
-								<legend>{$value.desc}</legend>
-								<table class="form-control">
+							<div>
+								<table class="" width="100%">
 									<thead>
 										<tr>
-											{if $tahuntarget}
-											{foreach $tahuntarget as $a}
-											<td class="text-center">{$a}</td>
-											{/foreach}
-											{/if}
+											<td>{$value.desc}</td>
+											<td>{$value.eselon.nama_satker}</td>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											{foreach $value.target as $v}
+										<!-- <tr>
 											<td><input type="text" name="input[]" value="{$v}"></td>
+											<td><input type="text" name="input[]" value="{$v}"></td>
+										</tr> -->
+									</tbody>
+								</table>
+							</div>
+							<div>
+								<table class="" width="100%">
+									<thead>
+										<tr>
+											<td rowspan="2" class="text-center">Indikator</td>
+											<td colspan="4" class="text-center">Target</td>
+										</tr>
+										<tr>
+											{foreach $tahuntarget as $thn}
+											<td class="text-center">{$thn}</td>
 											{/foreach}
 										</tr>
+									</thead>
+									<tbody>
+										{if $value.indikator}
+										{foreach $value.indikator as $v}
+										<tr>
+											
+											<td>{$v.desc}</td>
+											{foreach $v.target as $indi}
+											<td>{$indi}</td>
+											{/foreach}
+											
+										</tr>
+										{/foreach}
+										{/if}
 									</tbody>
 								</table>
 							</div>
 							{/foreach}
 							{/if}
 						</td>
-						<td>Sekretariat</td>
+						
 						<td>
-							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input IKSS</button></a>
+							<table class="" width="100%">
+								<tbody>
+									<tr>
+										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=1&parent_id={$parent_id}&child={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Program</button></a>
+										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Outcome</button></a></td>
+									</tr>
+									{if $val.outcome}
+									{foreach $val.outcome as $value}
+									<tr>
+										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
+										<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Indikator</button></a>
+										<a href="{$basedomain}renstra/delete/?id={$value.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a></td>
+									</tr>
+									{/foreach}
+									{/if}
+
+									{if $val.is_indikator}
+									<tr style=""><td>1</td></tr>
+									<tr style=""><td>1</td></tr>
+									{foreach $val.outcome as $value}
+									{foreach $value.indikator as $v}
+									<tr>
+										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
+										<a href="{$basedomain}renstra/delete/?id={$v.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a></td>
+									</tr>
+									{/foreach}
+									{/foreach}
+									{/if}
+								</tbody>
+								
+							</table>
+
+							
+							
 							
 							{if $val.target}							
-							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}&id={$val.target.0.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit IKSS</button></a>
+							<a href="{$basedomain}renstra/editProgram/?parent_id={$parent_id}&child={$val.id}&id={$val.target.0.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit IKSS</button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.target.0.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
 							{/if}
 						</td>

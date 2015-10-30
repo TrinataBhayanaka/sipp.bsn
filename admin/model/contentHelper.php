@@ -98,7 +98,7 @@ class contentHelper extends Database {
         return false;
 	}
 
-	function saveData($data=array(), $table="_news_content")
+	function saveData($data=array(), $table="_news_content", $debug=0)
 	{
 
 		if ($table == "_news_content"){
@@ -111,11 +111,11 @@ class contentHelper extends Database {
 
 		if ($id){
 
-			$run = $this->save("update", "{$this->prefix}{$table}", $data, "id = {$id}");
+			$run = $this->save("update", "{$this->prefix}{$table}", $data, "id = {$id}", $debug);
 
 		}else{
 			$data['createDate'] = date('Y-m-d H:i;s');
-			$run = $this->save("insert", "{$this->prefix}{$table}", $data);
+			$run = $this->save("insert", "{$this->prefix}{$table}", $data, false, $debug);
 	
 		}
 
@@ -123,7 +123,7 @@ class contentHelper extends Database {
 		return false;
 	}
 
-	function getStruktur($data=false)
+	function getStruktur($data=array())
 	{
 
 		$data['n_status'] = 1;
