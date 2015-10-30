@@ -83,107 +83,41 @@
 						</tr>
 					</thead>
 					<tbody>
+						{if $kegiatan}
+						{foreach $kegiatan as $val}
 						<tr>
-							<td class="text-center">084.01.01</td>
-							<td  colspan="5">Program Dukungan Manajemen dan Pelaksanaan Tugas Teknis Lainnya BSN</td>
+							<td class="text-center">{$val.brief}</td>
+							<td  colspan="5">{$val.desc}</td>
 							<td class="text-center" colspan="2">
 								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
+									<a href="{$basedomain}renstra/editKegiatan/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
 								</div>
 							</td>
 						</tr>
+						{if $val.kegiatan}
+						{foreach $val.kegiatan as $v}
 						<tr>
 							<td class="text-center">&nbsp;</td>
 							<td><a class="btn-link" href="#">&nbsp;</a></td>
-							<td><span class="label label-purple">3549</span></td>
-							<td> 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
-							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
-							<td>0</td>
+							<td><span class="label label-purple">{$v.title}</span></td>
+							<td>{$v.desc}</td>
+							<td>{$v.eselon.nama_satker}</td>
+							<td>{$v.tags}</td>
 							<td>
 								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+									<a href="{$basedomain}renstra/editKegiatan/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
 								</div>
 							</td>
 							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
 							</td>
 						</tr>
-						<tr>
-							<td class="text-center">&nbsp;</td>
-							<td><a class="btn-link" href="#">&nbsp;</a></td>
-							<td><span class="label label-purple">3549</span></td>
-							<td > 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
-							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
-							<td>0</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="text-center">&nbsp;</td>
-							<td><a class="btn-link" href="#">&nbsp;</a></td>
-							<td><span class="label label-purple">3549</span></td>
-							<td > 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
-							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
-							<td>0</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center">084.01.01</td>
-							<td  colspan="5">Program Dukungan Manajemen dan Pelaksanaan Tugas Teknis Lainnya BSN</td>
-							<td class="text-center" colspan="2">
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
-								</div>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="text-center">&nbsp;</td>
-							<td><a class="btn-link" href="#">&nbsp;</a></td>
-							<td><span class="label label-purple">3549</span></td>
-							<td> 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
-							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
-							<td>0</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-						</tr>
-
-						<tr>
-							<td class="text-center">&nbsp;</td>
-							<td><a class="btn-link" href="#">&nbsp;</a></td>
-							<td><span class="label label-purple">3549</span></td>
-							<td> 	Peningkatan Pelayanan Hukum, Organisasi dan Humas BSN</td>
-							<td>Biro Perencanaan, Keuangan, dan Tata usaha</td>
-							<td>0</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-						</tr>
+						{/foreach}
+						{/if}
+						{/foreach}
+						{/if}
+						
+						
 					</tbody>
 				</table>
 			</div>

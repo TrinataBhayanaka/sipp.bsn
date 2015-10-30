@@ -1,0 +1,121 @@
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Create Visi Misi</h1>
+
+	<!--Searchbox-->
+	<!-- <div class="searchbox">
+		<div class="input-group custom-search-form">
+			<input type="text" class="form-control" placeholder="Search..">
+			<span class="input-group-btn">
+				<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</div> -->
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}course/courselist">Course</a></li>
+	<li class="active">Add Course</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Input Form</h3>
+				</div>
+				
+				<!--===================================================-->
+				<form class="form-horizontal" method="POST" action="{$basedomain}renstra/editOutput" enctype="multipart/form-data">
+					<div class="panel-body">
+						
+						{if $form}
+						{foreach $form as $val}
+							{$val}
+						{/foreach}
+						{/if}
+						
+						{if $req ==2}
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Eselon 1</label>
+				    		<div class="col-sm-4">
+				    			
+				              		<select class="form-control eselonid" name="tags">
+				                    {if $struktur}
+				                    {foreach $struktur as $val}
+				                    <option value="{$val.id}" {if $val.id == $outcome.0.tags}selected{/if}>{$val.singkatan}</option>
+				                    {/foreach}
+				                    {/if}
+				                  	</select>
+				          	</div>
+						</div>
+						
+						{/if}
+						{if $req == 1}
+						<div class="form-group">
+							<label class="col-sm-3 control-label">&nbsp;</label>
+							<div class="col-sm-6">
+								<table>
+									<thead>
+										<tr>
+											{if $tahuntarget}
+											<td class="text-center">Alokasi Anggaran</td>
+											{foreach $tahuntarget as $a}
+											<td class="text-center">{$a}</td>
+											{/foreach}
+											{/if}
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Ribuan Rp.</td>
+											{foreach $tahuntarget as $k => $a}
+											<td><input type="text" name="input[]" value="{$output.0.target.$k}"></td>
+											{/foreach}
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						{*}
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Eselon 1</label>
+				    		<div class="col-sm-4">
+				    			<button class="form-control" type="text" name="indikator[]" value='1'>Ya</button>
+				    			<button class="form-control" type="text" name="indikator[]" value='0'>Tidak</button>
+				          	</div>
+						</div>{/*}
+						{/if}
+					</div>
+					<div class="panel-footer text-right">
+						<button class="btn btn-info" type="submit" name="{$submit}" value='1'>Save</button>
+					</div>
+				</form>
+				<!--===================================================-->
+				<!--End Horizontal Form-->
+	
+			</div>
+		</div>
+	</div>
+
+
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->

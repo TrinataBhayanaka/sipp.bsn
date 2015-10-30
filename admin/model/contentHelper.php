@@ -98,6 +98,27 @@ class contentHelper extends Database {
         return false;
 	}
 
+	function getContent($data=array(), $debug=false)
+	{
+		$filter = "";
+		$data['n_status'] = 1;
+		foreach ($data as $key => $value) {
+			$field[] = "{$key} = '{$value}'";
+		}
+
+		$filter .= implode(' AND ', $field);
+
+		$sql = array(
+                'table'=>"{$this->prefix}_news_content",
+                'field'=>"*",
+                'condition' => "{$filter}"
+                );
+
+        $res = $this->lazyQuery($sql,$debug);
+        if ($res)return $res;
+        return false;
+	}
+
 	function saveData($data=array(), $table="_news_content", $debug=0)
 	{
 
