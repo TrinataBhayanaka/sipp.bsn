@@ -160,59 +160,59 @@ class renstra extends Controller {
 
 	function program()
 	{
-		global $basedomain;
-		$parent_id = _g('parent_id');
+		// global $basedomain;
+		// $parent_id = _g('parent_id');
 		
 
-		$getStruktur = $this->contentHelper->getStruktur();
-		$getSetting = $this->contentHelper->getSetting();
-		if (!$parent_id){
-			redirect($basedomain."renstra/program/?parent_id=".$getStruktur[0]['id']);
-			exit;
-		}
+		// $getStruktur = $this->contentHelper->getStruktur();
+		// $getSetting = $this->contentHelper->getSetting();
+		// if (!$parent_id){
+		// 	redirect($basedomain."renstra/program/?parent_id=".$getStruktur[0]['id']);
+		// 	exit;
+		// }
 
-		if ($getSetting){
-			$tahun = $getSetting[0]['kode'];
-			$start = 1;
-			for($i=1; $i<=10; $i++){
-				if ($start<=5){
-					$arrayTahun[] = $tahun;
-				}
-				$tahun++;
-				$start++;
-			}
-		}
+		// if ($getSetting){
+		// 	$tahun = $getSetting[0]['kode'];
+		// 	$start = 1;
+		// 	for($i=1; $i<=10; $i++){
+		// 		if ($start<=5){
+		// 			$arrayTahun[] = $tahun;
+		// 		}
+		// 		$tahun++;
+		// 		$start++;
+		// 	}
+		// }
 
-		$getSasaran = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
-		if ($getSasaran){
-			foreach ($getSasaran as $key => $value) {
-				$getData = $this->contentHelper->getVisi(false, 9, 1, $value['id']);
-				if ($getData) $getKinerja[] = $getData;
-			}
+		// $getSasaran = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		// if ($getSasaran){
+		// 	foreach ($getSasaran as $key => $value) {
+		// 		$getData = $this->contentHelper->getVisi(false, 9, 1, $value['id']);
+		// 		if ($getData) $getKinerja[] = $getData;
+		// 	}
 
-			if ($getKinerja){
-				foreach ($getKinerja as $k => $val) {
-					foreach ($val as $key => $value) {
-						if ($value['data']) $getKinerja[$k][$key]['target'] = unserialize($value['data']);
+		// 	if ($getKinerja){
+		// 		foreach ($getKinerja as $k => $val) {
+		// 			foreach ($val as $key => $value) {
+		// 				if ($value['data']) $getKinerja[$k][$key]['target'] = unserialize($value['data']);
 						
-					}
-				}
-				foreach ($getSasaran as $key => $value) {
+		// 			}
+		// 		}
+		// 		foreach ($getSasaran as $key => $value) {
 					
-					foreach ($getKinerja as $b) {
-						foreach ($b as $k => $v) {
-							if ($value['id']==$v['parent_id']){
-								$getSasaran[$key]['target'][] = $v;
-							}
-						}
-					}
-				}
-			}
-		}
-		$this->view->assign('tahuntarget', $arrayTahun);
-		$this->view->assign('kinerja', $getKinerja[0]);
-		$this->view->assign('parent_id', $parent_id);
-		$this->view->assign('sasaran', $getSasaran);
+		// 			foreach ($getKinerja as $b) {
+		// 				foreach ($b as $k => $v) {
+		// 					if ($value['id']==$v['parent_id']){
+		// 						$getSasaran[$key]['target'][] = $v;
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// $this->view->assign('tahuntarget', $arrayTahun);
+		// $this->view->assign('kinerja', $getKinerja[0]);
+		// $this->view->assign('parent_id', $parent_id);
+		// $this->view->assign('sasaran', $getSasaran);
 
 		return $this->loadView('renstra/matrik/program');
 	}

@@ -1,0 +1,142 @@
+<script>
+{literal}
+	
+	$(document).on('click', '#inputvisi', function(){
+
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Struktur Organisasi</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Struktur Organisasi</h3>
+		</div>
+		{*}
+		<div id="create-toolbar" class="table-toolbar-left">
+			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Sasaran Strategis</button></a>
+		</div>
+		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		
+		<div id="delete-toolbar" class="table-toolbar-left">
+			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
+		</div>
+		{/*}
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="text-center">No.</th>
+							<th class="text-center">Kode</th>
+							<th class="text-center">Nama Unit Kerja</th>
+							<th class="text-center">Singkatan</th>
+							<th class="text-center" colspan="2">Aksi</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="text-center">1</td>
+							<td class="text-center">831000</td>
+							<td >Deputi Bidang Penelitian dan Kerjasama Standardisasi</td>
+							<td>Deputi PKS</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+							</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center">1</td>
+							<td class="text-center">831000</td>
+							<td >Deputi Bidang Penelitian dan Kerjasama Standardisasi</td>
+							<td>Deputi PKS</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+							</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center">1</td>
+							<td class="text-center">831000</td>
+							<td >Deputi Bidang Penelitian dan Kerjasama Standardisasi</td>
+							<td>Deputi PKS</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+							</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center">1</td>
+							<td class="text-center">831000</td>
+							<td >Deputi Bidang Penelitian dan Kerjasama Standardisasi</td>
+							<td>Deputi PKS</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+							</td>
+							<td class="text-center">	
+								<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+
