@@ -1,7 +1,7 @@
 <?php
 // defined ('TATARUANG') or exit ( 'Forbidden Access' );
 
-class pelaporanKeuangan extends Controller {
+class struktur extends Controller {
 	
 	var $models = FALSE;
 	
@@ -28,21 +28,24 @@ class pelaporanKeuangan extends Controller {
 	
 	public function index(){
 
-		return $this->loadView('pelaporanKeuangan/realisasiKeuangan');
+		return $this->loadView('struktur/strukturOrganisasi');
 
 	}
-	public function import(){
+	public function bsn(){
 
-		return $this->loadView('pelaporanKeuangan/importSKKA');
+		return $this->loadView('struktur/bsn');
+
+	}
+	public function eseloni(){
+
+		return $this->loadView('struktur/eseloni');
+
 	}
 
-	public function realisasiBulanan(){
+	public function eselonii(){
 
-		return $this->loadView('pelaporanKeuangan/laporanBulanan/realisasiBulanan');
-	}
-	public function anggaranTotal(){
+		return $this->loadView('struktur/eselonii');
 
-		return $this->loadView('pelaporanKeuangan/laporanTriwulan/anggaranTotal');
 	}
 
 	public function sampleform()
