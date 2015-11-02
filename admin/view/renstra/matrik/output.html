@@ -77,244 +77,91 @@
 						</tr>
 					</thead>
 					<tbody>
+						{if $kegiatan}
+						{foreach $kegiatan as $val}
 						<tr>
-							<td class="text-center">084.01.01</td>
-							<td  colspan="2">Program Dukungan Manajemen dan Pelaksanaan Tugas Teknis Lainnya BSN</td>
+							<td class="text-center">{$val.title}</td>
+							<td  colspan="2">{$val.desc}</td>
 							<td class="text-center" colspan="3">
 								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
 								</div>
 							</td>
 						</tr>
-						 <tr>
+						{foreach $val.kegiatan as $v}
+						<tr>
 							<td class="text-center">1</td>
-							<td colspan="2">Dokumen perencanaan dan monitoring evaluasi
+							<td colspan="2">{$v.desc}
 								<table class="table table-bordered">
 									<thead>
 										<tr>
 											<th>&nbsp;</th>
-											<th>2015</th>
-											<th>2016</th>
-											<th>2017</th>
-											<th>2018</th>
-											<th>2019</th>
+											{foreach $tahuntarget as $tahun}
+											<th>{$tahun}</th>
+											{/foreach}
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>Anggaran (Ribuan Rp.)</td>
-											<td>1.423.225</td>
-											<td>3.240.000</td>
-											<td>3.499.200</td>
-											<td>3.779.136</td>
-											<td>4.081.467</td>
+											{foreach $v.target as $target}
+											<td>{$target}</td>
+											{/foreach}
 										</tr>
 									</tbody>
 								</table>
 							</td>
 							<td>
 								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
 								</div>
 							</td>
 							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
 							</td>
-							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
+							<td><a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$v.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
 						</tr>
+						{if $v.output}
+						{foreach $v.output as $out}
 						<tr>
 							<td class="text-center">&nbsp;</td>
 							<td class="text-center">2</td>
-							<td>Dokumen perencanaan dan monitoring evaluasi
+							<td>{$out.desc}
 								<table class="table table-bordered">
 									<thead>
 										<tr>
 											<th>&nbsp;</th>
-											<th>2015</th>
-											<th>2016</th>
-											<th>2017</th>
-											<th>2018</th>
-											<th>2019</th>
+											{foreach $tahuntarget as $tahun}
+											<th>{$tahun}</th>
+											{/foreach}
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>Anggaran (Ribuan Rp.)</td>
-											<td>1.423.225</td>
-											<td>3.240.000</td>
-											<td>3.499.200</td>
-											<td>3.779.136</td>
-											<td>4.081.467</td>
+											{foreach $out.target as $target}
+											<td>{$target}</td>
+											{/foreach}
 										</tr>
 									</tbody>
 								</table>
 							</td>
 							<td>
 								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$out.parent_id}&id={$out.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
 								</div>
 							</td>
 							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$out.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
 							</td>
-							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
+							<td>&nbsp;</td>
 						</tr>
-						<tr>
-							<td class="text-center">&nbsp;</td>
-							<td class="text-center">1</td>
-							<td>Dokumen perencanaan dan monitoring evaluasi
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th>&nbsp;</th>
-											<th>2015</th>
-											<th>2016</th>
-											<th>2017</th>
-											<th>2018</th>
-											<th>2019</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Anggaran (Ribuan Rp.)</td>
-											<td>1.423.225</td>
-											<td>3.240.000</td>
-											<td>3.499.200</td>
-											<td>3.779.136</td>
-											<td>4.081.467</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
-						</tr>
-						<tr>
-							<td class="text-center">084.01.01</td>
-							<td  colspan="2">Program Dukungan Manajemen dan Pelaksanaan Tugas Teknis Lainnya BSN</td>
-							<td class="text-center" colspan="3">
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
-								</div>
-							</td>
-						</tr>
-						 <tr>
-							<td class="text-center">1</td>
-							<td colspan="2">Dokumen perencanaan dan monitoring evaluasi
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th>&nbsp;</th>
-											<th>2015</th>
-											<th>2016</th>
-											<th>2017</th>
-											<th>2018</th>
-											<th>2019</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Anggaran (Ribuan Rp.)</td>
-											<td>1.423.225</td>
-											<td>3.240.000</td>
-											<td>3.499.200</td>
-											<td>3.779.136</td>
-											<td>4.081.467</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
-						</tr>
-						<tr>
-							<td class="text-center">&nbsp;</td>
-							<td class="text-center">2</td>
-							<td>Dokumen perencanaan dan monitoring evaluasi
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th>&nbsp;</th>
-											<th>2015</th>
-											<th>2016</th>
-											<th>2017</th>
-											<th>2018</th>
-											<th>2019</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Anggaran (Ribuan Rp.)</td>
-											<td>1.423.225</td>
-											<td>3.240.000</td>
-											<td>3.499.200</td>
-											<td>3.779.136</td>
-											<td>4.081.467</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
-						</tr>
-						<tr>
-							<td class="text-center">&nbsp;</td>
-							<td class="text-center">1</td>
-							<td>Dokumen perencanaan dan monitoring evaluasi
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th>&nbsp;</th>
-											<th>2015</th>
-											<th>2016</th>
-											<th>2017</th>
-											<th>2018</th>
-											<th>2019</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Anggaran (Ribuan Rp.)</td>
-											<td>1.423.225</td>
-											<td>3.240.000</td>
-											<td>3.499.200</td>
-											<td>3.779.136</td>
-											<td>4.081.467</td>
-										</tr>
-									</tbody>
-								</table>
-							</td>
-							<td>
-								<div id="create-toolbar" >
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
-								</div>
-							</td>
-							<td>
-									<a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
-							</td>
-							<td><a href="http://localhost/sipp.bsn/admin/home/sampleform"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
-						</tr>
+						{/foreach}
+						{/if}
+						{/foreach}
+						{/foreach}
+						{/if}
+						
 						
 					</tbody>
 				</table>

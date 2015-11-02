@@ -98,7 +98,28 @@ class contentHelper extends Database {
         return false;
 	}
 
-	function saveData($data=array(), $table="_news_content")
+	function getContent($data=array(), $table="_news_content", $debug=false)
+	{
+		$filter = "";
+		$data['n_status'] = 1;
+		foreach ($data as $key => $value) {
+			$field[] = "{$key} = '{$value}'";
+		}
+
+		$filter .= implode(' AND ', $field);
+
+		$sql = array(
+                'table'=>"{$this->prefix}{$table}",
+                'field'=>"*",
+                'condition' => "{$filter}"
+                );
+
+        $res = $this->lazyQuery($sql,$debug);
+        if ($res)return $res;
+        return false;
+	}
+
+	function saveData($data=array(), $table="_news_content", $debug=0)
 	{
 
 		if ($table == "_news_content"){
@@ -111,11 +132,11 @@ class contentHelper extends Database {
 
 		if ($id){
 
-			$run = $this->save("update", "{$this->prefix}{$table}", $data, "id = {$id}");
+			$run = $this->save("update", "{$this->prefix}{$table}", $data, "id = {$id}", $debug);
 
 		}else{
 			$data['createDate'] = date('Y-m-d H:i;s');
-			$run = $this->save("insert", "{$this->prefix}{$table}", $data);
+			$run = $this->save("insert", "{$this->prefix}{$table}", $data, false, $debug);
 	
 		}
 
@@ -123,7 +144,7 @@ class contentHelper extends Database {
 		return false;
 	}
 
-	function getStruktur($data=false)
+	function getStruktur($data=array())
 	{
 
 		$data['n_status'] = 1;

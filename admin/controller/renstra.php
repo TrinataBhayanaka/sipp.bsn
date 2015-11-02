@@ -160,59 +160,55 @@ class renstra extends Controller {
 
 	function program()
 	{
-		// global $basedomain;
-		// $parent_id = _g('parent_id');
+		global $basedomain;
+		$parent_id = _g('parent_id');
 		
 
-		// $getStruktur = $this->contentHelper->getStruktur();
-		// $getSetting = $this->contentHelper->getSetting();
-		// if (!$parent_id){
-		// 	redirect($basedomain."renstra/program/?parent_id=".$getStruktur[0]['id']);
-		// 	exit;
-		// }
+		$getStruktur = $this->contentHelper->getStruktur();
+		$getSetting = $this->contentHelper->getSetting();
+		if (!$parent_id){
+			redirect($basedomain."renstra/program/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
 
-		// if ($getSetting){
-		// 	$tahun = $getSetting[0]['kode'];
-		// 	$start = 1;
-		// 	for($i=1; $i<=10; $i++){
-		// 		if ($start<=5){
-		// 			$arrayTahun[] = $tahun;
-		// 		}
-		// 		$tahun++;
-		// 		$start++;
-		// 	}
-		// }
+		$arrayTahun = $this->tahunRenstra($getSetting);
+		$getSasaran = $this->contentHelper->getVisi(false, 9, 1, $parent_id);
+		if ($getSasaran){
+			// pr($getSasaran);
+			foreach ($getSasaran as $key => $value) {
+				$getData = $this->contentHelper->getVisi(false, 9, 2, $value['id']);
+				
+				if ($getData){
 
-		// $getSasaran = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
-		// if ($getSasaran){
-		// 	foreach ($getSasaran as $key => $value) {
-		// 		$getData = $this->contentHelper->getVisi(false, 9, 1, $value['id']);
-		// 		if ($getData) $getKinerja[] = $getData;
-		// 	}
+					foreach ($getData as $k => $val) {
+						if ($val['tags']){
+							$getEselon = $this->contentHelper->getStruktur(array('id'=>$val['tags']));
+							if ($getEselon) $getData[$k]['eselon'] = $getEselon[0];
+						}
 
-		// 	if ($getKinerja){
-		// 		foreach ($getKinerja as $k => $val) {
-		// 			foreach ($val as $key => $value) {
-		// 				if ($value['data']) $getKinerja[$k][$key]['target'] = unserialize($value['data']);
-						
-		// 			}
-		// 		}
-		// 		foreach ($getSasaran as $key => $value) {
-					
-		// 			foreach ($getKinerja as $b) {
-		// 				foreach ($b as $k => $v) {
-		// 					if ($value['id']==$v['parent_id']){
-		// 						$getSasaran[$key]['target'][] = $v;
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// $this->view->assign('tahuntarget', $arrayTahun);
-		// $this->view->assign('kinerja', $getKinerja[0]);
-		// $this->view->assign('parent_id', $parent_id);
-		// $this->view->assign('sasaran', $getSasaran);
+						$getIndikator = $this->contentHelper->getVisi(false, 9, 3, $val['id']);
+						if ($getIndikator){
+							foreach ($getIndikator as $index => $v) {
+								if ($v['data']) $getIndikator[$index]['target'] = unserialize($v['data']);
+							}
+
+							$getSasaran[$key]['is_indikator'] = true;
+							$getData[$k]['indikator'] = $getIndikator;
+							
+						} 
+					}
+					$getSasaran[$key]['outcome'] = $getData;
+				} 
+				
+			}
+			// pr($getSasaran);
+			
+		}
+		$this->view->assign('tahuntarget', $arrayTahun);
+		$this->view->assign('kinerja', $getKinerja[0]);
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('sasaran', $getSasaran);
+
 
 		return $this->loadView('renstra/matrik/program');
 	}
@@ -220,11 +216,99 @@ class renstra extends Controller {
 	function kegiatan()
 	{
 
+		global $basedomain;
+		$parent_id = _g('parent_id');
+		
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		$getSetting = $this->contentHelper->getSetting();
+		if (!$parent_id){
+			redirect($basedomain."renstra/kegiatan/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+		$arrayTahun = $this->tahunRenstra($getSetting);
+		$getKegiatan = $this->contentHelper->getVisi(false, 9, 1, $parent_id);
+		if ($getKegiatan){
+			// pr($getSasaran);
+			foreach ($getKegiatan as $key => $value) {
+				$getData = $this->contentHelper->getVisi(false, 10, 1, $value['id']);
+				
+				if ($getData){
+
+					foreach ($getData as $k => $val) {
+						if ($val['data']){
+							$getEselon = $this->contentHelper->getStruktur(array('id'=>$val['data']));
+							if ($getEselon) $getData[$k]['eselon'] = $getEselon[0];
+						}
+
+					}
+					$getKegiatan[$key]['kegiatan'] = $getData;
+				} 
+				
+			}
+			// pr($getKegiatan);
+			
+		}
+		$this->view->assign('tahuntarget', $arrayTahun);
+		$this->view->assign('kinerja', $getKinerja[0]);
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('kegiatan', $getKegiatan);
+
 		return $this->loadView('renstra/matrik/kegiatan');
 	}
 
 	function output()
-	{
+	{	
+		global $basedomain;
+		$parent_id = _g('parent_id');
+		
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		$getSetting = $this->contentHelper->getSetting();
+		if (!$parent_id){
+			redirect($basedomain."renstra/output/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+		$arrayTahun = $this->tahunRenstra($getSetting);
+
+		$out['type'] = 10;
+		$out['category'] = 1;
+		$out['data'] = $parent_id;
+
+		$getKegiatan = $this->contentHelper->getContent($out);
+		if ($getKegiatan){
+			// pr($getKegiatan);
+			foreach ($getKegiatan as $key => $value) {
+				$getData = $this->contentHelper->getVisi(false, 11, 1, $value['id']);
+				
+				if ($getData){
+
+					foreach ($getData as $k => $val) {
+						if ($val['data']) $getData[$k]['target'] = unserialize($val['data']);
+
+						$getDataOut = $this->contentHelper->getVisi(false, 11, 2, $val['id']);
+						if ($getDataOut){
+							foreach ($getDataOut as $ka => $v) {
+								if ($v['data']) $getDataOut[$ka]['target'] = unserialize($v['data']);
+							}
+
+							$getData[$k]['output'] = $getDataOut;
+						}
+					}
+					
+					$getKegiatan[$key]['kegiatan'] = $getData;
+				} 
+				
+			}
+			// pr($getKegiatan);
+			
+		}
+		$this->view->assign('tahuntarget', $arrayTahun);
+		$this->view->assign('kinerja', $getKinerja[0]);
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('kegiatan', $getKegiatan);
 		return $this->loadView('renstra/matrik/output');
 	}
 
@@ -608,82 +692,341 @@ class renstra extends Controller {
 		$req = _g('req');
 
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		
 		$getSetting = $this->contentHelper->getSetting();
-		if ($getSetting){
-			$tahun = $getSetting[0]['kode'];
-			$start = 1;
-			for($i=1; $i<=10; $i++){
-				if ($start<=5){
-					$arrayTahun[] = $tahun;
-				}
-				$tahun++;
-				$start++;
+		$arrayTahun = $this->tahunRenstra($getSetting);
+
+		$getSasaran = $this->contentHelper->getVisi($child_id, 9, 1, $dataStruktur['id']);
+		
+		$this->view->assign('submit', "submit");
+		
+		if ($req == 1){
+			// input prograM
+			if ($child_id){
+				$brief = $getSasaran[0]['brief'];
+				$desc = $getSasaran[0]['desc'];
+			}else{
+				$brief = "";
+				$desc = "";
 			}
-		}
-		// pr($arrayTahun);
-		$getSasaran = $this->contentHelper->getVisi($child_id, 7, 1, $dataStruktur['id']);
-		// pr($getSasaran);
-		if ($id){
-			$getTarget = $this->contentHelper->getVisi($id, 8, 1);
+			$dataForm[] = array('text'=>true, 'title'=>'Kode', 'name'=>'brief', 'value'=>$brief);
+			$dataForm[] = array('text'=>true, 'title'=>'Program', 'name'=>'desc', 'value'=>$desc);
+			$dataForm[] = array('hidden'=>1, 'name'=>'parent_id', 'value'=>$dataStruktur['id']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'title', 'value'=>$getStruktur[0]['nama_satker']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>1);
+			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>9);
+			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $child_id);
+
+
+			$generataField = $this->generateField($dataForm);
+			$this->view->assign('form', $generataField);
 			
-			if ($getTarget){
-				foreach ($getTarget as $key => $value) {
-					if ($value['data']) $getTarget[$key]['target'] = unserialize($value['data']);
+			
+		}else if ($req == 2){
+
+			// input outcome
+			$getOutcome = $this->contentHelper->getVisi($dataStruktur['id'], 9, 1);
+
+			if ($dataStruktur['id']){
+				$brief = $getOutcome[0]['brief'];
+				$title = $getOutcome[0]['desc'];
+				if ($id){
+					$getOutcome = $this->contentHelper->getVisi($id, 9, 2);
+					$desc = $getOutcome[0]['desc'];
+					$this->view->assign('outcome', $getOutcome);
+				}else{
+					$desc = "";
 				}
+				
+			}else{
+				$brief = "";
+				$desc = "";
 			}
-			// pr($getTarget);
-			$this->view->assign('text4value', $getTarget[0]['desc']);
-			$this->view->assign('target', $getTarget);
-			$this->view->assign('id', $getTarget[0]['id']);
+			$getStruktur = $this->contentHelper->getStruktur();
+			
+			// pr($getOutcome);
+
+			$dataForm[] = array('text'=>true, 'title'=>'Kode', 'name'=>'brief', 'value'=>$brief, 'readonly'=>'readonly');
+			$dataForm[] = array('text'=>true, 'title'=>'Program', 'name'=>'title', 'value'=>$title, 'disabled'=>'disabled');
+			$dataForm[] = array('textarea'=>true, 'title'=>'Outcome', 'name'=>'desc', 'value'=>$desc);
+			$dataForm[] = array('hidden'=>1, 'name'=>'parent_id', 'value'=>$dataStruktur['id']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'title', 'value'=>$getStruktur[0]['nama_satker']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>2);
+			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>9);
+			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
+
+			$generataField = $this->generateField($dataForm);
+			$this->view->assign('req', 2);
+			$this->view->assign('form', $generataField);
+			$this->view->assign('struktur', $getStruktur);
+
 			
 		}else{
+
+			// input indikator
+			$getOutcome = $this->contentHelper->getVisi($dataStruktur['id'], 9, 2);
+
+			if ($dataStruktur['id']){
+				$getProgram = $this->contentHelper->getVisi($getOutcome[0]['parent_id'], 9, 1);
+				$brief = $getProgram[0]['desc'];
+				$title = $getProgram[0]['brief'];
+				$outcome = $getOutcome[0]['desc'];
+				if ($id){
+					$getOutcome = $this->contentHelper->getVisi($id, 9, 3);
+					
+					if ($getOutcome){
+						foreach ($getOutcome as $key => $value) {
+							if ($value['data']) $getOutcome[$key]['target'] = unserialize($value['data']);
+						}
+					}
+					$desc = $getOutcome[0]['desc'];
+
+					// pr($getOutcome);
+					$this->view->assign('outcome', $getOutcome);
+				}else{
+					$desc = "";
+				}
+				
+			}else{
+				$brief = "";
+				$desc = "";
+			}
 			
-			$this->view->assign('text4value', "");
+			$getSetting = $this->contentHelper->getSetting();
+			$arrayTahun = $this->tahunRenstra($getSetting);
+			// pr($arrayTahun);
+			$dataForm[] = array('text'=>true, 'title'=>'Kode Program', 'name'=>'title', 'value'=>$title, 'readonly'=>'readonly');
+			$dataForm[] = array('text'=>true, 'title'=>'Program', 'name'=>'brief', 'value'=>$brief, 'readonly'=>'readonly');
+			$dataForm[] = array('textarea'=>true, 'title'=>'Outcome', 'name'=>'outcome', 'value'=>$outcome, 'disabled'=>'disabled' );
+			$dataForm[] = array('textarea'=>true, 'title'=>'Indikator', 'name'=>'desc', 'value'=>$desc);
+			$dataForm[] = array('hidden'=>1, 'name'=>'parent_id', 'value'=>$dataStruktur['id']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'title', 'value'=>$getStruktur[0]['nama_satker']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>3);
+			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>9);
+			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
+
+			$generataField = $this->generateField($dataForm);
+			$this->view->assign('req', 3);
+			$this->view->assign('form', $generataField);
+			$this->view->assign('struktur', $getStruktur);
+			$this->view->assign('tahuntarget', $arrayTahun);
 			
 		}
 
-		
-		$this->view->assign('submit', "submit");
-		$this->view->assign('parent_id', $child_id);
-		$this->view->assign('type', 9);
-		$this->view->assign('category', 1);
-		
 		if ($_POST['submit']){
 			
-			$serial = serialize($_POST['input']);
+			if ($_POST['category']==3){
+				$serial = serialize($_POST['input']);
+				$_POST['data'] = $serial;
+			}
+			
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
-			$_POST['data'] = $serial;
+			
 			$save = $this->contentHelper->saveData($_POST);
-			if ($save) redirect($basedomain . 'renstra/kinerja');
+			if ($save) redirect($basedomain . 'renstra/program');
+		}
+
+		return $this->loadView('renstra/matrik/input-program');
+		
+	}
+
+	function editKegiatan()
+	{
+		global $basedomain;
+
+		$id = _g('id');
+		$dataStruktur['id'] = _g('parent_id');
+		$child_id = _g('child');
+		$req = _g('req');
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		// pr($getStruktur);
+		$getSetting = $this->contentHelper->getSetting();
+		$arrayTahun = $this->tahunRenstra($getSetting);
+
+		$getSasaran = $this->contentHelper->getVisi($dataStruktur['id'], 9, 1);
+		// pr($getSasaran);
+		$this->view->assign('submit', "submit");
+		
+		if ($req == 1){
+			// input prograM
+			if ($id){
+				$getKegiatan = $this->contentHelper->getVisi($id, 10, 1);
+				// pr($getKegiatan);
+				$brief1 = $getSasaran[0]['brief'];
+				$desc1 = $getSasaran[0]['desc'];
+
+				$title = $getKegiatan[0]['title'];
+				$desc = $getKegiatan[0]['desc'];
+				$this->view->assign('kegiatan', $getKegiatan);
+
+			}else{
+				$brief1 = $getSasaran[0]['brief'];
+				$desc1 = $getSasaran[0]['desc'];
+			}
+			$dataForm[] = array('text'=>true, 'title'=>'Kode Program', 'name'=>'brief1', 'value'=>$brief1, 'disabled'=>'disabled');
+			$dataForm[] = array('textarea'=>true, 'title'=>'Program', 'name'=>'desc1', 'value'=>$desc1, 'disabled'=>'disabled');
+			$dataForm[] = array('text'=>true, 'title'=>'Kode Kegiatan', 'name'=>'title', 'value'=>$title);
+			$dataForm[] = array('textarea'=>true, 'title'=>'Nama Kegiatan', 'name'=>'desc', 'value'=>$desc);
+			$dataForm[] = array('hidden'=>1, 'name'=>'parent_id', 'value'=>$dataStruktur['id']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>1);
+			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>10);
+			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
+
+
+			$generataField = $this->generateField($dataForm);
+			$this->view->assign('form', $generataField);
+			$this->view->assign('req', 1);
+			$this->view->assign('struktur', $getStruktur);
+
+
+		}
+
+		if ($_POST['submit']){
+			
+			if ($_POST['category']==3){
+				$serial = serialize($_POST['input']);
+				$_POST['data'] = $serial;
+			}
+			
+			$_POST['create_date'] = date('Y-m-d H:i:s');
+			$_POST['publish_date'] = date('Y-m-d H:i:s');
+			$_POST['n_status'] = 1;
+			
+			$save = $this->contentHelper->saveData($_POST);
+			if ($save) redirect($basedomain . 'renstra/kegiatan');
+		}
+
+		return $this->loadView('renstra/matrik/input-kegiatan');
+		
+	}
+
+	function editOutput()
+	{
+		global $basedomain;
+
+		$id = _g('id');
+		$dataStruktur['id'] = _g('parent_id');
+		$child_id = _g('child');
+		$req = _g('req');
+
+		$getStruktur = $this->contentHelper->getStruktur();
+		// pr($getStruktur);
+		$getSetting = $this->contentHelper->getSetting();
+		$arrayTahun = $this->tahunRenstra($getSetting);
+
+		$getSasaran = $this->contentHelper->getVisi($dataStruktur['id'], 10, 1);
+		// pr($getSasaran);
+		$this->view->assign('submit', "submit");
+		
+		if ($req == 1){
+			// input prograM
+			if ($id){
+				$getOutput = $this->contentHelper->getVisi($id, 11, 1);
+				
+				foreach ($getOutput as $k => $val) {
+					if ($val['data']) $getOutput[$k]['target'] = unserialize($val['data']);
+				}
+				$brief1 = $getSasaran[0]['title'];
+				$desc1 = $getSasaran[0]['desc'];
+
+				$title = $getOutput[0]['title'];
+				$desc = $getOutput[0]['desc'];
+				$this->view->assign('output', $getOutput);
+
+			}else{
+				$brief1 = $getSasaran[0]['title'];
+				$desc1 = $getSasaran[0]['desc'];
+			}
+			$dataForm[] = array('text'=>true, 'title'=>'Kode Kegiatan', 'name'=>'brief1', 'value'=>$brief1, 'disabled'=>'disabled');
+			$dataForm[] = array('textarea'=>true, 'title'=>'Nama Kegiatan', 'name'=>'desc1', 'value'=>$desc1, 'disabled'=>'disabled');
+			$dataForm[] = array('text'=>true, 'title'=>'Kode Output', 'name'=>'title', 'value'=>$title);
+			$dataForm[] = array('textarea'=>true, 'title'=>'Nama Output', 'name'=>'desc', 'value'=>$desc);
+			$dataForm[] = array('hidden'=>1, 'name'=>'parent_id', 'value'=>$dataStruktur['id']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>1);
+			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>11);
+			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
+
+
+			$generataField = $this->generateField($dataForm);
+			$this->view->assign('form', $generataField);
+			$this->view->assign('req', 1);
+			$this->view->assign('struktur', $getStruktur);
+			$this->view->assign('tahuntarget', $arrayTahun);
+
 		}
 
 		if ($req == 2){
-			$this->view->assign('text1', "Kode");
-			$this->view->assign('text2', "Program");
-			$this->view->assign('text1value', "");
-			$this->view->assign('text2value', "");
+			// input prograM
 
-			return $this->loadView('renstra/matrik/input-preprogram');
-		}else{
-
-			$this->view->assign('text1value', $getSetting[0]['kode']);
-			$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
-			$this->view->assign('text3value', $getSasaran[0]['desc']);
-
-			$this->view->assign('tahuntarget', $arrayTahun);
-			$this->view->assign('text1', "Renstra");
-			$this->view->assign('text2', "Lembaga");
-			$this->view->assign('text3', "Sasaran Strategis");
-			$this->view->assign('text4', "Indikator Kinerja Sasaran Strategis");
-			$this->view->assign('text5', "Target");
+			$getSasaran = $this->contentHelper->getVisi($dataStruktur['id'], 11, 1);
 			
-			return $this->loadView('renstra/matrik/input-program');
+			$out['type'] = 10;
+			$out['category'] = 1;
+			$out['id'] = $getSasaran[0]['parent_id'];
+			$getKegiatan = $this->contentHelper->getContent($out);
+			// pr($getKegiatan);
+			if ($id){
+				$getOutput = $this->contentHelper->getVisi($id, 11, 2);
+
+				$out1['id'] = $getOutput[0]['parent_id'];
+				$getKegiatan = $this->contentHelper->getContent($out1);
+
+				$out2['id'] = $getKegiatan[0]['parent_id'];
+				$getKegiatan1 = $this->contentHelper->getContent($out2);
+
+				foreach ($getOutput as $k => $val) {
+					if ($val['data']) $getOutput[$k]['target'] = unserialize($val['data']);
+				}
+				$brief1 = $getSasaran[0]['title'];
+				$desc1 = $getKegiatan1[0]['desc'];
+				$desc2 = $getSasaran[0]['desc'];
+
+				$title = $getOutput[0]['title'];
+				$desc = $getOutput[0]['desc'];
+				$this->view->assign('output', $getOutput);
+
+			}else{
+				$title = $getSasaran[0]['title'];
+				$desc1 = $getKegiatan[0]['desc'];
+				$desc2 = $getSasaran[0]['desc'];
+				$desc = "";
+			}
+			$dataForm[] = array('text'=>true, 'title'=>'Renstra', 'name'=>'title', 'value'=>$title, 'readonly'=>'readonly');
+			$dataForm[] = array('textarea'=>true, 'title'=>'Nama Kegiatan', 'name'=>'desc1', 'value'=>$desc1, 'disabled'=>'disabled');
+			$dataForm[] = array('textarea'=>true, 'title'=>'Nama Output', 'name'=>'desc2', 'value'=>$desc2, 'disabled'=>'disabled');
+			$dataForm[] = array('textarea'=>true, 'title'=>'Indikator Kinerja Kegiatan', 'name'=>'desc', 'value'=>$desc);
+			$dataForm[] = array('hidden'=>1, 'name'=>'parent_id', 'value'=>$dataStruktur['id']);
+			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>2);
+			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>11);
+			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
+
+
+			$generataField = $this->generateField($dataForm);
+			$this->view->assign('form', $generataField);
+			$this->view->assign('req', 1);
+			$this->view->assign('struktur', $getStruktur);
+			$this->view->assign('tahuntarget', $arrayTahun);
+
 		}
 
-		
+		if ($_POST['submit']){
+			
+			
+			$serial = serialize($_POST['input']);
+			$_POST['data'] = $serial;
+			
+			$_POST['create_date'] = date('Y-m-d H:i:s');
+			$_POST['publish_date'] = date('Y-m-d H:i:s');
+			$_POST['n_status'] = 1;
+			
+			$save = $this->contentHelper->saveData($_POST);
+			if ($save) redirect($basedomain . 'renstra/output');
+		}
 
+		return $this->loadView('renstra/matrik/input-output');
 		
 	}
 
@@ -792,6 +1135,55 @@ class renstra extends Controller {
 		
 	}
 	
+	function tahunRenstra($getSetting)
+	{
+		
+		if ($getSetting){
+			$tahun = $getSetting[0]['kode'];
+			$start = 1;
+			for($i=1; $i<=10; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahun;
+				}
+				$tahun++;
+				$start++;
+			}
+			return $arrayTahun;
+		}
+
+		return false;
+	}
+
+	function generateField($data=array(), $is_hidden=false)
+	{
+		$html = "";
+		$arrayHtml = array();
+		foreach ($data as $key => $value) {
+			
+
+			if ($value['hidden']){ 
+				$html .= "<input type='hidden' name='{$value['name']}' value='{$value['value']}'>";
+			}else{
+				$html .= "<div class='form-group'>";
+				$html .=		"<label class='col-sm-3 control-label'>{$value['title']}</label>";
+				$html .=		"<div class='col-sm-4'>";
+				if ($value['text']){
+					$html .=		"<input type='text' name='{$value['name']}' class='form-control' value='{$value['value']}' required {$value['readonly']} {$value['disabled']}>";
+				}
+				if ($value['textarea']){
+					$html .= "<textarea rows='5' id='{$value['name']}' name='{$value['name']}' class='form-control' required {$value['readonly']} {$value['disabled']}>{$value['value']}</textarea>"; 
+				}
+				$html .=		"</div>";
+				$html .=	"</div>";
+			}
+			
+			$arrayHtml[] = $html; 
+			$html ="";
+		}
+
+		if ($arrayHtml) return $arrayHtml;
+		else return false;
+	}
 }
 
 ?>
