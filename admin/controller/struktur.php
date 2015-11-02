@@ -400,7 +400,7 @@ class struktur extends Controller {
 
 		$data['id'] = $id;
 		$data['n_status'] = 0;
-		$save = $this->contentHelper->saveData($data);
+		$save = $this->contentHelper->saveData($data,"_struktur");
 		if ($save){
 			redirect($basedomain . $link);
 		}
