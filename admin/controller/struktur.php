@@ -132,6 +132,7 @@ class struktur extends Controller {
 			$kode = $getStruktur[0]['kode'];
 			$nama_satker =$getStruktur[0]['nama_satker'];
 			$singkatan = $getStruktur[0]['singkatan'];
+			$this->view->assign('satker', $getStruktur);
 		}else{
 			$kode = "";
 			$nama_satker ="";
@@ -231,7 +232,8 @@ class struktur extends Controller {
 		$id = _g('id');
 		$req = _g('req');
 		
-		$getStrukturOrg = $this->contentHelper->getStruktur();
+		$dataStruktur['type'] = 2;
+		$getStrukturOrg = $this->contentHelper->getStruktur($dataStruktur);
 
 		if ($id){
 			$data['id'] = $id;
@@ -312,7 +314,8 @@ class struktur extends Controller {
 		$id = _g('id');
 		$req = _g('req');
 		
-		$getStrukturOrg = $this->contentHelper->getStruktur();
+		$dataStruktur['type'] = 3;
+		$getStrukturOrg = $this->contentHelper->getStruktur($dataStruktur);
 
 		if ($id){
 			$data['id'] = $id;
