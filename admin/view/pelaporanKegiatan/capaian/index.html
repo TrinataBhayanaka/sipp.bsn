@@ -1,0 +1,190 @@
+<script>
+$(window).on('load', function() {
+
+	// Datatables
+	// Row selection and deletion (multiple rows)
+	// -----------------------------------------------------------------
+	var rowDeletion = $('#newslist').DataTable({
+		"responsive": true,
+		"language": {
+			"paginate": {
+			  "previous": '<i class="fa fa-angle-left"></i>',
+			  "next": '<i class="fa fa-angle-right"></i>'
+			}
+		},
+		"dom": '<"toolbar">frtip'
+	});
+
+	$('#create-toolbar').appendTo($("div.toolbar"));
+	$('#separator-toolbar').appendTo($("div.toolbar"));
+	$('#delete-toolbar').appendTo($("div.toolbar"));
+
+})
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Pencapain Target</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Pencapain Target</h3>
+		</div>
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th class="text-center" rowspan="3">Sasaran</th>
+						<th class="text-center" rowspan="3">Indikator Kinerja</th>
+						<th class="text-center" rowspan="3">Formula Indikator Kinerja</th>
+						<th class="text-center" rowspan="3">Target</th>
+						<th class="text-center" colspan="16">Rencana Aksi Pencapaian Target</th>
+						<th class="text-center" rowspan="3">Permasalahan / Kinerja</th>
+						<th class="text-center" rowspan="3">Perbaikan / Tindak Lanjut</th>
+					</tr>
+					<tr>
+						<th class="text-center" colspan="4">TWN I</th>
+						<th class="text-center" colspan="4">TWN II</th>
+						<th class="text-center" colspan="4">TWN III</th>
+						<th class="text-center" colspan="4">TWN IV</th>
+					</tr>
+					<tr>
+						<th class="text-center">Target</th>
+						<th class="text-center">(%)</th>
+						<th class="text-center">Realisasi</th>
+						<th class="text-center">(%)</th>
+						<th class="text-center">Target</th>
+						<th class="text-center">(%)</th>
+						<th class="text-center">Realisasi</th>
+						<th class="text-center">(%)</th>
+						<th class="text-center">Target</th>
+						<th class="text-center">(%)</th>
+						<th class="text-center">Realisasi</th>
+						<th class="text-center">(%)</th>
+						<th class="text-center">Target</th>
+						<th class="text-center">(%)</th>
+						<th class="text-center">Realisasi</th>
+						<th class="text-center">(%)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td rowspan="4">Tersedia</td>
+						<td rowspan="2">Tersedia</td>
+						<td rowspan="2">Tersedia</td>
+						<td rowspan="2">Tersedia</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td rowspan="2">Tersedia</td>
+						<td rowspan="2">Tersedia</td>
+					</tr>
+					<tr>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+					</tr>
+
+					<tr>
+						<td rowspan="2">Tersedia</td>
+						<td rowspan="2">Tersedia</td>
+						<td rowspan="2">Tersedia</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td rowspan="2">Tersedia</td>
+						<td rowspan="2">Tersedia</td>
+					</tr>
+					<tr>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+						<td>target</td>
+						<td>0</td>
+						<td>realisasi</td>
+						<td>0</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

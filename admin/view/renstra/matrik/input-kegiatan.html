@@ -40,7 +40,7 @@
 				</div>
 				
 				<!--===================================================-->
-				<form class="form-horizontal" method="POST" action="{$basedomain}renstra/editProgram" enctype="multipart/form-data">
+				<form class="form-horizontal" method="POST" action="{$basedomain}renstra/editKegiatan" enctype="multipart/form-data">
 					<div class="panel-body">
 						
 						{if $form}
@@ -49,22 +49,33 @@
 						{/foreach}
 						{/if}
 						
-						{if $req ==2}
+						{if $req ==1}
 						
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Eselon 1</label>
 				    		<div class="col-sm-4">
 				    			
-				              		<select class="form-control eselonid" name="tags">
+				              		<select class="form-control eselonid" name="data">
 				                    {if $struktur}
 				                    {foreach $struktur as $val}
-				                    <option value="{$val.id}" {if $val.id == $outcome.0.tags}selected{/if}>{$val.singkatan}</option>
+				                    <option value="{$val.id}" {if $val.id == $kegiatan.0.data}selected{/if}>{$val.singkatan}</option>
 				                    {/foreach}
 				                    {/if}
 				                  	</select>
 				          	</div>
 						</div>
-						
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Jenis Kegiatan</label>
+				    		<div class="col-sm-4">
+				    			
+			              		<select class="form-control eselonid" name="tags">
+			                    	<option value="K/L" {if $val.id == $kegiatan.0.tags}selected{/if}>K/L</option>
+			                    	<option value="N" {if $val.id == $kegiatan.0.tags}selected{/if}>N</option>
+			                    	<option value="B" {if $val.id == $kegiatan.0.tags}selected{/if}>B</option>
+			                    	<option value="NS" {if $val.id == $kegiatan.0.tags}selected{/if}>NS</option>
+			                    </select>
+				          	</div>
+						</div>
 						{/if}
 						{if $req == 3}
 						<div class="form-group">

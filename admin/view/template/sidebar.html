@@ -31,7 +31,7 @@
 								</span>
 							</a>
 						</li>
-
+						{*}
 						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
 							<a href="{$basedomain}course/viewvisitor">
 								
@@ -39,7 +39,7 @@
 							</a>
 			
 						</li>
-
+						{/*}
 						<li class="list-divider"></li>
 
 						<!--Category name-->
@@ -63,8 +63,8 @@
 							<!--Submenu-->
 							<ul class="collapse {if $page.page eq 'news'}in{/if}">
 								<li><a href="{$basedomain}struktur/bsn">BSN</a></li>
-								<li><a href="{$basedomain}struktur/eseloni">Eselon I</a></li>
-								<li><a href="{$basedomain}struktur/eselonii">Eselon II</a></li>
+								<li><a href="{$basedomain}struktur/eselon1">Eselon I</a></li>
+								<li><a href="{$basedomain}struktur/eselon2">Eselon II</a></li>
 							</ul>
 						</li>
 						
@@ -262,7 +262,7 @@
 
 						<li class="list-divider"></li>
 
-						<li class="list-header">Pelaporan Keuangan</li>
+						<li class="list-header">Pelaporan Kegiatan</li>
 
 						<!--Menu list item-->
 						<li>
@@ -274,7 +274,7 @@
 			
 							<!--Submenu-->
 							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="#">Tingkat BSN</a></li>
+								<li><a href="{$basedomain}pelaporanKegiatan">Tingkat BSN</a></li>
 								<li><a href="#">Tingkat Eselon I</a></li>
 								<li><a href="#">Tingkat Eselon II</a></li>
 							</ul>

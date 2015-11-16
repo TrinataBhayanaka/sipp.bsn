@@ -1,0 +1,281 @@
+<script>
+$(document).ready(function() {
+	$('#deskripsi').summernote({
+		height: 200
+	});
+})	
+//for ceck number
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+	}	
+</script>
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Create Course</h1>
+
+	<!--Searchbox-->
+	<!-- <div class="searchbox">
+		<div class="input-group custom-search-form">
+			<input type="text" class="form-control" placeholder="Search..">
+			<span class="input-group-btn">
+				<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</div> -->
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}course/courselist">Course</a></li>
+	<li class="active">Add Course</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Input Form</h3>
+				</div>
+				<!--{pr($data_list)}-->
+				<!--{pr($data)}-->
+				<!--{$data_list[0].idKursus}
+				{$data_list[0].namakursus}-->
+				<!--Horizontal Form-->
+				<!--===================================================-->
+				<form class="form-horizontal" method="POST" action="{$basedomain}pelaporanKegiatan/insertForm" enctype="multipart/form-data">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Sasaran</label>
+							<div class="col-sm-4">						
+								<select name ="sasaran" id="idGrup_kursus"  class="selectpicker typeKursus">
+									
+											<option value="{$value.idGrup_kursus}" selected>{$value.namagrup}</option>
+											<option value="sar" selected>indisar</option>
+										
+								</select> 
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Indikator Kinerja</label>
+							<div class="col-sm-4">						
+								<select name ="indikator" id="idGrup_kursus"  class="selectpicker typeKursus">
+									
+											<option value="{$value.idGrup_kursus}" selected>{$value.namagrup}</option>
+											<option value="inidikia" selected>inidikia</option>
+										
+								</select> 
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Target</label>
+							<div class="col-sm-4">
+								<input type="text" name="target" class="form-control" readonly value='a'required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Formula Indikator Kinerja</label>
+							<div class="col-sm-4">
+								<input type="text" name="formula" class="form-control" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label"><strong>TRIWULAN I</strong></label>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Target</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" name="twn1[trgt]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn1[ntrgt]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Realisasi</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" name="twn1[real]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn1[nreal]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label"><strong>TRIWULAN II</strong></label>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Target</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" name="twn2[trgt]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn2[ntrgt]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Realisasi</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" name="twn2[real]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn2[nreal]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label"><strong>TRIWULAN III</strong></label>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Target</label>
+							<div class="col-sm-4">
+								<div class=" input-group">
+									<input type="text" name="twn3[trgt]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn3[ntrgt]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Realisasi</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" name="twn3[real]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn3[nreal]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label"><strong>TRIWULAN IV</strong></label>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Target</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" name="twn4[trgt]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn4[ntrgt]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Realisasi</label>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<input type="text" name="twn4[real]" class="form-control">
+									<span class="input-group-addon">(%)</span>
+									<input type="text" name="twn4[nreal]" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Permasalahan / Kinerja</label>
+							<div class="col-sm-4">
+								<input type="text" name="permasalahan" class="form-control" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Perbaikan / Tindak Lanjut</label>
+							<div class="col-sm-4">
+								<input type="text" name="perbaikan" class="form-control" required>
+							</div>
+						</div>
+
+						
+						
+					</div>
+					<div class="panel-footer text-right">
+						<input type="submit" name="submit" value="save" class="btn btn-info" required>
+					</div>
+				</form>
+				<!--===================================================-->
+				<!--End Horizontal Form-->
+	
+			</div>
+		</div>
+	</div>
+
+
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+
+{literal}
+	<script type="text/javascript">
+
+	function hierachy(){
+		var tipe = $("#jeniskursus").val();
+			// console.log(grupid);
+			
+			if(tipe == 2){
+				var i=0;
+				var template = "";
+				var grupid = $("#idGrup_kursus").val();
+				var kursusid = $("#id").val();
+				$.post(basedomain+'course/ajaxchange', {grupid:grupid,kursusid:kursusid}, function(data){
+
+					$('#parentCourse')
+					    .find('option')
+					    .remove()
+					    .end()
+					;
+
+					if (data){
+						for(i=0;i<data.length;i++){
+							template+='<option value="'+data[i].idKursus+'">'+data[i].namakursus+'</option>';
+						}
+						$("#parentCourse").html(template);
+						$("#parentCourse").selectpicker('refresh');	
+					}
+					
+					// reloadSelect();
+					// $('.pilihKursus').selectpicker('refresh');
+				},"JSON")
+
+				// $("#hiddendiv").show(300);
+			} else {	
+				$('#parentCourse')
+					    .find('option')
+					    .remove()
+					    .end()
+					;
+				$("#parentCourse").selectpicker('refresh');
+				// $("#hiddendiv").hide(300);
+			}
+	}
+
+		$(document).on('change','.typeKursus', function(){
+
+			hierachy();
+			
+		})
+		
+	</script>
+
+{/literal}
