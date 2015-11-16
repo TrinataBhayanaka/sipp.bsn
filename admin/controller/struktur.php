@@ -193,8 +193,8 @@ class struktur extends Controller {
 			}else{
 				$desc = "";
 			}
-			$dataForm[] = array('text'=>true, 'title'=>'Kode', 'name'=>'title', 'value'=>$kode, 'readonly'=>'readonly');
-			$dataForm[] = array('text'=>true, 'title'=>'Kementerian', 'name'=>'desc', 'value'=>$nama_satker, 'disabled'=>'disabled');
+			$dataForm[] = array('text'=>true, 'title'=>'Kementerian', 'name'=>'title', 'value'=>$kode, 'readonly'=>'readonly');
+			$dataForm[] = array('text'=>true, 'title'=>'Tugas Pokok', 'name'=>'desc', 'value'=>$nama_satker, 'disabled'=>'disabled');
 			$dataForm[] = array('textarea'=>true, 'title'=>'Fungsi', 'name'=>'desc', 'value'=>$desc);
 			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
 			$dataForm[] = array('hidden'=>1, 'name'=>'parent_id', 'value'=>$data['id']);

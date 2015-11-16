@@ -28,7 +28,7 @@
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">BSN</h1>
+	<h1 class="page-header text-overflow">Tugas & Fungsi BSN</h1>
 </div>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End page title-->
@@ -36,7 +36,9 @@
 <!--Breadcrumb-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
-	<li class="active"><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}">Home</a></li>
+	<li>Tugas & Fungsi</li>
+	<li class="active">BSN</li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -49,12 +51,12 @@
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">BSN</h3>
+			<h3 class="panel-title">Tugas & Fungsi</h3>
 		</div>
-		
+		{*}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="{$basedomain}struktur/editBsn"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Tugas Pokok</button></a>
-		</div><br>{*}
+		</div><br>
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		
 		<div id="delete-toolbar" class="table-toolbar-left">
@@ -69,9 +71,9 @@
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th class="text-center">Kementerian</th>
+							<th class="text-center" width="20%">Kementerian</th>
 							<th class="text-center" colspan="2">Tugas Pokok</th>
-							<th class="text-center" colspan="2">Aksi</th>
+							<th class="text-center" colspan="2" width="10%">Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -81,14 +83,14 @@
 							<td>{$val.title}</td>
 							<td colspan="2">{$val.desc}</td>
 							<td colspan="2" class="text-center">
-								<a href="{$basedomain}struktur/editBsn/?id={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								<a href="{$basedomain}struktur/editBsn/?id={$val.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 							</td>
 						</tr>
 						<tr>
 							<td>&nbsp;</td>
 							<td class="text-center" colspan="2"><b>Fungsi</b></td>
 							<td colspan="2" class="text-center">
-								<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">tambah</button></a>
+								<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-icon icon-lg fa fa-plus"></button></a>
 							</td>
 						</tr>
 						{if $val.fungsi}
@@ -98,10 +100,10 @@
 							<td class="text-center">{$ka+1}</td>
 							<td>{$v.desc}</td>
 							<td class="text-center">	
-								<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 							</td>
 							<td class="text-center">	
-								<a href="{$basedomain}struktur/delete/?id={$v.id}"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+								<a href="{$basedomain}struktur/delete/?id={$v.id}"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							</td>
 						</tr>
 						{/foreach}
