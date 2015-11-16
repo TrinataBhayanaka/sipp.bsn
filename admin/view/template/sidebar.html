@@ -213,7 +213,7 @@
 						<li class="list-header">Pelaporan Keuangan</li>
 
 						<!--Menu list item-->
-						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+						<li class="{if $page.page eq 'pelaporanKeuangan' && $page.function eq 'index'}active-link{/if}">
 							<a href="{$basedomain}pelaporanKeuangan">
 								
 								<span class="menu-title">Realisasi Keuangan </span>
@@ -229,8 +229,8 @@
 							</a>
 			
 							<!--Submenu-->
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="#">Realisasi Bulanan</a></li>
+							<ul class="collapse {if $page.page eq 'pelaporanKeuangan'}in{/if}">
+								<li><a href="{$basedomain}pelaporanKeuangan/realisasiBulanan">Realisasi Bulanan</a></li>
 								<li><a href="#">Realisasi s.d Bln (%)</a></li>
 								<li><a href="#">Realisasi s.d Bln (Rp.)</a></li>
 								<li><a href="#">Anggaran Total</a></li>
@@ -251,7 +251,7 @@
 			
 							<!--Submenu-->
 							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="#">Anggaran Total</a></li>
+								<li><a href="{$basedomain}pelaporanKeuangan/anggaranTotal">Anggaran Total</a></li>
 								<li><a href="#">Anggaran Jenis Belanja</a></li>
 								<li><a href="#">Anggaran Akun BSN</a></li>
 								<li><a href="#">Anggaran Akun Satker</a></li>

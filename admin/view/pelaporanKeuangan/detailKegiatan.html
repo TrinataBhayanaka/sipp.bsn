@@ -50,7 +50,7 @@ $(window).on('load', function() {
 			<h3 class="panel-title">Detail Kegiatan</h3>
 		</div>
 		<div id="create-toolbar" class="table-toolbar-left">
-			<a href="{$basedomain}pelaporanKeuangan/import"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Import SAKPA </button></a>
+			<a href="{$basedomain}pelaporanKeuangan/"><button class="btn btn-info btn-labeled">Kembali Ke Halaman Sebelumnya</button></a>
 		</div>
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		<!-- <div id="delete-toolbar" class="table-toolbar-left">
@@ -62,48 +62,43 @@ $(window).on('load', function() {
 			<table id="" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th rowspan="2">Kode APBN</th>
-						<th rowspan="2">Nama Satuan Kerja /<br/>
-							Nama Kegiatan /<br/>
-							Output
-						</th>
-						<th class="min-desktop"  rowspan="2">Pagu<br/>Anggaran</th>
-						<th class="min-desktop" colspan="2">Realisasi Anggaran</th>
-						<th class="min-desktop" rowspan="2">Data Detil</th>
-					</tr>
-					<tr >
-						<th class="min-desktop">Rupiah</th>
-						<th class="min-desktop">%</th>
+						<th class="min-desktop">Kode APBN</th>
+						<th colspan = "5" class="min-desktop">Kegiatan / Output / Akun / SPM & SP2D</th>
+						<th class="min-desktop">Anggaran</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>{$data_master.0.KDSATKER}</td>
-						<td>{$data_master.0.nama_satker}</td>
-						<td>{number_format($data_master.0.pagu_total,"0",",",".")}</td>
-						<td>{number_format($data_master.0.real_satker,"0",",",".")}</td>
-						<td>{number_format($data_master.0.persentase,"2",",",".")}</td>
-						<td>&nbsp;</td>
+						<td class="min-desktop">{$data_master.kode}</td>
+						<td colspan = "5" >{$data_master.nmgiat}</td>
+						<td class="min-desktop text-right">{number_format($data_master.pagu,"0",",",".")}</td>
 					</tr>
-					{foreach $data_master_sub as $value}
+					{foreach $data_master_sub as $val}
 					<tr>
-						<td><img src="{$basedomain}images/logo.png"  style="width:30px;height:30px;">{$value.KDGIAT}</td>
-						<td>{$value.nama_giat}</td>
-						<td>{number_format($value.pagu_giat,"0",",",".")}</td>
-						<td>{number_format($value.real_giat,"0",",",".")}</td>
-						<td>{number_format($value.persentase,"2",",",".")}</td>
-						<td><a href="{$basedomain}pelaporanKeuangan/detailKegiatan/?kd_satker={$data_master.0.KDSATKER}&thn={$data_master.0.THANG}&pagu={$value.real_giat}&kd_giat={$value.KDGIAT}"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
-						{foreach $value.output as $val}
-						<tr>
-							<td><img src="{$basedomain}images/logo.png"  style="width:15px;height:15px;">{$val.KDOUTPUT}</td>
-							<td>{$val.namaoutput}</td>
-							<td>{number_format($val.pagutotal,"0",",",".")}</td>
-							<td>{number_format($val.real_output,"0",",",".")}</td>
-							<td>{number_format($val.realisasioutput,"0",",",".")}</td>
-							<td><a href="{$basedomain}pelaporanKeuangan/detailKegiatanSub/?kd_satker={$data_master.0.KDSATKER}&thn={$data_master.0.THANG}&kd_giat={$value.KDGIAT}&kd_ouput={$val.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
-						</tr>
-						{/foreach}
+						<td class="min-desktop">{$val.kodebaru}</td>
+						<td colspan = "5" >{$val.namaoutput}</td>
+						<td class="min-desktop text-right">{number_format($val.real_output,"0",",",".")}</td>
 					</tr>
+						{foreach $val.output as $out} 
+						<tr>
+							<td class="min-desktop">&nbsp;</td>
+							<td class="min-desktop">SPM : {$out.NOSPM}</td>
+							<td class="min-desktop">{$out.newTGSPM}</td>
+							<td class="min-desktop">SP2D : {$out.NOSP2D}</td>
+							<td class="min-desktop">{$out.newTGSP2D}</td>
+							<td class="min-desktop text-right">{number_format($out.real_spm,"0",",",".")}</td>
+							<td class="min-desktop">&nbsp;</td>
+						</tr>
+							{foreach $out.subdetail as $subdetail} 
+							<tr>
+								<td class="min-desktop">&nbsp;</td>
+								<td class="min-desktop">{$subdetail.KDAKUN}</td>
+								<td colspan = "3" class="min-desktop">{$subdetail.NMAKUN}</td>
+								<td class="min-desktop text-right">{number_format($subdetail.NILMAK,"0",",",".")}</td>
+								<td class="min-desktop">&nbsp;</td>
+							</tr>
+							{/foreach}
+						{/foreach}
 					{/foreach}
 					
 				</tbody>
