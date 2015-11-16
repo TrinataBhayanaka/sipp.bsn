@@ -2,7 +2,7 @@
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Create Visi Misi</h1>
+	<h1 class="page-header text-overflow">Tugas dan Fungsi</h1>
 
 	<!--Searchbox-->
 	<!-- <div class="searchbox">
@@ -21,8 +21,8 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
-	<li><a href="{$basedomain}course/courselist">Course</a></li>
-	<li class="active">Add Course</li>
+	<li><a href="{$basedomain}course/courselist">Tugas dan Fungsi</a></li>
+	<li class="active">Eselon I</li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -50,7 +50,7 @@
 				              		<select class="form-control eselonid" name="title">
 				                    {if $struktur}
 				                    {foreach $struktur as $val}
-				                    <option value="{$val.id}" {if $val.id == $kegiatan.0.data}selected{/if}>{$val.singkatan}</option>
+				                    <option value="{$val.id}" {if $val.id == $kegiatan.0.data}selected{/if}>{$val.nama_satker}</option>
 				                    {/foreach}
 				                    {/if}
 				                  	</select>

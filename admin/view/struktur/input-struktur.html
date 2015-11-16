@@ -42,7 +42,17 @@
 				<!--===================================================-->
 				<form class="form-horizontal" method="POST" action="{$basedomain}struktur/editStruktur" enctype="multipart/form-data">
 					<div class="panel-body">
-						
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Type</label>
+				    		<div class="col-sm-4">
+				    			
+				              		<select class="form-control eselonid" name="type">
+				                    <option value="1" {if $satker.0.type==1}selected{/if}>Lembaga</option>
+				                    <option value="2" {if $satker.0.type==2}selected{/if}>Eselon 1</option>
+				                    <option value="3" {if $satker.0.type==3}selected{/if}>Eselon II</option>
+				                    </select>
+				          	</div>
+						</div>
 						{if $form}
 						{foreach $form as $val}
 							{$val}

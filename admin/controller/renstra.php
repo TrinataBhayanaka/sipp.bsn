@@ -49,7 +49,8 @@ class renstra extends Controller {
 		global $basedomain;
 		$parent_id = _g('parent_id');
 
-		$getStruktur = $this->contentHelper->getStruktur();
+		$dataStruktur['type'] = 2;
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
 
 		if (!$parent_id){
 			redirect($basedomain."renstra/visi_eselon/?parent_id=".$getStruktur[0]['id']);
@@ -76,7 +77,8 @@ class renstra extends Controller {
 		global $basedomain;
 		$parent_id = _g('parent_id');
 
-		$getStruktur = $this->contentHelper->getStruktur();
+		$dataStruktur['type'] = 2;
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
 		if (!$parent_id){
 			redirect($basedomain."renstra/sasaran/?parent_id=".$getStruktur[0]['id']);
 			exit;
@@ -319,20 +321,28 @@ class renstra extends Controller {
 		$pid = _g('pid');
 		$newData = array();
 
-		$getStruktur = $this->contentHelper->getStruktur();
+		
+		if ($pid ==1){
+			$dataStruktur['type'] = 1;
+			$type = 5;
+			$this->view->assign('isbsn', 1);
+		} 
+		if ($pid ==2){
+			$dataStruktur['type'] = 2;
+			$type = 6;
+		} 
+		if ($pid ==3){
+			$dataStruktur['type'] = 3;
+			$type = 7;
+		} 
+
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
 		if (!$parent_id){
 			if (!$pid) $pid = 1;
 			redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id=".$getStruktur[0]['id']);
 			exit;
 		}
-
-		if ($pid ==1){
-			$type = 5;
-			$this->view->assign('isbsn', 1);
-		} 
-		if ($pid ==2) $type = 6;
-		if ($pid ==3) $type = 7;
-
+		
 		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
 		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);
