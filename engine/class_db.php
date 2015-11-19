@@ -1,21 +1,26 @@
 <?php 
 
-/* Class Name = engine_mysql
+/* Class Name = Database
  * Variabel Input : query, result, connect, numRec
  * Variabel Input Type : Protected
  * Created By : Ovan Cop
  * Class Desc : Kumpulan fungsi database (db helper)
  */
 
-class Database  
+class Database
 {
+	protected $var_query = null;
+	protected $var_result = null;
+	protected $var_connect = null;
+	protected $var_numRec = null;
+	protected $config = array();
+	protected $dbConfig = array();
+	protected $keyconfig = null;
+	var $link = false;
 	
-	var $dbserver;
-
 	public function __construct() {
 		
 		/* nothing here */
-
 		global $dbConfig;
 		$this->prefix = $dbConfig[0]['prefix'];
 		$this->preftable = $dbConfig[0]['preftable'];
@@ -34,22 +39,20 @@ class Database
 	
 	function initialitation()
 	{
+
 		$this->cacheTable();
 	}
 
-	function setDbConfig($dbuse)
+	function setDbConfig()
 	{
 		global $dbConfig;
-		$this->dbserver = $dbConfig[$dbuse]['server'];
-
+		
 	}
 	
 	public function open_connection($dbuse) {
 		
 		global $dbConfig, $CONFIG;
 		
-		$this->setDbConfig($dbuse);
-
 		$this->keyconfig = $this->setAppKey();
 		
 		if ((is_array($dbConfig)) and ($dbConfig !=''))
@@ -84,6 +87,8 @@ class Database
 						}else{
 							mysql_select_db(trim($dbConfig[$dbuse]['name']),$connect) or die ($this->db_error('No Database Selected'));
 							
+							// mysql_select_db('florakalbar', $connect) or die ($this->db_error('No Database Selected'));
+							
 						}
 						
 						$this->link = $connect;
@@ -91,6 +96,63 @@ class Database
 					
 					}else{
 					
+						return false;
+					}
+				}
+				break;
+
+				case 'mssql':
+				{
+					
+					if ($CONFIG[$this->keyconfig]['app_status'] == 'Production'){
+						$connect = @mssql_connect(trim($dbConfig[$dbuse]['host']), $dbConfig[$dbuse]['user'], $dbConfig[$dbuse]['pass']) or die ($this->db_error('Connection error'));
+					
+					}else{
+						$connect = mssql_connect(trim($dbConfig[$dbuse]['host']), $dbConfig[$dbuse]['user'], $dbConfig[$dbuse]['pass']) or die ($this->db_error('Connection error'));
+						
+					}
+					
+					
+					if ($connect){
+					
+						if ($CONFIG[$this->keyconfig]['app_status'] == 'Production'){
+							@mssql_select_db(trim($dbConfig[$dbuse]['name']), $connect) or die ($this->db_error('No Database Selected'));	
+						
+						}else{
+							mssql_select_db(trim($dbConfig[$dbuse]['name']),$connect) or die ($this->db_error('No Database Selected'));
+							
+						}
+						
+						$this->link = $connect;
+						return $connect;
+					
+					}else{
+					
+						return false;
+					}
+				}
+				break;
+
+				case 'sqlsrv':
+				{
+					$connectionInfo = array( "Database"=>$dbConfig[$dbuse]['name'], "UID"=>$dbConfig[$dbuse]['user'], "PWD"=>$dbConfig[$dbuse]['pass']);
+					if ($CONFIG[$this->keyconfig]['app_status'] == 'Production'){
+						$connect = @sqlsrv_connect(trim($dbConfig[$dbuse]['host']), $connectionInfo);
+					
+					}else{
+						$connect = @sqlsrv_connect(trim($dbConfig[$dbuse]['host']), $connectionInfo);
+						
+					}
+					
+					
+					if ($connect){
+						
+						$this->link = $connect;
+						return $connect;
+					
+					}else{
+						echo "Connection could not be established.<br />";
+     					die( print_r( sqlsrv_errors(), true));
 						return false;
 					}
 				}
@@ -115,7 +177,8 @@ class Database
 		global $dbConfig, $CONFIG;
 		$this->keyconfig = $this->setAppKey();
 		
-		$this->open_connection($dbuse);
+		logFile($data);
+		$connection = $this->open_connection($dbuse);
                 // cek server database yang dipakai
 		switch ($dbConfig[$dbuse]['server'])
 		{
@@ -128,6 +191,26 @@ class Database
 						$this->var_query = mysql_query($data) or die ($this->error($data,$dbuse));
 				}
 				break;
+
+			case 'mssql':
+				if ($CONFIG[$this->keyconfig]['app_status'] == 'Production'){
+						// if ($this->dbConfig[''])
+						$this->var_query = @mssql_query($data);
+
+				}else{
+						$this->var_query = mssql_query($data) or die ($this->error($data,$dbuse));
+				}
+				break;
+
+			case 'sqlsrv':
+				if ($CONFIG[$this->keyconfig]['app_status'] == 'Production'){
+						// if ($this->dbConfig[''])
+						$this->var_query = @sqlsrv_query($connection,$data);
+
+				}else{
+						$this->var_query = sqlsrv_query($connection,$data) or die ($this->error($data,$dbuse));
+				}
+				break;	
 			
 		}
 		// $this->close_connection();
@@ -170,13 +253,89 @@ class Database
 					
 					return $dataArray;
 				}
-				$this->free_result($this->var_result);
+				$this->close_connection();
+			break;
+
+			case 'mssql':
+				$this->open_connection($dbuse);
+				$this->var_result = $this->query($data,$dbuse) or die ($this->error($data,$dbuse));
+				if ($loop){
+					if ($this->num_rows($data,$dbuse)){
+
+						while ($data = mssql_fetch_assoc($this->var_result)){
+								$dataArray[] = $data;
+						}
+						
+						return $dataArray;
+					}else{
+						return false;
+					}
+				}else{
+					
+					$dataArray = mssql_fetch_assoc($this->var_result);
+					
+					return $dataArray;
+				}
+				$this->close_connection();
+			break;
+
+			case 'sqlsrv':
+				$connection = $this->open_connection($dbuse);
+
+				$this->var_query = sqlsrv_query($connection,$data) or die ($this->error($data,$dbuse));
+				if ($loop){
+					if ($this->num_rows($data,$dbuse)){
+
+						while ($row = sqlsrv_fetch_array($this->var_query, SQLSRV_FETCH_ASSOC)){
+								$dataArray[] = $row;
+						}
+						return $dataArray;
+					}else{
+						return false;
+					}
+				}else{
+					
+					$dataArray = sqlsrv_fetch_array($this->var_query, SQLSRV_FETCH_ASSOC);
+					
+					return $dataArray;
+				}
 				$this->close_connection();
 			break;
                     
 		}
 		
 		
+		
+	}
+
+	public function insert($data=false, $table=false, $dbuse=0)
+	{
+		/* $dbuse [0] = config default database */
+		// pr($dbuse);
+		global $dbConfig, $CONFIG;
+		
+		if (!$data) return false;
+		
+		$dataArray = array();
+		$this->keyconfig = $this->setAppKey();
+		
+		$this->open_connection($dbuse);
+		
+		foreach ($data as $key => $val) {
+            $tmpfield[] = $key;
+            $tmpvalue[] = "'$val'";
+        }
+
+        $field = implode(',', $tmpfield);
+        $value = implode(',', $tmpvalue);
+
+        $query = "INSERT INTO {$table} ({$field}) VALUES ($value)";
+
+        $result = $this->query($query,$dbuse);
+
+        return true;
+
+		$this->close_connection();
 		
 	}
         
@@ -195,9 +354,25 @@ class Database
 	
 	public function num_rows($data=false,$dbuse)
 	{
+		global $dbConfig;
+
 		if (!$data) return false;
 		$result = $this->query($data,$dbuse) or die ($this->error($data));
-		$numRec = mysql_num_rows($result);
+
+		switch ($dbConfig[0]['server'])
+		{
+			case 'mysql':
+				$numRec = mysql_num_rows($result);
+				break;
+			case 'mssql':
+				$numRec = mssql_num_rows($result);
+				break;
+			case 'sqlsrv':
+				$numRec = sqlsrv_num_rows($result);
+				break;
+		   
+		}
+
 		return $result;
 	}
 	
@@ -221,6 +396,12 @@ class Database
 		{
 			case 'mysql':
 				return mysql_close($this->link);
+				break;
+			case 'mssql':
+				return mssql_close($this->link);
+				break;
+			case 'sqlsrv':
+				return sqlsrv_close($this->link);
 				break;
 		   
 		}
@@ -253,6 +434,22 @@ class Database
 				case 'mysql':
 					return mysql_error($this->link);
 					break;
+
+				case 'mssql':
+					return mssql_get_last_message();
+					break;	
+
+				case 'sqlsrv':
+					if( $data === false ) {
+					    if( ($errors = sqlsrv_errors() ) != null) {
+					        foreach( $errors as $error ) {
+					            echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					            echo "code: ".$error[ 'code']."<br />";
+					            echo "message: ".$error[ 'message']."<br />";
+					        }
+					    }
+					}
+					break;	
 				
 			}
 			
@@ -354,30 +551,36 @@ class Database
 				if ($condition) $whereCondition = " {$condition} ";
 				else $whereCondition = " 1 ";
 
-				$jointmp = @$data['join'];
-				$join = explode(',', $jointmp);
+				if (isset($data['join'])){
 
-				$joinmethod = @$data['joinmethod'];
-				if ($joinmethod){
-					$tmpTable = explode(',', $table);
-					$length = count($tmpTable);
+					$jointmp = $data['join'];
+					$join = explode(',', $jointmp);
 
-					$joinIndex = 0;
-					for ($i=1; $i<$length; $i++){
-						$tatement[] = $joinmethod . $tmpTable[$i] . ' ON ' . $join[$joinIndex];
-						$joinIndex++;
+					if (isset($data['joinmethod'])) $joinmethod = $data['joinmethod'];
+					if ($joinmethod){
+						$tmpTable = explode(',', $table);
+						$length = count($tmpTable);
+
+						$joinIndex = 0;
+						for ($i=1; $i<$length; $i++){
+							$tatement[] = $joinmethod . $tmpTable[$i] . ' ON ' . $join[$joinIndex];
+							$joinIndex++;
+						}
+
+						$tmpStatement = implode(' ',$tatement);
+
+						$primaryTable = $tmpTable[0];
+
+						$sql = "SELECT {$field} FROM {$primaryTable} {$tmpStatement} WHERE {$whereCondition} {$limit}";
 					}
 
-					$tmpStatement = implode(' ',$tatement);
-
-					$primaryTable = $tmpTable[0];
-
-					$sql = "SELECT {$field} FROM {$primaryTable} {$tmpStatement} WHERE {$whereCondition} {$limit}";
 				}else{
 					$sql = "SELECT {$field} FROM {$table} WHERE {$whereCondition} {$limit}";
-				}
-
+				} 
+				
+				
 				logFile($sql);
+				
 				if ($debug){
 					if ($debug>1){
 						pr($sql);
@@ -419,7 +622,8 @@ class Database
 			break;
 
 			case '2':
-				/*
+				/*		
+
 				$sql = array(
                 'table'=>'aset',
                 'field'=>'Aset_ID = 1, KodeSatker = 1010',
@@ -427,12 +631,14 @@ class Database
                 );
 				*/
 				$condition = $data['condition'];
-				$limit = intval($data['limit']);
+
+				if (isset($data['limit'])) $limit = intval($data['limit']);
+				else $limit = " ";
+				
 				if ($limit>0) $limit = " LIMIT {$limit}";
 				else $limit = "";
 
 				$sql = "UPDATE {$table} SET {$field} WHERE {$condition} {$limit}";
-				logFile($sql);
 				if ($debug){
 					if ($debug>1){
 						pr($sql);
@@ -458,57 +664,56 @@ class Database
 		return false;
 	}
 
-	function fetchSingleTable($table=false, $condition=array(), $debug=false)
-	{
-
-		/*$a['id'] = 1;
-		$a['n_status'] = 1;
-		*/
-
-		$imp = 1;
-		if ($condition){
-			foreach ($condition as $key => $value) {
-				if ($value){
-
-					$field[] = "`{$key}` = '{$value}'";
-					
-				}
-				
-			}
-			$imp = implode('AND', $field);
-		}
-
-		$sql = array(
-                'table'=>"{$table}",
-                'field'=>"*",
-                'condition' => "{$imp}"
-                );
-
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res) return $res;
-        return false;
-	}
-
 	function getTableList()
 	{
 		global $dbConfig;
 
-		$sql = "SHOW TABLES FROM {$dbConfig[0]['name']}";
-		$res = $this->fetch($sql,1);
-		if ($res){
-			foreach ($res as $key => $value) {
-				$listTable[] = $value['Tables_in_' . $dbConfig[0]['name']];
-			}
-			return $listTable;	
-		} 
+		
+		if ($dbConfig[0]['server']=='mysql'){
+			$sql = "SHOW TABLES FROM {$dbConfig[0]['name']}";
+			$res = $this->fetch($sql,1);
+			if ($res){
+				foreach ($res as $key => $value) {
+					$listTable[] = $value['Tables_in_' . $dbConfig[0]['name']];
+				}
+				return $listTable;	
+			} 
+		}
+		
+		if ($dbConfig[0]['server']=='mssql' OR $dbConfig[0]['server']=='sqlsrv'){
+			$sql = "SELECT TABLE_NAME FROM {$dbConfig[0]['name']}.information_schema.tables";
+			$res = $this->fetch($sql,1);
+			if ($res){
+				foreach ($res as $key => $value) {
+					$listTable[] = $value['TABLE_NAME'];
+				}
+				return $listTable;	
+			} 
+		}
 		return false;
 	}
 
 	function getTableStructure($table)
 	{
-		$sql = "DESC {$table}";
+		global $dbConfig;
+
+		if ($dbConfig[0]['server']=='mysql'){
+			$sql = "DESC {$table}";
+		}
+
+		if ($dbConfig[0]['server']=='mssql' OR $dbConfig[0]['server']=='sqlsrv'){
+			$sql = "SELECT * FROM {$dbConfig[0]['name']}.INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{$table}'";
+		
+		}
+
 		$res = $this->fetch($sql,1);
-		if ($res) return $res;	
+		if ($res){
+			foreach ($res as $key => $value) {
+				$data['Field'][] = $value['COLUMN_NAME'];
+			}
+	
+			return $data;	
+		} 	
 		return false;
 	}
 
@@ -521,12 +726,14 @@ class Database
 		}
 
 		$getTableList = $this->getTableList();
+		
 		if ($getTableList){
 
 			foreach ($getTableList as $key => $value) {
 				if (!file_exists($pathcache . $value)){
 
 					$sturcture = $this->getTableStructure($value);
+
 					logFile('create table cache '. $value);
 					$handle = fopen($pathcache.$value, "a");
 					
@@ -544,22 +751,31 @@ class Database
 
 		// $method = $param['method'];
 		// $action = $param['action'];
+		global $dbConfig;
+
+		$mysql = 1;
+		if ($dbConfig[0]['server']=='mssql' OR $dbConfig[0]['server']=='sqlsrv'){
+			$mysql = 0;
+		}
 
 		$filepath = CACHE . 'table/';
-		
 		if ($table){
 			if (is_array($table)){
 
 			}else{
 				$openFile = openFile($filepath . $table);
+
 				$tablestructure = $this->unserialTable($openFile);
-				
 				if ($data){
 					foreach ($data as $key => $value) {
 						if (in_array($key, $tablestructure['fields'])){
-							$fields[] = "`{$key}`";
+							
+							if ($mysql) $fields[] = "`{$key}`";
+							else $fields[] = "{$key}";
 							$values[] = "'{$value}'";
-							$field_values[] = "`{$key}` = '{$value}'";
+							
+							if ($mysql) $field_values[] = "`{$key}` = '{$value}'";
+							else $field_values[] = "{$key} = '{$value}'";
 						}
 					}
 
@@ -594,19 +810,82 @@ class Database
 	function unserialTable($serialize=false, $rawdata=false)
 	{
 
-		$unserial = unserialize($serialize);
-		
-		$dataArr = array();
-		if ($unserial){
-			foreach ($unserial as $key => $value) {
-				$dataArr['fields'][] = $value['Field'];
-			}
+		global $dbConfig;
 
-			if ($rawdata) $dataArr['raw'] = $unserial;
-			
-			return $dataArr;
+		if ($dbConfig[0]['server']=='mysql'){
+
+			$unserial = unserialize($serialize);
+			$dataArr = array();
+			if ($unserial){
+				foreach ($unserial as $key => $value) {
+					$dataArr['fields'][] = $value['Field'];
+				}
+
+				if ($rawdata) $dataArr['raw'] = $unserial;
+				return $dataArr;
+			}
 		}
+
+		if ($dbConfig[0]['server']=='mssql' OR $dbConfig[0]['server']=='sqlsrv'){
+			$unserial = unserialize($serialize);
+			$dataArr = array();
+			
+			$dataArr['fields'] = $unserial['Field'];	
+			return $dataArr;
+			
+		}
+
+		
 		return false;
+	}
+
+	function fetchSingleTable($table=false, $condition=array(), $order=false, $additional=array(), $debug=false)
+	{
+
+		global $dbConfig;
+
+		$imp = 1;
+		if ($order) $filter = "ORDER BY {$order}";
+
+		$dataIn = array();
+		if ($additional){
+			$dataIn = $additional['in'];
+		}
+		if ($condition){
+			foreach ($condition as $key => $value) {
+				if ($value){
+					if ($dbConfig[0]['server']=='mysql'){
+						$field[] = "`{$key}` = '{$value}'";
+					}else{
+
+						if (count($dataIn)>0){
+							if (in_array($key, $dataIn)){
+								$field[] = "{$key} IN ({$value})";
+							}else{
+								$field[] = "{$key} = '{$value}'";
+							}	
+						}else{
+							$field[] = "{$key} = '{$value}'";
+						}
+						
+						
+					}
+					
+				}
+				
+			}
+			$imp = implode(' AND ', $field);
+		}
+
+		$sql = array(
+                'table'=>"{$table}",
+                'field'=>"*",
+                'condition' => "{$imp} {$filter}"
+                );
+
+        $res = $this->lazyQuery($sql,$debug);
+        if ($res) return $res;
+        return false;
 	}
 }
 
