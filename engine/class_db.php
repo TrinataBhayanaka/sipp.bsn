@@ -458,30 +458,43 @@ class Database
 		return false;
 	}
 
-	function fetchSingleTable($table=false, $condition=array(), $debug=false)
+	function fetchSingleTable($table=false, $condition=array(), $order=false, $additional=array(), $debug=false)
 	{
 
-		/*$a['id'] = 1;
-		$a['n_status'] = 1;
-		*/
+		global $dbConfig;
 
 		$imp = 1;
+		if ($order) $filter = "ORDER BY {$order}";
+		// pr($additional);
+		$dataIn = array();
+		if ($additional){
+			$dataIn = $additional['in'];
+		}
 		if ($condition){
 			foreach ($condition as $key => $value) {
 				if ($value){
-
-					$field[] = "`{$key}` = '{$value}'";
+					
+					if (count($dataIn)>0){
+						if (in_array($key, $dataIn)){
+							$field[] = "`{$key}` IN ({$value})";
+						}else{
+							$field[] = "`{$key}` = '{$value}'";
+						}	
+					}else{
+						$field[] = "`{$key}` = '{$value}'";
+					}
+					
 					
 				}
 				
 			}
-			$imp = implode('AND', $field);
+			$imp = implode(' AND ', $field);
 		}
 
 		$sql = array(
                 'table'=>"{$table}",
                 'field'=>"*",
-                'condition' => "{$imp}"
+                'condition' => "{$imp} {$filter}"
                 );
 
         $res = $this->lazyQuery($sql,$debug);

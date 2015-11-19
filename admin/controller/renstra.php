@@ -77,8 +77,11 @@ class renstra extends Controller {
 		global $basedomain;
 		$parent_id = _g('parent_id');
 
-		$dataStruktur['type'] = 2;
-		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3');
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		// pr($getStruktur);
 		if (!$parent_id){
 			redirect($basedomain."renstra/sasaran/?parent_id=".$getStruktur[0]['id']);
 			exit;
@@ -106,8 +109,14 @@ class renstra extends Controller {
 		$parent_id = _g('parent_id');
 		
 
-		$getStruktur = $this->contentHelper->getStruktur();
-		$getSetting = $this->contentHelper->getSetting();
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3');
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+
+		$dataSetting['table'] = 'bsn_sistem_setting';
+		$dataSetting['condition'] = array('n_status'=>1, 'desc'=>'tahun_sistem');
+		$getSetting = $this->contentHelper->fetchData($dataSetting);
 		if (!$parent_id){
 			redirect($basedomain."renstra/kinerja/?parent_id=".$getStruktur[0]['id']);
 			exit;
@@ -166,7 +175,11 @@ class renstra extends Controller {
 		$parent_id = _g('parent_id');
 		
 
-		$getStruktur = $this->contentHelper->getStruktur();
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3');
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+
 		$getSetting = $this->contentHelper->getSetting();
 		if (!$parent_id){
 			redirect($basedomain."renstra/program/?parent_id=".$getStruktur[0]['id']);
@@ -266,7 +279,11 @@ class renstra extends Controller {
 		$parent_id = _g('parent_id');
 		
 
-		$getStruktur = $this->contentHelper->getStruktur();
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3');
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		
 		$getSetting = $this->contentHelper->getSetting();
 		if (!$parent_id){
 			redirect($basedomain."renstra/output/?parent_id=".$getStruktur[0]['id']);
@@ -479,10 +496,14 @@ class renstra extends Controller {
 		
 		$id = _g('id');
 		$req = _g('req');
-		$dataStruktur['id'] = _g('parent_id');
 		
-		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
-		// pr($getStruktur);
+		
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		
+		$dataStruktur['id'] = _g('parent_id');
 
 		if ($req==1){
 
@@ -578,11 +599,15 @@ class renstra extends Controller {
 		
 		$id = _g('id');
 		$req = _g('req');
-		$dataStruktur['id'] = _g('parent_id');
 		
-		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		// pr($getStruktur);
 
+		$dataStruktur['id'] = _g('parent_id');
 		if ($req==1){
 
 			if ($id){
@@ -624,10 +649,16 @@ class renstra extends Controller {
 		global $basedomain;
 
 		$id = _g('id');
-		$dataStruktur['id'] = _g('parent_id');
+		
 		$child_id = _g('child');
 
-		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		
+		$dataStruktur['id'] = _g('parent_id');
+
 		$getSetting = $this->contentHelper->getSetting();
 		if ($getSetting){
 			$tahun = $getSetting[0]['kode'];
@@ -697,15 +728,19 @@ class renstra extends Controller {
 		global $basedomain;
 
 		$id = _g('id');
-		$dataStruktur['id'] = _g('parent_id');
+		
 		$child_id = _g('child');
 		$req = _g('req');
 
-		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		
 		$getSetting = $this->contentHelper->getSetting();
 		$arrayTahun = $this->tahunRenstra($getSetting);
 
+		$dataStruktur['id'] = _g('parent_id');
 		$getSasaran = $this->contentHelper->getVisi($child_id, 9, 1, $dataStruktur['id']);
 		
 		$this->view->assign('submit', "submit");
@@ -851,7 +886,11 @@ class renstra extends Controller {
 		$child_id = _g('child');
 		$req = _g('req');
 
-		$getStruktur = $this->contentHelper->getStruktur();
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		
 		// pr($getStruktur);
 		$getSetting = $this->contentHelper->getSetting();
 		$arrayTahun = $this->tahunRenstra($getSetting);
@@ -922,7 +961,11 @@ class renstra extends Controller {
 		$child_id = _g('child');
 		$req = _g('req');
 
-		$getStruktur = $this->contentHelper->getStruktur();
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		
 		// pr($getStruktur);
 		$getSetting = $this->contentHelper->getSetting();
 		$arrayTahun = $this->tahunRenstra($getSetting);

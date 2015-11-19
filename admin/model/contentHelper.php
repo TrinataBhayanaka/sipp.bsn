@@ -160,6 +160,7 @@ class contentHelper extends Database {
 		$data['desc'] = $activity;
 
 		$getData = $this->fetchSingleTable("{$this->prefix}_sistem_setting", $data);
+		
 		if ($getData) return $getData;
 		return false;
 	}
@@ -188,6 +189,17 @@ class contentHelper extends Database {
 		return false;
 	}
 
+  	function fetchData($data=array(),$debug=false)
+    {
 
+        $table = $data['table'];
+        $condition = $data['condition'];
+        $oderby = $data['oderby'];
+        $additional = $data;
+
+        $fetch = $this->fetchSingleTable($table, $condition, $oderby, $additional, $debug);
+        if ($fetch) return $fetch;
+        return false;
+    }
 }
 ?>
