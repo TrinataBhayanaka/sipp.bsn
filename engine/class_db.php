@@ -135,7 +135,36 @@ class Database
 		return $this->var_query;
 	}
 	
+	public function insert($data=false, $table=false, $dbuse=0)
+	{
+		/* $dbuse [0] = config default database */
+		// pr($dbuse);
+		global $dbConfig, $CONFIG;
+		
+		if (!$data) return false;
+		
+		$dataArray = array();
+		$this->keyconfig = $this->setAppKey();
+		
+		$this->open_connection($dbuse);
+		
+		foreach ($data as $key => $val) {
+            $tmpfield[] = $key;
+            $tmpvalue[] = "'$val'";
+        }
 
+        $field = implode(',', $tmpfield);
+        $value = implode(',', $tmpvalue);
+
+        $query = "INSERT INTO {$table} ({$field}) VALUES ($value)";
+
+        $result = $this->query($query,$dbuse);
+
+        return true;
+
+		$this->close_connection();
+		
+	}
 	
 	public function fetch($data=false, $loop=false, $dbuse=0)
 	{
