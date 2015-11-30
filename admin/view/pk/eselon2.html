@@ -1,7 +1,7 @@
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Penetapan Kinerja Tingkat Eselon {$labelEs}</h1>
+	<h1 class="page-header text-overflow">Penetapan Kinerja Tingkat Eselon II</h1>
 </div>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End page title-->
@@ -32,7 +32,7 @@
 						<a href="{$basedomain}perjanjiankinerja/add_eselon/?id={$id}&kd={$idpk}" id="addData"><button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
 					</div>
 					<div class="col-sm-6 table-toolbar-right">
-						<form method="post" action="{$basedomain}perjanjiankinerja/eselon1/?tp={$es}">
+						<form method="post" action="{$basedomain}perjanjiankinerja/eselon1">
 							<select class="selectpicker" id="struktur" name="struktur">
 								{foreach $struktur as $val}
 								<option value="{$val.id}_{$val.nama_satker}_{$val.kode}" {if $val.id eq $id}selected{/if}>{$val.nama_satker}</option>
