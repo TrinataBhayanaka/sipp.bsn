@@ -136,7 +136,7 @@ class perjanjiankinerja extends Controller {
 		
 		$this->model->insert_pk($_POST);
 
-		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/eselon1'</script>";
+		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
 		exit;
 	}
 

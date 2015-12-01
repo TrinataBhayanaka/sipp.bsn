@@ -201,10 +201,10 @@
 							</a>
 			
 							<!--Submenu-->
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="#">RenAksi Tk BSN</a></li>
-								<li><a href="#">RenAksi Tk Eselon I</a></li>
-								<li><a href="#">RenAksi Tk Eselon II</a></li>
+							<ul class="collapse {if $page.page eq 'renaksi'}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}renaksi/bsn">RenAksi Tk BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}renaksi/eselon1">RenAksi Tk Eselon I</a></li>
+								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}renaksi/eselon2">RenAksi Tk Eselon II</a></li>
 							</ul>
 						</li>
 
