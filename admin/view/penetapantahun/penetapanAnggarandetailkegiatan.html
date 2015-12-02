@@ -1,0 +1,137 @@
+<script>
+{literal}
+	
+	$(document).on('click', '#inputvisi', function(){
+
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Penetapan Anggaran Kegiatan dan Output </h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Detail Penarikan Tahun Anggaran : {$tahun}</h3>
+			
+		</div>
+		<div id="create-toolbar" class="">
+			<a href="{$basedomain}penetapanAnggaran/penetapananggaran"><button class="btn btn-info btn-labeled">Kembali Ke Halaman Sebelumnya</button></a>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="text-center" rowspan="2">Kode APBN</th>
+							<th class="text-center" rowspan="2">Nama Kegiatan</th>
+							<th class="text-center" rowspan="2">Anggaran</th>
+							<th class="text-center" colspan="13">Rencana Penarikan Bulan Ke-</th>
+						</tr>
+						<tr>
+							<th class="text-center">1</th>
+							<th class="text-center">2</th>
+							<th class="text-center">3</th>
+							<th class="text-center">4</th>
+							<th class="text-center">5</th>
+							<th class="text-center">6</th>
+							<th class="text-center">7</th>
+							<th class="text-center">8</th>
+							<th class="text-center">9</th>
+							<th class="text-center">10</th>
+							<th class="text-center">11</th>
+							<th class="text-center">12</th>
+							<th class="text-center">Jumlah</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{$detailkgtn.13}</td>
+							<td>{$detailkgtn.14}</td>
+							<td class="text-right">{number_format($detailkgtn.0,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.1,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.2,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.3,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.4,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.5,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.6,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.7,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.8,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.9,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.10,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.11,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.12,"0",",",".")}</td>
+							<td class="text-right">{number_format($detailkgtn.15,"0",",",".")}</td>
+							
+						</tr>
+						{foreach $detail_jb as $val}
+						<tr>
+							<td>{$val.JNSBELANJA}</td>
+							<td>{$val.KET_JNSBELANJA}</td>
+							<td class="text-right">{number_format($val.RPHPAGU,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML01,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML02,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML03,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML04,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML05,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML06,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML07,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML08,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML09,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML10,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML11,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.JML12,"0",",",".")}</td>
+							<td class="text-right">{number_format($val.jml,"0",",",".")}</td>
+							
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

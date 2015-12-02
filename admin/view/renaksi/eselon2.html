@@ -1,0 +1,120 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Rencana Aksi Penetapan Kinerja Tk. Eselon II</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">{$label} </h3>
+		</div>
+		
+		<div class="panel-body">
+			<div class="pad-btm form-inline">
+				<div class="row">
+					<div class="col-sm-6 table-toolbar-left">
+						
+					</div>
+					<div class="col-sm-6 table-toolbar-right">
+						<form method="post" action="{$basedomain}renaksi/eselon2">
+							<select class="selectpicker" id="struktur" name="struktur">
+								{foreach $struktur as $val}
+								<option value="{$val.id}_{$val.nama_satker}_{$val.kode}" {if $val.id eq $id}selected{/if}>{$val.nama_satker}</option>
+								{/foreach}
+							</select>
+							<button type="submit" class="btn btn-primary"> Cari</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<table id="newslist" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th rowspan="3" class="text-center" style="vertical-align: middle">No</th>
+						<th rowspan="3" class="text-center" style="vertical-align: middle">Indikator Kinerja</th>
+						<th rowspan="3" class="min-tablet text-center" style="vertical-align: middle">Formula Indikator Kinerja</th>
+						<th rowspan="3" class="min-tablet text-center" style="vertical-align: middle">Target</th>
+						<th colspan="8" class="min-desktop text-center" style="vertical-align: middle">Rencana Aksi Pencapaian Target</th>
+						<th rowspan="3" class="text-center" style="vertical-align: middle">Aksi</th>
+					</tr>
+					<tr>
+						<th colspan="2" class="text-center" style="vertical-align: middle">Triwulan I</th>
+						<th colspan="2" class="text-center" style="vertical-align: middle">Triwulan II</th>
+						<th colspan="2" class="text-center" style="vertical-align: middle">Triwulan III</th>
+						<th colspan="2" class="text-center" style="vertical-align: middle">Triwulan IV</th>
+					</tr>
+					<tr>
+						<th class="text-center" style="vertical-align: middle">Target</th>
+						<th class="text-center" style="vertical-align: middle">%</th>
+						<th class="text-center" style="vertical-align: middle">Target</th>
+						<th class="text-center" style="vertical-align: middle">%</th>
+						<th class="text-center" style="vertical-align: middle">Target</th>
+						<th class="text-center" style="vertical-align: middle">%</th>
+						<th class="text-center" style="vertical-align: middle">Target</th>
+						<th class="text-center" style="vertical-align: middle">%</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if !empty($data)}
+					{foreach $data as $key => $val}
+						<tr>
+							<td>{$key+1}</td>
+							<td>{$val.nm_pk}</td>
+							<td>{$val.formula}</td>
+							<td>{$val.target}</td>
+							<td>
+								Output:<br>{$val.ren_hasil_1}<br>
+								Proses/Tahapan:<br>{$val.aksi_1}
+							</td>
+							<td>{$val.rencana_1}</td>
+							<td>
+								Output:<br>{$val.ren_hasil_2}<br>
+								Proses/Tahapan:<br>{$val.aksi_2}
+							</td>
+							<td>{$val.rencana_2}</td>
+							<td>
+								Output:<br>{$val.ren_hasil_3}<br>
+								Proses/Tahapan:<br>{$val.aksi_3}
+							</td>
+							<td>{$val.rencana_3}</td>
+							<td>
+								Output:<br>{$val.ren_hasil_4}<br>
+								Proses/Tahapan:<br>{$val.aksi_4}
+							</td>
+							<td>{$val.rencana_4}</td>
+							<td>
+								<a href="{$basedomain}renaksi/edit_eselon2/?id={$val.id}"><button class="btn btn-warning btn-md fa fa-pencil"></button></a>
+							</td>
+						</tr>
+					{/foreach}
+					{else}
+					<tr><td colspan="13">Tidak Ada Data</td></tr>
+					{/if}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

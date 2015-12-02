@@ -1,7 +1,10 @@
 <?php
 class m_pelaporankeuangan extends Database {
 	
-		
+	// m_spmmak dam m_spmind (upload foxpro dari iman)
+	// d_item ,d_trktrm (upload foxpro dari bayu)
+	
+	// m_spmmak
 	function select_data_master_bsn($thn_temp)
 	{
 		$query = "select THANG, KDSATKER, sum(NILMAK) as real_satker from m_spmmak WHERE THANG='{$thn_temp}' AND left(KDAKUN,1) = '5' group by KDSATKER";
@@ -20,6 +23,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmmak
 	function cek_realisasi($thn_temp)
 	{
 		$query = "select sum(NILMAK) as real_menteri from m_spmmak WHERE THANG='{$thn_temp}' AND left(KDAKUN,1) = '5' group by THANG";
@@ -29,6 +33,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	//d_item
 	function cek_pagu($thn_temp)
 	{
 		$query = "select sum(Jumlah) as pagu_menteri from d_item where THANG = '{$thn_temp}' and KDDEPT = '084' group by KDDEPT";
@@ -37,7 +42,7 @@ class m_pelaporankeuangan extends Database {
 		
 		return $result;
 	}
-	
+	//d_item
 	function select_data_pagu_master_bsn($thn_temp,$kd_satker)
 	{
 		$query = "select sum(Jumlah) as pagu_satker from d_item where THANG = '{$thn_temp}' and KDSATKER = '{$kd_satker}' group by KDSATKER";
@@ -56,7 +61,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
-	
+	// m_spmind
 	function cek_kegiatan_group($thn_temp,$kd_satker)
 	{
 		$query = "select KDGIAT, sum(TOTNILMAK) as real_giat from m_spmind WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT<>'0000' group by KDGIAT";
@@ -66,6 +71,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	//d_item
 	function pagu_giat_group($thn_temp,$kd_satker,$kd_giat)
 	{
 		$query = "select sum(Jumlah) as pagu_giat from d_item where THANG = '{$thn_temp}' and KDSATKER = '{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDGIAT";
@@ -75,6 +81,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	//d_item
 	function cek_kegiatan_group_realisasi($thn_temp,$kd_satker)
 	{
 		$query = "select a.THANG, a.KDGIAT, sum(a.jumlah) as pagu_giat, b.kdunitkerja from d_item a 
@@ -96,7 +103,7 @@ class m_pelaporankeuangan extends Database {
 		
 		return $result;
 	}
-	
+	// m_spmind
 	function pagutotal_kode_output_kegiatan($thn_temp,$kd_satker,$kd_giat)
 	{
 		$query = "select KDOUTPUT, sum(TOTNILMAK) as real_output from m_spmind WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
@@ -106,6 +113,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind
 	function pagutotal_kode_output_kegiatan_condtn($thn_temp,$kd_satker,$kd_giat,$kd_output)
 	{
 		$query = "select KDOUTPUT, sum(TOTNILMAK) as real_output from m_spmind WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' and KDOUTPUT = '{$kd_output}'";
@@ -115,7 +123,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
-	
+	//d_item
 	function pagutotal_kode_output_kegiatan_perbulan($thn_temp,$kd_satker,$kd_giat)
 	{
 		$query = "select KDOUTPUT, sum(jumlah) as pagu_output from d_item WHERE THANG='{$thn_temp}' and 
@@ -126,7 +134,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
-	
+	//d_item
 	function pagurealisasi_output_kegiatan($thn_temp,$kd_satker,$kd_giat,$kdoutput)
 	{
 		$query = "select sum(Jumlah) as pagu_output from d_item where THANG = '{$thn_temp}' and KDSATKER = '{$kd_satker}' and KDGIAT = '{$kd_giat}' and KDOUTPUT = '{$kdoutput}' group by KDOUTPUT"; 
@@ -154,7 +162,7 @@ class m_pelaporankeuangan extends Database {
 		
 		return $result;
 	}
-	
+	// m_spmind dan m_spmmak
 	function realisasi_perbulan_unit($thn_temp,$monthArray)
 	{
 		foreach ($monthArray as $val) {	
@@ -174,6 +182,7 @@ class m_pelaporankeuangan extends Database {
 		return array($newArray);
 	}
 	
+	// m_spmind dan m_spmmak
 	function realisasi_perbulan_unit_kegiatan($thn_temp,$monthArray,$kd_giat,$kd_satker)
 	{
 		foreach ($monthArray as $val) {	
@@ -194,6 +203,7 @@ class m_pelaporankeuangan extends Database {
 		return array($newArray);
 	}
 	
+	// m_spmind dan m_spmmak
 	function penarikan_unit_perbulan_kegiatan_perbulan($thn_temp,$monthArray,$kd_satker,$kd_giat,$kd_output)
 	{
 		foreach ($monthArray as $val) {	
@@ -214,7 +224,7 @@ class m_pelaporankeuangan extends Database {
 		return array($newArray);
 	}
 	
-	
+	// m_spmind dan m_spmmak
 	function realisasi_allbulan_unit($thn_temp,$max_bulan)
 	{
 			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
@@ -229,6 +239,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function realisasi_allbulan_unit_kegiatan($thn_temp,$max_bulan,$kd_satker,$kd_giat)
 	{
 			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
@@ -243,6 +254,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function select_all_bulan_unit_kegiatan_ouput_perbulan($thn_temp,$max_bulan,$kd_satker,$kd_giat,$kd_output)
 	{
 			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
@@ -256,7 +268,7 @@ class m_pelaporankeuangan extends Database {
 			}
 		return $result;
 	}
-	
+	//d_trktrm
 	function penarikan_unit_perbulan($thn_temp)
 	{
 			$query = "select 	sum(RPHPAGU) as RPHPAGU,
@@ -307,7 +319,7 @@ class m_pelaporankeuangan extends Database {
 			}
 		return $result;
 	}
-	
+	//d_trktrm
 	function penarikan_unit_perbulan_kegiatan($thn_temp,$kd_satker,$kd_giat)
 	{
 			$query = "select 	sum(RPHPAGU) as RPHPAGU,
@@ -360,7 +372,7 @@ class m_pelaporankeuangan extends Database {
 			}
 		return $result;
 	}
-	
+	//d_trktrm
 	function renc_menteri_sdtriwulan_BSN($thn_temp,$trwln){
 		if($trwln == 1){
 			$query = "select sum(JML01 + JML02 + JML03) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
@@ -379,6 +391,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function real_menteri_triwulan_BSN($thn_temp,$trwln)
 	{
 			if($trwln == 1){
@@ -420,6 +433,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function real_menteri_sdtriwulan_BSN($thn_temp,$trwln)
 	{
 			if($trwln == 1){
@@ -461,7 +475,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
-	
+	//d_item
 	function select_data_bsn($thn_temp)
 	{
 		$query = "select THANG, KDSATKER, sum(jumlah) as pagu_satker from d_item  WHERE THANG = '{$thn_temp}' group by KDSATKER";
@@ -470,7 +484,7 @@ class m_pelaporankeuangan extends Database {
 		
 		return $result;
 	}
-	
+	//d_trktrm
 	function renc_satker_sdtriwulan($thn_temp,$trwln,$kd_satker){
 		if($trwln == 1){
 			$query = "select sum(JML01 + JML02 + JML03) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY KDSATKER";
@@ -489,6 +503,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function real_satker_triwulan($thn_temp,$trwln,$kd_satker)
 	{
 			if($trwln == 1){
@@ -530,7 +545,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
-	
+	// m_spmind dan m_spmmak
 	function real_satker_sdtriwulan($thn_temp,$trwln,$kd_satker)
 	{
 			if($trwln == 1){
@@ -572,6 +587,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	//d_trktrm 
 	function renc_giat_sdtriwulan($thn_temp,$trwln,$kd_satker,$kd_giat){
 		if($trwln == 1){
 			$query = "select sum(JML01 + JML02 + JML03) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}' GROUP BY KDSATKER";
@@ -590,6 +606,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function real_giat_triwulan($thn_temp,$trwln,$kd_satker,$kd_giat)
 	{
 			if($trwln == 1){
@@ -631,6 +648,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function real_giat_sdtriwulan($thn_temp,$trwln,$kd_satker,$kd_giat)
 	{
 			if($trwln == 1){
@@ -672,6 +690,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function real_output_triwulan($thn_temp,$trwln,$kd_satker,$kd_giat,$kd_output)
 	{
 			if($trwln == 1){
@@ -713,6 +732,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	// m_spmind dan m_spmmak
 	function real_output_sdtriwulan($thn_temp,$trwln,$kd_satker,$kd_giat,$kd_output)
 	{
 			if($trwln == 1){
@@ -753,7 +773,7 @@ class m_pelaporankeuangan extends Database {
 			}
 		return $result;
 	}
-	
+	// m_spmind
 	function select_spm($thn_temp,$kd_satker,$kd_output) {
 		$query = "select NOSPM,TGSPM,NOSP2D,TGSP2D, sum(TOTNILMAK) as real_spm from m_spmind 
 			WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDOUTPUT='{$kd_output}' 
@@ -764,6 +784,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	//m_spmmak dan t_akun(t_akun dpt dari mana ya?)
 	function select_kode_akun($thn_temp,$kd_satker,$no_spm,$no_sp2d) {
 		$query = "select a.KDAKUN,a.NILMAK,b.NMAKUN from m_spmmak as a 
 				  inner join t_akun as b on b.KDAKUN = a.KDAKUN
