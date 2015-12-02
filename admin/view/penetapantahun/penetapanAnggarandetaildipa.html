@@ -1,0 +1,125 @@
+<script>
+$(window).on('load', function() {
+
+	// Datatables
+	// Row selection and deletion (multiple rows)
+	// -----------------------------------------------------------------
+	var rowDeletion = $('#newslist').DataTable({
+		"responsive": true,
+		"language": {
+			"paginate": {
+			  "previous": '<i class="fa fa-angle-left"></i>',
+			  "next": '<i class="fa fa-angle-right"></i>'
+			}
+		},
+		"dom": '<"toolbar">frtip'
+	});
+
+	$('#create-toolbar').appendTo($("div.toolbar"));
+	$('#separator-toolbar').appendTo($("div.toolbar"));
+	$('#delete-toolbar').appendTo($("div.toolbar"));
+
+})
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Realisasi Keuangan</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Realisasi Keuangan</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Detail Kegiatan</h3>
+		</div>
+		<div id="create-toolbar" class="table-toolbar-left">
+			<a href="{$basedomain}pelaporanKeuangan/"><button class="btn btn-info btn-labeled">Kembali Ke Halaman Sebelumnya</button></a>
+		</div>
+		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		<!-- <div id="delete-toolbar" class="table-toolbar-left">
+			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
+		</div> -->
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<table id="" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th class="min-desktop text-center">Kode APBN</th>
+						<th colspan = "2" class="min-desktop text-center">Nama Kegiatan / Output <br />Sub Output / Komponen <br />Sub Komponen / Akun <br />Item</th>
+						<th class="min-desktop text-center">Anggaran</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $detailkgtn as $val}
+					<tr>
+						<td class="min-desktop text-center">{$val.KDGIAT}</td>
+						<td colspan = "2" >{$val.nama_giat}</td>
+						<td class="min-desktop text-right">{number_format($val.pagu_giat,"0",",",".")}</td>
+					</tr>
+						{foreach $val.output as $out}
+							<tr>
+								<td class="min-desktop text-center">{$out.KDOUTPUT}</td>
+								<td colspan = "2" >{$out.namaoutput}</td>
+								<td class="min-desktop text-right">{number_format($out.pagu_output,"0",",",".")}</td>
+							</tr>
+							{foreach $out.soutput as $soutput}
+							<tr>
+								<td class="min-desktop text-center">{$soutput.kode}</td>
+								<td colspan = "2" >{$soutput.nama}</td>
+								<td class="min-desktop text-right">{number_format($soutput.pagu_soutput,"0",",",".")}</td>
+							</tr>
+								{foreach $soutput.komponen as $komponen}
+								<tr>
+									<td class="min-desktop text-center">{$komponen.KDKMPNEN}</td>
+									<td colspan = "2" >{$komponen.nama}</td>
+									<td class="min-desktop text-right">{number_format($komponen.pagu_kmpnen,"0",",",".")}</td>
+								</tr>
+									{foreach $komponen.subkomponen as $subkomponen}
+										<tr>
+											<td class="min-desktop text-center">{$subkomponen.kode}</td>
+											<td colspan = "2" >{$subkomponen.nama}</td>
+											<td class="min-desktop text-right">{number_format($subkomponen.pagu_skmpnen,"0",",",".")}</td>
+										</tr>
+										{foreach $subkomponen.kode_akun as $kode_akun}
+											<tr>
+												<td class="min-desktop">&nbsp;</td>
+												<td class="min-desktop text-center">{$kode_akun.KDAKUN}</td>
+												<td class="min-desktop ">{$kode_akun.KET_JNSBELANJA}</td>
+												<td class="min-desktop text-right">{number_format($kode_akun.pagu_akun,"0",",",".")}</td>
+											</tr>
+										{/foreach}
+									{/foreach}
+								{/foreach}
+							{/foreach}
+						{/foreach}
+					{/foreach}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

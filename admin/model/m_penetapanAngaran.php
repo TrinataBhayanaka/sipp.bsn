@@ -1,5 +1,5 @@
 <?php
-class m_pelaporankeuangan extends Database {
+class m_penetapanAngaran extends Database {
 	
 	// m_spmmak dam m_spmind (upload foxpro dari iman)
 	// d_item ,d_trktrm (upload foxpro dari bayu)
@@ -87,6 +87,7 @@ class m_pelaporankeuangan extends Database {
 		$query = "select a.THANG, a.KDGIAT, sum(a.jumlah) as pagu_giat, b.kdunitkerja from d_item a 
 				  INNER JOIN m_kegiatan b ON a.KDGIAT = b.kdgiat 
 				  WHERE a.THANG = '{$thn_temp}' and a.KDSATKER = '{$kd_satker}' group by a.KDGIAT order by b.KDGIAT";
+				  
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -128,6 +129,16 @@ class m_pelaporankeuangan extends Database {
 	{
 		$query = "select KDOUTPUT, sum(jumlah) as pagu_output from d_item WHERE THANG='{$thn_temp}' and 
 					KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function pagutotal_kode_output_kegiatan_perbulan_condtn($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	{
+		$query = "select KDOUTPUT, sum(jumlah) as pagu_output from d_item WHERE THANG='{$thn_temp}' and 
+					KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' and  KDOUTPUT = '{$kd_output}' group by KDOUTPUT";
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -796,6 +807,333 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	//baru buat bayu
+	function anggaran_belanja_menteri_pegawai($thn_temp)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '51' AND KDDEPT = '084' group by THANG";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_barang($thn_temp)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
+				AND left(KDAKUN,3) <> '524' AND KDDEPT = '084' group by THANG";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_modal($thn_temp)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '53' AND KDDEPT = '084' group by THANG";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_perjalanan($thn_temp)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
+				left(KDAKUN,3) = '524' AND KDDEPT = '084' group by THANG";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function cek_kegiatan_group_scnd($thn_temp,$kd_satker)
+	{
+		$query = "select KDGIAT,sum(JUMLAH) as pagu_giat from d_item WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' group by KDGIAT";
+				  
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_pegawai_giat($thn_temp,$kd_satker,$kd_giat)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '51' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_barang_giat($thn_temp,$kd_satker,$kd_giat)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
+				AND left(KDAKUN,3) <> '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_modal_giat($thn_temp,$kd_satker,$kd_giat)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '53' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_perjalanan_giat($thn_temp,$kd_satker,$kd_giat)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
+				left(KDAKUN,3) = '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by THANG";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_pegawai_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '51' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}'
+				group by KDSATKER";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_barang_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
+				AND left(KDAKUN,3) <> '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by KDSATKER";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_modal_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '53' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' 
+				group by KDSATKER";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_perjalanan_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	{
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
+				left(KDAKUN,3) = '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by THANG";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function detail084($thn_temp){
+		$query = "select sum(RPHPAGU) as RPHPAGU,
+					sum(JML01) as JML01,
+					sum(JML02) as JML02,
+					sum(JML03) as JML03,
+					sum(JML04) as JML04,
+					sum(JML05) as JML05,
+					sum(JML06) as JML06,
+					sum(JML07) as JML07,
+					sum(JML08) as JML08,
+					sum(JML09) as JML09,
+					sum(JML10) as JML10,
+					sum(JML11) as JML11,
+					sum(JML12) as JML12
+					from d_trktrm WHERE THANG='{$thn_temp}' AND JNSBELANJA <> '42' group by THANG";
+		
+	$result = $this->fetch($query);
+	if($result){
+					$result['RPHPAGU']= $result['RPHPAGU'];
+					$result['JML01']= $result['JML01'];
+					$result['JML02']= $result['JML02'];
+					$result['JML03']= $result['JML03'];
+					$result['JML04']= $result['JML04'];
+					$result['JML05']= $result['JML05'];
+					$result['JML06']= $result['JML06'];
+					$result['JML07']= $result['JML07'];
+					$result['JML08']= $result['JML08'];
+					$result['JML09']= $result['JML09'];
+					$result['JML10']= $result['JML10'];
+					$result['JML11']= $result['JML11'];
+					$result['JML12']= $result['JML12'];
+			}else{
+					$result['RPHPAGU']= 0;
+					$result['JML01']= 0;
+					$result['JML02']= 0;
+					$result['JML03']= 0;
+					$result['JML04']= 0;
+					$result['JML05']= 0;
+					$result['JML06']= 0;
+					$result['JML07']= 0;
+					$result['JML08']= 0;
+					$result['JML09']= 0;
+					$result['JML10']= 0;
+					$result['JML11']= 0;
+					$result['JML12']= 0;
+			}	
+		return $result;
+	}
+	
+	function detail084_jb($thn_temp){
+		$query = "select JNSBELANJA, sum(RPHPAGU) as RPHPAGU,
+					sum(JML01) as JML01,
+					sum(JML02) as JML02,
+					sum(JML03) as JML03,
+					sum(JML04) as JML04,
+					sum(JML05) as JML05,
+					sum(JML06) as JML06,
+					sum(JML07) as JML07,
+					sum(JML08) as JML08,
+					sum(JML09) as JML09,
+					sum(JML10) as JML10,
+					sum(JML11) as JML11,
+					sum(JML12) as JML12
+					from d_trktrm WHERE THANG='{$thn_temp}' AND JNSBELANJA <> '42' group by JNSBELANJA";
+	$result = $this->fetch($query,1);
+	
+	return $result;
+	}
+	
+	function detailkgtn($thn_temp,$kd_satker,$kd_giat){
+		$query = "select RPHPAGU,JML01,JML02,JML03,JML04,JML05,JML06,JML07,JML08,JML09,JML10,JML11,JML12  from d_trktrm 
+				  WHERE THANG='{$thn_temp}' AND KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' AND JNSBELANJA <> '42' group by KDGIAT";
+	$result = $this->fetch($query);
+	return $result;
+	}
+	
+	function detail_jb($thn_temp,$kd_satker,$kd_giat){
+		$query = "select JNSBELANJA, sum(RPHPAGU) as RPHPAGU,
+					sum(JML01) as JML01,
+					sum(JML02) as JML02,
+					sum(JML03) as JML03,
+					sum(JML04) as JML04,
+					sum(JML05) as JML05,
+					sum(JML06) as JML06,
+					sum(JML07) as JML07,
+					sum(JML08) as JML08,
+					sum(JML09) as JML09,
+					sum(JML10) as JML10,
+					sum(JML11) as JML11,
+					sum(JML12) as JML12
+					from d_trktrm WHERE THANG='{$thn_temp}' AND KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' AND JNSBELANJA <> '42' group by JNSBELANJA";
+		$result = $this->fetch($query,1);
+		return $result;
+	}
+	
+	function cek_kegiatan_group_scnd_sub($thn_temp,$kd_satker,$kd_giat)
+	{
+		$query = "select KDGIAT,sum(JUMLAH) as pagu_giat from d_item WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' 
+				  and KDGIAT =  '{$kd_giat}' group by KDGIAT";
+				  
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function select_soutput($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	{
+		$query = "select KDSOUTPUT, sum(JUMLAH) as pagu_soutput from d_item WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' 
+				and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' group by KDSOUTPUT";
+				  
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function nama_soutput($thn_temp,$kd_giat,$kd_output,$kd_soutput)
+	{
+		$query = "select URSOUTPUT from d_soutput where THANG='{$thn_temp}' and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' 
+				  and KDSOUTPUT='{$kd_soutput}'";
+				  
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function select_komponen($thn_temp,$kd_satker,$kd_giat,$kd_output,$kd_soutput)
+	{
+		$query = "select KDKMPNEN, sum(JUMLAH) as pagu_kmpnen from d_item WHERE THANG='{$thn_temp}' and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' and KDSOUTPUT='{$kd_soutput}' group by KDKMPNEN";
+				  
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	function nama_komponen($thn_temp,$kd_giat,$kd_output,$kd_soutput,$kd_komponen)
+	{
+		$query = "select URKMPNEN from d_kmpnen where THANG='{$thn_temp}' and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' 
+				 and KDSOUTPUT='{$kd_soutput}' and KDKMPNEN='{$kd_komponen}'";
+				  
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function select_komponen_sub($thn_temp,$kd_satker,$kd_giat,$kd_output,$kd_soutput,$kd_komponen)
+	{
+		$query = "select KDSKMPNEN, sum(JUMLAH) as pagu_skmpnen from d_item WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' and KDSOUTPUT='{$kd_soutput}' and KDKMPNEN='{$kd_komponen}' group by KDSKMPNEN";
+				  
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function nama_komponen_sub($thn_temp,$kd_giat,$kd_output,$kd_soutput,$kd_komponen,$kd_komponen_sub)
+	{
+		$query = "select URSKMPNEN from d_skmpnen where THANG='{$thn_temp}' and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' 
+				and KDSOUTPUT='{$kd_soutput}' 
+				and KDKMPNEN='{$kd_komponen}' and KDSKMPNEN='{$kd_komponen_sub}'";
+				  
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function select_kode_akun_sub($thn_temp,$kd_satker,$kd_giat,$kd_output,$kd_soutput,$kd_komponen,$kd_komponen_sub)
+	{
+		$query = "select KDAKUN, sum(JUMLAH) as pagu_akun from d_item WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' and KDSOUTPUT='{$kd_soutput}' and KDKMPNEN='{$kd_komponen}' and KDSKMPNEN='{$kd_komponen_sub}' group by KDAKUN";
+				  
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function nm_akun($kd_akun){
+		$query = "select NMAKUN from t_akun where KDAKUN = '{$kd_akun}'";
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function select_item($thn_temp,$kd_satker,$kd_giat,$kd_output,$kd_soutput,$kd_komponen,$kd_komponen_sub,$kd_akun){
+		$query = "select NMITEM,VOLKEG,SATKEG,JUMLAH,HARGASAT from d_item WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' and KDOUTPUT='{$kd_output}' and KDSOUTPUT='{$kd_soutput}' and KDKMPNEN='{$kd_komponen}' and KDSKMPNEN='{$kd_komponen_sub}' and KDAKUN='{$kd_akun}'";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
 	
 }
 ?>
