@@ -1,0 +1,168 @@
+<script>
+$(window).on('load', function() {
+
+	// Datatables
+	// Row selection and deletion (multiple rows)
+	// -----------------------------------------------------------------
+	var rowDeletion = $('#newslist1').DataTable({
+		"responsive": true,
+		"language": {
+			"paginate": {
+			  "previous": '<i class="fa fa-angle-left"></i>',
+			  "next": '<i class="fa fa-angle-right"></i>'
+			}
+		},
+		"dom": '<"toolbar">frtip'
+	});
+
+	$('#create-toolbar').appendTo($("div.toolbar"));
+	$('#separator-toolbar').appendTo($("div.toolbar"));
+	$('#delete-toolbar').appendTo($("div.toolbar"));
+
+})
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">RPK</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">List RPK</h3>
+		</div>
+		
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+<!-- 
+		<div id="create-toolbar" class="table-toolbar-right">
+			<a href="{$basedomain}renstra/edit/?req=1"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">List RPK</button></a>
+		</div>
+		<div id="separator-toolbar" class="table-toolbar-right">&nbsp;</div> -->
+		
+		<div id="delete-toolbar" class="table-toolbar-right">
+			<form>
+			<div class="form-horizontal">
+				<div class="form-group">
+				<select name="unit"  class="selectpicker">
+							<option value="" selected>--Pilih Unit Kerja--</option>
+						
+				</select> 
+					<button id="demo-dt-delete-btn-course-list" class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
+				</div>
+			</div>
+			</form>
+		</div>
+			<table id="newslist" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th class="text-center">Kode APBN</th>
+						<th class="text-center">Kegiatan / Output</th>
+						<th class="text-center">Total Anggaran</th>
+						<th class="text-center">Status</th>
+						<th class="text-center" colspan="2">Aksi</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style="color:green">
+						<td class="text-center">3550</td>
+						<td>Peningkatan Perencanaan, Keuangan dan Tata Usaha BSN</td>
+						<td class="text-right">102.826.888.000</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="text-center">001</td>
+						<td>Dokumen perencanaan dan monitoring evaluasi</td>
+						<td class="text-right">2.846.450.000</td>
+						<td>Kirim 12-07-2015</td>
+						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+					</tr>
+					<tr>
+						<td class="text-center">002</td>
+						<td>Dokumen perencanaan dan monitoring evaluasi</td>
+						<td class="text-right">2.846.450.000</td>
+						<td>&nbsp;</td>
+						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+					</tr>
+					<tr>
+						<td class="text-center">003</td>
+						<td>Dokumen perencanaan dan monitoring evaluasi</td>
+						<td class="text-right">2.846.450.000</td>
+						<td>&nbsp;</td>
+						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+					</tr>
+
+					<tr style="color:green">
+						<td class="text-center">3552</td>
+						<td>Peningkatan Sarana dan Prasarana Fisik BSN</td>
+						<td class="text-right">49.000.000.000</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="text-center">001</td>
+						<td>Dokumen perencanaan dan monitoring evaluasi</td>
+						<td class="text-right">2.846.450.000</td>
+						<td>Kirim 12-07-2015</td>
+						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+					</tr>
+					<tr>
+						<td class="text-center">002</td>
+						<td>Dokumen perencanaan dan monitoring evaluasi</td>
+						<td class="text-right">2.846.450.000</td>
+						<td>&nbsp;</td>
+						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+					</tr>
+					<tr>
+						<td class="text-center">003</td>
+						<td>Dokumen perencanaan dan monitoring evaluasi</td>
+						<td class="text-right">2.846.450.000</td>
+						<td>&nbsp;</td>
+						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+					</tr>
+					
+				</tbody>
+			</table>
+			
+			
+
+		
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+
