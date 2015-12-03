@@ -44,6 +44,7 @@
 					</tr>
 				</thead>
 				<tbody>
+					{if !empty($data)}
 					{foreach $data as $val}
 					<tr>
 						<td>{$val.desc}</td>
@@ -60,6 +61,9 @@
 						</td>
 					</tr>
 					{/foreach}
+					{else}
+					<tr><td colspan="5">Tidak ada data</td></tr>
+					{/if}
 				</tbody>
 			</table>
 		</div>

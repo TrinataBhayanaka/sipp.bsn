@@ -24,9 +24,12 @@ class mptn extends Database {
 		$res = $this->fetch($sql,1);
 
 		foreach ($res as $key => $value) {
-			if($value['desc'] == $res[$key-1]['desc'])
+			if($value['desc'] == $res[$key-1]['desc'] || $value['desc'] == $tmp)
 			{
 				$res[$key]['desc'] = "";
+				$tmp = $value['desc'];
+			} else {
+				$tmp = "";
 			}
 		}
 		if ($res) return $res;
