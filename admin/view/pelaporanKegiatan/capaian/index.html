@@ -53,6 +53,11 @@ $(window).on('load', function() {
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
+			<div class="row">
+					<div class="col-sm-6 table-toolbar-left">
+						<a href="{$basedomain}pelaporanKegiatan/form"><button class="btn btn-primary btn-labeled fa fa-plus" >Tambah</button></a>
+					</div>
+				</div>
 			<div class="table-responsive">
 				<table class="table table-bordered">
 				<thead>
@@ -64,12 +69,13 @@ $(window).on('load', function() {
 						<th class="text-center" colspan="16">Rencana Aksi Pencapaian Target</th>
 						<th class="text-center" rowspan="3">Permasalahan / Kinerja</th>
 						<th class="text-center" rowspan="3">Perbaikan / Tindak Lanjut</th>
+						<th class="text-center" rowspan="3">Aksi</th>
 					</tr>
 					<tr>
 						<th class="text-center" colspan="4">TWN I</th>
 						<th class="text-center" colspan="4">TWN II</th>
 						<th class="text-center" colspan="4">TWN III</th>
-						<th class="text-center" colspan="4">TWN IV</th>
+						<th class="text-center" colspan="4" style="border-right:1px solid #E3E3E3">TWN IV</th>
 					</tr>
 					<tr>
 						<th class="text-center">Target</th>
@@ -87,94 +93,86 @@ $(window).on('load', function() {
 						<th class="text-center">Target</th>
 						<th class="text-center">(%)</th>
 						<th class="text-center">Realisasi</th>
-						<th class="text-center">(%)</th>
+						<th class="text-center" style="border-right:1px solid #E3E3E3">(%)</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td rowspan="4">Tersedia</td>
-						<td rowspan="2">Tersedia</td>
-						<td rowspan="2">Tersedia</td>
-						<td rowspan="2">Tersedia</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td rowspan="2">Tersedia</td>
-						<td rowspan="2">Tersedia</td>
-					</tr>
-					<tr>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-					</tr>
+				{foreach $data as $key => $val}
 
 					<tr>
-						<td rowspan="2">Tersedia</td>
-						<td rowspan="2">Tersedia</td>
-						<td rowspan="2">Tersedia</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td rowspan="2">Tersedia</td>
-						<td rowspan="2">Tersedia</td>
+						<td>{$val.desc}</td>
+						<td>{$val.nm_pk}</td>
+						<td>{$val.target}</td>
+						<td>{$val.formula}</td>
+						<td>
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan1_trgtO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan1_trgtP}
+						</td>
+						<td>{$val.triwulan1_ntrgt}</td>
+						<td>
+							
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan1_realO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan1_realP}
+						</td>
+						<td>{$val.triwulan1_nreal}</td>
+						<td>
+							
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan2_trgtO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan2_trgtP}
+						</td>
+						<td>{$val.triwulan2_ntrgt}</td>
+						<td>
+							
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan1_realO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan1_realP}
+						</td>
+						<td>{$val.triwulan2_nreal}</td>
+						<td>
+							
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan3_trgtO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan3_trgtP}
+						</td>
+						<td>{$val.triwulan3_ntrgt}</td>
+						<td>
+							
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan1_realO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan1_realP}
+						</td>
+						<td>{$val.triwulan3_nreal}</td>
+						<td>
+							
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan4_trgtO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan4_trgtP}
+						</td>
+						<td>{$val.triwulan4_ntrgt}</td>
+						<td>
+							
+							<u><i>OUTPUT:</i></u><br/>
+							{$val.triwulan1_realO}<br/>
+							<u><i>Proses/Tahapan</i></u><br/>
+							{$val.triwulan1_realP}
+						</td>
+						<td>{$val.triwulan4_nreal}</td>
+						<td>{$val.permasalahan}</td>
+						<td>{$val.perbaikan}</td>
+						<td><a href="{$basedomain}pelaporanKegiatan/editForm/?id={$val.id}"><button class="btn btn-warning btn-labeled fa fa-pencil-square-o" >Edit Capaian</button></a></td>
 					</tr>
-					<tr>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-						<td>target</td>
-						<td>0</td>
-						<td>realisasi</td>
-						<td>0</td>
-					</tr>
+					{/foreach}
+
 				</tbody>
 			</table>
 		</div>
