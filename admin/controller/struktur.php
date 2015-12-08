@@ -395,15 +395,18 @@ class struktur extends Controller {
 
 		$id = _g('id');
 		$req = _g('req');
+		$param = _g('param');
 
-		if ($req == 2) $link = 'struktur/index';
+		if ($req == 2) $link = 'struktur';
 		if ($req == 3) $link = 'struktur/sasaran';
 		if ($req == 4) $link = 'struktur/dokumenBsn';
-		else $link = 'struktur/index';
+		else $link = 'struktur';
 
+		if ($param ==1) $table = "_struktur";
+		else $table = "_news_content";
 		$data['id'] = $id;
 		$data['n_status'] = 0;
-		$save = $this->contentHelper->saveData($data,"_struktur");
+		$save = $this->contentHelper->saveData($data,$table);
 		if ($save){
 			redirect($basedomain . $link);
 		}
