@@ -352,6 +352,18 @@ class Database
 		return false;
 	}
 
+	function get_auto_increment($tablename=false){
+    
+	    $next_increment = 0;
+	    $qShowStatus = "SHOW TABLE STATUS LIKE '$tablename'";
+	    $qShowStatusResult = mysql_query($qShowStatus) or die ( "Query failed: " . mysql_error() . "<br/>" . $qShowStatus );
+
+	    $row = mysql_fetch_assoc($qShowStatusResult);
+	    $next_increment = $row['Auto_increment'];
+
+	    return $next_increment;
+	} 
+
 	function lazyQuery($data=array(), $debug=false, $method=0)
 	{
 
@@ -430,6 +442,9 @@ class Database
                 );
 				*/
 				$value = $data['value'];
+
+				$mode = "SET sql_mode = ''";
+				$this->query($mode);
 
 				$sql = "INSERT INTO {$table} ({$field}) VALUES ({$value})";
 				logFile($sql);
