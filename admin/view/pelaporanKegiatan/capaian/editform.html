@@ -17,7 +17,7 @@ function isNumber(evt) {
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Form Tambah Capaian</h1>
+	<h1 class="page-header text-overflow">Form Edit Capaian</h1>
 
 	<!--Searchbox-->
 	<!-- <div class="searchbox">
@@ -37,7 +37,7 @@ function isNumber(evt) {
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
 	<li><a href="{$basedomain}pelaporanKegiatan/index">Pelaporan Kegiatan</a></li>
-	<li class="active">Add Capaian</li>
+	<li class="active">Edit Capaian</li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -59,15 +59,20 @@ function isNumber(evt) {
 				{$data_list[0].namakursus}-->
 				<!--Horizontal Form-->
 				<!--===================================================-->
-				<form class="form-horizontal" id="fdata" method="POST" action="{$basedomain}pelaporanKegiatan/insertForm" enctype="multipart/form-data">
+				<form class="form-horizontal" id="fdata" method="POST" action="{$basedomain}pelaporanKegiatan/updateForm" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="{$data.id}"/>
 					<div class="panel-body">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Sasaran</label>
 							<div class="col-sm-6">						
 								<select name ="sasaran" id="sasaran"  class="selectpicker">
-									<option value="">--Pilih Sasaran--</option>
-									{foreach $dataSasaran as $key => $val}
-										<option value="{$val.id}">{$val.desc}</option>
+									{foreach $dataSasaran as $keys => $vals}
+										{$selected=""}
+										{if $vals.id==$data.sasaran}
+											{$selected="selected"}
+										{/if}
+										<option value="{$vals.id}" {$selected}>{$vals.desc}</option>
+										
 									{/foreach}
 								</select> 
 							</div>
@@ -77,6 +82,14 @@ function isNumber(evt) {
 							<div class="col-sm-6" >		
 								<div id="indikatorx">				
 									<select name ="indikator" id="selectindikator"  class="selectpicker">
+									{foreach $dataIndikator as $keyr => $valr}
+										{$selected=""}
+										{if $valr.id==$data.indikator}
+											{$selected="selected"}
+										{/if}
+										<option value="{$valr.id}" {$selected}>{$valr.nm_pk}</option>
+										
+									{/foreach}
 									</select> 
 								</div>
 							</div>
@@ -84,14 +97,14 @@ function isNumber(evt) {
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Target</label>
 							<div class="col-sm-4">
-								<input type="text" name="target" id="target" class="form-control" readonly required>
+								<input type="text" name="target" id="target" value="{$data.target}" class="form-control" readonly required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Formula Indikator Kinerja</label>
 							<div class="col-sm-4">
-								<input type="text" name="formula" class="form-control" required>
+								<input type="text" name="formula" class="form-control" value="{$data.formula}" required>
 							</div>
 						</div>
 						<div class="form-group">
@@ -102,9 +115,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn1[trgtO]"></textarea>
+									<textarea class="form-control" name="twn1[trgtO]">{$data.triwulan1_trgtO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn1[trgtP]"></textarea>
+									<textarea class="form-control" name="twn1[trgtP]">{$data.triwulan1_trgtP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -113,7 +126,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn1[ntrgt]" class="form-control">
+									<input type="text" name="twn1[ntrgt]" value="{$data.triwulan1_ntrgt}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -123,9 +136,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn1[realO]"></textarea>
+									<textarea class="form-control" name="twn1[realO]">{$data.triwulan1_realO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn1[realP]"></textarea>
+									<textarea class="form-control" name="twn1[realP]">{$data.triwulan1_realP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -134,7 +147,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn1[nreal]" class="form-control">
+									<input type="text" name="twn1[nreal]" value="{$data.triwulan1_nreal}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -148,9 +161,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn2[trgtO]"></textarea>
+									<textarea class="form-control" name="twn2[trgtO]">{$data.triwulan2_trgtO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn2[trgtP]"></textarea>
+									<textarea class="form-control" name="twn2[trgtP]">{$data.triwulan2_trgtP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -160,7 +173,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn2[ntrgt]" class="form-control">
+									<input type="text" name="twn2[ntrgt]" value="{$data.triwulan2_ntrgt}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -169,9 +182,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn2[realO]"></textarea>
+									<textarea class="form-control" name="twn2[realO]">{$data.triwulan2_realO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn2[realP]"></textarea>
+									<textarea class="form-control" name="twn2[realP]">{$data.triwulan2_realP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -180,7 +193,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn2[nreal]" class="form-control">
+									<input type="text" name="twn2[nreal]" value="{$data.triwulan2_nreal}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -194,9 +207,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class=" input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn3[trgtO]"></textarea>
+									<textarea class="form-control" name="twn3[trgtO]">{$data.triwulan3_trgtO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn3[trgtP]"></textarea>
+									<textarea class="form-control" name="twn3[trgtP]">{$data.triwulan3_trgtP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -205,7 +218,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn3[ntrgt]" class="form-control">
+									<input type="text" name="twn3[ntrgt]" value="{$data.triwulan3_ntrgt}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -215,9 +228,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn3[realO]"></textarea>
+									<textarea class="form-control" name="twn3[realO]">{$data.triwulan3_trgtO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn3[realP]"></textarea>
+									<textarea class="form-control" name="twn3[realP]">{$data.triwulan3_trgtP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -226,7 +239,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn3[nreal]" class="form-control">
+									<input type="text" name="twn3[nreal]" value="{$data.triwulan3_nreal}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -240,9 +253,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn4[trgtO]"></textarea>
+									<textarea class="form-control" name="twn4[trgtO]">{$data.triwulan4_trgtO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn4[trgtP]"></textarea>
+									<textarea class="form-control" name="twn4[trgtP]">{$data.triwulan4_trgtP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -251,7 +264,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn4[ntrgt]" class="form-control">
+									<input type="text" name="twn4[ntrgt]" value="{$data.triwulan4_ntrgt}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -261,9 +274,9 @@ function isNumber(evt) {
 							<div class="col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">Output</span>
-									<textarea class="form-control" name="twn4[realO]"></textarea>
+									<textarea class="form-control" name="twn4[realO]">{$data.triwulan4_realO}</textarea>
 									<span class="input-group-addon">Proses / Tahapan</span>
-									<textarea class="form-control" name="twn4[realP]"></textarea>
+									<textarea class="form-control" name="twn4[realP]">{$data.triwulan4_realP}</textarea>
 								</div>
 							</div>
 						</div>
@@ -272,7 +285,7 @@ function isNumber(evt) {
 							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">(%)</span>
-									<input type="text" name="twn4[nreal]" class="form-control">
+									<input type="text" name="twn4[nreal]" value="{$data.triwulan4_nreal}"  class="form-control">
 								</div>
 							</div>
 						</div>
@@ -280,14 +293,14 @@ function isNumber(evt) {
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Permasalahan / Kinerja</label>
 							<div class="col-sm-4">
-								<input type="text" name="permasalahan" class="form-control" required>
+								<input type="text" name="permasalahan" value="{$data.permasalahan}"  class="form-control" required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Perbaikan / Tindak Lanjut</label>
 							<div class="col-sm-4">
-								<input type="text" name="perbaikan" class="form-control" required>
+								<input type="text" name="perbaikan" value="{$data.perbaikan}"  class="form-control" required>
 							</div>
 						</div>
 

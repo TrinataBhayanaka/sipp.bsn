@@ -1,0 +1,45 @@
+<!--Bootstrap Select [ OPTIONAL ]-->
+	<link href="{$basedomain}plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+
+<select name ="indikator" id="selectindikator"class="selectpickerx">
+{if $data}							
+<option value="">--Pilih--</option>
+{foreach $data as $key => $val}
+	<option value="{$val.id}">{$val.nm_pk}</option>
+{/foreach}
+{/if}
+</select> 
+
+<!--jQuery [ REQUIRED ]-->
+<script src="{$basedomain}js/jquery-2.1.1.min.js"></script>
+<script src="{$basedomain}plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script>
+		{literal}
+		$('.selectpickerx').selectpicker();
+
+
+ $('#fdata').on('change','#selectindikator',function(){
+
+ 			 var value =$('#selectindikator').val();
+                   // alert(value);
+                   // var valueparameter =$('#valueparameter').val();
+
+                    $.post(basedomain+'pelaporanKegiatan/getTarget', {actionfunction: 'showDataAjax',id: value}, function(data){
+                            
+                            if (data.status==true) {
+                               
+                                    $('#target').val(data.data); 
+
+                                 // $('.ajax-spinner-bars').css("display","none"); 
+                                
+                            }else{
+
+                                    $('#target').val(); 
+                                   // $('.ajax-spinner-bars').css("display","none"); 
+                            }
+                        }, "JSON")
+
+                return false;
+	});
+		{/literal}
+	</script>
