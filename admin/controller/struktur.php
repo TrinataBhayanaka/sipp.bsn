@@ -238,10 +238,10 @@ class struktur extends Controller {
 		if ($id){
 			$data['id'] = $id;
 			$getStruktur = $this->contentHelper->getContent($data);
-
+			// pr($getStruktur);
 			$kode = $getStruktur[0]['title'];
 			$nama_satker =$getStruktur[0]['desc'];
-			
+			$this->view->assign('kegiatan', $getStruktur);
 		}else{
 			$kode = "";
 			$nama_satker ="";
@@ -323,7 +323,7 @@ class struktur extends Controller {
 
 			$kode = $getStruktur[0]['title'];
 			$nama_satker =$getStruktur[0]['desc'];
-			
+			$this->view->assign('kegiatan', $getStruktur);
 		}else{
 			$kode = "";
 			$nama_satker ="";
@@ -396,11 +396,13 @@ class struktur extends Controller {
 		$id = _g('id');
 		$req = _g('req');
 		$param = _g('param');
+		// $page = _g('page');
 
-		if ($req == 2) $link = 'struktur';
-		if ($req == 3) $link = 'struktur/sasaran';
-		if ($req == 4) $link = 'struktur/dokumenBsn';
-		else $link = 'struktur';
+		if ($req == 1) $link = 'struktur';
+		if ($req == 2) $link = 'struktur/bsn';
+		if ($req == 3) $link = 'struktur/eselon1';
+		if ($req == 4) $link = 'struktur/eselon2';
+		// else $link = 'struktur';
 
 		if ($param ==1) $table = "_struktur";
 		else $table = "_news_content";

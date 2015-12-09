@@ -1174,10 +1174,15 @@ class renstra extends Controller {
 		$id = _g('id');
 		$req = _g('req');
 
+		if ($req == 1) $link = 'renstra/visi_bsn';
 		if ($req == 2) $link = 'renstra/visi_eselon';
 		if ($req == 3) $link = 'renstra/sasaran';
-		if ($req == 4) $link = 'renstra/dokumenBsn';
-		else $link = 'renstra/visi_bsn';
+		if ($req == 4) $link = 'renstra/kinerja';
+		if ($req == 5) $link = 'renstra/program';
+		if ($req == 6) $link = 'renstra/kegiatan';
+		if ($req == 7) $link = 'renstra/output';
+		if ($req == 8) $link = 'renstra/dokumenBsn';
+		// else $link = 'renstra/visi_bsn';
 
 		$data['id'] = $id;
 		$data['n_status'] = 0;

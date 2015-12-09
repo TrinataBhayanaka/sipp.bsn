@@ -50,7 +50,7 @@
 				              		<select class="form-control eselonid" name="title">
 				                    {if $struktur}
 				                    {foreach $struktur as $val}
-				                    <option value="{$val.id}" {if $val.id == $kegiatan.0.data}selected{/if}>{$val.nama_satker}</option>
+				                    <option value="{$val.id}" {if $val.id == $kegiatan.0.title}selected{/if}>{$val.nama_satker}</option>
 				                    {/foreach}
 				                    {/if}
 				                  	</select>

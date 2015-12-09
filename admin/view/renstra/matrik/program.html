@@ -151,7 +151,7 @@
 									<tr>
 										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
 										<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Indikator</button></a>
-										<a href="{$basedomain}renstra/delete/?id={$value.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a></td>
+										<a href="{$basedomain}renstra/delete/?id={$value.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a></td>
 									</tr>
 									{/foreach}
 									{/if}
@@ -163,7 +163,7 @@
 									{foreach $value.indikator as $v}
 									<tr>
 										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
-										<a href="{$basedomain}renstra/delete/?id={$v.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a></td>
+										<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a></td>
 									</tr>
 									{/foreach}
 									{/foreach}
