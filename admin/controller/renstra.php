@@ -355,14 +355,24 @@ class renstra extends Controller {
 
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
 		// pr($getStruktur);
-		foreach ($getStruktur as $key => $value) {
-			if ($value['kode']=='840000') $bsnid = $value['id'];
+		
+		if ($pid==1){
+			foreach ($getStruktur as $key => $value) {
+				if ($value['kode']=='840000') $bsnid = $value['id'];
+			}
 		}
 		
+
 		if (!$parent_id){
 			if (!$pid) $pid = 1;
 			
-			
+			if ($pid==1){
+				foreach ($getStruktur as $key => $value) {
+					if ($value['kode']=='840000') $bsnid = $value['id'];
+				}
+			}else{
+				$bsnid = $getStruktur[0]['id'];
+			}
 			redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id=".$bsnid);
 			exit;
 		}
