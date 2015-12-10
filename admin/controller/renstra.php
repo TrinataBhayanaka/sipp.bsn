@@ -354,12 +354,20 @@ class renstra extends Controller {
 		} 
 
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
-		if (!$parent_id){
-			if (!$pid) $pid = 1;
-			redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id=".$getStruktur[0]['id']);
-			exit;
+		// pr($getStruktur);
+		foreach ($getStruktur as $key => $value) {
+			if ($value['kode']=='840000') $bsnid = $value['id'];
 		}
 		
+		if (!$parent_id){
+			if (!$pid) $pid = 1;
+			
+			
+			redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id=".$bsnid);
+			exit;
+		}
+		// pr($bsnid);
+		$this->view->assign('bsnid', $bsnid);
 		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
 		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);

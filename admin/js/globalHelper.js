@@ -70,7 +70,8 @@ function inputsasaran(req, iddata)
 function inputdokumen(pid, req, iddata)
 {
   var id = $('.eselonid').val();
-  
+  // clog(id);
+  // return false;
   if (iddata){
     redirect(basedomain+"renstra/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id+"&id="+iddata);
 
