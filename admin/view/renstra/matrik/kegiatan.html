@@ -91,6 +91,7 @@
 							<td class="text-center" colspan="2">
 								<div id="create-toolbar" >
 									<a href="{$basedomain}renstra/editKegiatan/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$val.id}&req=6"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 								</div>
 							</td>
 						</tr>
@@ -105,11 +106,11 @@
 							<td>{$v.tags}</td>
 							<td>
 								<div id="create-toolbar" >
-									<a href="{$basedomain}renstra/editKegiatan/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+									<a href="{$basedomain}renstra/editKegiatan/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 							</td>
 							<td>
-									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=6"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=6"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							</td>
 						</tr>
 						{/foreach}

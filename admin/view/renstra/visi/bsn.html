@@ -76,7 +76,9 @@ $(window).on('load', function() {
 					<tr>
 						<td>{$val.title}</td>
 						<td>{$val.desc}</td>
-						<td><a href="{$basedomain}renstra/edit/?req=1&id={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit</button></a></td>
+						<td><a href="{$basedomain}renstra/edit/?req=1&id={$val.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+						</td>
 					</tr>
 					{/foreach}
 					{else}
@@ -105,8 +107,8 @@ $(window).on('load', function() {
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
 						<td>
-							<a href="{$basedomain}renstra/edit/?req=2&id={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit</button></a>
-							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus</button></a>
+							<a href="{$basedomain}renstra/edit/?req=2&id={$val.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 						</td>
 					</tr>
 					{/foreach}
@@ -136,8 +138,8 @@ $(window).on('load', function() {
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
 						<td>
-							<a href="{$basedomain}renstra/edit/?req=3&id={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit</button></a>
-							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus</button></a>
+							<a href="{$basedomain}renstra/edit/?req=3&id={$val.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 						</td>
 					</tr>
 					{/foreach}

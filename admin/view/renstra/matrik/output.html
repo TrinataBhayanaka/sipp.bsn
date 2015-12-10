@@ -85,6 +85,7 @@
 							<td class="text-center" colspan="3">
 								<div id="create-toolbar" >
 									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$val.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 								</div>
 							</td>
 						</tr>
@@ -113,11 +114,11 @@
 							</td>
 							<td>
 								<div id="create-toolbar" >
-									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=7&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 							</td>
 							<td>
-									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							</td>
 							<td><a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$v.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a></td>
 						</tr>
@@ -148,11 +149,11 @@
 							</td>
 							<td>
 								<div id="create-toolbar" >
-									<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$out.parent_id}&id={$out.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$out.parent_id}&id={$out.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 							</td>
 							<td>
-									<a href="{$basedomain}renstra/delete/?id={$out.id}&req=7"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">delete</button></a>
+									<a href="{$basedomain}renstra/delete/?id={$out.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							</td>
 							<td>&nbsp;</td>
 						</tr>

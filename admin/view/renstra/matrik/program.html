@@ -144,21 +144,25 @@
 								<tbody>
 									<tr>
 										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=1&parent_id={$parent_id}&child={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Program</button></a>
-										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Outcome</button></a></td>
+										
+										<a href="{$basedomain}renstra/delete/?id={$val.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Program</button></a>
+										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Outcome</button></a>
+									</td>
 									</tr>
 									{if $val.outcome}
 									{foreach $val.outcome as $value}
 									<tr>
 										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
+										
+										<a href="{$basedomain}renstra/delete/?id={$value.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a>
 										<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Indikator</button></a>
-										<a href="{$basedomain}renstra/delete/?id={$value.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a></td>
+									</td>
 									</tr>
 									{/foreach}
 									{/if}
 
 									{if $val.is_indikator}
-									<tr style=""><td>1</td></tr>
-									<tr style=""><td>1</td></tr>
+									
 									{foreach $val.outcome as $value}
 									{foreach $value.indikator as $v}
 									<tr>

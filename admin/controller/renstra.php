@@ -78,7 +78,7 @@ class renstra extends Controller {
 		$parent_id = _g('parent_id');
 
 		$dataStruktur['table'] = 'bsn_struktur';
-		$dataStruktur['condition'] = array('type'=>'1,2,3');
+		$dataStruktur['condition'] = array('type'=>'1,2,3', 'n_status'=>1);
 		$dataStruktur['in'] = array('type');
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		// pr($getStruktur);
@@ -905,7 +905,7 @@ class renstra extends Controller {
 		$req = _g('req');
 
 		$dataStruktur['table'] = 'bsn_struktur';
-		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['condition'] = array('type'=>'1,2,3');
 		$dataStruktur['in'] = array('type');
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		
