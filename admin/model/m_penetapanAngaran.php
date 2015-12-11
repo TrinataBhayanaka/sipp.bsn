@@ -1135,5 +1135,214 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
+	function list_dropdown(){
+		$query = "select * from tb_unitkerja WHERE right(kdunit,3) <> '000' order by kdunit";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function kd_kegiatan($thn_temp,$kd_satker){
+		$query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE ta = '{$thn_temp}' and kdunitkerja = '{$kd_satker}'";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function pagu_giat($thn_temp,$kd_giat){
+		$query = "select KDGIAT, sum(JUMLAH) as pagu_giat from d_item WHERE THANG='{$thn_temp}' and KDGIAT = '{$kd_giat}' group by KDGIAT";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function output($thn_temp,$kd_giat){
+		$query = "select KDOUTPUT, sum(JUMLAH) as pagu_output from d_item WHERE THANG='{$thn_temp}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function output_cndtn($thn_temp,$kd_giat,$kd_output){
+		$query = "select KDOUTPUT, sum(JUMLAH) as pagu_output from d_item WHERE THANG='{$thn_temp}' and KDGIAT = '{$kd_giat}' 
+				  and KDOUTPUT = '{$kd_output}'
+				  group by KDOUTPUT";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function nama_unit($kd_unit){
+		$query = "select nmunit from tb_unitkerja WHERE kdunit='{$kd_unit}'";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function rincian($thn,$kd_unit,$kd_giat,$kd_output){
+		$query = "SELECT * FROM thbp_kak_output WHERE th = '{$thn}' and kdgiat = '{$kd_giat}' and kdoutput = '{$kd_output}' 
+				  and kdunitkerja = '{$kd_unit}'  order by id desc limit 1";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function thp_kegiatan($thn,$kd_giat,$kd_output){
+		$query = "SELECT KDKMPNEN,KDSOUTPUT,sum(JUMLAH) as pagu_kmpnen FROM d_item WHERE THANG = '{$thn}' and KDGIAT = '{$kd_giat}' 
+							     and KDOUTPUT = '{$kd_output}' group by KDKMPNEN order by kdsoutput,kdkmpnen";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function thp_kegiatan_condtn($thn,$kd_giat,$kd_output,$kd_komponen,$kd_soutput){
+		$query = "SELECT KDKMPNEN,KDSOUTPUT,sum(JUMLAH) as pagu_kmpnen FROM d_item WHERE THANG = '{$thn}' and KDGIAT = '{$kd_giat}' 
+							     and KDOUTPUT = '{$kd_output}' and KDKMPNEN='{$kd_komponen}' and KDSOUTPUT = '{$kd_soutput}' group by KDKMPNEN order by kdsoutput,kdkmpnen";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function komponen($thn,$kd_giat,$kd_output,$kd_komponen,$kd_soutput){
+		$query = "SELECT URKMPNEN FROM d_kmpnen WHERE THANG = '{$thn}' and KDGIAT = '{$kd_giat}' 
+				  and KDOUTPUT = '{$kd_output}' and KDSOUTPUT = '{$kd_soutput}' 
+				  and KDKMPNEN = '{$kd_komponen}' ";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function sub_komponen($thn,$kd_giat,$kd_output,$kd_komponen){
+		$query = "SELECT * FROM thbp_kak_output_tahapan WHERE th = '{$thn}' AND kdgiat = '{$kd_giat}' 
+				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' ORDER BY kd_tahapan ";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function sub_komponen_cdtn($thn,$kd_giat,$kd_output,$kd_komponen,$kd_soutput){
+		$query = "SELECT * FROM thbp_kak_output_tahapan WHERE th = '{$thn}' AND kdgiat = '{$kd_giat}' 
+				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' 
+				  and kdkmpnen = '{$kd_komponen}' and kdsoutput = '{$kd_soutput}'
+				  ORDER BY kd_tahapan ";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function sub_komponen_cdtn_sub($thn,$kd_giat,$kd_output,$kd_komponen,$kd_soutput,$id){
+		$query = "SELECT * FROM thbp_kak_output_tahapan WHERE th = '{$thn}' AND kdgiat = '{$kd_giat}' 
+				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' 
+				  and kdkmpnen = '{$kd_komponen}' and kdsoutput = '{$kd_soutput}' and id='{$id}'
+				  ORDER BY kd_tahapan ";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function update($tujuan,$sasaran_1,$sasaran_2,$sasaran_3,$sasaran_4,
+					$ursasaran_1,$ursasaran_2,$ursasaran_3,$ursasaran_4,
+					$status,$tgl_kirim,$kdunitkerja,$kdgiat,$kdoutput,
+					$id,$th){
+		// pr($sasaran_1);
+		$query = "UPDATE thbp_kak_output SET tujuan = '{$tujuan}', 
+								sasaran_1 = '{$ursasaran_1}' ,  sasaran_2 = '{$ursasaran_1}' ,
+								sasaran_3 = '{$ursasaran_3}' , sasaran_4 = '{$ursasaran_4}' ,
+								ursasaran_1 = '{$sasaran_1}' , ursasaran_2 = '{$sasaran_2}' ,
+								ursasaran_3 = '{$sasaran_3}' , ursasaran_4 = '{$sasaran_4}' ,
+							   status = '{$status}', tgl_kirim = '{$tgl_kirim}' ,
+							   kdunitkerja = '{$kdunitkerja}', kdgiat = '{$kdgiat}' ,kdoutput = '{$kdoutput}',
+							   th = '{$th}'
+							   WHERE id = '{$id}' ";
+		// pr($query);	
+		// exit;		
+		$result = $this->query($query);
+	}
+	
+	function insert($tujuan,$sasaran_1,$ursasaran_1,$sasaran_2,$ursasaran_2,
+					$sasaran_3,$ursasaran_3,$sasaran_4,$ursasaran_4,$status,
+					$tgl_kirim,$kdunitkerja,$kdgiat,$kdoutput,$id,$th){
+		$query = "INSERT INTO thbp_kak_output (th,kdunitkerja,kdgiat,kdoutput,tujuan,
+						sasaran_1,sasaran_2,sasaran_3,sasaran_4,
+						ursasaran_1,ursasaran_2,ursasaran_3,ursasaran_4)
+						VALUES ( '{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$tujuan}' ,
+						'{$ursasaran_1}' , '{$ursasaran_2}' , '{$ursasaran_3}' , '{$ursasaran_4}' ,
+						'{$sasaran_1}' , '{$sasaran_2}' , '{$sasaran_3}' , '{$sasaran_4}'  )";
+		// pr($query);
+		// exit;
+		$result = $this->query($query);
+	}
+	
+	function insert_data($kd_tahapan,$nm_tahapan,$thn,$kd_unit,$kd_giat,$kd_output,$kd_komponen,$kd_soutput){
+		$query = "INSERT INTO thbp_kak_output_tahapan (th,kdunitkerja,kdgiat,kdoutput,kdsoutput,kdkmpnen,
+							kd_tahapan,nm_tahapan)
+						VALUES ( '{$thn}' , '{$kd_unit}' , '{$kd_giat}' , '{$kd_output}' , '{$kd_soutput}' ,
+						'{$kd_komponen}' , '{$kd_tahapan}' , '{$nm_tahapan}' )";
+		// pr($query);
+		// exit;
+		$result = $this->query($query);
+	}
+	function edit_data($id){
+		$query = "SELECT kd_tahapan,nm_tahapan,id FROM thbp_kak_output_tahapan WHERE id='{$id}'
+				  ORDER BY kd_tahapan ";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function update_data($id,$kd_tahapan,$nm_tahapan){
+		// pr($sasaran_1);
+		$query = "UPDATE thbp_kak_output_tahapan SET kd_tahapan = '{$kd_tahapan}', 
+								nm_tahapan = '{$nm_tahapan}'
+							   WHERE id = '{$id}' ";
+		// pr($query);	
+		// exit;		
+		$result = $this->query($query);
+	}
+	
+	function hapus_data($id){
+		// pr($sasaran_1);
+		$query = "DELETE FROM thbp_kak_output_tahapan WHERE id = '{$id}' ";
+		// pr($query);	
+		// exit;		
+		$result = $this->query($query);
+	}
+	
+	function update_data_sub($id,$target_1,$target_2,$target_3,$target_4,$target_5,$target_6,
+							 $target_7,$target_8,$target_9,$target_10,$target_11,$target_12,
+							 $anggaran_1,$anggaran_2,$anggaran_3,$anggaran_4,$anggaran_5,$anggaran_6,
+							 $anggaran_7,$anggaran_8,$anggaran_9,$anggaran_10,$anggaran_11,$anggaran_12){
+		// pr($sasaran_1);
+		$query = "UPDATE thbp_kak_output_tahapan SET target_1 = '{$target_1}', target_2 = '{$target_2}',target_3 = '{$target_3}',target_4 = '{$target_4}',target_5 = '{$target_5}',
+													 target_6 = '{$target_6}', target_7 = '{$target_7}',target_8 = '{$target_8}',target_9 = '{$target_9}',target_10 = '{$target_10}',target_11 = '{$target_11}',target_12 = '{$target_12}',	
+													 anggaran_1 ='{$anggaran_1}',anggaran_2 ='{$anggaran_2}',anggaran_3 ='{$anggaran_3}',anggaran_4 ='{$anggaran_4}',anggaran_5 ='{$anggaran_5}',anggaran_6 ='{$anggaran_6}',
+													 anggaran_7 ='{$anggaran_7}',anggaran_8 ='{$anggaran_8}',anggaran_9 ='{$anggaran_9}',anggaran_10 ='{$anggaran_10}',anggaran_11 ='{$anggaran_11}',anggaran_12 ='{$anggaran_12}'
+							  WHERE id = '{$id}' ";
+		// pr($query);	
+		// exit;		
+		$result = $this->query($query);
+	}
+	
+	function thn_aktif(){
+		$query = "select kode,data from bsn_sistem_setting where `desc` like 'tahun_sistem%' and n_status =1 ";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
 }
 ?>

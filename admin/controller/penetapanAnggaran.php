@@ -25,7 +25,10 @@ class penetapanAnggaran extends Controller {
 	}
 	
 	public function penetapananggaran(){
-		$thn_temp = '2015';
+		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+		// $thn_temp = '2015';
+		$thn_temp = $thn_aktif['kode'];
+		
 		$select_data_master_bsn = $this->m_penetapanAngaran->cek_pagu($thn_temp);
 		// pr($select_data_master_bsn);
 		$kode_BSN = "840000";

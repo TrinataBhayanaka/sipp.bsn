@@ -48,7 +48,7 @@
 	<!-- Row selection and deletion (multiple rows) -->
 	<!--===================================================-->
 	<div class="panel">
-		<div class="panel-heading">
+		<!--<div class="panel-heading">
 			<h3 class="panel-title">Anggaran Total</h3>
 			<form action="{$basedomain}pelaporanKeuangan/anggaranTotal" method="post">
 			Sampai dengan Triwulan : 
@@ -60,7 +60,8 @@
 			</select>
 			<input type="submit" value="Tampilkan" name="cari"/>
 		</form>
-		</div>
+		</div>-->
+		
 		{*}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Sasaran Strategis</button></a>
@@ -75,6 +76,22 @@
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
+			<div id="delete-toolbar" class="table-toolbar-right">
+			<form action="{$basedomain}pelaporanKeuangan/anggaranTotal" method="post">
+			<div class="form-horizontal">
+				<div class="form-group">
+				Sampai dengan Triwulan : 
+				<select name="kdtriwulan" class="selectpicker" width="100%">
+					<option value="1" {$dataselected.0}>Triwulan I</option>
+					<option value="2" {$dataselected.1}>Triwulan II</option>
+					<option value="3" {$dataselected.2}>Triwulan III</option>
+					<option value="4" {$dataselected.3}>Triwulan IV</option>
+				</select>
+					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
+				</div>
+			</div>
+			</form>
+		</div>
 			<div class="table-responsive">
 				<table class="table table-bordered">
 					<thead>

@@ -22,12 +22,17 @@ class pelaporanKeuangan extends Controller {
 		
 		// $this->contentHelper = $this->loadModel('contentHelper');
 		$this->m_pelaporankeuangan = $this->loadModel('m_pelaporankeuangan');
+		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
 	}
 	
 	public function index(){
 		//realisasi Keuangan
 		//select mster data induk Badan Standarisasi Nasional(kode,nama,realisasi)
-		$thn_temp = '2013';
+		// $thn_temp = '2013';
+		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+		// $thn_temp = '2015';
+		$thn_temp = $thn_aktif['kode'];
+		
 		$select_data_master_bsn = $this->m_pelaporankeuangan->select_data_master_bsn($thn_temp);
 		// pr($select_data_master_bsn);
 		//select pagu total
@@ -106,7 +111,10 @@ class pelaporanKeuangan extends Controller {
 
 	public function realisasiBulanan(){
 		//realisasi Bulanan
-		$thn_temp = '2013';
+		// $thn_temp = '2013';
+		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+		// $thn_temp = '2015';
+		$thn_temp = $thn_aktif['kode'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
 		//KODE BSN
@@ -272,38 +280,41 @@ class pelaporanKeuangan extends Controller {
 		case 11:$trwulan = 4;break;
 		case 12:$trwulan = 4;break;
 	}
-		
-	if($trwulan == 1){
-		$I = "selected";
-		$II = "";
-		$III = "";
-		$IV = "";
-	}elseif($trwulan == 2){
-		$I = "";
-		$II = "selected";
-		$III = "";
-		$IV = "";
-	}elseif($trwulan == 3){
-		$I = "";
-		$II = "";
-		$III = "selected";
-		$IV = "";
-	}elseif($trwulan == 4){
-		$I = "";
-		$II = "";
-		$III = "";
-		$IV = "selected";
-	}		
-		
-	$dataselected[]=$I;
-	$dataselected[]=$II;
-	$dataselected[]=$III;
-	$dataselected[]=$IV;
+	
 
-	$thn_temp = '2015';
+	// $thn_temp = '2015';
+	$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+	$thn_temp = $thn_aktif['kode'];
 	
 	if($_POST['kdtriwulan'] != ''){
 		$trwln = $_POST['kdtriwulan'];
+		if($trwln == 1){
+			$I = "selected";
+			$II = "";
+			$III = "";
+			$IV = "";
+		}elseif($trwln == 2){
+			$I = "";
+			$II = "selected";
+			$III = "";
+			$IV = "";
+		}elseif($trwln == 3){
+			$I = "";
+			$II = "";
+			$III = "selected";
+			$IV = "";
+		}elseif($trwln == 4){
+			$I = "";
+			$II = "";
+			$III = "";
+			$IV = "selected";
+		}
+		// pr($trwln);
+		$dataselected[]=$I;
+		$dataselected[]=$II;
+		$dataselected[]=$III;
+		$dataselected[]=$IV;
+		
 		
 		//084-BSN
 		$select_data_master_bsn = $this->m_pelaporankeuangan->cek_pagu($thn_temp);
@@ -436,8 +447,36 @@ class pelaporanKeuangan extends Controller {
 			
 		}
 	}else{
+		if($trwulan == 1){
+			$I = "selected";
+			$II = "";
+			$III = "";
+			$IV = "";
+		}elseif($trwulan == 2){
+			$I = "";
+			$II = "selected";
+			$III = "";
+			$IV = "";
+		}elseif($trwulan == 3){
+			$I = "";
+			$II = "";
+			$III = "selected";
+			$IV = "";
+		}elseif($trwulan == 4){
+			$I = "";
+			$II = "";
+			$III = "";
+			$IV = "selected";
+		}
+		
+		$dataselected[]=$I;
+		$dataselected[]=$II;
+		$dataselected[]=$III;
+		$dataselected[]=$IV;
+		
 		// $trwln = 2;
 		$trwln = $trwulan;
+		// pr($trwln);
 		// exit;
 		//084-BSN
 		$select_data_master_bsn = $this->m_pelaporankeuangan->cek_pagu($thn_temp);
@@ -570,6 +609,7 @@ class pelaporanKeuangan extends Controller {
 		}
 		// pr($list_kegiatan);
 	}
+		// pr($dataselected);
 		// pr($list_kegiatan);
 		$this->view->assign('dataselected',$dataselected);
 		

@@ -78,24 +78,24 @@ $(window).on('load', function() {
 				</thead>
 				<tbody>
 					<tr>
-						<td>{$data_master.0.KDSATKER}</td>
-						<td>{$data_master.0.nama_satker}</td>
-						<td>{number_format($data_master.0.pagu_total,"0",",",".")}</td>
-						<td>{number_format($data_master.0.real_satker,"0",",",".")}</td>
-						<td>{number_format($data_master.0.persentase,"2",",",".")}</td>
+						<td><strong>{$data_master.0.KDSATKER}</strong></td>
+						<td><strong>{$data_master.0.nama_satker}</strong></td>
+						<td><strong>{number_format($data_master.0.pagu_total,"0",",",".")}</strong></td>
+						<td><strong>{number_format($data_master.0.real_satker,"0",",",".")}</strong></td>
+						<td><strong>{number_format($data_master.0.persentase,"2",",",".")}</strong></td>
 						<td>&nbsp;</td>
 					</tr>
 					{foreach $data_master_sub as $value}
 					<tr>
-						<td><img src="{$basedomain}images/logo.png"  style="width:30px;height:30px;">{$value.KDGIAT}</td>
-						<td>{$value.nama_giat}</td>
-						<td>{number_format($value.pagu_giat,"0",",",".")}</td>
-						<td>{number_format($value.real_giat,"0",",",".")}</td>
-						<td>{number_format($value.persentase,"2",",",".")}</td>
+						<td><strong>{$value.KDGIAT}</strong></td>
+						<td><strong>{$value.nama_giat}</strong></td>
+						<td><strong>{number_format($value.pagu_giat,"0",",",".")}</strong></td>
+						<td><strong>{number_format($value.real_giat,"0",",",".")}</strong></td>
+						<td><strong>{number_format($value.persentase,"2",",",".")}</strong></td>
 						<td><a href="{$basedomain}pelaporanKeuangan/detailKegiatan/?kd_satker={$data_master.0.KDSATKER}&thn={$data_master.0.THANG}&pagu={$value.real_giat}&kd_giat={$value.KDGIAT}"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
 						{foreach $value.output as $val}
 						<tr>
-							<td><img src="{$basedomain}images/logo.png"  style="width:15px;height:15px;">{$val.KDOUTPUT}</td>
+							<td>{$val.KDOUTPUT}</td>
 							<td>{$val.namaoutput}</td>
 							<td>{number_format($val.pagutotal,"0",",",".")}</td>
 							<td>{number_format($val.real_output,"0",",",".")}</td>

@@ -61,12 +61,19 @@ $(window).on('load', function() {
 		<div id="separator-toolbar" class="table-toolbar-right">&nbsp;</div> -->
 		
 		<div id="delete-toolbar" class="table-toolbar-right">
-			<form>
+			<form method="POST" action ="{$basedomain}rpk/">
 			<div class="form-horizontal">
 				<div class="form-group">
-				<select name="unit"  class="selectpicker">
-							<option value="" selected>--Pilih Unit Kerja--</option>
-						
+				<select name="unit"  class="selectpicker" width="100%">
+					<option value="" selected>--Pilih Unit Kerja--</option>
+					{foreach $list_dropdown as $value}
+						{if $value.kdunit == $kd_unit}
+							{$select ="selected"}
+						{else}
+							{$select =""}
+						{/if}
+					<option value="{$value.kdunit}" {$select}>{$value.nmunit}</option>
+					{/foreach}
 				</select> 
 					<button id="demo-dt-delete-btn-course-list" class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
 				</div>
@@ -84,72 +91,26 @@ $(window).on('load', function() {
 					</tr>
 				</thead>
 				<tbody>
+					{foreach $data as $val}
 					<tr style="color:green">
-						<td class="text-center">3550</td>
-						<td>Peningkatan Perencanaan, Keuangan dan Tata Usaha BSN</td>
-						<td class="text-right">102.826.888.000</td>
+						<td class="text-center">{$val.kdgiat}</td>
+						<td>{$val.nmgiat}</td>
+						<td class="text-right">{number_format($val.pagu_giat,"0",",",".")}</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
-					<tr>
-						<td class="text-center">001</td>
-						<td>Dokumen perencanaan dan monitoring evaluasi</td>
-						<td class="text-right">2.846.450.000</td>
-						<td>Kirim 12-07-2015</td>
-						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
-						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
-					</tr>
-					<tr>
-						<td class="text-center">002</td>
-						<td>Dokumen perencanaan dan monitoring evaluasi</td>
-						<td class="text-right">2.846.450.000</td>
-						<td>&nbsp;</td>
-						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
-						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
-					</tr>
-					<tr>
-						<td class="text-center">003</td>
-						<td>Dokumen perencanaan dan monitoring evaluasi</td>
-						<td class="text-right">2.846.450.000</td>
-						<td>&nbsp;</td>
-						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
-						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
-					</tr>
-
-					<tr style="color:green">
-						<td class="text-center">3552</td>
-						<td>Peningkatan Sarana dan Prasarana Fisik BSN</td>
-						<td class="text-right">49.000.000.000</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td class="text-center">001</td>
-						<td>Dokumen perencanaan dan monitoring evaluasi</td>
-						<td class="text-right">2.846.450.000</td>
-						<td>Kirim 12-07-2015</td>
-						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
-						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
-					</tr>
-					<tr>
-						<td class="text-center">002</td>
-						<td>Dokumen perencanaan dan monitoring evaluasi</td>
-						<td class="text-right">2.846.450.000</td>
-						<td>&nbsp;</td>
-						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
-						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
-					</tr>
-					<tr>
-						<td class="text-center">003</td>
-						<td>Dokumen perencanaan dan monitoring evaluasi</td>
-						<td class="text-right">2.846.450.000</td>
-						<td>&nbsp;</td>
-						<td><a href="#"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
-						<td><a href="#"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
-					</tr>
-					
+						{foreach $val.output as $out}
+							<tr>
+								<td class="text-center">{$out.KDOUTPUT}</td>
+								<td>{$out.nama_output}</td>
+								<td class="text-right">{number_format($out.pagu_output,"0",",",".")}</td>
+								<td>&nbsp;</td>
+								<td><a href="{$basedomain}rpk/edit/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+								<td><a href="{$basedomain}rpk/"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+							</tr>
+						{/foreach}
+					{/foreach}	
 				</tbody>
 			</table>
 			

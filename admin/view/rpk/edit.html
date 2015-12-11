@@ -59,11 +59,19 @@ function isNumber(evt) {
 				{$data_list[0].namakursus}-->
 				<!--Horizontal Form-->
 				<!--===================================================-->
-				<form class="form-horizontal" method="POST" action="{$basedomain}pelaporanKegiatan/insertForm" enctype="multipart/form-data">
+				<!--<form class="form-horizontal" method="POST" action="{$basedomain}rpk/edit">-->
+				
+				<form class="form-horizontal" id="testForm" method="POST" action="">
+					<input type="hidden" name="th" id="th" class="form-control" value="{$info.thn}">
+					<input type="hidden" name="kdunitkerja" id="kdunitkerja" class="form-control" value="{$info.kd_unit}">
+					<input type="hidden" name="kdgiat" id="kdgiat" class="form-control" value="{$info.kd_giat}">
+					<input type="hidden" name="kdoutput" id="kdoutput" class="form-control" value="{$info.kd_output}">
+					<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
+					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">
 					<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h3 align="center">RENCANA PELAKSNAAN KEGIATAN 2015</h3>
+							<h3 align="center">RENCANA PELAKSNAAN KEGIATAN {$info.thn}</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -77,27 +85,27 @@ function isNumber(evt) {
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Output</label>
 							<div class="col-sm-4">						
-								<label class=" control-label">Dokumen perencanaan dan monitoring evaluasi</label>
+								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-4">						
-								<label class=" control-label">Peningkatan Perencanaan, Keuangan dan Tata Usaha BSN</label>
+							<div class="col-sm-5">						
+								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
 							<div class="col-sm-4">						
-								<label class=" control-label">2.846.450.000</label>
+								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
 							<div class="col-sm-4">						
-								<label class=" control-label">Biro Hukum, Organisasi dan Humas</label>
+								<label class=" control-label">{$info.unit_eselon}</label>
 							
 							</div>
 						</div>
@@ -112,18 +120,16 @@ function isNumber(evt) {
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Tujuan Kegiatan</label>
 							<div class="col-sm-7">						
-								<input type="text" name="twn1[trgt]" class="form-control ">
+								<input type="text" name="tujuan" id="tujuan" class="form-control" value="{$rinc.tujuan}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Tahapan Kegiatan</label>
 							<div class="col-sm-4 pull-left">	
 								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
-									<li>011 Penyusunan Dokumen Renja 2016</li>
-									<li>012 Penyusunan RKA-K/L BSN TA 2016</li>
-									<li>013 Penyusunan LAKIP BSN 2014</li>
-									<li>014 Penguatan SAKIP BSN</li>
-									<li>015 Penyusunan Laporan MONEV Kegiatan BSN 2015 </li>
+									{foreach $list as $val}
+									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
+									{/foreach}
 								</ul>
 							</div>
 						</div>
@@ -131,17 +137,17 @@ function isNumber(evt) {
 							<label class="col-sm-2 control-label boldGrey">3. Sasaran Kinerja</label>
 							<div class="col-sm-10">
 								<div class="row">
-									<label class="col-sm-2 control-label">	Triwulan I
+									<label class="col-sm-2 control-label align-left">	Triwulan I
 
 									</label>
 									<div class="col-sm-9">					
 										<div class="form-group">
 											<div class="col-sm-8 ">
-													<input type="text" name="twn3[real]" class="form-control">
+													<input type="text" name="sasaran_1" id="sasaran_1" class="form-control" value="{$rinc.sasaran_trw_1}">
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="twn3[nreal]" class="form-control">
+													<input type="text" name="ursasaran_1" id="ursasaran_1" class="form-control" value="{$rinc.persentase_trw_1}" onkeypress="return isNumber(event)">
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -150,17 +156,17 @@ function isNumber(evt) {
 									</div>
 								</div>
 								<div class="row">
-									<label class="col-sm-2 control-label">	Triwulan II
+									<label class="col-sm-2 control-label align-left">	Triwulan II
 
 									</label>
 									<div class="col-sm-9">					
 										<div class="form-group">
 											<div class="col-sm-8 ">
-													<input type="text" name="twn3[real]" class="form-control">
+													<input type="text" name="sasaran_2" id="sasaran_2" class="form-control" value="{$rinc.sasaran_trw_2}">
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="twn3[nreal]" class="form-control">
+													<input type="text" name="ursasaran_2" id="ursasaran_2" class="form-control" value="{$rinc.persentase_trw_2}" onkeypress="return isNumber(event)">
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -169,17 +175,17 @@ function isNumber(evt) {
 									</div>
 								</div>
 								<div class="row">
-									<label class="col-sm-2 control-label">	Triwulan III
+									<label class="col-sm-2 control-label align-left" >	Triwulan III
 
 									</label>
 									<div class="col-sm-9">					
 										<div class="form-group">
 											<div class="col-sm-8 ">
-													<input type="text" name="twn3[real]" class="form-control">
+													<input type="text" name="sasaran_3" id="sasaran_3" class="form-control" value="{$rinc.sasaran_trw_3}">
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="twn3[nreal]" class="form-control">
+													<input type="text" name="ursasaran_3" id="ursasaran_3" class="form-control" value="{$rinc.persentase_trw_3}" onkeypress="return isNumber(event)">
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -188,17 +194,17 @@ function isNumber(evt) {
 									</div>
 								</div>
 								<div class="row">
-									<label class="col-sm-2 control-label">	Triwulan IV
+									<label class="col-sm-2 control-label align-left">	Triwulan IV
 
 									</label>
 									<div class="col-sm-9">					
 										<div class="form-group">
 											<div class="col-sm-8 ">
-													<input type="text" name="twn3[real]" class="form-control">
+													<input type="text" name="sasaran_4" id="sasaran_4" class="form-control" value="{$rinc.sasaran_trw_4}" >
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="twn3[nreal]" class="form-control">
+													<input type="text" name="ursasaran_4" id="ursasaran_4" class="form-control" value="{$rinc.persentase_trw_4}" onkeypress="return isNumber(event)">
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -210,8 +216,21 @@ function isNumber(evt) {
 
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">Status</label>
+								<div class="col-sm-10">
+									<div class="row">
+										<select name="status" id="status"  class="selectpicker" width="100%">
+											<option value="0" id="0">Kosong</option>
+											<option value="1" id="1">Draf</option>
+											<option value="2" id="2">Dikirim</option>
+										</select>
+									</div>
+								</div>
+						</div>
+						
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12" style="overflow:scroll">
 								<table id="newslist" class="table table-striped table-bordered" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -222,17 +241,18 @@ function isNumber(evt) {
 										</tr>
 									</thead>
 									<tbody>
+										{foreach $list as $value}
 										<tr style="color:blue">
-											<td class="text-center" colspan="2">011</td>
-											<td>Penyusunan Dokumen Renja 2016 </td>
-											<td class="text-right">1.196.568.000</td>
-											<td><a href="{$basedomain}rpk/editTahapan"><button class="btn btn-primary btn-labeled fa fa-pencil-square-o">Edit Tahapan</button></a></td>
+											<td class="text-center" colspan="2">{$value.KDKMPNEN}</td>
+											<td>{$value.nama_komponen}</td>
+											<td class="text-right">{number_format($value.pagu_kmpnen,"0",",",".")}</td>
+											<td><a href="{$basedomain}rpk/editTahapan/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-primary btn-labeled fa fa-pencil-square-o" type="button">Edit Tahapan</button></a></td>
 										</tr>
-
+										{foreach $value.sub_komponen as $sub}
 										<tr>
 											<td>&nbsp;</td>
-											<td>1</td>
-											<td colspan="2"><strong>Administrasi Pendukung kegiatan</strong>
+											<td>{$sub.kd_tahapan}</td>
+											<td colspan="2"><strong>{$sub.nm_tahapan}</strong>
 												<table class="table table-striped table-bordered" >
 													<thead>
 														<tr>
@@ -244,7 +264,6 @@ function isNumber(evt) {
 															<th class="text-center" rowspan="2">Jumlah</th>
 														</tr>
 														<tr>
-														</tr>
 															<th>&nbsp;</th>	
 															<th>Jan</th>	
 															<th>Peb</th>	
@@ -263,291 +282,54 @@ function isNumber(evt) {
 													</thead>
 													<tbody>
 														<tr>
-															<td><strong>Bobot Kinerja</strong></td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
+															<td><strong>Bobot Kinerja (%)</strong></td>
+															<td>{number_format($sub.target_1,"2",",",".")}</td>
+															<td>{number_format($sub.target_2,"2",",",".")}</td>
+															<td>{number_format($sub.target_3,"2",",",".")}</td>
+															<td>{number_format($sub.target_4,"2",",",".")}</td>
+															<td>{number_format($sub.target_5,"2",",",".")}</td>
+															<td>{number_format($sub.target_6,"2",",",".")}</td>
+															<td>{number_format($sub.target_7,"2",",",".")}</td>
+															<td>{number_format($sub.target_8,"2",",",".")}</td>
+															<td>{number_format($sub.target_9,"2",",",".")}</td>
+															<td>{number_format($sub.target_10,"2",",",".")}</td>
+															<td>{number_format($sub.target_11,"2",",",".")}</td>
+															<td>{number_format($sub.target_12,"2",",",".")}</td>
+															<td>{number_format($sub.sum_bobot,"2",",",".")}</td>
 														</tr>
-
 														<tr>
 															<td><strong>Jumlah anggaran</strong></td>
-															<td>&nbsp;</td>
-															<td>10.000.000</td>
-															<td>&nbsp;</td>
-															<td>8.441.000</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>18.441.000</td>
+															<td>{number_format($sub.anggaran_1,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_2,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_3,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_4,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_5,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_6,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_7,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_8,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_9,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_10,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_11,"0",",",".")}</td>
+															<td>{number_format($sub.anggaran_12,"0",",",".")}</td>
+															<td>{number_format($sub.sum_anggaran,"0",",",".")}</td>
 														</tr>
-														
 													</tbody>
 												</table>
-
 											</td>
 											<td>
-												<a href="{$basedomain}rpk/editRencanaAnggaran"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Rencana Kinerja & <br/> Anggaran</button></a>
+												<a href="{$basedomain}rpk/editRencanaAnggaran/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}&id={$sub.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" type="button">Edit Rencana Kinerja & <br/> Anggaran</button></a>
 											</td>
 										</tr>
-										<tr>
-											<td>&nbsp;</td>
-											<td>2</td>
-											<td colspan="2"><strong>Pembahasan Penyusunan Reviu Baseline</strong>
-												<table class="table table-striped table-bordered" >
-													<thead>
-														<tr>
-															<th class="text-center" rowspan="2">Rencana Bulanan</th>
-															<th class="text-center" colspan="3">TW I</th>
-															<th class="text-center" colspan="3">TW II</th>
-															<th class="text-center" colspan="3">TW III</th>
-															<th class="text-center" colspan="3">TW IV</th>
-															<th class="text-center" rowspan="2">Jumlah</th>
-														</tr>
-														<tr>
-														</tr>
-															<th>&nbsp;</th>	
-															<th>Jan</th>	
-															<th>Peb</th>	
-															<th>Mar</th>	
-															<th>Apr</th>		
-															<th>Mei</th>		
-															<th>Jun</th>		
-															<th>Jul</th>		
-															<th>Agt</th>		
-															<th>Sep</th>		
-															<th>Okt</th>		
-															<th>Nop</th>		
-															<th>Des</th>	
-															<th>&nbsp;</th>		
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td><strong>Bobot Kinerja</strong></td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
-														</tr>
-
-														<tr>
-															<td><strong>Jumlah anggaran</strong></td>
-															<td>&nbsp;</td>
-															<td>12.720.000</td>
-															<td>&nbsp;</td>
-															<td>&nsbp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>12.720.000</td>
-														</tr>
-														
-													</tbody>
-												</table>
-
-											</td>
-											<td>
-												<a href="{$basedomain}rpk/editRencanaAnggaran"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Rencana Kinerja & <br/> Anggaran</button></a>
-											</td>
-										</tr>
-										<tr style="color:blue">
-											<td class="text-center" colspan="2">011</td>
-											<td>Penyusunan Dokumen Renja 2016 </td>
-											<td class="text-right">1.196.568.000</td>
-											<td><a href="{$basedomain}rpk/editTahapan"><button class="btn btn-primary btn-labeled fa fa-pencil-square-o">Edit Tahapan</button></a></td>
-										</tr>
-
-										<tr>
-											<td>&nbsp;</td>
-											<td>1</td>
-											<td colspan="2"><strong>Administrasi Pendukung kegiatan</strong>
-												<table class="table table-striped table-bordered" >
-													<thead>
-														<tr>
-															<th class="text-center" rowspan="2">Rencana Bulanan</th>
-															<th class="text-center" colspan="3">TW I</th>
-															<th class="text-center" colspan="3">TW II</th>
-															<th class="text-center" colspan="3">TW III</th>
-															<th class="text-center" colspan="3">TW IV</th>
-															<th class="text-center" rowspan="2">Jumlah</th>
-														</tr>
-														<tr>
-														</tr>
-															<th>&nbsp;</th>	
-															<th>Jan</th>	
-															<th>Peb</th>	
-															<th>Mar</th>	
-															<th>Apr</th>		
-															<th>Mei</th>		
-															<th>Jun</th>		
-															<th>Jul</th>		
-															<th>Agt</th>		
-															<th>Sep</th>		
-															<th>Okt</th>		
-															<th>Nop</th>		
-															<th>Des</th>	
-															<th>&nbsp;</th>		
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td><strong>Bobot Kinerja</strong></td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
-														</tr>
-
-														<tr>
-															<td><strong>Jumlah anggaran</strong></td>
-															<td>&nbsp;</td>
-															<td>10.000.000</td>
-															<td>&nbsp;</td>
-															<td>8.441.000</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>18.441.000</td>
-														</tr>
-														
-													</tbody>
-												</table>
-
-											</td>
-											<td>
-												<a href="{$basedomain}rpk/editRencanaAnggaran"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Rencana Kinerja & <br/> Anggaran</button></a>
-											</td>
-										</tr>
-										<tr>
-											<td>&nbsp;</td>
-											<td>2</td>
-											<td colspan="2"><strong>Pembahasan Penyusunan Reviu Baseline</strong>
-												<table class="table table-striped table-bordered" >
-													<thead>
-														<tr>
-															<th class="text-center" rowspan="2">Rencana Bulanan</th>
-															<th class="text-center" colspan="3">TW I</th>
-															<th class="text-center" colspan="3">TW II</th>
-															<th class="text-center" colspan="3">TW III</th>
-															<th class="text-center" colspan="3">TW IV</th>
-															<th class="text-center" rowspan="2">Jumlah</th>
-														</tr>
-														<tr>
-														</tr>
-															<th>&nbsp;</th>	
-															<th>Jan</th>	
-															<th>Peb</th>	
-															<th>Mar</th>	
-															<th>Apr</th>		
-															<th>Mei</th>		
-															<th>Jun</th>		
-															<th>Jul</th>		
-															<th>Agt</th>		
-															<th>Sep</th>		
-															<th>Okt</th>		
-															<th>Nop</th>		
-															<th>Des</th>	
-															<th>&nbsp;</th>		
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td><strong>Bobot Kinerja</strong></td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>1,00%</td>
-														</tr>
-
-														<tr>
-															<td><strong>Jumlah anggaran</strong></td>
-															<td>&nbsp;</td>
-															<td>12.720.000</td>
-															<td>&nbsp;</td>
-															<td>&nsbp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>&nbsp;</td>
-															<td>12.720.000</td>
-														</tr>
-														
-													</tbody>
-												</table>
-
-											</td>
-											<td>
-												<a href="{$basedomain}rpk/editRencanaAnggaran"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Rencana Kinerja & <br/> Anggaran</button></a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-
+										{/foreach}
+										{/foreach}
+										</tbody>
+									</table>
 							</div>
 						</div>
 						
-
-						
-						
 					</div>
 					<div class="panel-footer text-right">
-						<input type="submit" name="submit" value="save" class="btn btn-info" required>
+						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
 					</div>
 				</form>
 				<!--===================================================-->
@@ -556,64 +338,68 @@ function isNumber(evt) {
 			</div>
 		</div>
 	</div>
-
-
-	
-	
 </div>
 <!--===================================================-->
-<!--End page content-->
-
-{literal}
-	<script type="text/javascript">
-
-	function hierachy(){
-		var tipe = $("#jeniskursus").val();
-			// console.log(grupid);
-			
-			if(tipe == 2){
-				var i=0;
-				var template = "";
-				var grupid = $("#idGrup_kursus").val();
-				var kursusid = $("#id").val();
-				$.post(basedomain+'course/ajaxchange', {grupid:grupid,kursusid:kursusid}, function(data){
-
-					$('#parentCourse')
-					    .find('option')
-					    .remove()
-					    .end()
-					;
-
-					if (data){
-						for(i=0;i<data.length;i++){
-							template+='<option value="'+data[i].idKursus+'">'+data[i].namakursus+'</option>';
-						}
-						$("#parentCourse").html(template);
-						$("#parentCourse").selectpicker('refresh');	
-					}
-					
-					// reloadSelect();
-					// $('.pilihKursus').selectpicker('refresh');
-				},"JSON")
-
-				// $("#hiddendiv").show(300);
-			} else {	
-				$('#parentCourse')
-					    .find('option')
-					    .remove()
-					    .end()
-					;
-				$("#parentCourse").selectpicker('refresh');
-				// $("#hiddendiv").hide(300);
-			}
-	}
-
-		$(document).on('change','.typeKursus', function(){
-
-			hierachy();
-			
-		})
+<script>
+$(document).ready(function() {
+var status_hidden = $('#status_hidden').val();
+if(status_hidden){
+document.getElementById(status_hidden).selected = "true";
+}
+$('#submit').on('click', function(){
+	var status = $('#status').val();
+	var tujuan = $('#tujuan').val();
+	var th = $('#th').val();
+	var id = $('#id').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var sasaran_1 = $('#sasaran_1').val();
+	var sasaran_2 = $('#sasaran_2').val();
+	var sasaran_3 = $('#sasaran_3').val();
+	var sasaran_4 = $('#sasaran_4').val();
+	var ursasaran_1 = $('#ursasaran_1').val();
+	var ursasaran_2 = $('#ursasaran_2').val();
+	var ursasaran_3 = $('#ursasaran_3').val();
+	var ursasaran_4 = $('#ursasaran_4').val();
 		
-	</script>
+	/*$.post( basedomain+"rpk/post", { id: id,  tujuan: tujuan, status: status, th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,sasaran_1 : sasaran_1, sasaran_2: sasaran_2, sasaran_3 : sasaran_3, sasaran_4: sasaran_4,ursasaran_1 : ursasaran_1, ursasaran_2 : ursasaran_2, ursasaran_3 : ursasaran_3, ursasaran_4 : ursasaran_4 });
+	alert("Data DiSimpan");
+	setTimeout(
+	  function() 
+	  {
+		location.reload();
+	  }, 1000);	*/
+	  bootbox.confirm("Simpan Data?", function(result) {
+			if (result) {
+				$.post( basedomain+"rpk/post", { id: id,  tujuan: tujuan, status: status, th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,sasaran_1 : sasaran_1, sasaran_2: sasaran_2, sasaran_3 : sasaran_3, sasaran_4: sasaran_4,ursasaran_1 : ursasaran_1, ursasaran_2 : ursasaran_2, ursasaran_3 : ursasaran_3, ursasaran_4 : ursasaran_4 });										
+				$.niftyNoty({
+					type: 'success',
+					icon : 'fa fa-check',
+					message : 'Simpan Data Berhasil.',
+					container : 'floating',
+					timer : 2000
+				});
+				setTimeout(
+			   function() 
+			   {
+				location.reload();
+			   }, 2000);
+			}else{
+				$.niftyNoty({
+					type: 'danger',
+					icon : 'fa fa-minus',
+					message : 'Simpan Data Gagal!',
+					container : 'floating',
+					timer : 2000
+				});
+			}
 
-{/literal}
+
+		});
+	  
+	  
+	});	
+});
+</script>
+<!--End page content-->

@@ -16,36 +16,43 @@ function isNumber(evt) {
 	// http://bootboxjs.com/
 	// =================================================================
 	//insert ajax glosarium
-	$('#glosarium').on('click', function(){
+	$('#tahapan').on('click', function(){
 		bootbox.dialog({
-			title: "Create Glosarium",
+			title: "Tahapan Komponen",
 			message:'<div class="row"> ' + '<div class="col-md-12"> ' +
 					'<form class="form-horizontal"> ' + '<div class="form-group"> ' +
-					'<label class="col-md-4 control-label" for="name">Glosarium</label> ' +
+					'<label class="col-md-4 control-label" for="name">Nomor</label> ' +
 					'<div class="col-md-4"> ' +
-					'<input id="judul" name="judul" type="text" placeholder="Enter Glosarium" class="form-control input-md" required="required"> ' +
+					'<input name="kd_tahapan" type="text" class="form-control input-md" id="kd" onkeypress="return isNumber(event)" required="required"> ' +
 					'</div> ' +
 					'</div> ' + '<div class="form-group"> ' +
-					'<label class="col-md-4 control-label" for="syaratkelulusan">Description</label> ' +
-					'<div class="col-md-6"><textarea id="keterangan" placeholder="Description Glosarium Here" rows="5" class="form-control"></textarea></div>' +
-					'</div> </div>' + '</form> </div> </div><script></script>',
+					'<label class="col-md-4 control-label" for="syaratkelulusan">Tahapan Pelaksana</label> ' +
+					'<div class="col-md-4"><input name="nm_tahapan" type="text"  class="form-control input-md" id="nm" required="required"></div>' +
+					'</div> </div>' + '</form> </div> </div>',
 			buttons: {
 				success: {
-					label: "Save",
+					label: "Simpan",
 					className: "btn-info",
 					callback: function() {
-						var judul = $('#judul').val();
-						var keterangan = $("#keterangan").val();
+						var kd_tahapan = $('#kd').val();
+						var nm_tahapan = $("#nm").val();
+						var thn = $("#thn").val();
+						var kd_unit = $("#kd_unit").val();
+						var kd_giat = $("#kd_giat").val();
+						var kd_output = $("#kd_output").val();
+						var kd_komponen = $("#kd_komponen").val();
+						var kd_soutput = $("#kd_soutput").val();
 						//get values
-						// alert(namagrup);
-						// alert(answer);
-						if(judul != '' && keterangan != ''){
-						$.post( basedomain+"home/ajax_insert", { judul: judul, keterangan: keterangan } );
+					
+						if(kd_tahapan != '' && nm_tahapan != ''){
+						$.post( basedomain+"rpk/ajax_insert", { kd_tahapan: kd_tahapan, nm_tahapan: nm_tahapan, thn: thn,
+																kd_unit: kd_unit, kd_giat: kd_giat, kd_output: kd_output,
+																kd_komponen: kd_komponen,kd_soutput: kd_soutput} );
 						
 						$.niftyNoty({
 							type: 'success',
 							icon : 'fa fa-check',
-							message : "Glosarium : " + judul + ".<br> Successfully Created",
+							message : "Data Berhasil Disimpan",
 							container : 'floating',
 							timer : 2000
 						});
@@ -58,7 +65,7 @@ function isNumber(evt) {
 					}else{
 					
 						//alert( "isi Data" );
-						bootbox.alert("Data Cannot Empty!", function(){
+						bootbox.alert("Data Tidak Boleh Kosong!", function(){
 							//EMPTY
 						});
 					}
@@ -71,48 +78,46 @@ function isNumber(evt) {
 	});
 	
 	//edit ajax glosarium
-	$('.glosarium-edit').on('click', function(){
-		var idCatatan = $(this).attr("value");
+	$('.tahapan-edit').on('click', function(){
+		var id = $(this).attr("value");
 		// alert(idGrup_kursus);
-		$.post(basedomain+"home/ajax_edit", {idCatatan:idCatatan}, function(data){
-							// alert(data[0].namagrup);
+		$.post(basedomain+"rpk/ajax_edit", {id:id}, function(data){
+							// alert(data.kd_tahapan);
 							// console.log (data);
-							$("#juduledit").val(data[0].judul);
-							$("#keteranganedit").val(data[0].keterangan);
-							$("#idCatatanedit").val(idCatatan);
+							$("#kd").val(data.kd_tahapan);
+							$("#nm").val(data.nm_tahapan);
+							$("#id_hid").val(id);
 							
 					   },"JSON");
 		bootbox.dialog({
-			title: "Create Course Group",
+			title: "Tahapan Komponen",
 			message:'<div class="row"> ' + '<div class="col-md-12"> ' +
 					'<form class="form-horizontal"> ' + '<div class="form-group"> ' +
-					'<label class="col-md-4 control-label" for="name">Glosarium</label> ' +
+					'<label class="col-md-4 control-label" for="name">Nomor</label> ' +
 					'<div class="col-md-4"> ' +
-					'<input id="juduledit" name="juduledit" type="text" placeholder="Enter Glosarium" class="form-control input-md" required="required"> ' +
-					'<input id="idCatatanedit" name="idCatatanedit" type="hidden" placeholder="Enter Glosarium" class="form-control input-md" required="required"> ' +
+					'<input name="kd_tahapan" type="text" class="form-control input-md" id="kd" onkeypress="return isNumber(event)" required="required"> ' +
+					'<input name="id_hid" type="hidden" class="form-control input-md" id="id_hid" > ' +
 					'</div> ' +
 					'</div> ' + '<div class="form-group"> ' +
-					'<label class="col-md-4 control-label" for="syaratkelulusan">Description</label> ' +
-					'<div class="col-md-6"><textarea id="keteranganedit" placeholder="Description Glosarium Here" rows="5" class="form-control"></textarea></div>' +
-					'</div> </div>' + '</form> </div> </div><script></script>',
+					'<label class="col-md-4 control-label" for="syaratkelulusan">Tahapan Pelaksana</label> ' +
+					'<div class="col-md-4"><input name="nm_tahapan" type="text"  class="form-control input-md" id="nm" required="required"></div>' +
+					'</div> </div>' + '</form> </div> </div>',
 			buttons: {
 				success: {
 					label: "Update",
 					className: "btn-info",
 					callback: function() {
-						var judul = $('#juduledit').val();
-						var keterangan = $("#keteranganedit").val();
-						var id = $("#idCatatanedit").val();
-						//get values
-						// alert(namagrup);
-						// alert(answer);
-						if(judul != '' && keterangan != ''){
-						$.post( basedomain+"home/ajax_update", { judul: judul, keterangan: keterangan, id : id } );
+						var kd_tahapan = $('#kd').val();
+						var nm_tahapan = $("#nm").val();
+						var id_hid = $("#id_hid").val();
+						
+						if(kd_tahapan != '' && nm_tahapan != ''){
+						$.post( basedomain+"rpk/ajax_update", { kd_tahapan: kd_tahapan, nm_tahapan: nm_tahapan, id_hid: id_hid} );
 						
 						$.niftyNoty({
 							type: 'success',
 							icon : 'fa fa-check',
-							message : "Glosarium : " + judul + ".<br> Update Successfully",
+							message : "Data Berhasil Dirubah",
 							container : 'floating',
 							timer : 2000
 						});
@@ -125,7 +130,7 @@ function isNumber(evt) {
 					}else{
 					
 						//alert( "isi Data" );
-						bootbox.alert("Data Cannot Empty!", function(){
+						bootbox.alert("Data Tidak Boleh Kosong!", function(){
 							//EMPTY
 						});
 					}
@@ -137,34 +142,100 @@ function isNumber(evt) {
 		$(".demo-modal-radio").niftyCheck();
 	});
 	
-	$('.glosarium-btn-status').on('click', function () {
-		var btn = $(this).button('loading')
-		// business logic...
-		var idGrup_kursus = $(this).attr("value");
-		// alert(idGrup_kursus);
-		var exp = idGrup_kursus.split("_"); 
-		var id = exp[0];
-		var status = exp[1];
+	$('.tahapan-hapus').on('click', function () {
+		var id = $(this).attr("value");
 		
-		$.post( basedomain+"home/ajax_update_status", { id: id, status: status } );
-		
-		// alert(exp[0]);
-		var doSomething = setTimeout(function(){
-			clearTimeout(doSomething);
-			btn.button('reset')
-		}, 2000);
-		$.niftyNoty({
-			type: 'success',
-			icon : 'fa fa-check',
-			message : 'Update Status Successfully.',
-			container : 'floating',
-			timer : 2000
+		//some modification
+		bootbox.confirm("Hapus Data?", function(result) {
+			if (result) {
+				$.post( basedomain+"rpk/ajax_hapus", { id: id} );
+				$.niftyNoty({
+					type: 'success',
+					icon : 'fa fa-check',
+					message : 'Hapus Data Berhasil.',
+					container : 'floating',
+					timer : 2000
+				});
+				setTimeout(
+			   function() 
+			   {
+				location.reload();
+			   }, 2000);
+			}else{
+				$.niftyNoty({
+					type: 'danger',
+					icon : 'fa fa-minus',
+					message : 'Hapus Data Gagal!',
+					container : 'floating',
+					timer : 2000
+				});
+			};
+
+
 		});
-		setTimeout(
-		  function() 
-		  {
-			location.reload();
-		  }, 2000);
+	});
+	
+	$('#tahapan-simpan').on('click', function () {
+		// alert('masuk');
+		//var id = $(this).attr("value");
+		var id = $('#id').val();
+		var target_1 = $("#target_1").val();
+		var target_2 = $("#target_2").val();
+		var target_3 = $("#target_3").val();
+		var target_4 = $("#target_4").val();
+		var target_5 = $("#target_5").val();
+		var target_6 = $("#target_6").val();
+		var target_7 = $("#target_7").val();
+		var target_8 = $("#target_8").val();
+		var target_9 = $("#target_9").val();
+		var target_10 = $("#target_10").val();
+		var target_11 = $("#target_11").val();
+		var target_12 = $("#target_12").val();
+		var anggaran_1 = $("#anggaran_1").val();
+		var anggaran_2 = $("#anggaran_2").val();
+		var anggaran_3 = $("#anggaran_3").val();
+		var anggaran_4 = $("#anggaran_4").val();
+		var anggaran_5 = $("#anggaran_5").val();
+		var anggaran_6 = $("#anggaran_6").val();
+		var anggaran_7 = $("#anggaran_7").val();
+		var anggaran_8 = $("#anggaran_8").val();
+		var anggaran_9 = $("#anggaran_9").val();
+		var anggaran_10 = $("#anggaran_10").val();
+		var anggaran_11 = $("#anggaran_11").val();
+		var anggaran_12 = $("#anggaran_12").val();
+		//some modification
+		bootbox.confirm("Simpan Data?", function(result) {
+			if (result) {
+				$.post( basedomain+"rpk/ajax_simpan_sub", { id: id,
+														target_1: target_1,target_2: target_2,target_3: target_3,target_4: target_4,target_5: target_5,target_6: target_6,
+														target_7: target_7,target_8: target_8,target_9: target_9,target_10: target_10,target_11: target_11,target_12: target_12,
+														anggaran_1: anggaran_1,anggaran_2: anggaran_2,anggaran_3: anggaran_3,anggaran_4: anggaran_4,anggaran_5: anggaran_5,anggaran_6: anggaran_6,
+														anggaran_7: anggaran_7,anggaran_8: anggaran_8,anggaran_9: anggaran_9,anggaran_10: anggaran_10,anggaran_11: anggaran_11,anggaran_12: anggaran_12	
+														} );
+				$.niftyNoty({
+					type: 'success',
+					icon : 'fa fa-check',
+					message : 'Simpan Data Berhasil.',
+					container : 'floating',
+					timer : 2000
+				});
+				setTimeout(
+			   function() 
+			   {
+				location.reload();
+			   }, 2000);
+			}else{
+				$.niftyNoty({
+					type: 'danger',
+					icon : 'fa fa-minus',
+					message : 'Simpan Data Gagal!',
+					container : 'floating',
+					timer : 2000
+				});
+			};
+
+
+		});
 	});
 	
 	$('.testimoni-btn-status').on('click', function () {
