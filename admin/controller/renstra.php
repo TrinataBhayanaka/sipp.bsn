@@ -78,7 +78,7 @@ class renstra extends Controller {
 		$parent_id = _g('parent_id');
 
 		$dataStruktur['table'] = 'bsn_struktur';
-		$dataStruktur['condition'] = array('type'=>'1,2,3');
+		$dataStruktur['condition'] = array('type'=>'1,2,3', 'n_status'=>1);
 		$dataStruktur['in'] = array('type');
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		// pr($getStruktur);
@@ -294,7 +294,7 @@ class renstra extends Controller {
 
 		$out['type'] = 10;
 		$out['category'] = 1;
-		$out['data'] = $parent_id;
+		// $out['data'] = $parent_id;
 
 		$getKegiatan = $this->contentHelper->getContent($out);
 		if ($getKegiatan){
@@ -354,12 +354,30 @@ class renstra extends Controller {
 		} 
 
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
-		if (!$parent_id){
-			if (!$pid) $pid = 1;
-			redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id=".$getStruktur[0]['id']);
-			exit;
+		// pr($getStruktur);
+		
+		if ($pid==1){
+			foreach ($getStruktur as $key => $value) {
+				if ($value['kode']=='840000') $bsnid = $value['id'];
+			}
 		}
 		
+
+		if (!$parent_id){
+			if (!$pid) $pid = 1;
+			
+			if ($pid==1){
+				foreach ($getStruktur as $key => $value) {
+					if ($value['kode']=='840000') $bsnid = $value['id'];
+				}
+			}else{
+				$bsnid = $getStruktur[0]['id'];
+			}
+			redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id=".$bsnid);
+			exit;
+		}
+		// pr($bsnid);
+		$this->view->assign('bsnid', $bsnid);
 		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
 		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);
@@ -887,7 +905,7 @@ class renstra extends Controller {
 		$req = _g('req');
 
 		$dataStruktur['table'] = 'bsn_struktur';
-		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['condition'] = array('type'=>'1,2,3');
 		$dataStruktur['in'] = array('type');
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		
@@ -1174,10 +1192,15 @@ class renstra extends Controller {
 		$id = _g('id');
 		$req = _g('req');
 
+		if ($req == 1) $link = 'renstra/visi_bsn';
 		if ($req == 2) $link = 'renstra/visi_eselon';
 		if ($req == 3) $link = 'renstra/sasaran';
-		if ($req == 4) $link = 'renstra/dokumenBsn';
-		else $link = 'renstra/visi_bsn';
+		if ($req == 4) $link = 'renstra/kinerja';
+		if ($req == 5) $link = 'renstra/program';
+		if ($req == 6) $link = 'renstra/kegiatan';
+		if ($req == 7) $link = 'renstra/output';
+		if ($req == 8) $link = 'renstra/dokumenBsn';
+		// else $link = 'renstra/visi_bsn';
 
 		$data['id'] = $id;
 		$data['n_status'] = 0;

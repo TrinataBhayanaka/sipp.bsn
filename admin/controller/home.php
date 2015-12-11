@@ -265,7 +265,17 @@ class home extends Controller {
 		return $this->loadView('home/wilayah');
 	}
 
-
+	function test()
+	{
+		
+		$dsn = "Driver={Microsoft Visual FoxPro Driver}; SourceType=DBF; SourceDB=/home/ovancop/Data/htdocs/sipp-ori/file_dipa/; Exclusive=No;";
+		$sambung_dipa = odbc_connect( $dsn,"","");
+		    if ( $sambung_dipa != 0 )   
+		    {
+		        echo "<strong> Tersambung SAKPA </strong></<br>";
+		
+			}
+	}
 	
 }
 

@@ -106,7 +106,8 @@
 					<tr>
 						<td>{$val.title}</td>
 						<td>{$val.desc}</td>
-						<td><a href="javascript:void(0)"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit</button></a></td>
+						<td><a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editvisi" data-id="{$val.id}"></button></a>
+						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a></td>
 					</tr>
 					{/foreach}
 					{else}
@@ -135,8 +136,8 @@
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
 						<td>
-							<a href="javascript:void(0)"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editmisi" data-id="{$val.id}">Edit</button></a>
-							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus</button></a>
+							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editmisi" data-id="{$val.id}"></button></a>
+							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 						</td>
 					</tr>
 					{/foreach}
@@ -166,8 +167,8 @@
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
 						<td>
-							<a href="javascript:void(0)"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="edittujuan" data-id="{$val.id}">Edit</button></a>
-							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus</button></a>
+							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="edittujuan" data-id="{$val.id}"></button></a>
+							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 						</td>
 					</tr>
 					{/foreach}
