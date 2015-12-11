@@ -294,7 +294,7 @@ class renstra extends Controller {
 
 		$out['type'] = 10;
 		$out['category'] = 1;
-		$out['data'] = $parent_id;
+		// $out['data'] = $parent_id;
 
 		$getKegiatan = $this->contentHelper->getContent($out);
 		if ($getKegiatan){
