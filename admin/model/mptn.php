@@ -67,6 +67,12 @@ class mptn extends Database {
 		if ($res) return $res;
 		return false;
 	}
+
+	function insert_import($data,$table)
+	{
+		$res = $this->insert($data,$table);
+		return true;
+	}
 	
 }
 ?>

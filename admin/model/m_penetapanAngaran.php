@@ -1343,6 +1343,21 @@ class m_penetapanAngaran extends Database {
 		$result = $this->fetch($query);
 		return $result;
 	}
+
+	function getTahunAktif()
+	{
+		$sql = "SELECT * FROM bsn_sistem_setting WHERE `desc` = 'tahun_sistem' AND n_status = '1'";
+		$result = $this->fetch($sql);
+		return $result;
+	}
+
+	function del_peryear($table,$tahun)
+	{
+		$sql = "DELETE FROM {$table} WHERE THANG = '{$tahun}'";
+		$res = $this->query($sql);
+
+		return true;
+	}
 	
 }
 ?>

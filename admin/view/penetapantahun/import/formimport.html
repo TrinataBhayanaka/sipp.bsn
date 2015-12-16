@@ -1,0 +1,208 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Import RKA K/L dan DIPA</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Tahun Anggaran : {$tahunAktif.kode} </h3>
+		</div>
+		<form class="form-horizontal form-padding" method="post" action="{$basedomain}penetapanAnggaran/ins_import" enctype="multipart/form-data">
+		<div class="panel-body">
+			<div class="row">
+				<p>Pastikan file yang anda upload sesuai dengan Tahun Anggaran.</p>
+			</div>
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="form-group">
+						<label class="col-md-3 control-label">Data Output</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="output">
+							Browse File : <label style="color:red">D_OUTPUT.KEU</label> <input type="file" name="output">
+							</span>
+							<div id="attach-output" style="margin-left:200px"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Data Sub Output</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="suboutput">
+							Browse File : <label style="color:red">D_SOUTPUT.KEU</label> <input type="file" name="suboutput">
+							</span>
+							<div id="attach-suboutput" style="margin-left:200px"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Data Komponen</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="komponen">
+							Browse File : <label style="color:red">D_KMPNEN.KEU</label> <input type="file" name="komponen">
+							</span>
+							<div id="attach-komponen" style="margin-left:200px"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Data Sub Komponen</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="subkomponen">
+							Browse File : <label style="color:red">D_SKMPNEN.KEU</label> <input type="file" name="subkomponen">
+							</span>
+							<div id="attach-subkomponen" style="margin-left:200px"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Data Akun</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="akun">
+							Browse File : <label style="color:red">D_AKUN.KEU</label> <input type="file" name="akun">
+							</span>
+							<div id="attach-akun" style="margin-left:200px"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Data POK</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="pok">
+							Browse File : <label style="color:red">D_ITEM.KEU</label> <input type="file" name="pok">
+							</span>
+							<div id="attach-pok" style="margin-left:200px"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Data Rencana Penarikan</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="trktrn">
+							Browse File : <label style="color:red">D_TRKTRM.KEU</label> <input type="file" name="trktrm">
+							</span>
+							<div id="attach-trktrn" style="margin-left:200px"></div>
+						</div>
+					</div>
+
+					<!-- HIDDEN -->
+					<input type="hidden" name="tahunAktif" value="{$tahunAktif.kode}">
+
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer text-left">
+			<button class="btn btn-info" type="submit">Submit</button>
+		</div>
+		</form>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+
+{literal}
+<script type="text/javascript">
+	$(document).on('ready', function() {
+		var size1 = [];
+		var size2 = [];
+		var size3 = [];
+		var size4 = [];
+		var size5 = [];
+		var size6 = [];
+		var size7 = [];
+		// Attachment button.
+		// =================================================================
+		$('#output :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size1.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'D_OUTPUT.KEU')
+			{
+				$('#attach-output').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size1[0]+'</small>');
+			} else {
+				$('#attach-output').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+			}
+		});
+
+		$('#suboutput :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size2.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'D_SOUTPUT.KEU')
+			{
+				$('#attach-suboutput').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size2[0]+'</small>');
+			} else {
+				$('#attach-suboutput').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+			}
+		});
+
+		$('#komponen :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size3.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'D_KMPNEN.KEU')
+			{
+				$('#attach-komponen').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size3[0]+'</small>');
+			} else {
+				$('#attach-komponen').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+			}
+		});
+
+		$('#subkomponen :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size4.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'D_SKMPNEN.KEU')
+			{
+				$('#attach-subkomponen').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size4[0]+'</small>');
+			} else {
+				$('#attach-subkomponen').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+			}
+		});
+
+		$('#akun :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size5.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'D_AKUN.KEU')
+			{
+				$('#attach-akun').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size5[0]+'</small>');
+			} else {
+				$('#attach-akun').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+			}
+		});
+
+		$('#pok :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size6.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'D_ITEM.KEU')
+			{
+				$('#attach-pok').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size6[0]+'</small>');
+			} else {
+				$('#attach-pok').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+			}
+		});
+
+		$('#trktrn :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size7.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'D_TRKTRM.KEU')
+			{
+				$('#attach-trktrn').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size7[0]+'</small>');
+			} else {
+				$('#attach-trktrn').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+			}
+		});
+
+	})
+</script>
+{/literal}
