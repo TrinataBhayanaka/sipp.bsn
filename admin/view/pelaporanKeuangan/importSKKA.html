@@ -1,28 +1,3 @@
-<script>
-$(window).on('load', function() {
-
-	// Datatables
-	// Row selection and deletion (multiple rows)
-	// -----------------------------------------------------------------
-	var rowDeletion = $('#newslist').DataTable({
-		"responsive": true,
-		"language": {
-			"paginate": {
-			  "previous": '<i class="fa fa-angle-left"></i>',
-			  "next": '<i class="fa fa-angle-right"></i>'
-			}
-		},
-		"dom": '<"toolbar">frtip'
-	});
-
-	$('#create-toolbar').appendTo($("div.toolbar"));
-	$('#separator-toolbar').appendTo($("div.toolbar"));
-	$('#delete-toolbar').appendTo($("div.toolbar"));
-
-})
-
-</script>
-
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
@@ -47,139 +22,99 @@ $(window).on('load', function() {
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Sample Table </h3>
+			<h3 class="panel-title">Tahun Anggran : {$tahunAnggaran.kode} </h3>
 		</div>
 		<!-- <div id="create-toolbar" class="table-toolbar-left">
 			<a href="{$basedomain}pelaporanKeuangan/import"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Import SAKPA </button></a>
 		</div> -->
-		<form class="form-horizontal" method="POST" action="{$basedomain}course/insert_course" enctype="multipart/form-data">
+		<form class="form-horizontal" method="POST" action="{$basedomain}pelaporanKeuangan/ins_import" enctype="multipart/form-data">
 			<div class="panel-body">
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Tahun Anggaran</label>
-					<div class="col-sm-4">
-						
-					2015
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Satker</label>
-					<div class="col-sm-4">
-						
-					<select name ="idGrup_kursus" id="idGrup_kursus"  class="selectpicker typeKursus">
-						<option>1</option>
-						<option>2</option>
-					</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">&nbsp;</label>
-					<div class="col-sm-4">
-						
-					<b>Lokasi file pada folder //SAKPA/TRN</b>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">File Realisasi Total 	</label>
-					<div class="col-sm-4">
-						
-						<div class="fileupload fileupload-new" data-provides="fileupload">
-						  <div>
-						    <span class="btn btn-default btn-file"><span class="fileupload-new">Select File</span><span class="fileupload-exists">Change</span><input type="file" name="gambar"/></span>
-						    <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
-						  </div>
+
+				<div class="row">
+					<div class="col-md-8">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Satker</label>
+							<div class="col-sm-4">
+								
+							<select name ="kdsatker" id="kdsatker" title="- Pilih Satker -"  class="selectpicker typeKursus" required>
+								<option data-hidden="true"></option>
+								{foreach $satker as $val}
+								<option value="{$val.kode}">{$val.nama_satker}</option>
+								{/foreach}
+							</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">&nbsp;</label>
+							<div class="col-sm-4">
+								
+							<b>Lokasi file pada folder //SAKPA/TRN</b>
+							</div>
+						</div>
+						<div class="form-group">
+						<label class="col-md-3 control-label">Realisasi Total</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="total">
+							Browse File : <label style="color:red">M_SPMIND</label> <input type="file" name="total">
+							</span>
+							<div id="attach-total" style="margin-left:200px"></div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">File Realisasi Akun</label>
-					<div class="col-sm-4">
-						
-					<div class="fileupload fileupload-new" data-provides="fileupload">
-						  <div>
-						    <span class="btn btn-default btn-file"><span class="fileupload-new">Select File</span><span class="fileupload-exists">Change</span><input type="file" name="gambar"/></span>
-						    <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
-						  </div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">Realisasi Akun</label>
+						<div class="col-md-9">
+							<span class="pull-left btn btn-default btn-file" id="akun">
+							Browse File : <label style="color:red">M_SPMMAK</label> <input type="file" name="akun">
+							</span>
+							<div id="attach-akun" style="margin-left:200px"></div>
 						</div>
 					</div>
+
+					</div>
 				</div>
+				<!-- HIDDEN -->
+				<input type="hidden" name="thang" value="{$tahunAnggaran.kode}">
 			</div>
 			<div class="panel-footer text-left">
 				<button class="btn btn-info" type="submit">Proses</button>
-				<button class="btn btn-info" type="reset">Kembali</button>
 			</div>
 		</form>
+	</div>
+
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Riwayat Upload </h3>
+		</div>
 		
-		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
-		<!-- <div id="delete-toolbar" class="table-toolbar-left">
-			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
-		</div> -->
-		<!--{pr($data)}
-		{pr($data_listgroup)}-->
 		<div class="panel-body">
 			<table id="newslist" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 
-					<tr >
-						<th rowspan="2">Kode Satker</th>
-						<th rowspan="2">Nama File</th>
-						<th class="min-desktop" colspan="2">Upload Terakhir</th>
-						<th class="min-desktop" rowspan="2">Keterangan</th>
-						<th class="min-desktop" rowspan="2">Aksi</th>
+					<tr>
+						<th rowspan="2" class="text-center" style="vertical-align: middle">Kode Satker</th>
+						<th rowspan="2" class="text-center" style="vertical-align: middle">Nama File</th>
+						<th class="min-desktop text-center" colspan="2" style="vertical-align: middle">Upload Terakhir</th>
+						<th class="min-desktop text-center" rowspan="2" style="vertical-align: middle">Keterangan</th>
 					</tr>
 					<tr >
-						<th class="min-desktop">User</th>
-						<th class="min-desktop">Waktu</th>
+						<th class="min-desktop text-center" style="vertical-align: middle">User</th>
+						<th class="min-desktop text-center" style="vertical-align: middle">Waktu</th>
 					</tr>
 				</thead>
 				<tbody>
+					{if !empty($riwayat)}
+					{foreach $riwayat as $val}
 					<tr>
-						<td>Tiger Nixon</td>
-						<td>System Architect</td>
-						<td>Edinburgh</td>
-						<td>61</td>
-						<td>$320,800</td>
-						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
+						<td>{$val.kdsatker}</td>
+						<td>{$val.nama_file}</td>
+						<td>{$val.user_upload}</td>
+						<td>{$val.tgl_upload}</td>
+						<td>{$val.keterangan}</td>
 					</tr>
-					<tr>
-						<td>Garrett Winters</td>
-						<td>Accountant</td>
-						<td>Tokyo</td>
-						<td>63</td>
-						<td>$170,750</td>
-						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
-					</tr>
-					<tr>
-						<td>Ashton Cox</td>
-						<td>Junior Technical Author</td>
-						<td>San Francisco</td>
-						<td>66</td>
-						<td>$86,000</td>
-						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
-					</tr>
-					<tr>
-						<td>Cedric Kelly</td>
-						<td>Senior Javascript Developer</td>
-						<td>Edinburgh</td>
-						<td>22</td>
-						<td>$433,060</td>
-						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
-					</tr>
-					<tr>
-						<td>Airi Satou</td>
-						<td>Accountant</td>
-						<td>Tokyo</td>
-						<td>33</td>
-						<td>$162,700</td>
-						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
-					</tr>
-					<tr>
-						<td>Brielle Williamson</td>
-						<td>Integration Specialist</td>
-						<td>New York</td>
-						<td>61</td>
-						<td>$372,000</td>
-						<td><a href="{$basedomain}daftar_pengaduan/detail"><button class="btn btn-info btn-labeled fa fa-eye">View Detail</button></a></td>
-					</tr>
+					{/foreach}
+					{else}
+						<td colspan="5" class="text-center">Tidak ada data</td>
+					{/if}
 				</tbody>
 			</table>
 		</div>
@@ -192,3 +127,35 @@ $(window).on('load', function() {
 <!--===================================================-->
 <!--End page content-->
 
+{literal}
+<script type="text/javascript">
+	$(document).on('ready', function() {
+		var size1 = [];
+		var size2 = [];
+
+		$('#total :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size1.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'M_SPMIND.DBF')
+			{
+				$('#attach-total').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size1[0]+'</small>');
+			} else {
+				$('#attach-total').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+				size1=[];
+			}
+		});
+
+		$('#akun :file').on('fileselect', function(event, numFiles, label, fileSize) {
+			size2.push(fileSize);
+			label = label.toUpperCase();
+			if(label == 'M_SPMMAK.DBF')
+			{
+				$('#attach-akun').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size2[0]+'</small>');
+			} else {
+				$('#attach-akun').html('<strong class="box-block text-capitalize" style="color:red"> <i class="fa fa-times"></i> Wrong File </strong><small class="text-muted"> Please choose the right file</small>');
+				size2=[];
+			}
+		});
+	})
+</script>
+{/literal}

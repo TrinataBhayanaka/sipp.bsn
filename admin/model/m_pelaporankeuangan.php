@@ -795,7 +795,51 @@ class m_pelaporankeuangan extends Database {
 		
 		return $result;
 	}
+
+	function getSatker($type)
+	{
+		$sql = "SELECT * FROM bsn_struktur WHERE type='{$type}'";
+		$res = $this->fetch($sql,1);
+
+		return $res;
+	}
+
+	function getTahunAnggaran()
+	{
+		$sql = "SELECT * FROM bsn_sistem_setting WHERE `desc` = 'tahun_sistem' AND n_status='1'";
+		$res = $this->fetch($sql);
+
+		return $res;
+
+	}
+
+	function getRiwayat()
+	{
+		$sql = "SELECT * FROM dt_fileupload_keu";
+		$res = $this->fetch($sql,1);
+		foreach ($res as $key => $value) {
+			$sql = "SELECT name FROM ck_admin_member WHERE id='{$value['user_upload']}'";
+			$user = $this->fetch($sql);
+			$res[$key]['user'] = $user['name'];
+		}
+
+		return $res;
+	}
 	
+	function del_peryear($table,$tahun)
+	{
+		$sql = "DELETE FROM {$table} WHERE THANG = '{$tahun}'";
+		$res = $this->query($sql);
+
+		return true;
+	}
+
+	function insert_data($data,$table)
+	{
+		$this->insert($data,$table);
+
+		return true;
+	}
 	
 }
 ?>
