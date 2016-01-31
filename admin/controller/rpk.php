@@ -31,7 +31,7 @@ class rpk extends Controller {
 		// pr($thn_aktif);
 		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
-		// $thn_temp = '2015';
+		// $thn_temp = '2013';
 		
 		if($_POST['unit'] !=''){
 			// pr($_POST['unit']);
@@ -40,6 +40,7 @@ class rpk extends Controller {
 			$kd_unit = $_POST['unit'];
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
+			$thn_renstra =$thn_aktif['data'];
 			
 			/*if($thn_temp >= 2015 and $thn_temp<=2019){
 				$thn_renstra ='2015-2019'; 
@@ -51,7 +52,7 @@ class rpk extends Controller {
 				$thn_renstra ='2030-2034'; 
 			}*/
 			
-			$thn_renstra =$thn_aktif['data'];
+			
 			// pr($thn_renstra);
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			foreach($kd_kegiatan as $key=>$val){
@@ -74,8 +75,8 @@ class rpk extends Controller {
 			$kd_unit = '841100';
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
-			
-			if($thn_temp >= 2015 and $thn_temp<=2019){
+			$thn_renstra =$thn_aktif['data'];
+			/*if($thn_temp >= 2015 and $thn_temp<=2019){
 				$thn_renstra ='2015-2019'; 
 			}elseif($thn_temp >= 2020 and $thn_temp<=2024){
 				$thn_renstra ='2020-2024'; 
@@ -83,11 +84,14 @@ class rpk extends Controller {
 				$thn_renstra ='2025-2029'; 
 			}elseif($thn_temp >= 2030 and $thn_temp<=2034){
 				$thn_renstra ='2030-2034'; 
-			}
+			}*/
+			
+			
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			foreach($kd_kegiatan as $key=>$val){
 				$list[] = $val;
 				$pagu_giat = $this->m_penetapanAngaran->pagu_giat($thn_temp,$val['kdgiat']);
+				// pr($pagu_giat);
 				$list[$key]['pagu_giat'] = $pagu_giat['pagu_giat'];
 				
 				//output
@@ -160,7 +164,7 @@ class rpk extends Controller {
 				$list[$key]['nama_komponen'] = $komponen['URKMPNEN'];
 				
 				$sub_komponen = $this->m_penetapanAngaran->sub_komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN']);
-				
+				// pr($sub_komponen);
 					foreach($sub_komponen as $sb=>$sub){
 						$list[$key]['sub_komponen'][] = $sub;
 						$sum_bobot = $sub['target_1'] + $sub['target_2'] + $sub['target_3'] + $sub['target_4'] + $sub['target_5'] +
@@ -174,7 +178,10 @@ class rpk extends Controller {
 					}
 			}
 		
+		// pr($info);
+		// pr($rinc);
 		// pr($list);
+		// exit;
 		$this->view->assign('info',$info);
 		$this->view->assign('rinc',$rinc);
 		$this->view->assign('list',$list);
@@ -392,7 +399,7 @@ class rpk extends Controller {
 	}
 
 	public function ajax_simpan_sub(){
-		
+	
 		// pr($_POST);
 		// echo masuk;
 		// exit;
@@ -400,18 +407,32 @@ class rpk extends Controller {
 		// pr($_POST);
 		$bad_symbols = array(",", ".");
 		$id =$_POST['id'];
-		$target_1 =round($_POST['target_1']);
-		$target_2 =round($_POST['target_2']);
-		$target_3 =round($_POST['target_3']);
-		$target_4 =round($_POST['target_4']);
-		$target_5 =round($_POST['target_5']);
-		$target_6 =round($_POST['target_6']);
-		$target_7 =round($_POST['target_7']);
-		$target_8 =round($_POST['target_8']);
-		$target_9 =round($_POST['target_9']);
-		$target_10 =round($_POST['target_10']);
-		$target_11 =round($_POST['target_11']);
-		$target_12 =round($_POST['target_12']);
+		/*$target_1 =round($_POST['target_1'],2);
+		$target_2 =round($_POST['target_2'],2);
+		$target_3 =round($_POST['target_3'],2);
+		$target_4 =round($_POST['target_4'],2);
+		$target_5 =round($_POST['target_5'],2);
+		$target_6 =round($_POST['target_6'],2);
+		$target_7 =round($_POST['target_7'],2);
+		$target_8 =round($_POST['target_8'],2);
+		$target_9 =round($_POST['target_9'],2);
+		$target_10 =round($_POST['target_10'],2);
+		$target_11 =round($_POST['target_11'],2);
+		$target_12 =round($_POST['target_12'],2);*/
+		
+		$target_1 =str_replace($bad_symbols, ".",$_POST['target_1']);
+		$target_2 =str_replace($bad_symbols, ".",$_POST['target_2']);
+		$target_3 =str_replace($bad_symbols, ".",$_POST['target_3']);
+		$target_4 =str_replace($bad_symbols, ".",$_POST['target_4']);
+		$target_5 =str_replace($bad_symbols, ".",$_POST['target_5']);
+		$target_6 =str_replace($bad_symbols, ".",$_POST['target_6']);
+		$target_7 =str_replace($bad_symbols, ".",$_POST['target_7']);
+		$target_8 =str_replace($bad_symbols, ".",$_POST['target_8']);
+		$target_9 =str_replace($bad_symbols, ".",$_POST['target_9']);
+		$target_10 =str_replace($bad_symbols, ".",$_POST['target_10']);
+		$target_11 =str_replace($bad_symbols, ".",$_POST['target_11']);
+		$target_12 =str_replace($bad_symbols, ".",$_POST['target_12']);
+		
 		$anggaran_1 =str_replace($bad_symbols, "",$_POST['anggaran_1']);
 		$anggaran_2 =str_replace($bad_symbols, "",$_POST['anggaran_2']);
 		$anggaran_3 =str_replace($bad_symbols, "",$_POST['anggaran_3']);

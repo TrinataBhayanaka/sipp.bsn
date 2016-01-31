@@ -26,7 +26,7 @@ $(window).on('load', function() {
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Realisasi Bulanan</h1>
+	<h1 class="page-header text-overflow">Realisasi s.d Bulanan(Rp.)</h1>
 </div>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End page title-->
@@ -47,7 +47,7 @@ $(window).on('load', function() {
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Realisasi Bulanan</h3>
+			<h3 class="panel-title">Realisasi s.d Bulanan(Rp.)</h3>
 		</div>
 		
 		<!--{pr($data)}
@@ -64,8 +64,9 @@ $(window).on('load', function() {
 						Nama Kegiatan /
 						Output</th>
 						<th class="text-center" rowspan="3">Pagu</th>
-						<th class="text-center" colspan="14">Realisasi dan Rencana Penarikan
-						( Bulanan ) </th>
+						<th class="text-center" colspan="13">Realisasi dan Rencana Penarikan (dalam juta rupiah)<br />
+							( s/d Bulan Ke ) </th>
+						<th class="text-center" rowspan="3">Grafik</th>	
 						<th class="text-center" rowspan="3">Sisa Anggaran</th>
 					</tr>
 					<tr>
@@ -81,10 +82,10 @@ $(window).on('load', function() {
 						<th class="text-center" rowspan="2">10</th>
 						<th class="text-center" rowspan="2">11</th>
 						<th class="text-center" rowspan="2">12</th>
-						<th class="text-center" colspan="2">Total Realisasi</th>
+						<th class="text-center" >Total Realisasi</th>
 					</tr>
 					<tr>
-						<th  class="text-center">Rupiah</th>
+						<!--<th  class="text-center">Rupiah</th>-->
 						<th  class="text-center">(%)</th>
 					</tr>
 				</thead>
@@ -94,21 +95,13 @@ $(window).on('load', function() {
 						<td  class="text-center" rowspan="2"> 	084</td>
 						<td rowspan="2">{$data_master_induk.0.nama_satker}</td>
 						<td  class="text-right" rowspan="2">{number_format($data_master_induk.0.pagu_total,0,",",".")}</td>
-						<td  class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.0.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.1.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.2.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.3.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.4.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.5.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.6.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.7.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.8.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.9.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.10.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.realisasi_bulan.11.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master_induk.0.total_realisasi,0,",",".")}</td>
-						<td  class="text-center" rowspan="2">{number_format($data_master_induk.0.persentase,2,",",".")}</td>
-						<td  class="text-right" rowspan="2">{number_format($data_master_induk.0.sisa_anggaran,0,",",".")}</td>
+						{foreach $data_master_induk.0.realisasi_bulan as $val_indk}
+							<td  class="text-right" >{number_format($val_indk,0,",",".")} 	</td>
+						{/foreach}
+						<td  class="text-center">{number_format($data_master_induk.0.persentase,2,",",".")}</td>
+						<td  class="text-center" rowspan="2"><a href="{$basedomain}pelaporanKeuangan/"><i class="fa fa-line-chart">&nbsp;</i></a></td>
+						
+						<td class="text-right" rowspan = "2">{number_format($data_master_induk.0.sisa_anggaran,0,",",".")}</td>
 					</tr>
 
 					<tr>
@@ -124,7 +117,9 @@ $(window).on('load', function() {
 						<td class="text-right" >{number_format($data_master_induk.0.penarikan_bulan.JML10,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($data_master_induk.0.penarikan_bulan.JML11,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($data_master_induk.0.penarikan_bulan.JML12,0,",",".")} 	</td>
-						<td class="text-right" colspan="1">{number_format($data_master_induk.0.penarikan_bulan.RPHPAGU,0,",",".")}</td>
+						
+						<td class="text-right" >&nbsp;</td>
+						<!--<td class="text-right" colspan="1">{number_format($data_master_induk.0.penarikan_bulan.RPHPAGU,0,",",".")}</td>-->
 						
 					</tr>
 					<tr>
@@ -132,21 +127,13 @@ $(window).on('load', function() {
 						<td class="text-center" rowspan="2"> 	{$data_master.0.KDSATKER}</td>
 						<td rowspan="2">{$data_master.0.nama_satker}</td>
 						<td  class="text-right" rowspan="2">{number_format($data_master.0.pagu_total,0,",",".")}</td>
-						<td  class="text-right" >{number_format($data_master.0.realisasi_bulan.0.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.1.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.2.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.3.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.4.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.5.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.6.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.7.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.8.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.9.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.10.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.realisasi_bulan.11.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($data_master.0.total_realisasi,0,",",".")}</td>
-						<td  class="text-center" rowspan="2">{number_format($data_master.0.persentase,2,",",".")}</td>
-						<td  class="text-right" rowspan="2">{number_format($data_master.0.sisa_anggaran,0,",",".")}</td>
+						{foreach $data_master_induk.0.realisasi_bulan as $val_indk}
+							<td  class="text-right" >{number_format($val_indk,0,",",".")} 	</td>
+						{/foreach}
+						<td  class="text-center" >{number_format($data_master.0.persentase,2,",",".")}</td>
+						<td  class="text-center" rowspan="2"><a href="{$basedomain}pelaporanKeuangan/"><i class="fa fa-line-chart">&nbsp;</i></a></td>
+						
+						<td  class="text-right" rowspan = "2">{number_format($data_master.0.sisa_anggaran,0,",",".")}</td>
 					</tr>
 
 					<tr>
@@ -162,7 +149,7 @@ $(window).on('load', function() {
 						<td class="text-right" >{number_format($data_master.0.penarikan_bulan.JML10,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($data_master.0.penarikan_bulan.JML11,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($data_master.0.penarikan_bulan.JML12,0,",",".")} 	</td>
-						<td class="text-right" colspan="1">{number_format($data_master.0.penarikan_bulan.RPHPAGU)}</td>
+						<td class="text-right" >&nbsp;</td>
 					</tr>
 					{foreach $data_master_sub as $valsub}
 					<tr>
@@ -170,20 +157,12 @@ $(window).on('load', function() {
 						<td  class="text-center" rowspan="2">{$valsub.KDGIAT}</td>
 						<td rowspan="2">{$valsub.nama_giat}</td>
 						<td  class="text-right" rowspan="2">{number_format($valsub.pagu_giat,0,",",".")}</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.0.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.1.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.2.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.3.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.4.jml,0,",",".")}	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.5.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.6.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.7.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.8.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.9.jml,0,",",".")}	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.10.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.realisasi_bulan.11.jml,0,",",".")} 	</td>
-						<td class="text-right" >{number_format($valsub.total_realisasi,0,",",".")} </td>
-						<td  class="text-center" rowspan="2">{number_format($valsub.persentase,2,",",".")}</td>
+						{foreach $valsub.realisasi_bulan as $valrealgiat}
+							<td class="text-right" >{number_format($valrealgiat,0,",",".")}</td>
+						{/foreach}
+						<td  class="text-center" >{number_format($valsub.persentase,2,",",".")}</td>
+						<td  class="text-center" rowspan="2"><a href="{$basedomain}pelaporanKeuangan/"><i class="fa fa-line-chart">&nbsp;</i></a></td>
+						
 						<td  class="text-right" rowspan="2">{number_format($valsub.sisa_anggaran,0,",",".")}</td>
 					</tr>
 
@@ -200,28 +179,22 @@ $(window).on('load', function() {
 						<td class="text-right" >{number_format($valsub.penarikan_bulan.JML10,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($valsub.penarikan_bulan.JML11,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($valsub.penarikan_bulan.JML12,0,",",".")} 	</td>
-						<td class="text-right" colspan="1">{number_format($valsub.penarikan_bulan.RPHPAGU,0,",",".")}</td>
+						<td class="text-right" >&nbsp;</td>
+						<!--<td class="text-right" colspan="1">{number_format($valsub.penarikan_bulan.RPHPAGU,0,",",".")}</td>-->
 					</tr>
 					{foreach $valsub.output as $valout}
 					<tr>
 						<td rowspan="">&nbsp;</td>
 						<td  class="text-center" rowspan="">{$valout.KDOUTPUT}</td>
 						<td rowspan="">{$valout.namaoutput}</td>
-						<td  class="text-right" rowspan="">{number_format($valout.pagu_output,0,",",".")}</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.0.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.1.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.2.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.3.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.4.jml,0,",",".")}	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.5.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.6.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.7.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="" >{number_format($valout.penarikan_bulan.0.8.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.9.jml,0,",",".")}	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.10.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.penarikan_bulan.0.11.jml,0,",",".")} 	</td>
-						<td class="text-right" rowspan="">{number_format($valout.total_realisasi,0,",",".")} </td>
+						<td  class="text-right" rowspan="">{number_format($valout.new_pagu_output,0,",",".")}</td>
+						{foreach $valout.penarikan_bulan as $valrealout}
+							{foreach $valrealout as $valrealoutput}
+								<td class="text-right" rowspan="">{number_format($valrealoutput,0,",",".")} 	</td>
+							{/foreach}
+						{/foreach}
 						<td  class="text-center" rowspan="">{number_format($valout.persentase,2,",",".")}</td>
+						<td  class="text-center" ><a href="{$basedomain}pelaporanKeuangan/"><i class="fa fa-line-chart">&nbsp;</i></a></td>
 						<td  class="text-right" rowspan="">{number_format($valout.sisa_anggaran_kegiatan_output,0,",",".")}</td>
 					</tr>
 					{/foreach}

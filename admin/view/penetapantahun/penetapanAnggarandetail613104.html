@@ -101,6 +101,7 @@
 							<td class="text-right">{number_format($detail613104.15,"0",",",".")}</td>
 							
 						</tr>
+						{if $detail613104_jb}
 						{foreach $detail613104_jb as $val}
 						<tr>
 							<td>{$val.JNSBELANJA}</td>
@@ -122,6 +123,7 @@
 							
 						</tr>
 						{/foreach}
+						{/if}
 					</tbody>
 				</table>
 			</div>

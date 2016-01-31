@@ -79,7 +79,7 @@ class penetapanAnggaran extends Controller {
 		$data_bsn_induk[]['persentaseperjalanan']= $p_perjalanan;
 		$data_bsn_induk[]['tahun']= $thn_temp ;
 		// pr($data_bsn_induk);
-		
+		// exit;
 		$select_kd_satker = $this->m_penetapanAngaran->select_data_bsn($thn_temp);
 		$select_nama_satker = $this->m_penetapanAngaran->select_nama($select_kd_satker['KDSATKER']);
 		$data_bsn_induk_sub[]['kode']= $select_kd_satker['KDSATKER'];
@@ -200,6 +200,7 @@ class penetapanAnggaran extends Controller {
 		$kode_BSN = $kodeSatker['KDSATKER'];
 		$Select_nama_BSN = $this->m_penetapanAngaran->select_nama($kode_BSN);
 		$detail613104= $this->m_penetapanAngaran->detail084($tahun);
+		// pr($detail613104);
 		foreach ($detail613104 as $dtl){
 			$up_detail613104[] = $dtl;
 		}
@@ -212,6 +213,7 @@ class penetapanAnggaran extends Controller {
 		$up_detail613104[] = $jml;
 		
 		$detail613104_jb= $this->m_penetapanAngaran->detail084_jb($tahun);
+		// pr($detail613104_jb);
 		foreach ($detail613104_jb as $key=>$dtljb){
 			$up_detail613104_jb[] = $dtljb;
 			if($dtljb['JNSBELANJA'] == '51'){
@@ -247,41 +249,48 @@ class penetapanAnggaran extends Controller {
 		$nama_kegiatan= $this->m_penetapanAngaran->nama_kegiatan($kd_giat);
 		
 		$detailkgtn= $this->m_penetapanAngaran->detailkgtn($tahun,$kd_satker,$kd_giat);
-		foreach ($detailkgtn as $dtl){
+		// pr($detailkgtn);
+		if($detailkgtn){
+			foreach ($detailkgtn as $dtl){
 			$up_detailkgtn[] = $dtl;
-		}
-
-		$jml = 0;
-		for($i=1;$i<=12;$i++){
-			$jml = $jml + $up_detailkgtn[$i];
-		}
-	
-		$up_detailkgtn[] = $kode_giat;
-		$up_detailkgtn[] = $nama_kegiatan['nmgiat'];
-		$up_detailkgtn[] = $jml;
-		
-		$detail_jb= $this->m_penetapanAngaran->detail_jb($tahun,$kd_satker,$kd_giat);
-		foreach ($detail_jb as $key=>$dtljb){
-			$up_detail_jb[] = $dtljb;
-			if($dtljb['JNSBELANJA'] == '51'){
-				$ket = "Belanja Pegawai";
-			}elseif($dtljb['JNSBELANJA'] == '52'){
-				$ket = "Belanja Barang";
-			}elseif($dtljb['JNSBELANJA'] == '53'){
-				$ket = "Belanja Modal";
 			}
-			$up_detail_jb[$key]['KET_JNSBELANJA'] = $ket;
-			$up_detail_jb[$key]['jml'] = $dtljb['JML01'] + $dtljb['JML02'] + $dtljb['JML03'] + $dtljb['JML04'] + $dtljb['JML05'] +
-											$dtljb['JML06'] + $dtljb['JML07'] + $dtljb['JML08'] + $dtljb['JML09'] + $dtljb['JML10'] +
-											$dtljb['JML11'] + $dtljb['JML12'];
-									
+			
+			$jml = 0;
+			
+			for($i=1;$i<=12;$i++){
+				$jml = $jml + $up_detailkgtn[$i];
+			}
+			// pr($jml);
+			$up_detailkgtn[] = $kode_giat;
+			$up_detailkgtn[] = $nama_kegiatan['nmgiat'];
+			$up_detailkgtn[] = $jml;
+			
+		}	
+		// pr($up_detailkgtn);
+		// exit;
+		$detail_jb= $this->m_penetapanAngaran->detail_jb($tahun,$kd_satker,$kd_giat);
+		if($detail_jb){
+			foreach ($detail_jb as $key=>$dtljb){
+				$up_detail_jb[] = $dtljb;
+				if($dtljb['JNSBELANJA'] == '51'){
+					$ket = "Belanja Pegawai";
+				}elseif($dtljb['JNSBELANJA'] == '52'){
+					$ket = "Belanja Barang";
+				}elseif($dtljb['JNSBELANJA'] == '53'){
+					$ket = "Belanja Modal";
+				}
+				$up_detail_jb[$key]['KET_JNSBELANJA'] = $ket;
+				$up_detail_jb[$key]['jml'] = $dtljb['JML01'] + $dtljb['JML02'] + $dtljb['JML03'] + $dtljb['JML04'] + $dtljb['JML05'] +
+												$dtljb['JML06'] + $dtljb['JML07'] + $dtljb['JML08'] + $dtljb['JML09'] + $dtljb['JML10'] +
+												$dtljb['JML11'] + $dtljb['JML12'];
+										
+			}
 		}
 		$this->view->assign('detailkgtn',$up_detailkgtn);
 		$this->view->assign('detail_jb',$up_detail_jb);
 		$this->view->assign('tahun',$tahun);
 		// pr($up_detailkgtn);
 		// pr($up_detail_jb);
-		
 		// exit;
 		return $this->loadView('penetapantahun/penetapanAnggarandetailkegiatan');
 	

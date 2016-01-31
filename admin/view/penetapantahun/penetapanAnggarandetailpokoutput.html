@@ -59,7 +59,7 @@ $(window).on('load', function() {
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
-			<table id="" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<table id="" class="table table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th class="min-desktop text-center">Kode APBN</th>
@@ -106,7 +106,7 @@ $(window).on('load', function() {
 												<td class="min-desktop">&nbsp;</td>
 												<td class="min-desktop">{$sub.NMITEM}</td>
 												<td  class="min-desktop ">{$sub.VOLKEG|cat:$sub.SATKEG}</td>
-												<td class="min-desktop text-right">{number_format($sub.HARGASAT,"0",",",".")}</td>
+												<td class="min-desktop text-right">{number_format($sub.JUMLAH,"0",",",".")}</td>
 												<td class="min-desktop text-right">{number_format($sub.HARGASAT,"0",",",".")}</td>
 												<td class="min-desktop">&nbsp;</td>
 											</tr>

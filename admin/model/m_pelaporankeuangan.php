@@ -81,7 +81,7 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
-	//d_item
+	//d_item SALAH QUERY(DATA JADI DOUBLE)
 	function cek_kegiatan_group_realisasi($thn_temp,$kd_satker)
 	{
 		$query = "select a.THANG, a.KDGIAT, sum(a.jumlah) as pagu_giat, b.kdunitkerja from d_item a 
@@ -124,10 +124,17 @@ class m_pelaporankeuangan extends Database {
 	}
 	
 	//d_item
+	// function pagutotal_kode_output_kegiatan_perbulan($thn_temp,$kd_satker,$kd_giat,$param=0)
 	function pagutotal_kode_output_kegiatan_perbulan($thn_temp,$kd_satker,$kd_giat)
-	{
-		$query = "select KDOUTPUT, sum(jumlah) as pagu_output from d_item WHERE THANG='{$thn_temp}' and 
-					KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
+	{	
+		// if($param == 1){
+			// $query = "select KDOUTPUT, ROUND(sum(jumlah) / 1000000,0) as pagu_output from d_item WHERE THANG='{$thn_temp}' and 
+					// KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
+		// }else{
+			$query = "select KDOUTPUT, sum(jumlah) as pagu_output from d_item WHERE THANG='{$thn_temp}' and 
+				KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
+		// }
+		
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -170,6 +177,12 @@ class m_pelaporankeuangan extends Database {
 			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
 					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";
+			
+			//untuk query s/d bulan
+			/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";*/		   
+			// pr($query);		   
 			$result = $this->fetch($query);
 			// pr($result);
 			if($result['jml'] == 0){
@@ -182,22 +195,141 @@ class m_pelaporankeuangan extends Database {
 		return array($newArray);
 	}
 	
+	function realisasi_sdbulan_unit($thn_temp,$monthArray,$param =0)
+	{
+		foreach ($monthArray as $val) {	
+			
+			//untuk query bulan
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";		   
+			$result = $this->fetch($query);
+			
+			//untuk query s/d bulan
+			$query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";		   
+			
+			$result2 = $this->fetch($query2);
+			
+			
+			if($result['jml'] == 0){
+				$result['jml']=0;
+			}
+			if($result2['jml'] == 0){
+				$result2['jml']=0;
+			}
+			if($val == 1){
+				if($result['jml'] != 0){
+					if($param == 1){
+						$res_akumulasi = round(($result['jml'] / 1000000),0);
+					}else{
+						$res_akumulasi = $result['jml'] ;
+					}
+				}else{
+					$res_akumulasi = 0;
+				}
+			}else{
+				if($result['jml'] != 0){
+					if($param == 1){
+						$res_akumulasi = round(($result2['jml'] / 1000000),0);
+					}else{
+						$res_akumulasi = $result2['jml'];
+					}	
+				}else{
+					$res_akumulasi = 0;
+				}
+				
+			}
+			
+			// $newArray[]= $result;
+			$newArray[]= $res_akumulasi;
+			// pr($newArray);
+			// exit;
+		}
+		// pr($newArray);
+			// exit;
+		return array($newArray);
+	}
+	
+	
 	// m_spmind dan m_spmmak
 	function realisasi_perbulan_unit_kegiatan($thn_temp,$monthArray,$kd_giat,$kd_satker)
 	{
 		foreach ($monthArray as $val) {	
 			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
+			
+			//untuk query bulan
 			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
 					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
+			
 			if($result['jml'] == 0){
 				$result['jml']=0;
 			}
+			
 			// pr($newArray);
 			$newArray[]= $result;
+			// $newArray."_".$val= $result;
+		}
+		return array($newArray);
+	}
+	
+	function realisasi_sdbulan_unit_kegiatan($thn_temp,$monthArray,$kd_giat,$kd_satker,$param=0)
+	{
+		foreach ($monthArray as $val) {	
+			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
+			
+			//untuk query bulan
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			
+			//untuk query s.d bulan
+			$query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			// pr($query);
+			$result2 = $this->fetch($query2);
+			// pr($result);
+			
+			if($result['jml'] == 0){
+				$result['jml']=0;
+			}
+			if($result2['jml'] == 0){
+				$result2['jml']=0;
+			}
+			if($val == 1){
+				if($result['jml'] != 0){
+					if($param == 1){
+						$res_akumulasi = round($result['jml'] / 1000000,0);
+					}else{
+						$res_akumulasi = $result['jml'] ;
+					}
+				}else{
+					$res_akumulasi = 0;
+				}
+			}else{
+				if($result['jml'] != 0){
+					if($param == 1){
+						$res_akumulasi = round($result2['jml'] / 1000000,0);
+					}else{
+						$res_akumulasi = $result2['jml'];
+					}
+				}else{
+					$res_akumulasi = 0;
+				}
+				
+			}
+			// pr($newArray);
+			// $newArray[]= $result;
+			$newArray[]= $res_akumulasi;
 			// $newArray."_".$val= $result;
 		}
 		return array($newArray);
@@ -208,17 +340,79 @@ class m_pelaporankeuangan extends Database {
 	{
 		foreach ($monthArray as $val) {	
 			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
+			
+			//untuk query bulan
 			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
 					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
 			// pr($query);
 			$result = $this->fetch($query);
+			
+			
+			
 			// pr($result);
 			if($result['jml'] == 0){
 				$result['jml']=0;
 			}
+			
 			// pr($newArray);
 			$newArray[]= $result;
+			// $newArray."_".$val= $result;
+		}
+		return array($newArray);
+	}
+	
+	function penarikan_unit_sdbulan_kegiatan_perbulan($thn_temp,$monthArray,$kd_satker,$kd_giat,$kd_output,$param=0)
+	{
+		foreach ($monthArray as $val) {	
+			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
+			
+			//untuk query bulan
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			// pr($query);
+			$result = $this->fetch($query);
+			
+			//untuk query bulan
+			$query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			// pr($query);
+			$result2 = $this->fetch($query2);
+			
+			// pr($result);
+			if($result['jml'] == 0){
+				$result['jml']=0;
+			}
+			if($result2['jml'] == 0){
+				$result2['jml']=0;
+			}
+			if($val == 1){
+				if($result['jml'] != 0){
+					if($param == 1){
+						$res_akumulasi = round($result['jml'] / 1000000,0) ;
+					}else{
+						$res_akumulasi = $result['jml'] ;
+					}
+				}else{
+					$res_akumulasi = 0;
+				}
+			}else{
+				if($result['jml'] != 0){
+					if($param == 1){
+						$res_akumulasi = round($result2['jml'] / 1000000,0);
+					}else{
+						$res_akumulasi = $result2['jml'];
+					}
+				}else{
+					$res_akumulasi = 0;
+				}
+				
+			}
+			// pr($newArray);
+			// $newArray[]= $result;
+			$newArray[]= $res_akumulasi;
 			// $newArray."_".$val= $result;
 		}
 		return array($newArray);
@@ -257,9 +451,10 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind dan m_spmmak
 	function select_all_bulan_unit_kegiatan_ouput_perbulan($thn_temp,$max_bulan,$kd_satker,$kd_giat,$kd_output)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
 					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$max_bulan}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}'  order by NILMAK";
+			
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -319,6 +514,74 @@ class m_pelaporankeuangan extends Database {
 			}
 		return $result;
 	}
+	
+	function penarikan_unit_perbulan_2($thn_temp,$param=0)
+	{
+			$query = "select 	sum(RPHPAGU) as RPHPAGU,
+					sum(JML01) as JML01,
+					sum(JML02) as JML02,
+					sum(JML03) as JML03,
+					sum(JML04) as JML04,
+					sum(JML05) as JML05,
+					sum(JML06) as JML06,
+					sum(JML07) as JML07,
+					sum(JML08) as JML08,
+					sum(JML09) as JML09,
+					sum(JML10) as JML10,
+					sum(JML11) as JML11,
+					sum(JML12) as JML12
+					from d_trktrm WHERE THANG='{$thn_temp}' group by THANG";
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result){
+				if($param == 1){
+					$result['RPHPAGU']= $result['RPHPAGU'];
+					$result['JML01']= round($result['JML01'],0);
+					$result['JML02']= round(($result['JML01'] + $result['JML02']) / 1000000,0);
+					$result['JML03']= round(($result['JML02'] + $result['JML03']) / 1000000,0);
+					$result['JML04']= round(($result['JML03'] + $result['JML04']) / 1000000,0);
+					$result['JML05']= round(($result['JML04'] + $result['JML05']) / 1000000,0);
+					$result['JML06']= round(($result['JML05'] + $result['JML06']) / 1000000,0);
+					$result['JML07']= round(($result['JML06'] + $result['JML07']) / 1000000,0);
+					$result['JML08']= round(($result['JML07'] + $result['JML08']) / 1000000,0);
+					$result['JML09']= round(($result['JML08'] + $result['JML09']) / 1000000,0);
+					$result['JML10']= round(($result['JML09'] + $result['JML10']) / 1000000,0);
+					$result['JML11']= round(($result['JML10'] + $result['JML11']) / 1000000,0);
+					$result['JML12']= round(($result['JML11'] + $result['JML12']) / 1000000,0);	
+				}else{
+					$result['RPHPAGU']= $result['RPHPAGU'];
+					$result['JML01']= $result['JML01'];
+					$result['JML02']= $result['JML01'] + $result['JML02'];
+					$result['JML03']= $result['JML02'] + $result['JML03'];
+					$result['JML04']= $result['JML03'] + $result['JML04'];
+					$result['JML05']= $result['JML04'] + $result['JML05'];
+					$result['JML06']= $result['JML05'] + $result['JML06'];
+					$result['JML07']= $result['JML06'] + $result['JML07'];
+					$result['JML08']= $result['JML07'] + $result['JML08'];
+					$result['JML09']= $result['JML08'] + $result['JML09'];
+					$result['JML10']= $result['JML09'] + $result['JML10'];
+					$result['JML11']= $result['JML10'] + $result['JML11'];
+					$result['JML12']= $result['JML11'] + $result['JML12'];	
+				}
+				
+			}else{
+				$result['RPHPAGU']= 0;
+				$result['JML01']= 0;
+				$result['JML02']= 0;
+				$result['JML03']= 0;
+				$result['JML04']= 0;
+				$result['JML05']= 0;
+				$result['JML06']= 0;
+				$result['JML07']= 0;
+				$result['JML08']= 0;
+				$result['JML09']= 0;
+				$result['JML10']= 0;
+				$result['JML11']= 0;
+				$result['JML12']= 0;
+			}
+		return $result;
+	}
 	//d_trktrm
 	function penarikan_unit_perbulan_kegiatan($thn_temp,$kd_satker,$kd_giat)
 	{
@@ -336,7 +599,7 @@ class m_pelaporankeuangan extends Database {
 					sum(JML11) as JML11,
 					sum(JML12) as JML12
 					from d_trktrm WHERE THANG='{$thn_temp}' AND KDSATKER = '{$kd_satker}' 
-					AND KDGIAT = '{$kd_giat}' group by KDGIAT
+					AND KDGIAT = '{$kd_giat}' 
 					group by THANG";
 			// pr($query);
 			$result = $this->fetch($query);
@@ -372,6 +635,78 @@ class m_pelaporankeuangan extends Database {
 			}
 		return $result;
 	}
+	
+	function penarikan_unit_perbulan_kegiatan_2($thn_temp,$kd_satker,$kd_giat,$param=0)
+	{
+			$query = "select 	sum(RPHPAGU) as RPHPAGU,
+					sum(JML01) as JML01,
+					sum(JML02) as JML02,
+					sum(JML03) as JML03,
+					sum(JML04) as JML04,
+					sum(JML05) as JML05,
+					sum(JML06) as JML06,
+					sum(JML07) as JML07,
+					sum(JML08) as JML08,
+					sum(JML09) as JML09,
+					sum(JML10) as JML10,
+					sum(JML11) as JML11,
+					sum(JML12) as JML12
+					from d_trktrm WHERE THANG='{$thn_temp}' AND KDSATKER = '{$kd_satker}' 
+					AND KDGIAT = '{$kd_giat}' 
+					group by THANG";
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result){
+				if($param == 1){
+					$result['RPHPAGU']= $result['RPHPAGU'];
+					$result['JML01']= round($result['JML01'],0);
+					$result['JML02']= round(($result['JML01'] + $result['JML02']) / 1000000,0);
+					$result['JML03']= round(($result['JML02'] + $result['JML03']) / 1000000,0);
+					$result['JML04']= round(($result['JML03'] + $result['JML04']) / 1000000,0);
+					$result['JML05']= round(($result['JML04'] + $result['JML05']) / 1000000,0);
+					$result['JML06']= round(($result['JML05'] + $result['JML06']) / 1000000,0);
+					$result['JML07']= round(($result['JML06'] + $result['JML07']) / 1000000,0);
+					$result['JML08']= round(($result['JML07'] + $result['JML08']) / 1000000,0);
+					$result['JML09']= round(($result['JML08'] + $result['JML09']) / 1000000,0);
+					$result['JML10']= round(($result['JML09'] + $result['JML10']) / 1000000,0);
+					$result['JML11']= round(($result['JML10'] + $result['JML11']) / 1000000,0);
+					$result['JML12']= round(($result['JML11'] + $result['JML12']) / 1000000,0);	
+				}else{
+					$result['RPHPAGU']= $result['RPHPAGU'];
+					$result['JML01']= $result['JML01'];
+					$result['JML02']= $result['JML01'] + $result['JML02'];
+					$result['JML03']= $result['JML02'] + $result['JML03'];
+					$result['JML04']= $result['JML03'] + $result['JML04'];
+					$result['JML05']= $result['JML04'] + $result['JML05'];
+					$result['JML06']= $result['JML05'] + $result['JML06'];
+					$result['JML07']= $result['JML06'] + $result['JML07'];
+					$result['JML08']= $result['JML07'] + $result['JML08'];
+					$result['JML09']= $result['JML08'] + $result['JML09'];
+					$result['JML10']= $result['JML09'] + $result['JML10'];
+					$result['JML11']= $result['JML10'] + $result['JML11'];
+					$result['JML12']= $result['JML11'] + $result['JML12'];	
+				}
+					
+			}else{
+					$result['RPHPAGU']= 0;
+					$result['JML01']= 0;
+					$result['JML02']= 0;
+					$result['JML03']= 0;
+					$result['JML04']= 0;
+					$result['JML05']= 0;
+					$result['JML06']= 0;
+					$result['JML07']= 0;
+					$result['JML08']= 0;
+					$result['JML09']= 0;
+					$result['JML10']= 0;
+					$result['JML11']= 0;
+					$result['JML12']= 0;
+			}
+			// pr($result);
+			// exit;
+		return $result;
+	}
 	//d_trktrm
 	function renc_menteri_sdtriwulan_BSN($thn_temp,$trwln){
 		if($trwln == 1){
@@ -390,6 +725,42 @@ class m_pelaporankeuangan extends Database {
 		}
 		return $result;
 	}
+	
+	function renc_menteri_sdbulan_BSN($thn_temp,$bulan){
+		if($bulan == 1){
+			$query = "select sum(JML01) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 2){
+			$query = "select sum(JML01 + JML02) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 3){
+			$query = "select sum(JML01 + JML02 + JML03) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 4){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 5){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 6){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 7){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 8){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 9){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 10){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 11){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10 + JML11) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}elseif($bulan == 12){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10 + JML11 + JML12) as rencana from d_trktrm where THANG = '{$thn_temp}' GROUP BY THANG";
+		}
+			
+		// pr($query);
+		$result = $this->fetch($query);
+		if($result ==0){
+			$result['rencana'] = 0;
+		}
+		return $result;
+	}
+	
 	
 	// m_spmind dan m_spmmak
 	function real_menteri_triwulan_BSN($thn_temp,$trwln)
@@ -430,6 +801,51 @@ class m_pelaporankeuangan extends Database {
 			if($result['jml'] == 0){
 				$result['jml']= 0;
 			}
+		return $result;
+	}
+	
+	function real_menteri_bulan_BSN($thn_temp,$bulan)
+	{
+		$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+			  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+			  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and mk.KDGIAT <> '0000' order by NILMAK";
+			
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['jml'] == 0){
+			$result['jml']= 0;
+		}
+		return $result;
+	}
+	
+	function real_menteri_trwln_BSN($thn_temp,$trwln)
+	{
+		if($trwln == 1){
+			$first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			$first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			$first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			$first_month = 10;
+			$last_month = 12;
+		}
+		$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+			  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+			  where ms.THANG = '{$thn_temp}' 
+			  and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' 
+			  and mk.KDGIAT <> '0000' order by NILMAK";
+			
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['jml'] == 0){
+			$result['jml']= 0;
+		}
 		return $result;
 	}
 	
@@ -475,6 +891,22 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	function real_menteri_sdbulan_BSN($thn_temp,$bulan)
+	{
+		$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+			  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+			  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and mk.KDGIAT <> '0000' order by NILMAK";
+
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['jml'] == 0){
+			$result['jml']= 0;
+		}
+		return $result;
+	}
+	
+	
 	//d_item
 	function select_data_bsn($thn_temp)
 	{
@@ -502,6 +934,41 @@ class m_pelaporankeuangan extends Database {
 		}
 		return $result;
 	}
+	
+	function renc_satker_sdbulan($thn_temp,$bulan,$kd_satker){
+		if($bulan == 1){
+			$query = "select sum(JML01) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 2){
+			$query = "select sum(JML01 + JML02) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 3){
+			$query = "select sum(JML01 + JML02 + JML03) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 4){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 5){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 6){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 7){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 8){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 9){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 10){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 11){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10 + JML11) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}elseif($bulan == 12){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10 + JML11 + JML12) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' GROUP BY THANG";
+		}		
+		// pr($query);
+		$result = $this->fetch($query);
+		if($result ==0){
+			$result['rencana'] = 0;
+		}
+		return $result;
+	}
+	
 	
 	// m_spmind dan m_spmmak
 	function real_satker_triwulan($thn_temp,$trwln,$kd_satker)
@@ -535,6 +1002,21 @@ class m_pelaporankeuangan extends Database {
 					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
 			
 			}
+			
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result['jml'] == 0){
+				$result['jml']= 0;
+			}
+		return $result;
+	}
+	
+	function real_satker_bulan($thn_temp,$bulan,$kd_satker)
+	{
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
 			
 			// pr($query);
 			$result = $this->fetch($query);
@@ -587,6 +1069,22 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	function real_satker_sdbulan($thn_temp,$bulan,$kd_satker)
+	{
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
+			
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result['jml'] == 0){
+				$result['jml']= 0;
+			}
+		return $result;
+	}
+	
+	
 	//d_trktrm 
 	function renc_giat_sdtriwulan($thn_temp,$trwln,$kd_satker,$kd_giat){
 		if($trwln == 1){
@@ -605,6 +1103,41 @@ class m_pelaporankeuangan extends Database {
 		}
 		return $result;
 	}
+	
+	function renc_giat_sdbulan($thn_temp,$trwln,$kd_satker,$kd_giat){
+		if($bulan == 1){
+			$query = "select sum(JML01) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 2){
+			$query = "select sum(JML01 + JML02) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 3){
+			$query = "select sum(JML01 + JML02 + JML03) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 4){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 5){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 6){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 7){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 8){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}'  GROUP BY THANG";
+		}elseif($bulan == 9){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}' GROUP BY THANG";
+		}elseif($bulan == 10){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}' GROUP BY THANG";
+		}elseif($bulan == 11){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10 + JML11) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}' GROUP BY THANG";
+		}elseif($bulan == 12){
+			$query = "select sum(JML01 + JML02 + JML03 + JML04 + JML05 + JML06 + JML07 + JML08 + JML09 + JML10 + JML11 + JML12) as rencana from d_trktrm where THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' AND KDGIAT = '{$kd_giat}' GROUP BY THANG";
+		}		
+		// pr($query);
+		$result = $this->fetch($query);
+		if($result ==0){
+			$result['rencana'] = 0;
+		}
+		return $result;
+	}
+	
 	
 	// m_spmind dan m_spmmak
 	function real_giat_triwulan($thn_temp,$trwln,$kd_satker,$kd_giat)
@@ -648,6 +1181,22 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	function real_giat_bulan($thn_temp,$bulan,$kd_satker,$kd_giat)
+	{
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
+			
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result['jml'] == 0){
+				$result['jml']= 0;
+			}
+		return $result;
+	}
+	
+	
 	// m_spmind dan m_spmmak
 	function real_giat_sdtriwulan($thn_temp,$trwln,$kd_satker,$kd_giat)
 	{
@@ -690,6 +1239,22 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	function real_giat_sdbulan($thn_temp,$bulan,$kd_satker,$kd_giat)
+	{
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
+		
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result['jml'] == 0){
+				$result['jml']= 0;
+			}
+		return $result;
+	}
+	
+	
 	// m_spmind dan m_spmmak
 	function real_output_triwulan($thn_temp,$trwln,$kd_satker,$kd_giat,$kd_output)
 	{
@@ -722,6 +1287,21 @@ class m_pelaporankeuangan extends Database {
 					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
 			
 			}
+			
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result['jml'] == 0){
+				$result['jml']= 0;
+			}
+		return $result;
+	}
+	
+	function real_output_bulan($thn_temp,$bulan,$kd_satker,$kd_giat,$kd_output)
+	{
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
 			
 			// pr($query);
 			$result = $this->fetch($query);
@@ -773,6 +1353,21 @@ class m_pelaporankeuangan extends Database {
 			}
 		return $result;
 	}
+	
+	function real_output_sdbulan($thn_temp,$bulan,$kd_satker,$kd_giat,$kd_output)
+	{
+			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
+		
+			// pr($query);
+			$result = $this->fetch($query);
+			// pr($result);
+			if($result['jml'] == 0){
+				$result['jml']= 0;
+			}
+		return $result;
+	}
 	// m_spmind
 	function select_spm($thn_temp,$kd_satker,$kd_output) {
 		$query = "select NOSPM,TGSPM,NOSP2D,TGSP2D, sum(TOTNILMAK) as real_spm from m_spmind 
@@ -799,6 +1394,7 @@ class m_pelaporankeuangan extends Database {
 	function getSatker($type)
 	{
 		$sql = "SELECT * FROM bsn_struktur WHERE type='{$type}'";
+		// echo $sql;
 		$res = $this->fetch($sql,1);
 
 		return $res;
@@ -841,5 +1437,503 @@ class m_pelaporankeuangan extends Database {
 		return true;
 	}
 	
+	
+	//Anggaran Jenis Belanja
+	function realisasi_general($thn_temp,$bulan,$kdbel){
+		// and MONTH(TGSP2D) = '{$bulan}'
+		if($kdbel == 51){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,2) = '51' and MONTH(TGSP2D) <= '{$bulan}'";
+		}elseif($kdbel == 52){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,2) = '52' and left(KDAKUN,3) <> '524' and MONTH(TGSP2D) <= '{$bulan}'";
+		}elseif($kdbel == 53){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,2) = '53' and MONTH(TGSP2D) <= '{$bulan}'";
+		}elseif($kdbel == 524){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,3) = '524' and MONTH(TGSP2D) <= '{$bulan}'";
+		}
+		
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['realisasi'] == 0){
+			$result['realisasi']= 0;
+		}
+		return $result;
+	}
+	
+	//Anggaran Jenis Belanja
+	function realisasi_general_trwln($thn_temp,$trwln,$kdbel){
+		// and MONTH(TGSP2D) = '{$bulan}'
+		if($trwln == 1){
+			// $first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			// $first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			// $first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			// $first_month = 10;
+			$last_month = 12;
+		}
+		
+		if($kdbel == 51){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,2) = '51' 
+				  and MONTH(TGSP2D) <= '{$last_month}'";
+		}elseif($kdbel == 52){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,2) = '52' and left(KDAKUN,3) <> '524' 
+				  and MONTH(TGSP2D) <= '{$last_month}'";
+		}elseif($kdbel == 53){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,2) = '53' 
+				  and MONTH(TGSP2D) <= '{$last_month}'";
+		}elseif($kdbel == 524){
+			$query = "select sum(NILMAK) as realisasi from m_spmmak 
+				  where THANG = '{$thn_temp}' and left(KDAKUN,3) = '524' 
+				  and MONTH(TGSP2D) <= '{$last_month}'";
+		}
+		
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['realisasi'] == 0){
+			$result['realisasi']= 0;
+		}
+		return $result;
+	}
+	
+	
+	function realisasi_kegiatan_general($thn_temp,$kd_satker,$kd_giat,$bulan,$kdbel){
+		
+		// and MONTH(TGSP2D) = '{$bulan}'
+		if($kdbel == 51){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '51'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' and MONTH(ms.TGSP2D) <= '{$bulan}'"; 	  
+				  
+		}elseif($kdbel == 52){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '52' and left(ms.KDAKUN,3) <> '524' AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' and MONTH(ms.TGSP2D) <= '{$bulan}'"; 	  
+				  
+		}elseif($kdbel == 53){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '53'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' and MONTH(ms.TGSP2D) <= '{$bulan}'"; 
+			
+		}elseif($kdbel == 524){
+		  $query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,3) = '524'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' and MONTH(ms.TGSP2D) <= '{$bulan}'"; 	
+		}
+		
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['realisasi'] == 0){
+			$result['realisasi']= 0;
+		}
+		return $result;
+	}
+	
+	function realisasi_kegiatan_general_trwln($thn_temp,$kd_satker,$kd_giat,$trwln,$kdbel){
+		if($trwln == 1){
+			// $first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			// $first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			// $first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			// $first_month = 10;
+			$last_month = 12;
+		}
+		// and MONTH(TGSP2D) = '{$bulan}'
+		if($kdbel == 51){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '51'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 	  
+				  
+		}elseif($kdbel == 52){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '52' and left(ms.KDAKUN,3) <> '524' AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 	  
+				  
+		}elseif($kdbel == 53){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '53'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 
+			
+		}elseif($kdbel == 524){
+		  $query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,3) = '524'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 	
+		}
+		
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['realisasi'] == 0){
+			$result['realisasi']= 0;
+		}
+		return $result;
+	}
+	
+	function realisasi_output_general($thn_temp,$kd_satker,$kd_giat,$kd_output,$bulan,$kdbel){
+		// and MONTH(TGSP2D) = '{$bulan}'
+		
+		if($kdbel == 51){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '51'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$bulan}'"; 	  
+				  
+		}elseif($kdbel == 52){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '52' and left(ms.KDAKUN,3) <> '524' AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$bulan}'"; 	  
+				  
+		}elseif($kdbel == 53){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '53'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$bulan}'"; 
+			
+		}elseif($kdbel == 524){
+		  $query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,3) = '524'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$bulan}'"; 	
+		}
+		
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['realisasi'] == 0){
+			$result['realisasi']= 0;
+		}
+		return $result;
+	}
+	
+	function realisasi_output_general_trwln($thn_temp,$kd_satker,$kd_giat,$kd_output,$trwln,$kdbel){
+		// and MONTH(TGSP2D) = '{$bulan}'
+		if($trwln == 1){
+			// $first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			// $first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			// $first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			// $first_month = 10;
+			$last_month = 12;
+		}
+		if($kdbel == 51){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '51'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 	  
+				  
+		}elseif($kdbel == 52){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '52' and left(ms.KDAKUN,3) <> '524' AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 	  
+				  
+		}elseif($kdbel == 53){
+			$query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,2) = '53'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 
+			
+		}elseif($kdbel == 524){
+		  $query = "select sum(ms.NILMAK) as realisasi from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND left(ms.KDAKUN,3) = '524'  AND ms.KDSATKER = '{$kd_satker}' 
+					AND mk.KDGIAT ='{$kd_giat}' AND mk.KDOUTPUT='{$kd_output}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 	
+		}
+		
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['realisasi'] == 0){
+			$result['realisasi']= 0;
+		}
+		return $result;
+	}
+	
+	function pagu_bsn_bulan_ini($thn_temp,$bulan,$param){
+		if($param == 1){
+			$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND mk.KDGIAT <> '0000' 
+					and MONTH(ms.TGSP2D) = '{$bulan}'"; 
+		}elseif($param == 2){
+			$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND mk.KDGIAT <> '0000' 
+					and MONTH(ms.TGSP2D) <= '{$bulan}'"; 
+		
+		}
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['pagu_bulan'] == 0){
+			$result['pagu_bulan']= 0;
+		}
+		return $result;			
+					
+	}
+	
+	function pagu_bsn_trwln_ini($thn_temp,$trwln,$param){
+		if($param == 1){
+			if($trwln == 1){
+				$first_month = 1;
+				$last_month = 3;
+			}elseif($trwln == 2){
+				$first_month = 4;
+				$last_month = 6;
+			}elseif($trwln == 3){
+				$first_month = 7;
+				$last_month = 9;
+			}elseif($trwln == 4){
+				$first_month = 10;
+				$last_month = 12;
+			}
+		
+			$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND mk.KDGIAT <> '0000' 
+					and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'"; 
+		}elseif($param == 2){
+			if($trwln == 1){
+				// $first_month = 1;
+				$last_month = 3;
+			}elseif($trwln == 2){
+				// $first_month = 4;
+				$last_month = 6;
+			}elseif($trwln == 3){
+				// $first_month = 7;
+				$last_month = 9;
+			}elseif($trwln == 4){
+				// $first_month = 10;
+				$last_month = 12;
+			}
+			$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND mk.KDGIAT <> '0000' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 
+		
+		}
+		// pr($query);
+		$result = $this->fetch($query);
+		// pr($result);
+		if($result['pagu_bulan'] == 0){
+			$result['pagu_bulan']= 0;
+		}
+		return $result;			
+					
+	}
+	
+	
+	function kode_akun($thn_temp){
+		$query = "select KDAKUN, sum(jumlah) as pagu_akun from d_item  WHERE THANG = '{$thn_temp}' group by KDAKUN"; 
+		
+		$result = $this->fetch($query,1);
+		
+		return $result;			
+				
+	}
+	
+	function kode_akun_giat($thn_temp,$kd_satker,$kd_giat){
+		$query = "select KDAKUN, sum(jumlah) as pagu_akun from d_item  
+				  WHERE THANG = '{$thn_temp}' AND KDSATKER = '{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDAKUN"; 
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;			
+				
+	}
+	
+	function nama_akun($kd_akun){
+		$query = "select NMAKUN from t_akun where KDAKUN = '{$kd_akun}'"; 
+		$result = $this->fetch($query);
+		
+		return $result;		
+	}
+		
+	function pagu_akun($thn_temp,$kode_akun,$bulan,$param){
+	if($param == 1){
+		
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDGIAT <> '0000' 
+					and MONTH(ms.TGSP2D) = '{$bulan}'";
+	}elseif($param == 2){
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDGIAT <> '0000' and MONTH(ms.TGSP2D) <= '{$bulan}'";
+	}	
+	// pr($query);
+	$result = $this->fetch($query);
+		// pr($result);
+		if($result['pagu_bulan'] == 0){
+			$result['pagu_bulan']= 0;
+		}
+		return $result;	
+	}
+
+	
+	function pagu_akun_trwln($thn_temp,$kode_akun,$trwln,$param){
+	if($param == 1){
+		if($trwln == 1){
+			$first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			$first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			$first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			$first_month = 10;
+			$last_month = 12;
+		}
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDGIAT <> '0000' 
+					and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
+	}elseif($param == 2){
+		if($trwln == 1){
+			// $first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			// $first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			// $first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			// $first_month = 10;
+			$last_month = 12;
+		}
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDGIAT <> '0000' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'";
+	}	
+	// pr($query);
+	$result = $this->fetch($query);
+		// pr($result);
+		if($result['pagu_bulan'] == 0){
+			$result['pagu_bulan']= 0;
+		}
+		return $result;	
+	}
+
+	function pagu_akun_giat($thn_temp,$kd_satker,$kd_giat,$kode_akun,$bulan,$param){
+	if($param == 1){
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDSATKER = '{$kd_satker}' AND mk.KDGIAT = '{$kd_giat}' and MONTH(ms.TGSP2D) = '{$bulan}'";
+	}elseif($param == 2){
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDSATKER = '{$kd_satker}' AND mk.KDGIAT = '{$kd_giat}' and MONTH(ms.TGSP2D) <= '{$bulan}'";
+	}	
+	// pr($query);
+	$result = $this->fetch($query);
+		// pr($result);
+		if($result['pagu_bulan'] == 0){
+			$result['pagu_bulan']= 0;
+		}
+		return $result;	
+	}
+	
+	function pagu_akun_giat_triwulan($thn_temp,$kd_satker,$kd_giat,$kode_akun,$trwln,$param){
+	if($param == 1){
+		if($trwln == 1){
+			$first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			$first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			$first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			$first_month = 10;
+			$last_month = 12;
+		}
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDSATKER = '{$kd_satker}' AND mk.KDGIAT = '{$kd_giat}' 
+					and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
+	}elseif($param == 2){
+		if($trwln == 1){
+			// $first_month = 1;
+			$last_month = 3;
+		}elseif($trwln == 2){
+			// $first_month = 4;
+			$last_month = 6;
+		}elseif($trwln == 3){
+			// $first_month = 7;
+			$last_month = 9;
+		}elseif($trwln == 4){
+			// $first_month = 10;
+			$last_month = 12;
+		}
+		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
+					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
+					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
+					AND mk.KDSATKER = '{$kd_satker}' AND mk.KDGIAT = '{$kd_giat}' 
+					and MONTH(ms.TGSP2D) <= '{$last_month}'";
+	}	
+	// pr($query);
+	$result = $this->fetch($query);
+		// pr($result);
+		if($result['pagu_bulan'] == 0){
+			$result['pagu_bulan']= 0;
+		}
+		return $result;	
+	}
 }
 ?>
