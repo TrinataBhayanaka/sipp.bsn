@@ -863,8 +863,11 @@ class m_penetapanAngaran extends Database {
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
 				left(KDAKUN,2) = '51' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
 		// pr($query);
-		$result = $this->fetch($query);
 		
+		$result = $this->fetch($query);
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -874,7 +877,9 @@ class m_penetapanAngaran extends Database {
 				AND left(KDAKUN,3) <> '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
 		// pr($query);
 		$result = $this->fetch($query);
-		
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -884,7 +889,9 @@ class m_penetapanAngaran extends Database {
 				left(KDAKUN,2) = '53' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
 		// pr($query);
 		$result = $this->fetch($query);
-		
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -894,7 +901,9 @@ class m_penetapanAngaran extends Database {
 				left(KDAKUN,3) = '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by THANG";
 		// pr($query);
 		$result = $this->fetch($query);
-		
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -905,7 +914,9 @@ class m_penetapanAngaran extends Database {
 				group by KDSATKER";
 		// pr($query);
 		$result = $this->fetch($query);
-		
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -915,7 +926,9 @@ class m_penetapanAngaran extends Database {
 				AND left(KDAKUN,3) <> '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by KDSATKER";
 		// pr($query);
 		$result = $this->fetch($query);
-		
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -926,7 +939,9 @@ class m_penetapanAngaran extends Database {
 				group by KDSATKER";
 		// pr($query);
 		$result = $this->fetch($query);
-		
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -936,7 +951,9 @@ class m_penetapanAngaran extends Database {
 				left(KDAKUN,3) = '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by THANG";
 		// pr($query);
 		$result = $this->fetch($query);
-		
+		if($result['pagu_satker'] == 0){
+			$result['pagu_satker']= 0;
+		}
 		return $result;
 	}
 	
@@ -1010,8 +1027,23 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function detailkgtn($thn_temp,$kd_satker,$kd_giat){
-		$query = "select RPHPAGU,JML01,JML02,JML03,JML04,JML05,JML06,JML07,JML08,JML09,JML10,JML11,JML12  from d_trktrm 
-				  WHERE THANG='{$thn_temp}' AND KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' AND JNSBELANJA <> '42' group by KDGIAT";
+		/*$query = "select RPHPAGU,JML01,JML02,JML03,JML04,JML05,JML06,JML07,JML08,JML09,JML10,JML11,JML12  from d_trktrm 
+				  WHERE THANG='{$thn_temp}' AND KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' AND JNSBELANJA <> '42' ";*/
+		 $query = "select sum(RPHPAGU) as RPHPAGU,
+					sum(JML01) as JML01,
+					sum(JML02) as JML02,
+					sum(JML03) as JML03,
+					sum(JML04) as JML04,
+					sum(JML05) as JML05,
+					sum(JML06) as JML06,
+					sum(JML07) as JML07,
+					sum(JML08) as JML08,
+					sum(JML09) as JML09,
+					sum(JML10) as JML10,
+					sum(JML11) as JML11,
+					sum(JML12) as JML12
+					from d_trktrm WHERE THANG='{$thn_temp}' AND KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' AND JNSBELANJA <> '42'";	  
+		// pr($query);
 	$result = $this->fetch($query);
 	return $result;
 	}
@@ -1031,6 +1063,7 @@ class m_penetapanAngaran extends Database {
 					sum(JML11) as JML11,
 					sum(JML12) as JML12
 					from d_trktrm WHERE THANG='{$thn_temp}' AND KDSATKER='{$kd_satker}' and KDGIAT='{$kd_giat}' AND JNSBELANJA <> '42' group by JNSBELANJA";
+		// pr($query);
 		$result = $this->fetch($query,1);
 		return $result;
 	}
@@ -1224,7 +1257,8 @@ class m_penetapanAngaran extends Database {
 	
 	function sub_komponen($thn,$kd_giat,$kd_output,$kd_komponen){
 		$query = "SELECT * FROM thbp_kak_output_tahapan WHERE th = '{$thn}' AND kdgiat = '{$kd_giat}' 
-				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' ORDER BY kd_tahapan ";
+				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' ORDER BY  id";
+		//ORDER BY kd_tahapan		  
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -1235,7 +1269,8 @@ class m_penetapanAngaran extends Database {
 		$query = "SELECT * FROM thbp_kak_output_tahapan WHERE th = '{$thn}' AND kdgiat = '{$kd_giat}' 
 				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' 
 				  and kdkmpnen = '{$kd_komponen}' and kdsoutput = '{$kd_soutput}'
-				  ORDER BY kd_tahapan ";
+				  ORDER BY id ";
+		//ORDER BY kd_tahapan		  
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -1358,6 +1393,7 @@ class m_penetapanAngaran extends Database {
 
 		return true;
 	}
+	
 	
 }
 ?>

@@ -61,8 +61,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="table-responsive">
-				<table class="table table-bordered">
+			<div class="table-responsive" style="overflow:scroll;max-height:550px">
+				<table class="table table-bordered" >
 					<thead>
 						<tr>
 							<th class="text-center" rowspan="2">Kode APBN</th>
@@ -87,13 +87,13 @@
 							<td>{$data_master_induk.2.nmunit}</td>
 							<td class="text-right">{number_format($data_master_induk.1.pagu_menteri,"0",",",".")}</td>
 							<td class="text-right">{number_format($data_master_induk.3.pegawai.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk.4.persentasepegawai,"2",",",".")}</td>
+													{number_format($data_master_induk.4.persentasepegawai,"2",",",".")|cat:' %'}</td>
 							<td class="text-right">{number_format($data_master_induk.5.barang.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk.6.persentasebarang,"2",",",".")}</td>
+													{number_format($data_master_induk.6.persentasebarang,"2",",",".")|cat:' %'}</td>
 							<td class="text-right">{number_format($data_master_induk.7.modal.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk.8.persentasemodal,"2",",",".")}</td>
+													{number_format($data_master_induk.8.persentasemodal,"2",",",".")|cat:' %'}</td>
 							<td class="text-right">{number_format($data_master_induk.9.perjalanan.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk.10.persentaseperjalanan,"2",",",".")}</td>
+													{number_format($data_master_induk.10.persentaseperjalanan,"2",",",".")|cat:' %'}</td>
 							<td><a href="{$basedomain}penetapanAnggaran/detail084/?thn={$data_master_induk.11.tahun}"><button class="btn btn-info btn-labeled fa fa-eye">Penarikan</button></a></td>
 						</tr>
 						<tr>
@@ -101,13 +101,13 @@
 							<td>{$data_master_induk_sub.2.nama}</td>
 							<td class="text-right">{number_format($data_master_induk_sub.1.pagu,"0",",",".")}</td>
 							<td class="text-right">{number_format($data_master_induk_sub.3.pegawai.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk_sub.4.persentasepegawai,"2",",",".")}</td>
+													{number_format($data_master_induk_sub.4.persentasepegawai,"2",",",".")|cat:' %'}</td>
 							<td class="text-right">{number_format($data_master_induk_sub.5.barang.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk_sub.6.persentasebarang,"2",",",".")}</td>
+													{number_format($data_master_induk_sub.6.persentasebarang,"2",",",".")|cat:' %'}</td>
 							<td class="text-right">{number_format($data_master_induk_sub.7.modal.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk_sub.8.persentasemodal,"2",",",".")}</td>
+													{number_format($data_master_induk_sub.8.persentasemodal,"2",",",".")|cat:' %'}</td>
 							<td class="text-right">{number_format($data_master_induk_sub.9.perjalanan.pagu_satker,"0",",",".")}<br>
-													{number_format($data_master_induk_sub.10.persentaseperjalanan,"2",",",".")}</td>
+													{number_format($data_master_induk_sub.10.persentaseperjalanan,"2",",",".")|cat:' %'}</td>
 							<td><a href="{$basedomain}penetapanAnggaran/detail613104/?thn={$data_master_induk.11.tahun}"><button class="btn btn-info btn-labeled fa fa-eye">Penarikan</button></a></td>
 						</tr>
 						{foreach $data_master_induk_sub_sub as $value}

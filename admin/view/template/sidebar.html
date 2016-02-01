@@ -230,15 +230,15 @@
 			
 							<!--Submenu-->
 							<ul class="collapse {if $page.page eq 'pelaporanKeuangan'}in{/if}">
-								<li><a href="{$basedomain}pelaporanKeuangan/realisasiBulanan">Realisasi Bulanan</a></li>
-								<li><a href="#">Realisasi s.d Bln (%)</a></li>
-								<li><a href="#">Realisasi s.d Bln (Rp.)</a></li>
-								<li><a href="#">Anggaran Total</a></li>
-								<li><a href="#">Anggaran Jenis Belanja</a></li>
-								<li><a href="#">Anggaran Akun BSN</a></li>
-								<li><a href="#">Anggaran Akun Satker</a></li>
-								<li><a href="#">Anggaran Akun Giat</a></li>
-								<li><a href="#">Anggaran Output</a></li>
+								<li class="{if $page.function eq 'realisasiBulanan'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/realisasiBulanan">Realisasi Bulanan</a></li>
+								<li class="{if $page.function eq 'realisasisdBulanan'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/realisasisdBulanan">Realisasi s.d Bln (%)</a></li>
+								<li class="{if $page.function eq 'realisasisdBulananRp'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/realisasisdBulananRp">Realisasi s.d Bln (Rp.)</a></li>
+								<li class="{if $page.function eq 'anggaranTotalBulanan'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranTotalBulanan">Anggaran Total</a></li>
+								<li class="{if $page.function eq 'anggaranJenisBelanja'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranJenisBelanja">Anggaran Jenis Belanja</a></li>
+								<li class="{if $page.function eq 'anggaranAkunBsn'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranAkunBsn">Anggaran Akun BSN</a></li>
+								<li class="{if $page.function eq 'anggaranAkunSatker'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranAkunSatker">Anggaran Akun Satker</a></li>
+								<li class="{if $page.function eq 'anggaranAkunGiat'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranAkunGiat">Anggaran Akun Giat</a></li>
+								<li class="{if $page.function eq 'anggaranOutput'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranOutput">Anggaran Output</a></li>
 							</ul>
 						</li>
 
@@ -250,13 +250,13 @@
 							</a>
 			
 							<!--Submenu-->
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="{$basedomain}pelaporanKeuangan/anggaranTotal">Anggaran Total</a></li>
-								<li><a href="#">Anggaran Jenis Belanja</a></li>
-								<li><a href="#">Anggaran Akun BSN</a></li>
-								<li><a href="#">Anggaran Akun Satker</a></li>
-								<li><a href="#">Anggaran Akun Giat</a></li>
-								<li><a href="#">Anggaran Output</a></li>
+							<ul class="collapse {if $page.page eq 'pelaporanKeuanganTrwln'}in{/if}">
+								<li class="{if $page.function eq 'anggaranTotal'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranTotal">Anggaran Total</a></li>
+								<li class="{if $page.function eq 'anggaranJenisBelanja'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranJenisBelanja">Anggaran Jenis Belanja</a></li>
+								<li class="{if $page.function eq 'anggaranAkunBsn'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranAkunBsn">Anggaran Akun BSN</a></li>
+								<li class="{if $page.function eq 'anggaranAkunSatker'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranAkunSatker">Anggaran Akun Satker</a></li>
+								<li class="{if $page.function eq 'anggaranAkunGiat'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranAkunGiat">Anggaran Akun Giat</a></li>
+								<li class="{if $page.function eq 'anggaranOutput'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranOutput">Anggaran Output</a></li>
 							</ul>
 						</li>
 
