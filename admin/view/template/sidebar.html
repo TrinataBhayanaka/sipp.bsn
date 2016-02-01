@@ -266,13 +266,29 @@
 
 						<!--Menu list item-->
 						<li>
-							<a href="{$basedomain}pelaporanKegiatan/index">
-								<i class="fa fa-minus-square"></i>
-								<span class="menu-title"><strong>Pelaporan Kegiatan</strong></span>
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Capaian</strong></span>
 								<i class="arrow"></i>
 							</a>
+							<ul class="collapse {if $page.page eq 'news'}in{/if}">
+								<li><a href="{$basedomain}pelaporanKegiatan/bsn">Tingkat BSN</a></li>
+								<li><a href="{$basedomain}pelaporanKegiatan/eselon1">Tingkat ESELON 1</a></li>
+								<li><a href="{$basedomain}pelaporanKegiatan/eselon2">Tingkat ESELON 2</a></li>
+							</ul>
 						</li>
-
+						<li>
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Dokumen LAKIP</strong></span>
+								<i class="arrow"></i>
+							</a>
+							<ul class="collapse {if $page.page eq 'news'}in{/if}">
+								<li><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=1">Tingkat BSN</a></li>
+								<li><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=2">Tingkat ESELON 1</a></li>
+								<li><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=3">Tingkat ESELON 2</a></li>
+							</ul>
+						</li>
 						<!-- <li>
 							<a href="#">
 								<i class="fa fa-plus-square"></i>

@@ -7,9 +7,9 @@ class mcapaian extends Database {
 	{
 		parent::__construct();
 	}
-	function getcapaian()
+	function getcapaian($id)
 	{
-		$sql = "SELECT cp.*,b.desc,pk.nm_pk, pk.target FROM bsn_capaian as cp, bsn_news_content as b ,th_pk as pk WHERE cp.sasaran = b.id AND cp.indikator = pk.id AND b.type='7' AND b.category = '1' ORDER BY cp.sasaran, cp.indikator";
+		$sql = "SELECT cp.*,b.desc,pk.nm_pk, pk.target FROM bsn_capaian as cp, bsn_news_content as b ,th_pk as pk WHERE cp.sasaran = b.id AND cp.indikator = pk.id AND b.type='7' AND b.category = '1' AND cp.categoryType='{$id}' ORDER BY cp.sasaran, cp.indikator";
 		// db($sql);
 		$res = $this->fetch($sql,1);
 

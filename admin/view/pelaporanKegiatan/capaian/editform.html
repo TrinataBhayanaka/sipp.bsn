@@ -61,6 +61,7 @@ function isNumber(evt) {
 				<!--===================================================-->
 				<form class="form-horizontal" id="fdata" method="POST" action="{$basedomain}pelaporanKegiatan/updateForm" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="{$data.id}"/>
+				<input type="hidden" name="categoryType" id="type" class="form-control" value="{$data.categoryType}">
 					<div class="panel-body">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Sasaran</label>

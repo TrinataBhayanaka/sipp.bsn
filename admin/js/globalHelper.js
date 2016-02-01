@@ -80,3 +80,16 @@ function inputdokumen(pid, req, iddata)
   }
   
 }
+function inputdokumenLakip(pid, req, iddata)
+{
+  var id = $('.eselonid').val();
+  // clog(id);
+  // return false;
+  if (iddata){
+    redirect(basedomain+"pelaporanKegiatan/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id+"&id="+iddata);
+
+  }else{
+    redirect(basedomain+"pelaporanKegiatan/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id);
+  }
+  
+}

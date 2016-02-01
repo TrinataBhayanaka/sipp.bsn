@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 04, 2015 at 11:11 AM
+-- Generation Time: Feb 01, 2016 at 07:55 AM
 -- Server version: 5.5.46-0ubuntu0.14.04.2
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `bsn_capaian` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `categoryType` int(1) NOT NULL,
   `sasaran` varchar(50) NOT NULL,
   `indikator` varchar(50) NOT NULL,
   `target` varchar(50) NOT NULL,
@@ -42,11 +43,7 @@ CREATE TABLE IF NOT EXISTS `bsn_capaian` (
   `change_date` date NOT NULL,
   `n_status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
-
---
--- Dumping data for table `bsn_capaian`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

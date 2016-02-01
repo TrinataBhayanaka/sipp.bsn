@@ -139,7 +139,9 @@ class contentHelper extends Database {
 			$run = $this->save("insert", "{$this->prefix}{$table}", $data, false, $debug);
 	
 		}
-
+		// pr($data);
+		// pr($run);
+		// exit;
 		if ($run) return true;
 		return false;
 	}
