@@ -29,10 +29,10 @@ class pelaporanKeuangan extends Controller {
 		// echo "masuk";
 		//realisasi Keuangan
 		//select mster data induk Badan Standarisasi Nasional(kode,nama,realisasi)
-		$thn_temp = '2013';
+		// $thn_temp = '2013';
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		// $thn_temp = '2015';
-		// $thn_temp = $thn_aktif['kode'];
+		$thn_temp = $thn_aktif['kode'];
 		
 		$select_data_master_bsn = $this->m_pelaporankeuangan->select_data_master_bsn($thn_temp);
 		// pr($select_data_master_bsn);
@@ -123,8 +123,8 @@ class pelaporanKeuangan extends Controller {
 		//realisasi Bulanan
 		// $thn_temp = '2013';
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
-		$thn_temp = '2015';
-		// $thn_temp = $thn_aktif['kode'];
+		// $thn_temp = '2015';
+		$thn_temp = $thn_aktif['kode'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
 		//KODE BSN
@@ -295,7 +295,7 @@ class pelaporanKeuangan extends Controller {
 		//realisasi Bulanan
 		// $thn_temp = '2013';
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
-		$thn_temp = '2015';
+		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
@@ -514,7 +514,7 @@ class pelaporanKeuangan extends Controller {
 		//realisasi Bulanan
 		// $thn_temp = '2013';
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
-		$thn_temp = '2015';
+		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');

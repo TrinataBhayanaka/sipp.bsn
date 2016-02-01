@@ -8,6 +8,7 @@ class m_pelaporankeuangan extends Database {
 	function select_data_master_bsn($thn_temp)
 	{
 		$query = "select THANG, KDSATKER, sum(NILMAK) as real_satker from m_spmmak WHERE THANG='{$thn_temp}' AND left(KDAKUN,1) = '5' group by KDSATKER";
+		// $query = "select THANG, KDSATKER, sum(jumlah) as pagu_satker from d_item  WHERE THANG = '{$thn_temp}' group by KDSATKER";
 		// pr($query);
 		$result = $this->fetch($query);
 		
@@ -51,6 +52,17 @@ class m_pelaporankeuangan extends Database {
 		
 		return $result;
 	}
+	//manipulasi
+	function select_data_pagu_master_bsn_manipulasi($thn_temp)
+	{
+		$query = "select THANG, KDSATKER, sum(Jumlah) as pagu_satker from d_item where THANG = '{$thn_temp}' group by KDSATKER";
+			// select THANG, KDSATKER, sum(Jumlah) as pagu_satker from d_item WHERE THANG = '2015' group by KDSATKER
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
 	
 	function select_nama($kd_satker)
 	{
