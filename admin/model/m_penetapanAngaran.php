@@ -1749,7 +1749,49 @@ class m_penetapanAngaran extends Database {
 		// exit;		
 		$result = $this->query($query);
 	}
+
+	function getBobotRpk($data)
+	{
+		$sql = "SELECT * FROM thbp_kak_output_bobot WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'";
+		$bobot = $this->fetch($sql);
+
+		return $bobot;
+	}
 	
+	function insert_bobot($data)
+	{
+		foreach ($data as $key => $val) {
+            $tmpfield[] = $key;
+            $tmpvalue[] = "'$val'";
+        }
+
+        $field = implode(',', $tmpfield);
+        $value = implode(',', $tmpvalue);
+
+        $query = "INSERT INTO thbp_kak_output_bobot ({$field}) VALUES ($value)";
+
+        $result = $this->query($query);
+
+		return true;
+	}
+
+	function update_bobot($data)
+	{
+		$sql = "UPDATE thbp_kak_output_bobot SET bobot = {$data['bobot']} WHERE id = {$data['id']}";
+
+		$this->query($sql);
+
+		return true;
+	}
+
+	function sumBobot($data)
+	{
+		$sql = "SELECT SUM(target_1+target_2+target_3+target_4+target_5+target_6+target_7+target_8+target_9+target_10+target_11+target_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'";
+
+		$res = $this->fetch($sql,1);
+		
+		return $res;
+	}
 	
 	
 	

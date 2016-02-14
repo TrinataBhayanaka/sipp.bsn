@@ -166,8 +166,35 @@ class rpk extends Controller {
 				$list[$key]['nama_komponen'] = $komponen['URKMPNEN'];
 				
 				$sub_komponen = $this->m_penetapanAngaran->sub_komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN']);
-				// pr($sub_komponen);
+				// db($sub_komponen);
 					foreach($sub_komponen as $sb=>$sub){
+						$list[$key]['bobot']['target_1'] = $list[$key]['bobot']['target_1'] + $sub['target_1']; 
+						$list[$key]['bobot']['target_2'] = $list[$key]['bobot']['target_2'] + $sub['target_2']; 
+						$list[$key]['bobot']['target_3'] = $list[$key]['bobot']['target_3'] + $sub['target_3']; 
+						$list[$key]['bobot']['target_4'] = $list[$key]['bobot']['target_4'] + $sub['target_4']; 
+						$list[$key]['bobot']['target_5'] = $list[$key]['bobot']['target_5'] + $sub['target_5']; 
+						$list[$key]['bobot']['target_6'] = $list[$key]['bobot']['target_6'] + $sub['target_6']; 
+						$list[$key]['bobot']['target_7'] = $list[$key]['bobot']['target_7'] + $sub['target_7']; 
+						$list[$key]['bobot']['target_8'] = $list[$key]['bobot']['target_8'] + $sub['target_8']; 
+						$list[$key]['bobot']['target_9'] = $list[$key]['bobot']['target_9'] + $sub['target_9']; 
+						$list[$key]['bobot']['target_10'] = $list[$key]['bobot']['target_10'] + $sub['target_10']; 
+						$list[$key]['bobot']['target_11'] = $list[$key]['bobot']['target_11'] + $sub['target_11']; 
+						$list[$key]['bobot']['target_12'] = $list[$key]['bobot']['target_12'] + $sub['target_12'];
+						$list[$key]['total_bobot'] = array_sum($list[$key]['bobot']);
+
+						$list[$key]['anggaran_1'] = $list[$key]['anggaran_1'] + $sub['anggaran_1']; 
+						$list[$key]['anggaran_2'] = $list[$key]['anggaran_2'] + $sub['anggaran_2']; 
+						$list[$key]['anggaran_3'] = $list[$key]['anggaran_3'] + $sub['anggaran_3']; 
+						$list[$key]['anggaran_4'] = $list[$key]['anggaran_4'] + $sub['anggaran_4']; 
+						$list[$key]['anggaran_5'] = $list[$key]['anggaran_5'] + $sub['anggaran_5']; 
+						$list[$key]['anggaran_6'] = $list[$key]['anggaran_6'] + $sub['anggaran_6']; 
+						$list[$key]['anggaran_7'] = $list[$key]['anggaran_7'] + $sub['anggaran_7']; 
+						$list[$key]['anggaran_8'] = $list[$key]['anggaran_8'] + $sub['anggaran_8']; 
+						$list[$key]['anggaran_9'] = $list[$key]['anggaran_9'] + $sub['anggaran_9']; 
+						$list[$key]['anggaran_10'] = $list[$key]['anggaran_10'] + $sub['anggaran_10']; 
+						$list[$key]['anggaran_11'] = $list[$key]['anggaran_11'] + $sub['anggaran_11']; 
+						$list[$key]['anggaran_12'] = $list[$key]['anggaran_12'] + $sub['anggaran_12'];
+
 						$list[$key]['sub_komponen'][] = $sub;
 						$sum_bobot = $sub['target_1'] + $sub['target_2'] + $sub['target_3'] + $sub['target_4'] + $sub['target_5'] +
 									 $sub['target_6'] + $sub['target_7'] + $sub['target_8'] + $sub['target_9'] + $sub['target_10'] +
@@ -178,6 +205,7 @@ class rpk extends Controller {
 						$list[$key]['sub_komponen'][$sb]['sum_bobot'] = $sum_bobot;
 						$list[$key]['sub_komponen'][$sb]['sum_anggaran'] = $sum_anggaran;
 					}
+					// db($thp_kegiatan);
 			}
 		
 		// pr($info);
@@ -392,8 +420,14 @@ class rpk extends Controller {
 						
 					}	
 				
-			}	
-		// pr($list);	
+			}
+
+		$bobot = $this->m_penetapanAngaran->getBobotRpk($_GET);
+		$sumBobot = $this->m_penetapanAngaran->sumBobot($_GET);
+
+		// db($list);
+		$this->view->assign('sumBobot',$sumBobot[0]);
+		$this->view->assign('bobot',$bobot);	
 		$this->view->assign('info',$info);
 		$this->view->assign('list',$list);	
 		return $this->loadView('rpk/editRencanaAnggaran');
@@ -460,6 +494,30 @@ class rpk extends Controller {
 		}
 		exit;
 		
+	}
+
+	public function editBobot()
+	{
+		$data = $this->m_penetapanAngaran->getBobotRpk($_GET);
+
+		$this->view->assign('data',$data);
+		$this->view->assign('get',$_GET);
+
+		return $this->loadView('rpk/editBobot');
+	}
+
+	public function ins_bobot()
+	{
+		global $basedomain;
+
+		if($_POST['id'] == ""){
+			$this->m_penetapanAngaran->insert_bobot($_POST);
+		} else {
+			$this->m_penetapanAngaran->update_bobot($_POST);
+		}
+
+		redirect($basedomain.'rpk/edit/?thn='.$_POST['th'].'&kd_unit='.$_POST['kdunitkerja'].'&kd_giat='.$_POST['kdgiat'].'&kd_output='.$_POST['kdoutput']);
+		exit;
 	}
 }
 
