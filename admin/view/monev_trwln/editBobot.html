@@ -1,0 +1,298 @@
+<script>
+$(document).ready(function() {
+	$('#deskripsi').summernote({
+		height: 200
+	});
+})	
+//for ceck number
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+	}	
+</script>
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Edit RPK</h1>
+
+	<!--Searchbox-->
+	<!-- <div class="searchbox">
+		<div class="input-group custom-search-form">
+			<input type="text" class="form-control" placeholder="Search..">
+			<span class="input-group-btn">
+				<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</div> -->
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}monev/editBobot">Monev Bulanan</a></li>
+	<li class="active">Edit Bobot Kinerja</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Edit Bobot Kinerja</h3>
+				</div>
+				<!--{pr($data_list)}-->
+				<!--{pr($data)}-->
+				<!--{$data_list[0].idKursus}
+				{$data_list[0].namakursus}-->
+				<!--Horizontal Form-->
+				<!--===================================================-->
+				<!--<form class="form-horizontal" method="POST" action="{$basedomain}rpk/edit">-->
+				
+				<form class="form-horizontal" id="testForm" method="POST" action="">
+					<input type="hidden" name="th" id="th" class="form-control" value="{$info.thn}">
+					<input type="hidden" name="kdunitkerja" id="kdunitkerja" class="form-control" value="{$info.kd_unit}">
+					<input type="hidden" name="kdgiat" id="kdgiat" class="form-control" value="{$info.kd_giat}">
+					<input type="hidden" name="kdoutput" id="kdoutput" class="form-control" value="{$info.kd_output}">
+					<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
+					<!--<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
+					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
+					<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12">
+							<h3 align="center" class="text-uppercase">LAPORAN BOBOT BULAN {$ketBulan} {$info.thn}</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group  pull-left">
+								<label class="control-label "><strong>A. Deskripsi Kegiatan</strong></label>
+								&nbsp;
+							</div>
+						</div>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">1. Output</label>
+							<div class="col-sm-4">						
+								<label class=" control-label">{$info.nama_output}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
+							<div class="col-sm-5">						
+								<label class=" control-label">{$info.nama_kegiatan}</label>
+							 
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
+							<div class="col-sm-4">						
+								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
+							
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
+							<div class="col-sm-4">						
+								<label class=" control-label">{$info.unit_eselon}</label>
+							
+							</div>
+						</div>
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group pull-left">
+								<label class="control-label"><strong>B. Bobot Kinerja</strong></label>
+								
+							</div>
+						</div>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
+							<div class="col-sm-4 pull-left">	
+								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
+									{foreach $list as $val}
+									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
+									{/foreach}
+								</ul>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">2. Kendala yang dihadapi</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="kendala" id="kendala">{$data.kendala}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">3. Tindak Lanjut yang diperlukan</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">4. Pihak yang dapat mengatasi masalah</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+						<label class="col-sm-2 control-label boldGrey">Bulan</label>
+							<select name="bulan" id="bulan" class="selectpicker" width="100%">
+								{foreach $bulan as $key=> $valbln}
+									{if $keybln == $key}
+										{$select_list = 'selected'}
+									{else}
+										{$select_list = ''}
+									{/if}	
+									<option value="{$key}" {$select_list}>{$valbln}</option>
+								{/foreach}
+							</select>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12 table-responsive">
+								<table id="" class="table table-bordered" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th class="text-center" rowspan="2">Sub Output <br>/ Kode</th>
+											<th rowspan="2">Komponen</th>
+											<th class="text-center" rowspan="2">Total Bobot</th>
+											<th class="text-center" colspan="2">Bobot Kinerja</th>
+											<th class="text-center" rowspan="2">Sisa Capaian <br/>Bobot Kinerja <br/>(3 - 5)</th>
+											<th class="text-center" rowspan="2">Keterangan</th>
+										</tr>
+										<tr>
+											<th  class="text-center" >Rencana sd <br/> bulan ini</th>
+											<th  class="text-center" >Realisasi sd <br/> bulan ini </th>
+										</tr>
+									</thead>
+									<tbody>
+										{foreach $list as $val}
+										<tr>
+												<td class="text-center boldGrey">1</td>
+												<td class="text-center boldGrey">2</td>
+												<td class="text-center boldGrey">3</td>
+												<td class="text-center boldGrey">4</td>
+												<td class="text-center boldGrey">5</td>
+												<td class="text-center boldGrey">6</td>
+												<td class="text-center boldGrey">7</td>
+										</tr>
+										<tr>
+												<td  class="text-center">{$val.KDKMPNEN}</td>
+												<td>{$val.nama_komponen}</td>
+												<td class="text-center">
+													<div class="input-group" style="width:100px">
+														<input type="text" name="total" id="total" class="form-control span col-sm-2" value="{number_format($totalbobot,'2',',','.')}"  readonly>
+															<span class="input-group-addon">(%)</span>
+													</div>
+												</td>
+												<td class="text-center">
+													<div class="input-group" style="width:100px">
+														<input type="text" name="rencana" id="rencana" class="form-control span col-sm-2" value="{number_format($rencanasdbulan,'2',',','.')}"  readonly>
+															<span class="input-group-addon">(%)</span>
+													</div>
+												</td>
+												<td>
+													<div class="input-group" style="width:100px">
+														<input type="text" name="target" id="target" class="form-control span col-sm-2" value="{number_format($data.jml_target,'2',',','.')}"  >
+															<span class="input-group-addon">(%)</span>
+													</div>
+												</td>
+												<td>
+													<div class="input-group" style="width:100px">
+														<input type="text" name="sisa" id="sisa" class="form-control span col-sm-2" value="{number_format($sisacapaian,'2',',','.')}"  readonly>
+															<span class="input-group-addon">(%)</span>
+													</div>
+												</td>
+												<td><textarea rows="5" class="form-control" name="keterangan" id="keterangan">{$data.keterangan}</textarea></td>
+										</tr>
+										{/foreach}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+					</div>
+					<div class="panel-footer text-right">
+						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
+					</div>
+				</form>
+				<!--===================================================-->
+				<!--End Horizontal Form-->
+	
+			</div>
+		</div>
+	</div>
+</div>
+<!--===================================================-->
+<script>
+$(document).ready(function() {
+/*var status_hidden = $('#status_hidden').val();
+if(status_hidden){
+document.getElementById(status_hidden).selected = "true";
+}*/
+
+$('#submit').on('click', function(){
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+	
+	var keterangan = $('#keterangan').val();
+	var kendala = $('#kendala').val();
+	var tindaklanjut = $('#tindaklanjut').val();
+	var ygmembantu = $('#ygmembantu').val();
+	
+	var th = $('#th').val();
+	var bulan = $('#bulan').val();
+	
+	var target = $('#target').val();
+		
+	
+	  bootbox.confirm("Simpan Data?", function(result) {
+			if (result) {
+				$.post( basedomain+"monev/post", { th: th, bulan: bulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu, target : target,keterangan:keterangan});										
+				$.niftyNoty({
+					type: 'success',
+					icon : 'fa fa-check',
+					message : 'Simpan Data Berhasil.',
+					container : 'floating',
+					timer : 2000
+				});
+				setTimeout(
+			   function() 
+			   {
+				location.reload();
+			   }, 2000);
+			}else{
+				$.niftyNoty({
+					type: 'danger',
+					icon : 'fa fa-minus',
+					message : 'Simpan Data Gagal!',
+					container : 'floating',
+					timer : 2000
+				});
+			}
+
+
+		});
+	  
+	  
+	});	
+});
+</script>
+<!--End page content-->
