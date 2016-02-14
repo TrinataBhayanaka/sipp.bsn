@@ -181,6 +181,10 @@ class rpk extends Controller {
 						$list[$key]['bobot']['target_11'] = $list[$key]['bobot']['target_11'] + $sub['target_11']; 
 						$list[$key]['bobot']['target_12'] = $list[$key]['bobot']['target_12'] + $sub['target_12'];
 						$list[$key]['total_bobot'] = array_sum($list[$key]['bobot']);
+						$detail['bobot_1'] = $detail['bobot_1'] + $sub['target_1'] + $sub['target_2'] + $sub['target_3']; 
+						$detail['bobot_2'] = $detail['bobot_2'] + $sub['target_4'] + $sub['target_5'] + $sub['target_6'];
+						$detail['bobot_3'] = $detail['bobot_3'] + $sub['target_7'] + $sub['target_8'] + $sub['target_9'];
+						$detail['bobot_4'] = $detail['bobot_4'] + $sub['target_10'] + $sub['target_11'] + $sub['target_12'];
 
 						$list[$key]['anggaran_1'] = $list[$key]['anggaran_1'] + $sub['anggaran_1']; 
 						$list[$key]['anggaran_2'] = $list[$key]['anggaran_2'] + $sub['anggaran_2']; 
@@ -210,8 +214,9 @@ class rpk extends Controller {
 		
 		// pr($info);
 		// pr($rinc);
-		// pr($list);
+		// db($detail);
 		// exit;
+		$this->view->assign('detail',$detail);
 		$this->view->assign('info',$info);
 		$this->view->assign('rinc',$rinc);
 		$this->view->assign('list',$list);

@@ -105,12 +105,21 @@ function isNumber(evt) {
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">Total Bobot (%)</label>
 							<div class="col-sm-10">						
-								<label class=" control-label boldBlack" id="sumBobot">{$sumBobot.total} </label>
+								<label class=" control-label boldBlack" id="sumtext">{$sumBobot.total}</label>
 								 / 
-								<label class=" control-label boldBlack" id="bobot">{$bobot.bobot} %</label>
+								<label class=" control-label boldBlack" id="bobot">{$bobot.bobot}</label>
+								%
 							
 							</div>
 						</div>
+						<input type="hidden" id="sumBobot" value="{$sumBobot.total}">
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey"></label>
+							<div class="col-sm-10" id="helptext">						
+								
+							</div>
+						</div>
+						
 						<div class="row">
 							<div class="col-sm-6">	
 								<div class="form-group pull-left">
@@ -158,7 +167,7 @@ function isNumber(evt) {
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_1" id="target_1" class="form-control span col-sm-2 percent" value="{number_format($value.target_1,'2',',','.')}" >
+																	<input type="text" name="target_1" id="target_1" class="form-control span col-sm-2 percent" value="{number_format($value.target_1,'2',',','.')}" onkeyup="return checkBobot();">
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
@@ -304,9 +313,38 @@ function isNumber(evt) {
 
 {literal}
 <script type="text/javascript">
+	$(document).ready(function(){
+		var sum = 0;
+		for(var i=1;i<=12;i++){
+			var tmp = parseFloat($("#target_"+i).val());
+			sum += tmp;
+		}
+		var sumbobot = parseFloat($("#sumBobot").val());
+		var tmp = parseFloat(sumbobot - sum);
+		$("#sumBobot").val(tmp);
+	})
 	function checkBobot()
 	{
+		var sum = 0;
+		var bobot = parseFloat($("#bobot").text());
+		var sumbobot = parseFloat($("#sumBobot").val());
+		var sumtext = parseFloat($("#sumtext").text());
+		for(var i=1;i<=12;i++){
+			var tmp = parseFloat($("#target_"+i).val());
+			sum += tmp;
+		}
+		
+		var total = (parseFloat(sum) + parseFloat(sumbobot)).toFixed(2);
 
+		if(total > bobot){
+			$("#sumtext").text(total);
+			$("#helptext").html('<label style="color:red">Bobot melebihi batas</label>');
+			$("#tahapan-simpan").attr('disabled','disabled');
+		} else {
+			$("#sumtext").text(total);
+			$("#helptext").html('');
+			$("#tahapan-simpan").removeAttr('disabled');
+		}
 	}
 </script>
 {/literal}
