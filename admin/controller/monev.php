@@ -173,8 +173,16 @@ class monev extends Controller {
 				
 				
 			}
+		//add	
+		$dinamic_bl = $_GET['bln'];
+		if($dinamic_bl){
+			$bl = $dinamic_bl;
+		}else{
+			$bl = date('m');
+		}
 		
-		$bl = date('m');
+		
+		
 		$ex = explode ('0',$bl);
 		if($ex[0] == ''){
 			$arrBln = $ex[1] - 1; 
@@ -214,7 +222,9 @@ class monev extends Controller {
 			case 12:$param = 12;break;
 		}
 		//rencana sd bulan
-		$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param);
+		$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param,1);
+		$realisasi_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param,2);
+		
 		// pr($rencana_sd_bulan);
 		//cek id
 		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,1);
@@ -255,6 +265,7 @@ class monev extends Controller {
 		$this->view->assign('rinc',$rinc);
 		$this->view->assign('list',$list);
 		$this->view->assign('rencanasdbulan',$rencana_sd_bulan['total']);
+		$this->view->assign('realisasisdbulan',$realisasi_sd_bulan['total']);
 		$this->view->assign('data',$data);
 		
 		return $this->loadView('monev/editBobot');
@@ -300,8 +311,15 @@ class monev extends Controller {
 				
 				
 			}
+		//add	
+		$dinamic_bl = $_GET['bln'];
+		if($dinamic_bl){
+			$bl = $dinamic_bl;
+		}else{
+			$bl = date('m');
+		}
 		
-		$bl = date('m');
+		// $bl = date('m');
 		$ex = explode ('0',$bl);
 		if($ex[0] == ''){
 			$arrBln = $ex[1] - 1; 

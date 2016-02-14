@@ -171,12 +171,13 @@ function isNumber(evt) {
 											<th class="text-center" rowspan="2">Sub Output <br>/ Kode</th>
 											<th rowspan="2">Komponen</th>
 											<th class="text-center" rowspan="2">Total Bobot</th>
-											<th class="text-center" colspan="2">Bobot Kinerja</th>
+											<th class="text-center" colspan="3">Bobot Kinerja</th>
 											<th class="text-center" rowspan="2">Sisa Capaian <br/>Bobot Kinerja <br/>(3 - 5)</th>
 											<th class="text-center" rowspan="2">Keterangan</th>
 										</tr>
 										<tr>
 											<th  class="text-center" >Rencana sd <br/> bulan ini</th>
+											<th  class="text-center" >Realisasi <br/> bulan ini </th>
 											<th  class="text-center" >Realisasi sd <br/> bulan ini </th>
 										</tr>
 									</thead>
@@ -190,6 +191,7 @@ function isNumber(evt) {
 												<td class="text-center boldGrey">5</td>
 												<td class="text-center boldGrey">6</td>
 												<td class="text-center boldGrey">7</td>
+												<td class="text-center boldGrey">8</td>
 										</tr>
 										<tr>
 												<td  class="text-center">{$val.KDKMPNEN}</td>
@@ -209,6 +211,12 @@ function isNumber(evt) {
 												<td>
 													<div class="input-group" style="width:100px">
 														<input type="text" name="target" id="target" class="form-control span col-sm-2" value="{number_format($data.jml_target,'2',',','.')}"  >
+															<span class="input-group-addon">(%)</span>
+													</div>
+												</td>
+												<td class="text-center">
+													<div class="input-group" style="width:100px">
+														<input type="text" name="" id="" class="form-control span col-sm-2" value="{number_format($realisasisdbulan,'2',',','.')}"  readonly>
 															<span class="input-group-addon">(%)</span>
 													</div>
 												</td>
@@ -276,7 +284,8 @@ $('#submit').on('click', function(){
 				setTimeout(
 			   function() 
 			   {
-				location.reload();
+				//location.reload();
+				window.location.replace(basedomain+"monev/editBobot/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen+"&bln="+bulan);
 			   }, 2000);
 			}else{
 				$.niftyNoty({

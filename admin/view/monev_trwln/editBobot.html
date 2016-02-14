@@ -17,7 +17,7 @@ function isNumber(evt) {
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Edit RPK</h1>
+	<h1 class="page-header text-overflow">Edit Laporan Triwulan</h1>
 
 	<!--Searchbox-->
 	<!-- <div class="searchbox">
@@ -36,8 +36,8 @@ function isNumber(evt) {
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
-	<li><a href="{$basedomain}monev/editBobot">Monev Bulanan</a></li>
-	<li class="active">Edit Bobot Kinerja</li>
+	<li><a href="{$basedomain}monev/editBobot">Monev Triwulan</a></li>
+	<li class="active">Edit Laporan Triwulan</li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -51,7 +51,7 @@ function isNumber(evt) {
 		<div class="col-sm-12">
 			<div class="panel">
 				<div class="panel-heading">
-					<h3 class="panel-title">Edit Bobot Kinerja</h3>
+					<h3 class="panel-title">Edit Laporan Triwulan</h3>
 				</div>
 				<!--{pr($data_list)}-->
 				<!--{pr($data)}-->
@@ -72,7 +72,7 @@ function isNumber(evt) {
 					<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h3 align="center" class="text-uppercase">LAPORAN BOBOT BULAN {$ketBulan} {$info.thn}</h3>
+							<h3 align="center" class="text-uppercase">LAPORAN TRIWULAN {$info.thn}</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -128,30 +128,35 @@ function isNumber(evt) {
 								</ul>
 							</div>
 						</div>
-						
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">2. Kendala yang dihadapi</label>
+							<label class="col-sm-2 control-label boldGrey">2. Capaian Kinerja</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="keterangan" id="keterangan">{$data.keterangan}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">3. Kendala-kendala yang dihadapi</label>
 							<div class="col-md-9">
 								<textarea rows="5" class="form-control" name="kendala" id="kendala">{$data.kendala}</textarea>
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">3. Tindak Lanjut yang diperlukan</label>
+							<label class="col-sm-2 control-label boldGrey">4. Rencana Tindak Lanjut</label>
 							<div class="col-md-9">
 								<textarea rows="5" class="form-control" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">4. Pihak yang dapat mengatasi masalah</label>
+							<label class="col-sm-2 control-label boldGrey">5. Pihak yang dapat membantu penyelesaian kendala/permasalahan</label>
 							<div class="col-md-9">
 								<textarea rows="5" class="form-control" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
-						<label class="col-sm-2 control-label boldGrey">Bulan</label>
-							<select name="bulan" id="bulan" class="selectpicker" width="100%">
+						<label class="col-sm-2 control-label boldGrey">Sampe Triwulan</label>
+							<!--<select name="bulan" id="bulan" class="selectpicker" width="100%">
 								{foreach $bulan as $key=> $valbln}
 									{if $keybln == $key}
 										{$select_list = 'selected'}
@@ -160,10 +165,52 @@ function isNumber(evt) {
 									{/if}	
 									<option value="{$key}" {$select_list}>{$valbln}</option>
 								{/foreach}
+							</select>-->
+							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
+								<option value="1" {$dataselected.0}>Triwulan I</option>
+								<option value="2" {$dataselected.1}>Triwulan II</option>
+								<option value="3" {$dataselected.2}>Triwulan III</option>
+								<option value="4" {$dataselected.3}>Triwulan IV</option>
 							</select>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Kemajuan Realisasi Pembiayaan</h3>
+								</div>
+								<div class="panel-body">
+					
+									<!--Morris Line Chart placeholder-->
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+									<div id="demo-morris-line-realisasi" style="height:212px"></div>
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+					
+								</div>
+							</div>
+							</div>
 						</div>
 						
 						<div class="row">
+							<div class="col-lg-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Grafik Pencapaian Realisasi (%)</h3>
+								</div>
+								<div class="panel-body">
+					
+									<!--Morris Line Chart placeholder-->
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+									<div id="demo-morris-line-kinerja" style="height:212px"></div>
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+					
+								</div>
+							</div>
+							</div>
+						</div>
+						
+						</div>
+						<!--<div class="row">
 							<div class="col-md-12 table-responsive">
 								<table id="" class="table table-bordered" cellspacing="0" width="100%">
 									<thead>
@@ -224,7 +271,7 @@ function isNumber(evt) {
 									</tbody>
 								</table>
 							</div>
-						</div>
+						</div>-->
 						
 					</div>
 					<div class="panel-footer text-right">
@@ -239,12 +286,205 @@ function isNumber(evt) {
 	</div>
 </div>
 <!--===================================================-->
+{literal}
 <script>
 $(document).ready(function() {
 /*var status_hidden = $('#status_hidden').val();
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
+
+// MORRIS LINE CHART
+	// =================================================================
+	// Require MorrisJS Chart
+	// -----------------------------------------------------------------
+	// http://morrisjs.github.io/morris.js/
+	// =================================================================
+	var kdtriwulan = $('#kdtriwulan').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+	$.post(basedomain+"monev_trwln/rencana",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput,kd_komponen:kd_komponen},function(rencana){
+		//.toPrecision(2)
+		var Jan_rencana = rencana.rncn.rencana_1;
+		var Feb_rencana = rencana.rncn.rencana_2;
+		var Mar_rencana = rencana.rncn.rencana_3;
+		var Apr_rencana = rencana.rncn.rencana_4;
+		var Mei_rencana = rencana.rncn.rencana_5;
+		var Jun_rencana = rencana.rncn.rencana_6;
+		var Jul_rencana = rencana.rncn.rencana_7;
+		var Ags_rencana = rencana.rncn.rencana_8;
+		var Sept_rencana = rencana.rncn.rencana_9;
+		var Okt_rencana = rencana.rncn.rencana_10;
+		var Nov_rencana = rencana.rncn.rencana_11;
+		var Des_rencana = rencana.rncn.rencana_12;
+		
+		var Jan_realisasi = rencana.real.realisasi_1;
+		var Feb_realisasi = rencana.real.realisasi_2;
+		var Mar_realisasi = rencana.real.realisasi_3;
+		var Apr_realisasi = rencana.real.realisasi_4;
+		var Mei_realisasi = rencana.real.realisasi_5;
+		var Jun_realisasi = rencana.real.realisasi_6;
+		var Jul_realisasi = rencana.real.realisasi_7;
+		var Ags_realisasi = rencana.real.realisasi_8;
+		var Sept_realisasi = rencana.real.realisasi_9;
+		var Okt_realisasi = rencana.real.realisasi_10;
+		var Nov_realisasi = rencana.real.realisasi_11;
+		var Des_realisasi = rencana.real.realisasi_12;
+		
+		var day_data_realisasi = [
+		{"elapsed": "Jan", "value": Jan_rencana,"val": Jan_realisasi},
+		{"elapsed": "Feb", "value": Feb_rencana,"val": Feb_realisasi},
+		{"elapsed": "Mar", "value": Mar_rencana,"val": Mar_realisasi},
+		{"elapsed": "Apr", "value": Apr_rencana,"val": Apr_realisasi},
+		{"elapsed": "Mei", "value": Mei_rencana,"val": Mei_realisasi},
+		{"elapsed": "Jun", "value": Jun_rencana,"val": Jun_realisasi},
+		{"elapsed": "Jul", "value": Jul_rencana,"val": Jul_realisasi},
+		{"elapsed": "Ags", "value": Ags_rencana,"val": Ags_realisasi},
+		{"elapsed": "Sept", "value": Sept_rencana,"val": Sept_realisasi},
+		{"elapsed": "Okt", "value": Okt_rencana,"val": Okt_realisasi},
+		{"elapsed": "Nov", "value": Nov_rencana,"val": Nov_realisasi},
+		{"elapsed": "Des", "value": Des_rencana,"val": Des_realisasi}
+		];
+		
+		Morris.Line({
+			element: 'demo-morris-line-realisasi',
+			data: day_data_realisasi,
+			xkey: 'elapsed',
+			ykeys: ['value','val'],
+			labels: ['rencana','realisasi'],
+			/*ykeys: ['value'],
+			labels: ['rencana'],*/
+			gridEnabled: false,
+			gridLineColor: 'transparent',
+			lineColors: ['#045d97'],
+			lineWidth: 2,
+			parseTime: false,
+			resize:true,
+			hideHover: 'auto'
+		});
+	},"JSON");
+	
+	$.post(basedomain+"monev_trwln/bobot",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput,kd_komponen:kd_komponen},function(bobot){
+		//.toPrecision(2)
+		var Jan_rencana = bobot.rncn.rencana_1;
+		var Feb_rencana = bobot.rncn.rencana_2;
+		var Mar_rencana = bobot.rncn.rencana_3;
+		var Apr_rencana = bobot.rncn.rencana_4;
+		var Mei_rencana = bobot.rncn.rencana_5;
+		var Jun_rencana = bobot.rncn.rencana_6;
+		var Jul_rencana = bobot.rncn.rencana_7;
+		var Ags_rencana = bobot.rncn.rencana_8;
+		var Sept_rencana = bobot.rncn.rencana_9;
+		var Okt_rencana = bobot.rncn.rencana_10;
+		var Nov_rencana = bobot.rncn.rencana_11;
+		var Des_rencana = bobot.rncn.rencana_12;
+		
+		var Jan_realisasi = bobot.real.realisasi_1;
+		var Feb_realisasi = bobot.real.realisasi_2;
+		var Mar_realisasi = bobot.real.realisasi_3;
+		var Apr_realisasi = bobot.real.realisasi_4;
+		var Mei_realisasi = bobot.real.realisasi_5;
+		var Jun_realisasi = bobot.real.realisasi_6;
+		var Jul_realisasi = bobot.real.realisasi_7;
+		var Ags_realisasi = bobot.real.realisasi_8;
+		var Sept_realisasi = bobot.real.realisasi_9;
+		var Okt_realisasi = bobot.real.realisasi_10;
+		var Nov_realisasi = bobot.real.realisasi_11;
+		var Des_realisasi = bobot.real.realisasi_12;
+		
+		var day_data_realisasi = [
+		{"elapsed": "Jan", "value": Jan_rencana,"val": Jan_realisasi},
+		{"elapsed": "Feb", "value": Feb_rencana,"val": Feb_realisasi},
+		{"elapsed": "Mar", "value": Mar_rencana,"val": Mar_realisasi},
+		{"elapsed": "Apr", "value": Apr_rencana,"val": Apr_realisasi},
+		{"elapsed": "Mei", "value": Mei_rencana,"val": Mei_realisasi},
+		{"elapsed": "Jun", "value": Jun_rencana,"val": Jun_realisasi},
+		{"elapsed": "Jul", "value": Jul_rencana,"val": Jul_realisasi},
+		{"elapsed": "Ags", "value": Ags_rencana,"val": Ags_realisasi},
+		{"elapsed": "Sept", "value": Sept_rencana,"val": Sept_realisasi},
+		{"elapsed": "Okt", "value": Okt_rencana,"val": Okt_realisasi},
+		{"elapsed": "Nov", "value": Nov_rencana,"val": Nov_realisasi},
+		{"elapsed": "Des", "value": Des_rencana,"val": Des_realisasi}
+		];
+		
+		Morris.Line({
+			element: 'demo-morris-line-kinerja',
+			data: day_data_realisasi,
+			xkey: 'elapsed',
+			ykeys: ['value','val'],
+			labels: ['rencana','realisasi'],
+			/*ykeys: ['value'],
+			labels: ['rencana'],*/
+			gridEnabled: false,
+			gridLineColor: 'transparent',
+			lineColors: ['#045d97'],
+			lineWidth: 2,
+			parseTime: false,
+			resize:true,
+			hideHover: 'auto'
+		});
+	},"JSON");
+	
+	/*var day_data_realisasi = [
+		{"elapsed": "Jan", "value": 34,"val": 2},
+		{"elapsed": "Feb", "value": 24,"val": 4},
+		{"elapsed": "Mar", "value": 3,"val": 6},
+		{"elapsed": "Apr", "value": 12,"val": 8},
+		{"elapsed": "Mei", "value": 13,"val": 10},
+		{"elapsed": "Jun", "value": 22,"val": 12},
+		{"elapsed": "Jul", "value": 5,"val": 14},
+		{"elapsed": "Ags", "value": 26,"val": 16},
+		{"elapsed": "Sept", "value": 12,"val": 18},
+		{"elapsed": "Okt", "value": 19,"val": 20},
+		{"elapsed": "Nov", "value": 19,"val": 22},
+		{"elapsed": "Des", "value": 19,"val": 24}
+	];
+	
+	Morris.Line({
+		element: 'demo-morris-line-realisasi',
+		data: day_data_realisasi,
+		xkey: 'elapsed',
+		ykeys: ['value','val'],
+		labels: ['rencana','realisasi'],
+		gridEnabled: false,
+		gridLineColor: 'transparent',
+		lineColors: ['#045d97'],
+		lineWidth: 2,
+		parseTime: false,
+		resize:true,
+		hideHover: 'auto'
+	});*/
+	
+	/*var day_data_kinerja = [
+		{"elapsed": "Jan", "value": 10,"val": 2},
+		{"elapsed": "Feb", "value": 20,"val": 4},
+		{"elapsed": "Mar", "value": 30,"val": 6},
+		{"elapsed": "Apr", "value": 40,"val": 8},
+		{"elapsed": "Mei", "value": 50,"val": 10},
+		{"elapsed": "Jun", "value": 60,"val": 12},
+		{"elapsed": "Jul", "value": 70,"val": 14},
+		{"elapsed": "Ags", "value": 80,"val": 16},
+		{"elapsed": "Sept", "value": 90,"val": 18},
+		{"elapsed": "Okt", "value": 100,"val": 20},
+		{"elapsed": "Nov", "value": 110,"val": 22},
+		{"elapsed": "Des", "value": 120,"val": 24}
+	];
+	Morris.Line({
+		element: 'demo-morris-line-kinerja',
+		data: day_data_kinerja,
+		xkey: 'elapsed',
+		ykeys: ['value','val'],
+		labels: ['rencana','realisasi'],
+		gridEnabled: false,
+		gridLineColor: 'transparent',
+		lineColors: ['#045d97'],
+		lineWidth: 2,
+		parseTime: false,
+		resize:true,
+		hideHover: 'auto'
+	});*/
 
 $('#submit').on('click', function(){
 	var kdunitkerja = $('#kdunitkerja').val();
@@ -258,14 +498,11 @@ $('#submit').on('click', function(){
 	var ygmembantu = $('#ygmembantu').val();
 	
 	var th = $('#th').val();
-	var bulan = $('#bulan').val();
-	
-	var target = $('#target').val();
 		
 	
 	  bootbox.confirm("Simpan Data?", function(result) {
 			if (result) {
-				$.post( basedomain+"monev/post", { th: th, bulan: bulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu, target : target,keterangan:keterangan});										
+				$.post( basedomain+"monev_trwln/post", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu,keterangan:keterangan});										
 				$.niftyNoty({
 					type: 'success',
 					icon : 'fa fa-check',
@@ -295,4 +532,5 @@ $('#submit').on('click', function(){
 	});	
 });
 </script>
+{/literal}
 <!--End page content-->

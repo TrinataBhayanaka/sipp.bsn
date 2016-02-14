@@ -86,7 +86,7 @@ $(window).on('load', function() {
 						<th class="text-center">Kode APBN</th>
 						<th class="text-center">Kegiatan / Output</th>
 						<th class="text-center">Total Anggaran</th>
-						<th class="text-center">Status</th>
+						<!--<th class="text-center">Status</th>-->
 						<th class="text-center" colspan="2">Aksi</th>
 					</tr>
 				</thead>
@@ -96,7 +96,7 @@ $(window).on('load', function() {
 						<td class="text-center">{$val.kdgiat}</td>
 						<td>{$val.nmgiat}</td>
 						<td class="text-right">{number_format($val.pagu_giat,"0",",",".")}</td>
-						<td>&nbsp;</td>
+						<!--<td>&nbsp;</td>-->
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 					</tr>
@@ -105,7 +105,7 @@ $(window).on('load', function() {
 								<td class="text-center">{$val.kdgiat|cat:'.'|cat:$out.KDOUTPUT}</td>
 								<td>{$out.nama_output}</td>
 								<td class="text-right">{number_format($out.pagu_output,"0",",",".")}</td>
-								<td>&nbsp;</td>
+								<!--<td>&nbsp;</td>-->
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 							</tr>
@@ -115,7 +115,7 @@ $(window).on('load', function() {
 									<td class="text-right">{$kav.KDKMPNEN}</td>
 									<td>{$kav.nama_komponen}</td>
 									<td class="text-right">{number_format($kav.pagu_kmpnen,"0",",",".")}</td>
-									<td>&nbsp;</td>
+									<!--<td>&nbsp;</td>-->
 									<td><a href="{$basedomain}monev/editBobot/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Bobot Kinerja</button></a></td>
 									<td><a href="{$basedomain}monev/editAnggaran/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Anggaran</button></a></td>
 									

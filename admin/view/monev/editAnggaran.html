@@ -279,8 +279,9 @@ $('#submit').on('click', function(){
 				setTimeout(
 			   function() 
 			   {
-				location.reload();
-			   }, 2000);
+				//location.reload();
+				window.location.replace(basedomain+"monev/editAnggaran/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen+"&bln="+bulan);
+				}, 2000);
 			}else{
 				$.niftyNoty({
 					type: 'danger',
