@@ -14,6 +14,20 @@ function isNumber(evt) {
     return true;
 	}	
 </script>
+
+<style type="text/css">
+	table {
+	  table-layout: auto;
+	  width: 100%;
+	  white-space: nowrap;
+	}
+	.row-name {
+	  width: 40%;
+	}
+	#rpk th, td {
+		vertical-align:middle;
+	}
+</style>
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
@@ -147,7 +161,7 @@ function isNumber(evt) {
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="ursasaran_1" id="ursasaran_1" class="form-control" value="{$rinc.persentase_trw_1}" onkeypress="return isNumber(event)">
+													<input type="text" name="ursasaran_1" id="ursasaran_1" class="form-control" value="{$detail.bobot_1}" onkeypress="return isNumber(event)" readonly>
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -166,7 +180,7 @@ function isNumber(evt) {
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="ursasaran_2" id="ursasaran_2" class="form-control" value="{$rinc.persentase_trw_2}" onkeypress="return isNumber(event)">
+													<input type="text" name="ursasaran_2" id="ursasaran_2" class="form-control" value="{$detail.bobot_2}" onkeypress="return isNumber(event)" readonly>
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -185,7 +199,7 @@ function isNumber(evt) {
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="ursasaran_3" id="ursasaran_3" class="form-control" value="{$rinc.persentase_trw_3}" onkeypress="return isNumber(event)">
+													<input type="text" name="ursasaran_3" id="ursasaran_3" class="form-control" value="{$detail.bobot_3}" onkeypress="return isNumber(event)" readonly>
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -204,7 +218,7 @@ function isNumber(evt) {
 											</div>
 											<div class="col-sm-4">
 												<div class="input-group">
-													<input type="text" name="ursasaran_4" id="ursasaran_4" class="form-control" value="{$rinc.persentase_trw_4}" onkeypress="return isNumber(event)">
+													<input type="text" name="ursasaran_4" id="ursasaran_4" class="form-control" value="{$detail.bobot_4}" onkeypress="return isNumber(event)" readonly>
 													<span class="input-group-addon">(%)</span>
 												</div>
 											</div>
@@ -231,97 +245,151 @@ function isNumber(evt) {
 						
 						<div class="row">
 							<div class="col-md-12" style="overflow:scroll;max-height:600px" >
-								<table id="newslist" class="table table-bordered" cellspacing="0" width="100%">
+								<table id="rpk" class="table table-bordered" cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th class="text-center" colspan="2">Kode</th>
-											<th>Komponen</th>
-											<th class="text-center">Total Anggaran</th>
-											<th class="text-center" colspan="2">Aksi</th>
+											<th class="text-center" colspan="2" rowspan="3">Kode</th>
+											<th class="text-center row-name" rowspan="3">Komponen</th>
+											<th class="text-center" colspan="6">TW I</th>
+											<th class="text-center" colspan="6">TW II</th>
+											<th class="text-center" colspan="6">TW III</th>
+											<th class="text-center" colspan="6">TW IV</th>
+											<th class="text-center" rowspan="3">Jumlah Bobot (%)</th>
+											<th class="text-center" rowspan="3">Jumlah Anggaran (Rp)</th>
+											<th class="text-center" rowspan="3">Aksi</th>
+										</tr>
+
+										<tr>
+											<th class="text-center" colspan="2">Jan</th>
+											<th class="text-center" colspan="2">Feb</th>
+											<th class="text-center" colspan="2">Mar</th>
+											<th class="text-center" colspan="2">Apr</th>
+											<th class="text-center" colspan="2">Mei</th>
+											<th class="text-center" colspan="2">Jun</th>
+											<th class="text-center" colspan="2">Jul</th>
+											<th class="text-center" colspan="2">Agst</th>
+											<th class="text-center" colspan="2">Sept</th>
+											<th class="text-center" colspan="2">Okt</th>
+											<th class="text-center" colspan="2">Nov</th>
+											<th class="text-center" colspan="2">Des</th>
+										</tr>
+
+										<tr>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+											<th class="text-center">Bobot (%)</th>
+											<th class="text-center">Anggaran (Rp)</th>
+										</tr>
+										<tr>
+											<th class="text-center" colspan="2">(1)</th>
+											<th class="text-center">(2)</th>
+											<th class="text-center" colspan="24">(3)</th>
+											<th class="text-center">(4)</th>
+											<th class="text-center">(5)</th>
+											<th class="text-center">(6)</th>
 										</tr>
 									</thead>
+
 									<tbody>
 										{foreach $list as $value}
-										<tr style="color:blue">
-											<td class="text-center" colspan="2">{$value.KDKMPNEN}</td>
-											<td>{$value.nama_komponen}</td>
-											<td class="text-right">{number_format($value.pagu_kmpnen,"0",",",".")}</td>
-											<td><a href="{$basedomain}rpk/editTahapan/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-primary btn-labeled fa fa-pencil-square-o" type="button">Edit Tahapan</button></a></td>
-										</tr>
-										{foreach $value.sub_komponen as $sub}
-										<tr>
-											<td>&nbsp;</td>
-											<td>{$sub.kd_tahapan}</td>
-											<td colspan="2"><strong>{$sub.nm_tahapan}</strong>
-												<table class="table table-bordered" >
-													<thead>
-														<tr>
-															<th class="text-center" rowspan="2">Rencana Bulanan</th>
-															<th class="text-center" colspan="3">TW I</th>
-															<th class="text-center" colspan="3">TW II</th>
-															<th class="text-center" colspan="3">TW III</th>
-															<th class="text-center" colspan="3">TW IV</th>
-															<th class="text-center" rowspan="2">Jumlah</th>
-														</tr>
-														<tr>
-															<th>Jan</th>	
-															<th>Peb</th>	
-															<th>Mar</th>	
-															<th>Apr</th>		
-															<th>Mei</th>		
-															<th>Jun</th>		
-															<th>Jul</th>		
-															<th>Agt</th>		
-															<th>Sep</th>		
-															<th>Okt</th>		
-															<th>Nop</th>		
-															<th>Des</th>	
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td><strong>Bobot Kinerja (%)</strong></td>
-															<td>{number_format($sub.target_1,"2",",",".")}</td>
-															<td>{number_format($sub.target_2,"2",",",".")}</td>
-															<td>{number_format($sub.target_3,"2",",",".")}</td>
-															<td>{number_format($sub.target_4,"2",",",".")}</td>
-															<td>{number_format($sub.target_5,"2",",",".")}</td>
-															<td>{number_format($sub.target_6,"2",",",".")}</td>
-															<td>{number_format($sub.target_7,"2",",",".")}</td>
-															<td>{number_format($sub.target_8,"2",",",".")}</td>
-															<td>{number_format($sub.target_9,"2",",",".")}</td>
-															<td>{number_format($sub.target_10,"2",",",".")}</td>
-															<td>{number_format($sub.target_11,"2",",",".")}</td>
-															<td>{number_format($sub.target_12,"2",",",".")}</td>
-															<td>{number_format($sub.sum_bobot,"2",",",".")}</td>
-														</tr>
-														<tr>
-															<td><strong>Jumlah anggaran</strong></td>
-															<td>{number_format($sub.anggaran_1,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_2,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_3,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_4,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_5,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_6,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_7,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_8,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_9,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_10,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_11,"0",",",".")}</td>
-															<td>{number_format($sub.anggaran_12,"0",",",".")}</td>
-															<td>{number_format($sub.sum_anggaran,"0",",",".")}</td>
-														</tr>
-													</tbody>
-												</table>
-											</td>
-											<td>
-												<a href="{$basedomain}rpk/editRencanaAnggaran/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}&id={$sub.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" type="button">Edit Rencana Kinerja & <br/> Anggaran</button></a>
-											</td>
-										</tr>
+											<tr style="color:blue">
+												<td class="text-center" colspan="2">{$value.KDKMPNEN}</td>
+												<td>{$value.nama_komponen}</td>
+												<td>{number_format($value.bobot.target_1,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_1,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_2,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_2,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_3,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_3,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_4,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_4,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_5,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_5,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_6,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_6,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_7,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_7,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_8,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_8,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_9,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_9,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_10,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_10,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_11,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_11,"0",",",".")}</td>
+												<td>{number_format($value.bobot.target_12,"2",",",".")}</td>
+												<td>{number_format($value.anggaran_12,"0",",",".")}</td>
+												<td>{$value.total_bobot}</td>
+												<td class="text-right">{number_format($value.pagu_kmpnen,"0",",",".")}</td>
+												<td>
+													<a href="{$basedomain}rpk/editTahapan/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-primary btn-labeled fa fa-pencil-square-o" type="button">Edit Tahapan</button></a>
+													&nbsp;
+													<a href="{$basedomain}rpk/editBobot/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-purple btn-labeled fa fa-pencil-square-o" type="button">Edit Bobot</button></a>
+
+												</td>
+											</tr>
+											{foreach $value.sub_komponen as $sub}
+												<tr>
+													<td>&nbsp;</td>
+													<td>{$sub.kd_tahapan}</td>
+													<td>{$sub.nm_tahapan}</td>
+													<td>{number_format($sub.target_1,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_1,"0",",",".")}</td>
+													<td>{number_format($sub.target_2,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_2,"0",",",".")}</td>
+													<td>{number_format($sub.target_3,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_3,"0",",",".")}</td>
+													<td>{number_format($sub.target_4,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_4,"0",",",".")}</td>
+													<td>{number_format($sub.target_5,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_5,"0",",",".")}</td>
+													<td>{number_format($sub.target_6,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_6,"0",",",".")}</td>
+													<td>{number_format($sub.target_7,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_7,"0",",",".")}</td>
+													<td>{number_format($sub.target_8,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_8,"0",",",".")}</td>
+													<td>{number_format($sub.target_9,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_9,"0",",",".")}</td>
+													<td>{number_format($sub.target_10,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_10,"0",",",".")}</td>
+													<td>{number_format($sub.target_11,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_11,"0",",",".")}</td>
+													<td>{number_format($sub.target_12,"2",",",".")}</td>
+													<td>{number_format($sub.anggaran_12,"0",",",".")}</td>
+													<td>{number_format($sub.sum_bobot,"2",",",".")}</td>
+													<td>{number_format($sub.sum_anggaran,"0",",",".")}</td>
+													<td>
+														<a href="{$basedomain}rpk/editRencanaAnggaran/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}&id={$sub.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" type="button">Edit Rencana Kinerja & Anggaran</button></a>
+													</td>
+												</tr>
+											{/foreach}
+											<tr>
+												<td colspan="30"></td>
+											</tr>
 										{/foreach}
-										{/foreach}
-										</tbody>
-									</table>
+									</tbody>
+								</table>
 							</div>
 						</div>
 						
@@ -394,6 +462,29 @@ $('#submit').on('click', function(){
 			}
 
 
+		});
+
+
+	    $('#demo-bootbox-prompt').on('click', function(){
+			bootbox.prompt("What is your name?", function(result) {
+				if (result) {
+					$.niftyNoty({
+						type: 'success',
+						icon : 'fa fa-check',
+						message : 'Hi ' + result,
+						container : 'floating',
+						timer : 3000
+					});
+				}else{
+					$.niftyNoty({
+						type: 'danger',
+						icon : 'fa fa-minus',
+						message : 'User declined dialog.',
+						container : 'floating',
+						timer : 3000
+					});
+				};
+			});
 		});
 	  
 	  

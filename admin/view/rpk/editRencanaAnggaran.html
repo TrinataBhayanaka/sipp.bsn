@@ -39,7 +39,7 @@ function isNumber(evt) {
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
-	<li><a href="{$basedomain}course/courselist">RPK</a></li>
+	<li><a href="{$basedomain}rpk">RPK</a></li>
 	<li class="active">Edit Rencana Kinerja & Anggaran</li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -95,6 +95,31 @@ function isNumber(evt) {
 							
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">Tahapan</label>
+							<div class="col-sm-10">						
+								<label class=" control-label boldBlack">{$list.0.sub_komponen.0.nm_tahapan}</label>
+							
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">Total Bobot (%)</label>
+							<div class="col-sm-10">						
+								<label class=" control-label boldBlack" id="sumtext">{$sumBobot.total}</label>
+								 / 
+								<label class=" control-label boldBlack" id="bobot">{$bobot.bobot}</label>
+								%
+							
+							</div>
+						</div>
+						<input type="hidden" id="sumBobot" value="{$sumBobot.total}">
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey"></label>
+							<div class="col-sm-10" id="helptext">						
+								
+							</div>
+						</div>
+						
 						<div class="row">
 							<div class="col-sm-6">	
 								<div class="form-group pull-left">
@@ -142,77 +167,77 @@ function isNumber(evt) {
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_1" id="target_1" class="form-control span col-sm-2" value="{number_format($value.target_1,'2',',','.')}"  >
+																	<input type="text" name="target_1" id="target_1" class="form-control span col-sm-2 percent" value="{number_format($value.target_1,'2',',','.')}" onkeyup="return checkBobot();">
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target2" id="target_2" class="form-control" value="{number_format($value.target_2,'2',',','.')}" >
+																	<input type="text" name="target2" id="target_2" class="form-control percent" value="{number_format($value.target_2,'2',',','.')}" >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_3" id="target_3" class="form-control" value="{number_format($value.target_3,'2',',','.')}"  >
+																	<input type="text" name="target_3" id="target_3" class="form-control percent" value="{number_format($value.target_3,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_4"  id="target_4" class="form-control" value="{number_format($value.target_4,'2',',','.')}"  >
+																	<input type="text" name="target_4"  id="target_4" class="form-control percent" value="{number_format($value.target_4,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>	
 																</div>
 															</td>
 															<td>
 																
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_5"  id="target_5" class="form-control" value="{number_format($value.target_5,'2',',','.')}"  >
+																	<input type="text" name="target_5"  id="target_5" class="form-control percent" value="{number_format($value.target_5,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_6"  id="target_6" class="form-control" value="{number_format($value.target_6,'2',',','.')}"  >
+																	<input type="text" name="target_6"  id="target_6" class="form-control percent" value="{number_format($value.target_6,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_7"  id="target_7" class="form-control" value="{number_format($value.target_7,'2',',','.')}"  >
+																	<input type="text" name="target_7"  id="target_7" class="form-control percent" value="{number_format($value.target_7,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_8"  id="target_8" class="form-control" value="{number_format($value.target_8,'2',',','.')}"  >
+																	<input type="text" name="target_8"  id="target_8" class="form-control percent" value="{number_format($value.target_8,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_9"  id="target_9" class="form-control" value="{number_format($value.target_9,'2',',','.')}"  >
+																	<input type="text" name="target_9"  id="target_9" class="form-control percent" value="{number_format($value.target_9,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_10"  id="target_10" class="form-control" value="{number_format($value.target_10,'2',',','.')}"  >
+																	<input type="text" name="target_10"  id="target_10" class="form-control percent" value="{number_format($value.target_10,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_11"  id="target_11"class="form-control" value="{number_format($value.target_11,'2',',','.')}"  >
+																	<input type="text" name="target_11"  id="target_11"class="form-control percent" value="{number_format($value.target_11,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
 															<td>
 																<div class="input-group" style="width:100px">
-																	<input type="text" name="target_12"  id="target_12"class="form-control" value="{number_format($value.target_12,'2',',','.')}"  >
+																	<input type="text" name="target_12"  id="target_12"class="form-control percent" value="{number_format($value.target_12,'2',',','.')}"  >
 																	<span class="input-group-addon">(%)</span>
 																</div>
 															</td>
@@ -221,40 +246,40 @@ function isNumber(evt) {
 														<tr>
 															<td><strong>Jumlah anggaran</strong></td>
 															<td>
-																<input type="text" name="anggaran_1"  id="anggaran_1" class="form-control" value="{number_format($value.anggaran_1,'0',',','.')}" onkeypress="return isNumber(event)" >
+																<input type="text" name="anggaran_1"  id="anggaran_1" class="form-control money" value="{number_format($value.anggaran_1,'0',',','.')}" onkeypress="return isNumber(event)" >
 															</td>
 															<td>
-																<input type="text" name="anggaran_2" id="anggaran_2" class="form-control" value="{number_format($value.anggaran_2,'0',',','.')}" onkeypress="return isNumber(event)" >
+																<input type="text" name="anggaran_2" id="anggaran_2" class="form-control money" value="{number_format($value.anggaran_2,'0',',','.')}" onkeypress="return isNumber(event)" >
 															</td>
 															<td>
-																<input type="text" name="anggaran_3" id="anggaran_3" class="form-control" value="{number_format($value.anggaran_3,'0',',','.')}" onkeypress="return isNumber(event)" >
+																<input type="text" name="anggaran_3" id="anggaran_3" class="form-control money" value="{number_format($value.anggaran_3,'0',',','.')}" onkeypress="return isNumber(event)" >
 															</td>
 															<td>
-																<input type="text" name="anggaran_4" id="anggaran_4" class="form-control" value="{number_format($value.anggaran_4,'0',',','.')}" onkeypress="return isNumber(event)">
+																<input type="text" name="anggaran_4" id="anggaran_4" class="form-control money" value="{number_format($value.anggaran_4,'0',',','.')}" onkeypress="return isNumber(event)">
 															</td>
 															<td>
-																<input type="text" name="anggaran_5" id="anggaran_5" class="form-control" value="{number_format($value.anggaran_5,'0',',','.')}"  onkeypress="return isNumber(event)"> 
+																<input type="text" name="anggaran_5" id="anggaran_5" class="form-control money" value="{number_format($value.anggaran_5,'0',',','.')}"  onkeypress="return isNumber(event)"> 
 															</td>
 															<td>
-																<input type="text" name="anggaran_6" id="anggaran_6" class="form-control" value="{number_format($value.anggaran_6,'0',',','.')}"  onkeypress="return isNumber(event)">
+																<input type="text" name="anggaran_6" id="anggaran_6" class="form-control money" value="{number_format($value.anggaran_6,'0',',','.')}"  onkeypress="return isNumber(event)">
 															</td>
 															<td>
-																<input type="text" name="anggaran_7" id="anggaran_7" class="form-control" value="{number_format($value.anggaran_7,'0',',','.')}"  onkeypress="return isNumber(event)">
+																<input type="text" name="anggaran_7" id="anggaran_7" class="form-control money" value="{number_format($value.anggaran_7,'0',',','.')}"  onkeypress="return isNumber(event)">
 															</td>
 															<td>
-																<input type="text" name="anggaran_8" id="anggaran_8" class="form-control" value="{number_format($value.anggaran_8,'0',',','.')}" onkeypress="return isNumber(event)" >
+																<input type="text" name="anggaran_8" id="anggaran_8" class="form-control money" value="{number_format($value.anggaran_8,'0',',','.')}" onkeypress="return isNumber(event)" >
 															</td>
 															<td>
-																<input type="text" name="anggaran_9" id="anggaran_9" class="form-control" value="{number_format($value.anggaran_9,'0',',','.')}"  onkeypress="return isNumber(event)">
+																<input type="text" name="anggaran_9" id="anggaran_9" class="form-control money" value="{number_format($value.anggaran_9,'0',',','.')}"  onkeypress="return isNumber(event)">
 															</td>
 															<td>
-																<input type="text" name="anggaran_10" id="anggaran_10" class="form-control" value="{number_format($value.anggaran_10,'0',',','.')}" onkeypress="return isNumber(event)" >
+																<input type="text" name="anggaran_10" id="anggaran_10" class="form-control money" value="{number_format($value.anggaran_10,'0',',','.')}" onkeypress="return isNumber(event)" >
 															</td>
 															<td>
-																<input type="text" name="anggaran_11" id="anggaran_11" class="form-control" value="{number_format($value.anggaran_11,'0',',','.')}" onkeypress="return isNumber(event)" >
+																<input type="text" name="anggaran_11" id="anggaran_11" class="form-control money" value="{number_format($value.anggaran_11,'0',',','.')}" onkeypress="return isNumber(event)" >
 															</td>
 															<td>
-																<input type="text" name="anggaran_12" id="anggaran_12" class="form-control" value="{number_format($value.anggaran_12,'0',',','.')}"  onkeypress="return isNumber(event)">
+																<input type="text" name="anggaran_12" id="anggaran_12" class="form-control money" value="{number_format($value.anggaran_12,'0',',','.')}"  onkeypress="return isNumber(event)">
 															</td>
 														</tr>
 														{/foreach}
@@ -287,5 +312,39 @@ function isNumber(evt) {
 <!--End page content-->
 
 {literal}
+<script type="text/javascript">
+	$(document).ready(function(){
+		var sum = 0;
+		for(var i=1;i<=12;i++){
+			var tmp = parseFloat($("#target_"+i).val());
+			sum += tmp;
+		}
+		var sumbobot = parseFloat($("#sumBobot").val());
+		var tmp = parseFloat(sumbobot - sum);
+		$("#sumBobot").val(tmp);
+	})
+	function checkBobot()
+	{
+		var sum = 0;
+		var bobot = parseFloat($("#bobot").text());
+		var sumbobot = parseFloat($("#sumBobot").val());
+		var sumtext = parseFloat($("#sumtext").text());
+		for(var i=1;i<=12;i++){
+			var tmp = parseFloat($("#target_"+i).val());
+			sum += tmp;
+		}
+		
+		var total = (parseFloat(sum) + parseFloat(sumbobot)).toFixed(2);
 
+		if(total > bobot){
+			$("#sumtext").text(total);
+			$("#helptext").html('<label style="color:red">Bobot melebihi batas</label>');
+			$("#tahapan-simpan").attr('disabled','disabled');
+		} else {
+			$("#sumtext").text(total);
+			$("#helptext").html('');
+			$("#tahapan-simpan").removeAttr('disabled');
+		}
+	}
+</script>
 {/literal}
