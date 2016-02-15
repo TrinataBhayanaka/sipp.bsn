@@ -1439,6 +1439,7 @@ class m_penetapanAngaran extends Database {
 		$query = "SELECT {$ext_sql} FROM {$table}  
 				WHERE th LIKE '{$thn_temp}' AND kdgiat LIKE '{$kd_giat}' AND kdoutput LIKE '{$kd_output}' 
 				and kdkmpnen like '{$kd_komponen}%' ORDER BY id";
+		// pr($query);		
 		$result = $this->fetch($query);
 		return $result;
 	}
@@ -1819,7 +1820,8 @@ class m_penetapanAngaran extends Database {
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
-
+	}
+	
 	function insert_bobot($data)
 	{
 		foreach ($data as $key => $val) {

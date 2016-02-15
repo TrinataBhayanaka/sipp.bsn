@@ -188,18 +188,18 @@ function isNumber(evt) {
 											<td  class="text-center">{$val.KDKMPNEN}</td>
 											<td>{$val.nama_komponen}</td>
 											<td class="text-right">
-												<div class="input-group" style="width:100px">
+												<div class="input-group" style="width:120px">
 													<input type="text" name="pagu" id="pagu" class="form-control span col-sm-2" value="{number_format($data.pagu,'0',',','.')}"  readonly>
 												</div>
 											</td>
 											<td class="text-right">
-												<div class="input-group" style="width:100px">
+												<div class="input-group" style="width:120px">
 													<input type="text" name="rencanasdbulan" id="rencanasdbulan" class="form-control span col-sm-2" value="{number_format($data.rencanasdbulan,'0',',','.')}"  readonly>
 												</div>
 											</td>
 											<td class="text-right">
-												<div class="input-group" style="width:100px">
-													<input type="text" name="realisasi_blnini" id="realisasi_blnini" class="form-control span col-sm-2" value="{number_format($data.realisasi_blnini,'0',',','.')}">
+												<div class="input-group" style="width:120px">
+													<input type="text" name="realisasi_blnini" id="realisasi_blnini" class="form-control span col-sm-2 money" value="{number_format($data.realisasi_blnini,'0',',','.')}">
 												</div>
 											</td>
 											<td class="text-right">
@@ -215,12 +215,12 @@ function isNumber(evt) {
 											</td>
 											<td >
 												<div class="input-group" style="width:120px">
-													<input type="text" name="persentase_rencana" id="persentase_rencana" class="form-control span col-sm-2" value="{number_format($data.persentase_pagu,'2',',','.')}"  readonly>
+													<input type="text" name="persentase_pagu" id="persentase_pagu" class="form-control span col-sm-2" value="{number_format($data.persentase_pagu,'2',',','.')}"  readonly>
 														<span class="input-group-addon">(%)</span>
 												</div>
 											</td>
 											<td class="text-right">
-												<div class="input-group" style="width:100px">
+												<div class="input-group" style="width:120px">
 													<input type="text" name="sisa_anggaran" id="sisa_anggaran" class="form-control span col-sm-2" value="{number_format($data.sisa_anggaran,'0',',','.')}" readonly>
 												</div>
 											</td>
@@ -243,12 +243,30 @@ function isNumber(evt) {
 	</div>
 </div>
 <!--===================================================-->
+{literal}
 <script>
 $(document).ready(function() {
 /*var status_hidden = $('#status_hidden').val();
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
+$('#bulan').on('change', function(){
+	var th = $('#th').val();
+	var bulan = $('#bulan').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+	var pagu = $('#pagu').val();
+	$.post(basedomain+"monev/getdataanggaran",{th:th,bulan:bulan,kdgiat:kdgiat,kdoutput:kdoutput,kd_komponen:kd_komponen,pagu:pagu},function(realisasi){
+		document.getElementById('rencanasdbulan').value = realisasi.rncn_sdbln;
+		document.getElementById('realisasi_blnini').value = realisasi.real_blnini;
+		document.getElementById('realisasi_sdbulan').value = realisasi.real_sdbln;
+		document.getElementById('persentase_rencana').value = realisasi.pers_rencana;
+		document.getElementById('persentase_pagu').value = realisasi.pers_pagu;
+		document.getElementById('sisa_anggaran').value = realisasi.sisa;
+	},"JSON");
+//alert(bulan);
+});	
 
 $('#submit').on('click', function(){
 	var kdunitkerja = $('#kdunitkerja').val();
@@ -299,4 +317,5 @@ $('#submit').on('click', function(){
 	});	
 });
 </script>
+{/literal}
 <!--End page content-->
