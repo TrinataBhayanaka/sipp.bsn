@@ -1,0 +1,78 @@
+
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Edit Bobot</h1>
+
+	<!--Searchbox-->
+	<!-- <div class="searchbox">
+		<div class="input-group custom-search-form">
+			<input type="text" class="form-control" placeholder="Search..">
+			<span class="input-group-btn">
+				<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</div> -->
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}rpk">RPK</a></li>
+	<li class="active">Edit Bobot RPK</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<div class="row">
+
+		<div class="col-sm-6 col-sm-offset-3">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Form Edit</h3>
+				</div>
+					<form class="form-horizontal" id="testForm" method="POST" action="{$basedomain}rpk/ins_bobot">
+						
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Bobot RPK</label>
+								<div class="col-sm-9">						
+									<div class="input-group">
+										<input type="text" name="bobot" class="form-control" value="{$data.bobot}">
+										<span class="input-group-addon">(%)</span>
+									</div>
+								</div>
+							</div>
+
+							<input type="hidden" name="id" value="{$data.id}">
+							<input type="hidden" name="th" value="{$get.thn}">
+							<input type="hidden" name="kdunitkerja" value="{$get.kd_unit}">
+							<input type="hidden" name="kdgiat" value="{$get.kd_giat}">
+							<input type="hidden" name="kdoutput" value="{$get.kd_output}">
+							<input type="hidden" name="kdsoutput" value="{$get.kd_soutput}">
+							<input type="hidden" name="kdkmpnen" value="{$get.kd_komponen}">
+						</div>
+
+						<div class="panel-footer text-right">
+							<input type="submit" value="save" class="btn btn-info">
+						</div>
+					</form>
+
+				<!--===================================================-->
+				<!--End Horizontal Form-->
+	
+			</div>
+		</div>
+	</div>	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->

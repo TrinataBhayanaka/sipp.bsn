@@ -164,6 +164,9 @@
 	<!--Bootstrap Validator [ OPTIONAL ]-->
 	<script src="{$basedomain}plugins/bootstrap-validator/bootstrapValidator.min.js"></script>
 
+	<!-- Jquery-number -->
+	<script src="{$basedomain}plugins/jquery-number/jquery.number.min.js"></script>
+
 	<!--Modals [ HELPER ]-->
 	<script src="{$basedomain}js/demo/jshelper.js"></script>
 
@@ -173,6 +176,10 @@
 	<script>
 		{literal}
 		$('.selectpicker').selectpicker();
+		$(document).ready(function(){
+			$('.percent').number( true, 2, ',', '.' );
+			$('.money').number( true, 0, ',', '.' );
+		})
 		{/literal}
 	</script>
 	<style type="text/css">

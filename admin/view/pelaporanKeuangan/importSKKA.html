@@ -136,8 +136,8 @@
 		$('#total :file').on('fileselect', function(event, numFiles, label, fileSize) {
 			size1.push(fileSize);
 			label = label.toUpperCase();
-			//if(label == 'M_SPMIND.DBF')
-			if(label == 'M_SPMIND')
+			if(label == 'M_SPMIND.DBF')
+			//if(label == 'M_SPMIND')
 			{
 				$('#attach-total').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size1[0]+'</small>');
 			} else {
@@ -149,8 +149,8 @@
 		$('#akun :file').on('fileselect', function(event, numFiles, label, fileSize) {
 			size2.push(fileSize);
 			label = label.toUpperCase();
-			//if(label == 'M_SPMMAK.DBF')
-			if(label == 'M_SPMMAK')
+			if(label == 'M_SPMMAK.DBF')
+			//if(label == 'M_SPMMAK')
 			{
 				$('#attach-akun').html('<strong class="box-block text-capitalize" style="color:green"><i class="fa fa-check"></i> '+label+'</strong><small class="text-muted">'+size2[0]+'</small>');
 			} else {
