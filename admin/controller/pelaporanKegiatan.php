@@ -181,6 +181,7 @@ class pelaporanKegiatan extends Controller {
 			exit;
 		}
 		// pr($bsnid);
+		
 		$this->view->assign('bsnid', $bsnid);
 		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
 		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
