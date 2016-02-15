@@ -121,7 +121,7 @@ class contentHelper extends Database {
 
 	function saveData($data=array(), $table="_news_content", $debug=0)
 	{
-		
+		// pr($data);
 		if ($table == "_news_content"){
 			$getSetting = $this->getSetting();
 			$data['year'] = $getSetting[0]['kode'];
