@@ -1,7 +1,7 @@
 <?php
 class mcapaian extends Database {
 	
-	var $prefix = "lelang";
+	var $prefix = "bsn";
 
 	function __construct()
 	{
@@ -45,6 +45,32 @@ class mcapaian extends Database {
 		$sql = "SELECT * FROM th_pk WHERE id='{$idSsr}'";
 		$res = $this->fetch($sql);
 		if ($res) return $res;
+		return false;
+	}
+	function saveData($data=array(), $table="bsn_news_content", $debug=0)
+	{
+		// pr($data);
+		if ($table == "bsn_news_content"){
+			$getSetting = $this->getSetting();
+			$data['year'] = $getSetting[0]['kode'];
+
+		}
+		
+		$id = $data['id'];
+
+		if ($id){
+
+			$run = $this->save("update", "{$table}", $data, "id = {$id}", $debug);
+
+		}else{
+			$data['createDate'] = date('Y-m-d H:i;s');
+			$run = $this->save("insert", "{$table}", $data, false, $debug);
+	
+		}
+		// pr($data);
+		// pr($run);
+		// exit;
+		if ($run) return true;
 		return false;
 	}
 	

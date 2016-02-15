@@ -173,8 +173,16 @@ class monev extends Controller {
 				
 				
 			}
+		//add	
+		$dinamic_bl = $_GET['bln'];
+		if($dinamic_bl){
+			$bl = $dinamic_bl;
+		}else{
+			$bl = date('m');
+		}
 		
-		$bl = date('m');
+		
+		
 		$ex = explode ('0',$bl);
 		if($ex[0] == ''){
 			$arrBln = $ex[1] - 1; 
@@ -214,7 +222,9 @@ class monev extends Controller {
 			case 12:$param = 12;break;
 		}
 		//rencana sd bulan
-		$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param);
+		$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param,1);
+		$realisasi_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param,2);
+		
 		// pr($rencana_sd_bulan);
 		//cek id
 		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,1);
@@ -248,16 +258,119 @@ class monev extends Controller {
 		// pr($data);
 		//statis
 		$totalbobot = '15';
-		$sisacapaian = $totalbobot - $data['jml_target']; 
+		$sisacapaian = $totalbobot - $realisasi_sd_bulan['total']; 
 		$this->view->assign('totalbobot',$totalbobot);
 		$this->view->assign('sisacapaian',$sisacapaian);
 		$this->view->assign('info',$info);
 		$this->view->assign('rinc',$rinc);
 		$this->view->assign('list',$list);
 		$this->view->assign('rencanasdbulan',$rencana_sd_bulan['total']);
+		$this->view->assign('realisasisdbulan',$realisasi_sd_bulan['total']);
 		$this->view->assign('data',$data);
 		
 		return $this->loadView('monev/editBobot');
+	}
+	
+	public function getdatabobot(){
+		$thn = $_POST['th'];
+		$bulan = $_POST['bulan'];
+		$kd_giat = $_POST['kdgiat'];
+		$kd_output = $_POST['kdoutput'];
+		$kd_komponen = $_POST['kd_komponen'];
+		$total = $_POST['total'];
+		
+		switch ($bulan){
+			case 01:$param = 1;break;
+			case 02:$param = 2;break;
+			case 03:$param = 3;break;
+			case 04:$param = 4;break;
+			case 05:$param = 5;break;
+			case 06:$param = 6;break;
+			case 07:$param = 7;break;
+			case 08:$param = 8;break;
+			case 09:$param = 9;break;
+			case 10:$param = 10;break;
+			case 11:$param = 11;break;
+			case 12:$param = 12;break;
+		}
+		
+		$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param,1);
+		$realisasi_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param,2);
+		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,1);
+		if($count['hit'] == 1){
+			// echo "masukk";
+			$get_data = $this->m_penetapanAngaran->get_data_monev_bln($count['id'],$param);
+			$data = $get_data['jumlah'] ;
+		}else{
+			$data = '0';
+			
+		}
+		$sisa = $total - $realisasi_sd_bulan['total'];
+		$newformat = array('rncn_sdbln'=>$rencana_sd_bulan['total'],'real_blnini'=>$data,'real_sdbln'=>$realisasi_sd_bulan['total'],'sisa'=>$sisa);
+		print json_encode($newformat);
+		exit;
+	}
+	
+	public function getdataanggaran(){
+		
+		$thn = $_POST['th'];
+		$bulan = $_POST['bulan'];
+		$kd_giat = $_POST['kdgiat'];
+		$kd_output = $_POST['kdoutput'];
+		$kd_komponen = $_POST['kd_komponen'];
+		$pagu = $_POST['pagu'];
+		
+		$bad_symbols = array(",", ".");
+		$pagu =str_replace($bad_symbols, "",$_POST['pagu']);
+		// pr($pagu);
+		switch ($bulan){
+			case 01:$param = 1;break;
+			case 02:$param = 2;break;
+			case 03:$param = 3;break;
+			case 04:$param = 4;break;
+			case 05:$param = 5;break;
+			case 06:$param = 6;break;
+			case 07:$param = 7;break;
+			case 08:$param = 8;break;
+			case 09:$param = 9;break;
+			case 10:$param = 10;break;
+			case 11:$param = 11;break;
+			case 12:$param = 12;break;
+		}
+		
+		//rencana sd bulan
+		$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan_anggaran($thn,$kd_giat,$kd_output,$kd_komponen,$param);
+		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,2);
+		if($count['hit'] == 1){
+			// echo "masukk";
+			$get_data = $this->m_penetapanAngaran->get_data_monev_bln_anggaran($count['id'],$param);
+			$get_realisasi = $this->m_penetapanAngaran->monev_realisasi_sd_bulan_anggaran($count['id'],$param);
+			// pr($get_realisasi);
+			$data['rencanasdbulan'] =  number_format($rencana_sd_bulan['total'],'0',',','.');
+			$data['realisasi_blnini'] = number_format($get_data['jumlah'],'0',',','.');
+			$data['realisasi_sdbulan'] = number_format($get_realisasi['realisasi'],'0',',','.') ;
+			if($get_realisasi['realisasi'] != 0 || $get_realisasi['realisasi'] != ''){
+				$data['persentase_rencana'] = round(($get_realisasi['realisasi'] / $rencana_sd_bulan['total']) * 100 ,2);
+				$data['persentase_pagu'] = round(($get_realisasi['realisasi'] / $pagu) * 100 ,2);
+			}else{
+				$data['persentase_rencana'] = 0;
+				$data['persentase_pagu'] = 0;
+			}
+			$sisa_anggaran = $pagu - round($get_realisasi['realisasi']);
+			$data['sisa_anggaran'] = number_format($sisa_anggaran,'0',',','.');
+			
+		}else{
+			$data['rencanasdbulan'] =  $rencana_sd_bulan['total'];
+			$data['realisasi_blnini'] = 0;
+			$data['realisasi_sdbulan'] = 0;
+			$data['persentase_rencana'] = 0;
+			$data['persentase_pagu'] = 0;
+			$data['sisa_anggaran'] = number_format($pagu,'0',',','.'); ;
+			
+		}
+		$newformat = array('rncn_sdbln'=>$data['rencanasdbulan'],'real_blnini'=>$data['realisasi_blnini'],'real_sdbln'=>$data['realisasi_sdbulan'],'pers_rencana'=>$data['persentase_rencana'],'pers_pagu'=>$data['persentase_pagu'],'sisa'=>$data['sisa_anggaran']);
+		print json_encode($newformat);
+		exit;
 	}
 	
 	public function editAnggaran(){
@@ -300,8 +413,15 @@ class monev extends Controller {
 				
 				
 			}
+		//add	
+		$dinamic_bl = $_GET['bln'];
+		if($dinamic_bl){
+			$bl = $dinamic_bl;
+		}else{
+			$bl = date('m');
+		}
 		
-		$bl = date('m');
+		// $bl = date('m');
 		$ex = explode ('0',$bl);
 		if($ex[0] == ''){
 			$arrBln = $ex[1] - 1; 

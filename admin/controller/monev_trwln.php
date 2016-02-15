@@ -23,6 +23,46 @@ class monev_trwln extends Controller {
 		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
 	
 	}
+	public function rencana(){
+		$trwln = $_POST['kdtriwulan'];
+		$kdunitkerja = $_POST['kdunitkerja'];
+		$kd_giat = $_POST['kdgiat'];
+		$kd_output = $_POST['kdoutput'];
+		$kd_komponen = $_POST['kd_komponen'];
+		
+		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+		$thn_temp = $thn_aktif['kode'];
+		
+		
+		$rencana = $this->m_penetapanAngaran->rencana_anggaran($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen);
+		$realisasi = $this->m_penetapanAngaran->realisasi_anggaran($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen);
+		// pr($rencana);
+		// $newformat = array('register'=>$register_user,'visitor'=>$visitor_user);
+		$newformat = array('rncn'=>$rencana,'real'=>$realisasi);
+		print json_encode($newformat);
+		exit;
+	}
+	
+	public function bobot(){
+		$trwln = $_POST['kdtriwulan'];
+		$kdunitkerja = $_POST['kdunitkerja'];
+		$kd_giat = $_POST['kdgiat'];
+		$kd_output = $_POST['kdoutput'];
+		$kd_komponen = $_POST['kd_komponen'];
+		
+		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+		$thn_temp = $thn_aktif['kode'];
+		
+		
+		$rencana = $this->m_penetapanAngaran->rencana_bobot($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen);
+		$realisasi = $this->m_penetapanAngaran->realisasi_bobot($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen);
+		// pr($rencana);
+		// $newformat = array('register'=>$register_user,'visitor'=>$visitor_user);
+		$newformat = array('rncn'=>$rencana,'real'=>$realisasi);
+		print json_encode($newformat);
+		exit;
+	}
+	
 	
 	public function index(){
 		global $basedomain;
@@ -174,57 +214,63 @@ class monev_trwln extends Controller {
 				
 			}
 		
-		$bl = date('m');
-		$ex = explode ('0',$bl);
-		if($ex[0] == ''){
-			$arrBln = $ex[1] - 1; 
-		}else{
-			if($bl == 10){
-				$arrBln = $bl - 1;
-			}else{
-				$arrBln = $ex[0] - 1;
-			}
-		}
 		
-		$monthArray = array("01"=>"Januari", "02"=>"Februari", "03"=>"Maret","04"=>"April","05"=>"Mei","06"=>"Juni",
-							"07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November","12"=>"Desember");
-		foreach ($monthArray as $key=> $valbln){
-			if ($bl == $key){
-				$ket[]= $valbln;
-			}else{
-				$ket[]= '';
-			}	
-		}
-			
-		$ketBulan = $ket[$arrBln]; 
-		
-		// pr($tgl);
+		$bl =date('m');
 		switch ($bl){
-			case 01:$param = 1;break;
-			case 02:$param = 2;break;
-			case 03:$param = 3;break;
-			case 04:$param = 4;break;
-			case 05:$param = 5;break;
-			case 06:$param = 6;break;
-			case 07:$param = 7;break;
-			case 08:$param = 8;break;
-			case 09:$param = 9;break;
-			case 10:$param = 10;break;
-			case 11:$param = 11;break;
-			case 12:$param = 12;break;
+			case 1:$trwulan = 1;break;
+			case 2:$trwulan = 1;break;
+			case 3:$trwulan = 1;break;
+			case 4:$trwulan = 2;break;
+			case 5:$trwulan = 2;break;
+			case 6:$trwulan = 2;break;
+			case 7:$trwulan = 3;break;
+			case 8:$trwulan = 3;break;
+			case 9:$trwulan = 3;break;
+			case 10:$trwulan = 4;break;
+			case 11:$trwulan = 4;break;
+			case 12:$trwulan = 4;break;
 		}
-		//rencana sd bulan
-		$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$kd_komponen,$param);
-		// pr($rencana_sd_bulan);
+		
+		if($trwulan == 1){
+			$I = "selected";
+			$II = "";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan I";
+		}elseif($trwulan == 2){
+			$I = "";
+			$II = "selected";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan II";
+		}elseif($trwulan == 3){
+			$I = "";
+			$II = "";
+			$III = "selected";
+			$IV = "";
+			$ket = "Triwulan III";
+		}elseif($trwulan == 4){
+			$I = "";
+			$II = "";
+			$III = "";
+			$IV = "selected";
+			$ket = "Triwulan IV";
+		}
+		
+		$dataselected[]=$I;
+		$dataselected[]=$II;
+		$dataselected[]=$III;
+		$dataselected[]=$IV;
+		$dataselected[]=$ket;
+		
 		//cek id
-		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,1);
+		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,3);
 		if($count['hit'] == 1){
 			// echo "masukk";
-			$get_data = $this->m_penetapanAngaran->get_data_monev_bln($count['id'],$param);
+			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id']);
 			$data['kendala'] = $get_data ['kendala'];
 			$data['tindaklanjut'] = $get_data['tindaklanjut'] ;
 			$data['ygmembantu'] = $get_data['ygmembantu'];
-			$data['jml_target'] = $get_data['jumlah'] ;
 			$data['keterangan'] = $get_data['keterangan'] ;
 			
 		}else{
@@ -232,29 +278,12 @@ class monev_trwln extends Controller {
 			$data['kendala'] = '';
 			$data['tindaklanjut'] = '';
 			$data['ygmembantu'] = '';
-			$data['jml_target'] = '0';
-			
-			
 		}
 		
-		$this->view->assign('bulan',$monthArray);
-		$this->view->assign('keybln',$bl);
-		$this->view->assign('ketBulan',$ketBulan);
 		
-		// pr($info);
-		// pr($rinc);
-		// pr($list);
-		// exit;
-		// pr($data);
-		//statis
-		$totalbobot = '15';
-		$sisacapaian = $totalbobot - $data['jml_target']; 
-		$this->view->assign('totalbobot',$totalbobot);
-		$this->view->assign('sisacapaian',$sisacapaian);
+		$this->view->assign('dataselected',$dataselected);
 		$this->view->assign('info',$info);
-		$this->view->assign('rinc',$rinc);
 		$this->view->assign('list',$list);
-		$this->view->assign('rencanasdbulan',$rencana_sd_bulan['total']);
 		$this->view->assign('data',$data);
 		
 		return $this->loadView('monev_trwln/editBobot');
@@ -425,21 +454,20 @@ class monev_trwln extends Controller {
 		// $target = $_POST['target'];
 		
 		$bad_symbols = array(",", ".");
-		$target = str_replace($bad_symbols, ".",$_POST['target']);
 		
 		// exit;
 		// pr($data);
-		$count = $this->m_penetapanAngaran->ceck_id($th,$kd_giat,$kd_output,$kd_komponen,1);
+		$count = $this->m_penetapanAngaran->ceck_id($th,$kd_giat,$kd_output,$kd_komponen,3);
 		// pr($count);
 		if($count['hit'] == 1){
 			// echo "masuk";
 			// exit;
 			$id = $count['id'];
-			$update = $this->m_penetapanAngaran->update_monev($th,$bulan,$kendala,$tindaklanjut,$ygmembantu,$target,$keterangan,$id);
+			$update = $this->m_penetapanAngaran->update_monev_trwln($kendala,$tindaklanjut,$ygmembantu,$keterangan,$id);
 		}else{
 			
-			$insert = $this->m_penetapanAngaran->insert_monev($th,$bulan,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen,
-															$kendala,$tindaklanjut,$ygmembantu,$target,$keterangan);
+			$insert = $this->m_penetapanAngaran->insert_monev_trwln($th,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen,
+															$kendala,$tindaklanjut,$ygmembantu,$keterangan);
 		}
 		
 		exit;
@@ -722,6 +750,8 @@ class monev_trwln extends Controller {
 		exit;
 		
 	}
+
+	
 }
 
 ?>

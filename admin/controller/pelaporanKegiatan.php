@@ -181,13 +181,14 @@ class pelaporanKegiatan extends Controller {
 			exit;
 		}
 		// pr($bsnid);
+		
 		$this->view->assign('bsnid', $bsnid);
 		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
 		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);
 		
-		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
-		
+		$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parent_id);
+		// pr($getDokumen);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {
 				$tags[$value['id']] = $value['tags'];
@@ -219,7 +220,6 @@ class pelaporanKegiatan extends Controller {
 	{	
 		global $basedomain;
 
-
 		
 		$id = _g('id');
 		$req = _g('req');
@@ -227,7 +227,7 @@ class pelaporanKegiatan extends Controller {
 		$dataStruktur['id'] = _g('parent_id');
 		
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
-		// pr($getStruktur);
+
 		$getSetting = $this->contentHelper->getSetting();
 		$this->view->assign('setting', $getSetting);
 		if ($req==1){
@@ -255,36 +255,41 @@ class pelaporanKegiatan extends Controller {
 			$this->view->assign('text3', "Nama File");
 			$this->view->assign('text4', "No. Urut");
 			$this->view->assign('submit', "submit");
-			$this->view->assign('type', 15);
+			$this->view->assign('type', 16);
 			$this->view->assign('category', 1);
 		}
 
 		if ($_POST['submit']){
 			
+				// pr($_POST['submit']);
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 
 			$pid = $_POST['pid'];
 			$parent_id = $_POST['parent_id'];
-			$save = $this->contentHelper->saveData($_POST);
+			$save = $this->contentHelper->saveData($_POST,"_news_content");
+				// pr($save);
 			if ($save){
 
-				$getLastData = $this->contentHelper->getDocument(false, 15);
+				$getLastData = $this->contentHelper->getDocument(false, 16);
+				// pr($getLastData);
 				if ($getLastData){
 					if(!empty($_FILES)){
 						if($_FILES['file']['name'] != ''){
-							$image = uploadFile('file',null,'all');
-
-							// pr($image);exit;
+							$image = uploadFile('file');
+							// pr($_FILES);
+							// pr($_POST);
 							if ($image['status']){
 								$dataArr['id'] = $getLastData[0]['id'];
 								$dataArr['filename'] = $image['full_name'];
 								$updateData = $this->contentHelper->saveData($dataArr);
+							// pr($dataArr);
+							// pr($image);exit;
 								if ($updateData) redirect($basedomain."pelaporanKegiatan/dokumenLakip/?pid={$pid}&parent_id={$parent_id}");
 							}else{
 								echo "<script>alert('File type not allowed');</script>";
-								redirect($basedomain."pelaporanKegiatan/dokumenLakip/?pid={$pid}&parent_id={$parent_id}");
+								// redirect($basedomain."pelaporanKegiatan/dokumenLakip/?pid={$pid}&parent_id={$parent_id}");
 							}	
 						}
 
@@ -295,9 +300,28 @@ class pelaporanKegiatan extends Controller {
 			
 			// if ($save) redirect($basedomain . 'renstra/sasaran');
 		}
+
 		return $this->loadView('pelaporanKegiatan/dokumen/input-bsn');
 	}
+function delete()
+	{
 
+		global $basedomain;
+
+		$id = _g('id');
+		$req = _g('req');
+		$pid = $_POST['pid'];
+		$parent_id = $_POST['parent_id'];
+
+
+		$data['id'] = $id;
+		$data['n_status'] = 0;
+		$save = $this->contentHelper->saveData($data);
+		if ($save){
+			redirect($basedomain . "pelaporanKegiatan/dokumenLakip/?pid={$pid}&parent_id={$parent_id}");
+		}
+		
+	}
 	function getData(){
 		$idSsr=$_POST['id'];
 		$dataSasaran = $this->model->getAllpk($idSsr);

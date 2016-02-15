@@ -171,12 +171,13 @@ function isNumber(evt) {
 											<th class="text-center" rowspan="2">Sub Output <br>/ Kode</th>
 											<th rowspan="2">Komponen</th>
 											<th class="text-center" rowspan="2">Total Bobot</th>
-											<th class="text-center" colspan="2">Bobot Kinerja</th>
-											<th class="text-center" rowspan="2">Sisa Capaian <br/>Bobot Kinerja <br/>(3 - 5)</th>
+											<th class="text-center" colspan="3">Bobot Kinerja</th>
+											<th class="text-center" rowspan="2">Sisa Capaian <br/>Bobot Kinerja <br/>(3 - 6)</th>
 											<th class="text-center" rowspan="2">Keterangan</th>
 										</tr>
 										<tr>
 											<th  class="text-center" >Rencana sd <br/> bulan ini</th>
+											<th  class="text-center" >Realisasi <br/> bulan ini </th>
 											<th  class="text-center" >Realisasi sd <br/> bulan ini </th>
 										</tr>
 									</thead>
@@ -190,6 +191,7 @@ function isNumber(evt) {
 												<td class="text-center boldGrey">5</td>
 												<td class="text-center boldGrey">6</td>
 												<td class="text-center boldGrey">7</td>
+												<td class="text-center boldGrey">8</td>
 										</tr>
 										<tr>
 												<td  class="text-center">{$val.KDKMPNEN}</td>
@@ -208,7 +210,13 @@ function isNumber(evt) {
 												</td>
 												<td>
 													<div class="input-group" style="width:100px">
-														<input type="text" name="target" id="target" class="form-control span col-sm-2" value="{number_format($data.jml_target,'2',',','.')}"  >
+														<input type="text" name="target" id="target" class="form-control span col-sm-2 percent" value="{number_format($data.jml_target,'2',',','.')}"  >
+															<span class="input-group-addon">(%)</span>
+													</div>
+												</td>
+												<td class="text-center">
+													<div class="input-group" style="width:100px">
+														<input type="text" name="tagetsd" id="tagetsd" class="form-control span col-sm-2" value="{number_format($realisasisdbulan,'2',',','.')}"  readonly>
 															<span class="input-group-addon">(%)</span>
 													</div>
 												</td>
@@ -228,7 +236,7 @@ function isNumber(evt) {
 						
 					</div>
 					<div class="panel-footer text-right">
-						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
+						<input type="button" id="submit" name="submit" id="simpan-bobot" value="save" class="btn btn-info">
 					</div>
 				</form>
 				<!--===================================================-->
@@ -239,12 +247,59 @@ function isNumber(evt) {
 	</div>
 </div>
 <!--===================================================-->
+{literal}
 <script>
 $(document).ready(function() {
 /*var status_hidden = $('#status_hidden').val();
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
+
+$('#bulan').on('change', function(){
+	var th = $('#th').val();
+	var bulan = $('#bulan').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+	var total = $('#total').val();
+	$.post(basedomain+"monev/getdatabobot",{th:th,bulan:bulan,kdgiat:kdgiat,kdoutput:kdoutput,kd_komponen:kd_komponen,total:total},function(bobot){
+		document.getElementById('rencana').value = bobot.rncn_sdbln;
+		document.getElementById('target').value = bobot.real_blnini;
+		document.getElementById('tagetsd').value = bobot.real_sdbln;
+		document.getElementById('sisa').value = bobot.sisa;
+	},"JSON");
+//alert(bulan);
+});	
+
+$('#target').on('keyup', function(){
+	var total = $('#total').val();
+	var target = $('#target').val();
+	var tagetsd = $('#tagetsd').val();
+	
+	
+	if(tagetsd != 0 || tagetsd != ''){
+		var count =  parseFloat(tagetsd) - parseFloat(target);
+		var fix_count = count.toFixed(2);
+		var fix_total =parseFloat(total);
+		if(fix_count > fix_total){
+			alert("realisasi melebihi total bobot");
+			$("#simpan-bobot").attr('disabled','disabled');
+		}else{
+			//alert('masih kurang');
+			$("#simpan-bobot").removeAttr('disabled');
+		}
+	}else{
+		if(target > total){
+			alert("realisasi melebihi total bobot");
+			$("#simpan-bobot").attr('disabled','disabled');
+		}else{
+			//alert('masih kurang');
+			$("#simpan-bobot").removeAttr('disabled');
+		}
+	}
+	
+//alert(bulan);
+});
 
 $('#submit').on('click', function(){
 	var kdunitkerja = $('#kdunitkerja').val();
@@ -276,7 +331,8 @@ $('#submit').on('click', function(){
 				setTimeout(
 			   function() 
 			   {
-				location.reload();
+				//location.reload();
+				window.location.replace(basedomain+"monev/editBobot/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen+"&bln="+bulan);
 			   }, 2000);
 			}else{
 				$.niftyNoty({
@@ -295,4 +351,5 @@ $('#submit').on('click', function(){
 	});	
 });
 </script>
+{/literal}
 <!--End page content-->
