@@ -3006,27 +3006,27 @@ class pelaporanKeuangan extends Controller {
 			$Test = new Prodigy_DBF($_FILES['total']['tmp_name']);
 			db($Test);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		    	echo $Record;
-		        // $data[$i]['THANG'] = $Record['THANG'];
-		        // $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        // $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        // $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        // $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        // $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        // $data[$i]['KDOUTPUT'] = $Record['KDOUTPUT'];
-		        // $data[$i]['TOTNILMAK'] = $Record['TOTNILMAK'];
-		        // $data[$i]['TOTNILMAP'] = $Record['TOTNILMAP'];
-		        // $data[$i]['NOSPM'] = $Record['NOSPM'];
-		        // $data[$i]['TGSPM'] = $Record['TGSPM'];
-		        // $data[$i]['NOSP2D'] = $Record['NOSP2D'];
-		        // $data[$i]['TGSP2D'] = $Record['TGSP2D'];
+		    	// echo $Record;
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
+		        $data[$i]['TOTNILMAK'] = $Record['totnilmak'];
+		        $data[$i]['TOTNILMAP'] = $Record['totnilmap'];
+		        $data[$i]['NOSPM'] = $Record['nospm'];
+		        $data[$i]['TGSPM'] = $Record['tgspm'];
+		        $data[$i]['NOSP2D'] = $Record['nosp2d'];
+		        $data[$i]['TGSP2D'] = $Record['tgsp2d'];
 
-		        // //insert data
-		        // if($data[$i]['THANG'] != ''){
-		        // 	$this->m_pelaporankeuangan->insert_data($data[$i],'m_spmind');
-		        // }
+		        //insert data
+		        if($data[$i]['THANG'] != ''){
+		        	$this->m_pelaporankeuangan->insert_data($data[$i],'m_spmind');
+		        }
 
-		        // $i++;
+		        $i++;
 		    }
 
 		    //insert riwayat
@@ -3049,14 +3049,14 @@ class pelaporanKeuangan extends Controller {
 			$i=0;
 			$Test = new Prodigy_DBF($_FILES['akun']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['NOSPM'] = $Record['NOSPM'];
-		        $data[$i]['TGSPM'] = $Record['TGSPM'];
-		        $data[$i]['NOSP2D'] = $Record['NOSP2D'];
-		        $data[$i]['TGSP2D'] = $Record['TGSP2D'];
-		        $data[$i]['KDAKUN'] = $Record['KDAKUN'];
-		        $data[$i]['NILMAK'] = intval($Record['NILMAK']);
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['NOSPM'] = $Record['nospm'];
+		        $data[$i]['TGSPM'] = $Record['tgspm'];
+		        $data[$i]['NOSP2D'] = $Record['nosp2d'];
+		        $data[$i]['TGSP2D'] = $Record['tgsp2d'];
+		        $data[$i]['KDAKUN'] = $Record['kdakun'];
+		        $data[$i]['NILMAK'] = intval($Record['nilmak']);
 
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
