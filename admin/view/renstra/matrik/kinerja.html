@@ -64,7 +64,7 @@
 		
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
-		<div class="panel-body">
+		<div class="panel-body" style="overflow:scroll">
 			<table id="newslist" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
@@ -85,7 +85,7 @@
 							<br><br>
 							<div id="delete-toolbar" class="table-toolbar-left">
 								<legend>{$value.desc}</legend>
-								<table class="form-control">
+								<table width="100%">
 									<thead>
 										<tr>
 											{if $tahuntarget}
@@ -98,7 +98,7 @@
 									<tbody>
 										<tr>
 											{foreach $value.target as $v}
-											<td><input type="text" name="input[]" value="{$v}"></td>
+											<td><input type="text" class="form-control" name="input[]" value="{$v}"></td>
 											{/foreach}
 										</tr>
 									</tbody>
