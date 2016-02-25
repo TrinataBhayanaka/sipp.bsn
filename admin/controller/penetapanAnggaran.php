@@ -587,14 +587,14 @@ class penetapanAnggaran extends Controller {
 			$i=0;
 			$Test = new Prodigy_DBF($_FILES['output']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        $data[$i]['KDOUTPUT'] = $Record['KDOUTPUT'];
-		        $data[$i]['VOL'] = $Record['VOL'];
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
+		        $data[$i]['VOL'] = $Record['vol'];
 
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -613,16 +613,16 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['suboutput']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        $data[$i]['KDOUTPUT'] = $Record['KDOUTPUT'];
-		        $data[$i]['KDSOUTPUT'] = $Record['KDSOUTPUT'];
-		        $data[$i]['URSOUTPUT'] = $Record['URSOUTPUT'];
-		        $data[$i]['VOLSOUT'] = $Record['VOLSOUT'];
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
+		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
+		        $data[$i]['URSOUTPUT'] = $Record['ursoutput'];
+		        $data[$i]['VOLSOUT'] = $Record['volsout'];
 		        
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -641,16 +641,16 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['komponen']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        $data[$i]['KDOUTPUT'] = $Record['KDOUTPUT'];
-		        $data[$i]['KDSOUTPUT'] = $Record['KDSOUTPUT'];
-		        $data[$i]['KDKMPNEN'] = $Record['KDKMPNEN'];
-		        $data[$i]['URKMPNEN'] = $Record['URKMPNEN'];
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
+		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
+		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
+		        $data[$i]['URKMPNEN'] = $Record['urkmpnen'];
 		       
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -669,17 +669,17 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['subkomponen']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        $data[$i]['KDOUTPUT'] = $Record['KDOUTPUT'];
-		        $data[$i]['KDSOUTPUT'] = $Record['KDSOUTPUT'];
-		        $data[$i]['KDKMPNEN'] = $Record['KDKMPNEN'];
-		        $data[$i]['KDSKMPNEN'] = $Record['KDSKMPNEN'];
-		        $data[$i]['URSKMPNEN'] = $Record['URSKMPNEN'];
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
+		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
+		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
+		        $data[$i]['KDSKMPNEN'] = $Record['kdskmpnen'];
+		        $data[$i]['URSKMPNEN'] = $Record['urskmpnen'];
 		       
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -698,18 +698,18 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['akun']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        $data[$i]['KDOUTPUT'] = $Record['KDOUTPUT'];
-		        $data[$i]['KDSOUTPUT'] = $Record['KDSOUTPUT'];
-		        $data[$i]['KDKMPNEN'] = $Record['KDKMPNEN'];
-		        $data[$i]['KDSKMPNEN'] = $Record['KDSKMPNEN'];
-		        $data[$i]['KDAKUN'] = $Record['KDAKUN'];
-		        $data[$i]['JUMLAH'] = $Record['JUMLAH'];
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
+		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
+		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
+		        $data[$i]['KDSKMPNEN'] = $Record['kdskmpnen'];
+		        $data[$i]['KDAKUN'] = $Record['kdakun'];
+		        $data[$i]['JUMLAH'] = $Record['jumlah'];
 		       
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -728,45 +728,45 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['pok']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        $data[$i]['KDOUTPUT'] = $Record['KDOUTPUT'];
-		        $data[$i]['KDSOUTPUT'] = $Record['KDSOUTPUT'];
-		        $data[$i]['KDKMPNEN'] = $Record['KDKMPNEN'];
-		        $data[$i]['KDSKMPNEN'] = $Record['KDSKMPNEN'];
-		        $data[$i]['KDAKUN'] = $Record['KDAKUN'];
-		        $data[$i]['HEADER1'] = $Record['HEADER1'];
-		        $data[$i]['HEADER2'] = $Record['HEADER2'];
-		        $data[$i]['KDHEADER'] = $Record['KDHEADER'];
-		        $data[$i]['NOITEM'] = $Record['NOITEM'];
-		        $data[$i]['NMITEM'] = $Record['NMITEM'];
-		        $data[$i]['VOL1'] = $Record['VOL1'];
-		        $data[$i]['SAT1'] = $Record['SAT1'];
-		        $data[$i]['VOL2'] = $Record['VOL2'];
-		        $data[$i]['SAT2'] = $Record['SAT2'];
-		        $data[$i]['VOL3'] = $Record['VOL3'];
-		        $data[$i]['SAT3'] = $Record['SAT3'];
-		        $data[$i]['VOL4'] = $Record['VOL4'];
-		        $data[$i]['SAT4'] = $Record['SAT4'];
-		        $data[$i]['VOLKEG'] = $Record['VOLKEG'];
-		        $data[$i]['SATKEG'] = $Record['SATKEG'];
-		        $data[$i]['HARGASAT'] = $Record['HARGASAT'];
-		        $data[$i]['JUMLAH'] = $Record['JUMLAH'];
-		        $data[$i]['JANUARI'] = $Record['JANUARI'];
-		        $data[$i]['PEBRUARI'] = $Record['PEBRUARI'];
-		        $data[$i]['MARET'] = $Record['MARET'];
-		        $data[$i]['APRIL'] = $Record['APRIL'];
-		        $data[$i]['MEI'] = $Record['MEI'];
-		        $data[$i]['JUNI'] = $Record['JULI'];
-		        $data[$i]['AGUSTUS'] = $Record['AGUSTUS'];
-		        $data[$i]['SEPTEMBER'] = $Record['SEPTEMBER'];
-		        $data[$i]['OKTOBER'] = $Record['OKTOBER'];
-		        $data[$i]['NOPEMBER'] = $Record['NOPEMBER'];
-		        $data[$i]['DESEMBER'] = $Record['DESEMBER'];
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
+		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
+		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
+		        $data[$i]['KDSKMPNEN'] = $Record['kdskmpnen'];
+		        $data[$i]['KDAKUN'] = $Record['kdakun'];
+		        $data[$i]['HEADER1'] = $Record['header1'];
+		        $data[$i]['HEADER2'] = $Record['header2'];
+		        $data[$i]['KDHEADER'] = $Record['kdheader'];
+		        $data[$i]['NOITEM'] = $Record['noitem'];
+		        $data[$i]['NMITEM'] = $Record['nmitem'];
+		        $data[$i]['VOL1'] = $Record['vol1'];
+		        $data[$i]['SAT1'] = $Record['sat1'];
+		        $data[$i]['VOL2'] = $Record['vol2'];
+		        $data[$i]['SAT2'] = $Record['sat2'];
+		        $data[$i]['VOL3'] = $Record['vol3'];
+		        $data[$i]['SAT3'] = $Record['sat3'];
+		        $data[$i]['VOL4'] = $Record['vol4'];
+		        $data[$i]['SAT4'] = $Record['sat4'];
+		        $data[$i]['VOLKEG'] = $Record['volkeg'];
+		        $data[$i]['SATKEG'] = $Record['satkeg'];
+		        $data[$i]['HARGASAT'] = $Record['hargasat'];
+		        $data[$i]['JUMLAH'] = $Record['jumlah'];
+		        $data[$i]['JANUARI'] = $Record['januari'];
+		        $data[$i]['PEBRUARI'] = $Record['pebruari'];
+		        $data[$i]['MARET'] = $Record['maret'];
+		        $data[$i]['APRIL'] = $Record['april'];
+		        $data[$i]['MEI'] = $Record['mei'];
+		        $data[$i]['JUNI'] = $Record['juli'];
+		        $data[$i]['AGUSTUS'] = $Record['agustus'];
+		        $data[$i]['SEPTEMBER'] = $Record['september'];
+		        $data[$i]['OKTOBER'] = $Record['oktober'];
+		        $data[$i]['NOPEMBER'] = $Record['nopember'];
+		        $data[$i]['DESEMBER'] = $Record['desember'];
 
 		       
 		        //insert data
@@ -786,27 +786,27 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['trktrm']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['THANG'];
-		        $data[$i]['KDSATKER'] = $Record['KDSATKER'];
-		        $data[$i]['KDDEPT'] = $Record['KDDEPT'];
-		        $data[$i]['KDUNIT'] = $Record['KDUNIT'];
-		        $data[$i]['KDPROGRAM'] = $Record['KDPROGRAM'];
-		        $data[$i]['KDGIAT'] = $Record['KDGIAT'];
-		        $data[$i]['RPHPAGU'] = $Record['RPHPAGU'];
-		        $data[$i]['KDTRKTRM'] = $Record['KDTRKTRM'];
-		        $data[$i]['JNSBELANJA'] = $Record['JNSBELANJA'];
-		        $data[$i]['JML01'] = $Record['JML01'];
-		        $data[$i]['JML02'] = $Record['JML02'];
-		        $data[$i]['JML03'] = $Record['JML03'];
-		        $data[$i]['JML04'] = $Record['JML04'];
-		        $data[$i]['JML05'] = $Record['JML05'];
-		        $data[$i]['JML06'] = $Record['JML06'];
-		        $data[$i]['JML07'] = $Record['JML07'];
-		        $data[$i]['JML08'] = $Record['JML08'];
-		        $data[$i]['JML09'] = $Record['JML09'];
-		        $data[$i]['JML10'] = $Record['JML10'];
-		        $data[$i]['JML11'] = $Record['JML11'];
-		        $data[$i]['JML12'] = $Record['JML12'];
+		        $data[$i]['THANG'] = $Record['thang'];
+		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
+		        $data[$i]['KDDEPT'] = $Record['kddept'];
+		        $data[$i]['KDUNIT'] = $Record['kdunit'];
+		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
+		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
+		        $data[$i]['RPHPAGU'] = $Record['rphpagu'];
+		        $data[$i]['KDTRKTRM'] = $Record['kdtrktrm'];
+		        $data[$i]['JNSBELANJA'] = $Record['jnsbelanja'];
+		        $data[$i]['JML01'] = $Record['jml01'];
+		        $data[$i]['JML02'] = $Record['jml02'];
+		        $data[$i]['JML03'] = $Record['jml03'];
+		        $data[$i]['JML04'] = $Record['jml04'];
+		        $data[$i]['JML05'] = $Record['jml05'];
+		        $data[$i]['JML06'] = $Record['jml06'];
+		        $data[$i]['JML07'] = $Record['jml07'];
+		        $data[$i]['JML08'] = $Record['jml08'];
+		        $data[$i]['JML09'] = $Record['jml09'];
+		        $data[$i]['JML10'] = $Record['jml10'];
+		        $data[$i]['JML11'] = $Record['jml11'];
+		        $data[$i]['JML12'] = $Record['jml12'];
 		       
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -827,17 +827,14 @@ class penetapanAnggaran extends Controller {
 class Prodigy_DBF {
     private $Filename, $DB_Type, $DB_Update, $DB_Records, $DB_FirstData, $DB_RecordLength, $DB_Flags, $DB_CodePageMark, $DB_Fields, $FileHandle, $FileOpened;
     private $Memo_Handle, $Memo_Opened, $Memo_BlockSize;
-
+    private $CurrentRowNumber;
     private function Initialize() {
-
         if($this->FileOpened) {
             fclose($this->FileHandle);
         }
-
         if($this->Memo_Opened) {
             fclose($this->Memo_Handle);
         }
-
         $this->FileOpened = false;
         $this->FileHandle = NULL;
         $this->Filename = NULL;
@@ -849,25 +846,22 @@ class Prodigy_DBF {
         $this->DB_CodePageMark = NULL;
         $this->DB_Flags = NULL;
         $this->DB_Fields = array();
-
         $this->Memo_Handle = NULL;
         $this->Memo_Opened = false;
         $this->Memo_BlockSize = NULL;
+        
+        $this->CurrentRowNumber = 0;
     }
-
     public function __construct($Filename, $MemoFilename = NULL) {
         $this->Prodigy_DBF($Filename, $MemoFilename);
     }
-
     public function Prodigy_DBF($Filename, $MemoFilename = NULL) {
         $this->Initialize();
         $this->OpenDatabase($Filename, $MemoFilename);
     }
-
     public function OpenDatabase($Filename, $MemoFilename = NULL) {
         $Return = false;
         $this->Initialize();
-
         $this->FileHandle = fopen($Filename, "r");
         if($this->FileHandle) {
             // DB Open, reading headers
@@ -884,10 +878,8 @@ class Prodigy_DBF {
             $this->DB_Flags = dechex(ord(fread($this->FileHandle, 1)));
             $this->DB_CodePageMark = ord(fread($this->FileHandle, 1));
             fseek($this->FileHandle, 2, SEEK_CUR);    // Ignoring next 2 "reserved" bytes
-
             // Now reading field captions and attributes
             while(!feof($this->FileHandle)) {
-
                 // Checking for end of header
                 if(ord(fread($this->FileHandle, 1)) == 13) {
                     break;  // End of header!
@@ -895,26 +887,22 @@ class Prodigy_DBF {
                     // Go back
                     fseek($this->FileHandle, -1, SEEK_CUR);
                 }
-
-                $Field["Name"] = trim(fread($this->FileHandle, 11));
+                $FieldName = fread($this->FileHandle, 11);
+                $Field["Name"] = strtolower(substr($FieldName, 0, strpos($FieldName, "\0")));
                 $Field["Type"] = fread($this->FileHandle, 1);
                 fseek($this->FileHandle, 4, SEEK_CUR);  // Skipping attribute "displacement"
                 $Field["Size"] = ord(fread($this->FileHandle, 1));
                 fseek($this->FileHandle, 15, SEEK_CUR); // Skipping any remaining attributes
                 $this->DB_Fields[] = $Field;
             }
-
             // Setting file pointer to the first record
             fseek($this->FileHandle, $this->DB_FirstData);
-
             $this->FileOpened = true;
-
             // Open memo file, if exists
             if(!empty($MemoFilename) and file_exists($MemoFilename) and preg_match("%^(.+).fpt$%i", $MemoFilename)) {
                 $this->Memo_Handle = fopen($MemoFilename, "r");
                 if($this->Memo_Handle) {
                     $this->Memo_Opened = true;
-
                     // Getting block size
                     fseek($this->Memo_Handle, 6);
                     $Data = unpack("n", fread($this->Memo_Handle, 2));
@@ -922,57 +910,176 @@ class Prodigy_DBF {
                 }
             }
         }
-
         return $Return;
     }
-
-    public function GetNextRecord($FieldCaptions = false) {
+    
+    public function getFields() {
+        if(!$this->FileOpened) {
+            return false;
+        }
+        return $this->DB_Fields;
+    }
+    public function GetNextRecord($FieldCaptions = false, $ShowDeleted = false) {
         $Return = NULL;
         $Record = array();
-
+        $this->CurrentRowNumber++;
+        
         if(!$this->FileOpened) {
             $Return = false;
-        } elseif(feof($this->FileHandle)) {
+        } elseif($this->CurrentRowNumber > $this->DB_Records || feof($this->FileHandle)) {
             $Return = NULL;
         } else {
             // File open and not EOF
-            fseek($this->FileHandle, 1, SEEK_CUR);  // Ignoring DELETE flag
+            if (!$ShowDeleted) {
+                while(fread($this->FileHandle, 1) == '*') { // Deleted flag
+                    fseek($this->FileHandle, $this->DB_RecordLength - 1, SEEK_CUR);
+                    $this->CurrentRowNumber++;
+                }
+                if($this->CurrentRowNumber > $this->DB_Records || feof($this->FileHandle)) {
+                    return NULL;
+                }
+            } else {
+                fseek($this->FileHandle, 1, SEEK_CUR);
+            }
             foreach($this->DB_Fields as $Field) {
                 $RawData = fread($this->FileHandle, $Field["Size"]);
                 // Checking for memo reference
-                if($Field["Type"] == "M" and $Field["Size"] == 4 and !empty($RawData)) {
-                    // Binary Memo reference
-                    $Memo_BO = unpack("V", $RawData);
-                    if($this->Memo_Opened and $Memo_BO != 0) {
-                        fseek($this->Memo_Handle, $Memo_BO[1] * $this->Memo_BlockSize);
-                        $Type = unpack("N", fread($this->Memo_Handle, 4));
-                        if($Type[1] == "1") {
-                            $Len = unpack("N", fread($this->Memo_Handle, 4));
-                            $Value = trim(fread($this->Memo_Handle, $Len[1]));
+                if(($Field["Type"] == "M" or $Field["Type"] == "G" or $Field["Type"] == "P") and $Field["Size"] == 4) {
+                    if (!empty($RawData)) {
+                        // Memo, General, Picture
+                        $Memo_BO = unpack("V", $RawData);
+                        if($this->Memo_Opened and $Memo_BO[1] != 0) {
+                            fseek($this->Memo_Handle, $Memo_BO[1] * $this->Memo_BlockSize);
+                            $Type = unpack("N", fread($this->Memo_Handle, 4));
+                            //if(true || $Type[1] == "1") {
+                                $Len = unpack("N", fread($this->Memo_Handle, 4));
+                                $Value = rtrim(fread($this->Memo_Handle, $Len[1]), ' ');
+                            //} else {
+                            //    // Pictures will not be shown
+                            //    $Value = "{BINARY_PICTURE}";
+                            //}
                         } else {
-                            // Pictures will not be shown
-                            $Value = "{BINARY_PICTURE}";
+                            $Value = '';
                         }
                     } else {
-                        $Value = "{NO_MEMO_FILE_OPEN}";
+                        $Value = '';
                     }
+                } else if ($Field["Type"] == 'V') {
+                    // Varchar
+                    $Len = ord(substr($RawData, -1));
+                    $Value = substr($RawData, 0, $Len);
+                } else if ($Field["Type"] == 'C') {
+                    // Char
+                    $Value = rtrim($RawData, ' ');
+                } else if ($Field["Type"] == 'L') {
+                    // Logical (Boolean)
+                    $Value = (!empty($RawData) && ($RawData{0} == 'Y' || $RawData{0} == 'T')) ? 1 : 0;
+                } else if ($Field["Type"] == 'Y') {
+                    // Currency
+                    
+                    if (false /* speedhack */ && version_compare(PHP_VERSION, '5.6.3') >= 0) {
+                        $Value = unpack('P', $RawData);
+                        $Value = $Value[1] / 10000;
+                    } else {
+                        list($lo, $hi) = array_values(unpack('V2', $RawData));
+                        
+                        // 64-bit compatible PHP shortcut
+                        if (false /* speedhack */ && PHP_INT_SIZE >= 8) {
+                            if ($hi < 0) $hi += (1 << 32);
+                            if ($lo < 0) $lo += (1 << 32);
+                            $Value = (($hi << 32) + $lo) / 10000;
+                        } else 
+                        // No 64-bit magics 
+                        if ($hi == 0) {
+                            // No high-byte, no negative flag
+                            if ($lo > 0) {
+                                $Value = $lo / 10000;
+                            } else {
+                                $Value = bcdiv(sprintf("%u", $lo), 10000, 4);
+                            }
+                        } elseif ($hi == -1) {
+                            // No high-byte, with negative flag
+                            if ($lo < 0) {
+                                $Value = $lo / 10000;
+                            } else {
+                                // sprintf is 10% faster than bcadd
+                                $Value = bcdiv(sprintf("%.0f", $lo - 4294967296.0), 10000, 4);
+                            }
+                        } else {
+                            $negativeSign = '';
+                            $negativeOffset = 0;
+                            if ($hi < 0)
+                            {
+                                $hi = ~$hi;
+                                $lo = ~$lo;
+                                $negativeOffset = 1;
+                                $negativeSign = '-';
+                            }   
+                            $hi = sprintf("%u", $hi);
+                            $lo = sprintf("%u", $lo);
+                            
+                            // 4294967296 = 2^32 = bcpow(2, 32)
+                            $Value = bcdiv($negativeSign . bcadd(bcadd($lo, bcmul($hi, "4294967296")), $negativeOffset), 10000, 4);
+                        }
+                    }
+                } else if ($Field["Type"] == 'D') {
+                    // Date
+                    if ($RawData != '        ') {
+                        $Value = substr($RawData, 0, 4) . '-' . substr($RawData, 4, 2) . '-' . substr($RawData, 6);
+                    } else {
+                        $Value = '1899-12-30';
+                    }
+                } else if ($Field["Type"] == 'I') {
+                    // Integer
+                    if (!empty($RawData)) {
+                        $Value = unpack('V', $RawData);
+                        $Value = $Value[1];
+                    } else {
+                        $Value = 0;
+                    }
+                } else if ($Field["Type"] == 'B') {
+                    // Double
+                    $Value = unpack('d', $RawData);
+                    $Value = $Value[1];
+                } else if ($Field["Type"] == 'Q') {
+                    // VarBinary
+                    $Len = ord(substr($RawData, -1));
+                    $Value = substr($RawData, 0, $Len);
+                } else if ($Field["Type"] == 'T') {
+                    // DateTime (Timestamp)
+                    if (!empty($RawData)) {
+                        $Value = unpack('V2', $RawData);
+                        $Date = jdtounix($Value[1]);
+                        $Time = round($Value[2] / 1000);
+                        if ($Date === false) {
+                            $Value = '1899-12-30 ' . gmdate('H:i:s', $Time);
+                        } else {
+                            $Value = gmdate('Y-m-d H:i:s', $Date + $Time);
+                        }
+                    } else {
+                        $Value = '1899-12-30 00:00:00';
+                    }
+                } else if ($Field["Type"] == 'N' || $Field["Type"] == 'F' || $Field["Type"] == '+') {
+                    // Numeric, Float, Autoincrement
+                    $Value = (float) trim($RawData);
+                } else if ($Field["Type"] == '0') {
+                    // System 'is nullable' column
+                    continue;
                 } else {
+                    // Unknown type?
+                    //var_dump($Field); var_dump($RawData); die();
                     $Value = trim($RawData);
                 }
-
                 if($FieldCaptions) {
                     $Record[$Field["Name"]] = $Value;
                 } else {
                     $Record[] = $Value;
                 }
             }
-
             $Return = $Record;
         }
-
         return $Return;
     }
-
     function __destruct() {
         // Cleanly close any open files before destruction
         $this->Initialize();
