@@ -250,6 +250,61 @@ $(document).ready(function() {
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
+var rencana = $('#rencanasdbulan').val();
+var rencana_split = rencana.split(".");
+var panjang = rencana_split.length;
+var output = "";
+for (var i=0; i < panjang; i++) {
+    output += rencana_split[i];
+}
+
+if(output == 0){
+	alert("Isi Rencana Anggaran Terlebih Dahulu");
+	$("#submit").attr('disabled','disabled');
+}else{
+	$("#submit").removeAttr('disabled');
+}
+
+$('#realisasi_blnini').on('keyup', function(){
+	var pagu = $('#pagu').val();
+	var pagu_split = pagu.split(".");
+	var fix_pagu = "";
+	for (var i=0; i < pagu_split.length; i++) {
+		fix_pagu += pagu_split[i];
+	}
+	var realisasi_blnini = $('#realisasi_blnini').val();
+	var realisasi_split = realisasi_blnini.split(".");
+	var fix_realisasi = "";
+	for (var i=0; i < realisasi_split.length; i++) {
+		fix_realisasi += realisasi_split[i];
+	}
+	
+	var realisasi_sdbulan = $('#realisasi_sdbulan').val();
+	var realisasi_sdbulan_split = realisasi_sdbulan.split(".");
+	var fix_realisasi_sdbulan = "";
+	for (var i=0; i < realisasi_sdbulan_split.length; i++) {
+		fix_realisasi_sdbulan += realisasi_sdbulan_split[i];
+	}
+	
+	if(fix_realisasi_sdbulan != 0 && fix_realisasi_sdbulan != ''){
+		var fix_count =  parseInt(fix_realisasi_sdbulan) - parseInt(fix_realisasi);
+		if(fix_count > fix_pagu){
+			alert("realisasi melebihi pagu");
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//alert('masih kurang');
+			$("#submit").removeAttr('disabled');
+		}
+	}else{
+		if(fix_realisasi > fix_pagu){
+			alert("realisasi melebihi pagu");
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//alert('masih kurang');
+			$("#submit").removeAttr('disabled');
+		}
+	}
+
 $('#bulan').on('change', function(){
 	var th = $('#th').val();
 	var bulan = $('#bulan').val();
@@ -264,6 +319,9 @@ $('#bulan').on('change', function(){
 		document.getElementById('persentase_rencana').value = realisasi.pers_rencana;
 		document.getElementById('persentase_pagu').value = realisasi.pers_pagu;
 		document.getElementById('sisa_anggaran').value = realisasi.sisa;
+		document.getElementById('kendala').value = realisasi.kendala;
+		document.getElementById('tindaklanjut').value = realisasi.tindaklanjut;
+		document.getElementById('ygmembantu').value = realisasi.ygmembantu;
 	},"JSON");
 //alert(bulan);
 });	

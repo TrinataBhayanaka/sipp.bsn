@@ -400,7 +400,7 @@ class pelaporanKeuanganTrwln extends Controller {
 		
 		
 	}
-
+	//ga bisa
 	public function anggaranJenisBelanja(){
 		$bl =date('m');
 		switch ($bl){
@@ -1067,7 +1067,7 @@ class pelaporanKeuanganTrwln extends Controller {
 		return $this->loadView('pelaporanKeuangan/laporanTriwulan/anggaranJenisBelanja');
 	
 	}
-
+	//ga bisa
 	public function anggaranAkunBsn(){
 		$bl =date('m');
 		switch ($bl){
@@ -1267,7 +1267,7 @@ class pelaporanKeuanganTrwln extends Controller {
 		
 		return $this->loadView('pelaporanKeuangan/laporanTriwulan/anggaranAkunBsn');
 	}
-	
+	//ga bisa
 	public function anggaranAkunSatker(){
 	
 		$bl =date('m');
@@ -1501,7 +1501,7 @@ class pelaporanKeuanganTrwln extends Controller {
 		
 		return $this->loadView('pelaporanKeuangan/laporanTriwulan/anggaranAkunSatker');
 	}
-	
+	//ga bisa
 	public function anggaranAkunGiat(){
 	
 	$bl =date('m');

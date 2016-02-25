@@ -17,7 +17,7 @@ function isNumber(evt) {
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Edit RPK</h1>
+	<h1 class="page-header text-overflow">Edit Bobot Kinerja</h1>
 
 	<!--Searchbox-->
 	<!-- <div class="searchbox">
@@ -236,7 +236,7 @@ function isNumber(evt) {
 						
 					</div>
 					<div class="panel-footer text-right">
-						<input type="button" id="submit" name="submit" id="simpan-bobot" value="save" class="btn btn-info">
+						<input type="button"  name="submit" id="submit" value="save" class="btn btn-info">
 					</div>
 				</form>
 				<!--===================================================-->
@@ -254,7 +254,14 @@ $(document).ready(function() {
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
-
+var total = $('#total').val();
+var tot_split = total.split(",");
+if(tot_split[0] == 0){
+	alert("Isi Rencana Bobot Terlebih Dahulu");
+	$("#submit").attr('disabled','disabled');
+}else{
+	$("#submit").removeAttr('disabled');
+}
 $('#bulan').on('change', function(){
 	var th = $('#th').val();
 	var bulan = $('#bulan').val();
@@ -267,6 +274,9 @@ $('#bulan').on('change', function(){
 		document.getElementById('target').value = bobot.real_blnini;
 		document.getElementById('tagetsd').value = bobot.real_sdbln;
 		document.getElementById('sisa').value = bobot.sisa;
+		document.getElementById('kendala').value = bobot.kendala;
+		document.getElementById('tindaklanjut').value = bobot.tindaklanjut;
+		document.getElementById('ygmembantu').value = bobot.ygmembantu;
 	},"JSON");
 //alert(bulan);
 });	
@@ -277,24 +287,24 @@ $('#target').on('keyup', function(){
 	var tagetsd = $('#tagetsd').val();
 	
 	
-	if(tagetsd != 0 || tagetsd != ''){
+	if(tagetsd != 0 && tagetsd != ''){
 		var count =  parseFloat(tagetsd) - parseFloat(target);
 		var fix_count = count.toFixed(2);
-		var fix_total =parseFloat(total);
+		var fix_total = parseFloat(total);
 		if(fix_count > fix_total){
 			alert("realisasi melebihi total bobot");
-			$("#simpan-bobot").attr('disabled','disabled');
+			$("#submit").attr('disabled','disabled');
 		}else{
 			//alert('masih kurang');
-			$("#simpan-bobot").removeAttr('disabled');
+			$("#submit").removeAttr('disabled');
 		}
 	}else{
 		if(target > total){
 			alert("realisasi melebihi total bobot");
-			$("#simpan-bobot").attr('disabled','disabled');
+			$("#submit").attr('disabled','disabled');
 		}else{
 			//alert('masih kurang');
-			$("#simpan-bobot").removeAttr('disabled');
+			$("#submit").removeAttr('disabled');
 		}
 	}
 	

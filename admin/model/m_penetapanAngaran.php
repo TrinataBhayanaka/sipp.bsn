@@ -4,6 +4,13 @@ class m_penetapanAngaran extends Database {
 	// m_spmmak dam m_spmind (upload foxpro dari iman)
 	// d_item ,d_trktrm (upload foxpro dari bayu)
 	
+	function bobot_komponen($thn_temp,$kd_giat,$kd_output,$kd_komponen){
+		$query = "select bobot from thbp_kak_output_bobot WHERE th='{$thn_temp}' and kdgiat = '{$kd_giat}' and kdoutput ='{$kd_output}' and kdkmpnen = '{$kd_komponen}'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result; 
+	}
+	
 	// m_spmmak
 	function select_data_master_bsn($thn_temp)
 	{
@@ -1567,32 +1574,68 @@ class m_penetapanAngaran extends Database {
 	
 	function get_data_monev_bln($id,$param){
 		switch ($param){
-				case 1:
+				case 1:	
+						$ext_kendala = "kendala";
+						$ext_tindaklanjut = "tindaklanjut";
+						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "target_1 as jumlah";break; 
 				case 2:
+						$ext_kendala = "kendala,kendala_2";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2";
 						$ext_clm = "target_2 as jumlah";break;
 				case 3:
+						$ext_kendala = "kendala,kendala_2,kendala_3";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3";
 						$ext_clm = "target_3 as jumlah";break;
 				case 4:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4";
 						$ext_clm = "target_4 as jumlah";break;
 				case 5:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5";
 						$ext_clm = "target_5 as jumlah";break;
 				case 6:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5,kendala_6";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5,tindaklanjut_6";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5,ygmembantu_6";
 						$ext_clm = "target_6 as jumlah";break;
 				case 7:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5,kendala_6,kendala_7";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5,tindaklanjut_6,tindaklanjut_7";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5,ygmembantu_6,ygmembantu_7";
 						$ext_clm = "target_7 as jumlah";break;
 				case 8:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5,kendala_6,kendala_7,kendala_8";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5,tindaklanjut_6,tindaklanjut_7,tindaklanjut_8";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5,ygmembantu_6,ygmembantu_7,ygmembantu_8";
 						$ext_clm = "target_8 as jumlah";break;
 				case 9:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5,kendala_6,kendala_7,kendala_8,kendala_9";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5,tindaklanjut_6,tindaklanjut_7,tindaklanjut_8,tindaklanjut_9";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5,ygmembantu_6,ygmembantu_7,ygmembantu_8,ygmembantu_9";
 						$ext_clm = "target_9 as jumlah";break;
 				case 10:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5,kendala_6,kendala_7,kendala_8,kendala_9,kendala_10";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5,tindaklanjut_6,tindaklanjut_7,tindaklanjut_8,tindaklanjut_9,tindaklanjut_10";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5,ygmembantu_6,ygmembantu_7,ygmembantu_8,ygmembantu_9,ygmembantu_10";
 						$ext_clm = "target_10 as jumlah";break;
 				case 11:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5,kendala_6,kendala_7,kendala_8,kendala_9,kendala_10,kendala_11";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5,tindaklanjut_6,tindaklanjut_7,tindaklanjut_8,tindaklanjut_9,tindaklanjut_10,tindaklanjut_11";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5,ygmembantu_6,ygmembantu_7,ygmembantu_8,ygmembantu_9,ygmembantu_10,ygmembantu_11";
 						$ext_clm = "target_11 as jumlah";break;
 				case 12:
+						$ext_kendala = "kendala,kendala_2,kendala_3,kendala_4,kendala_5,kendala_6,kendala_7,kendala_8,kendala_9,kendala_10,kendala_11,kendala_12";
+						$ext_tindaklanjut = "tindaklanjut,tindaklanjut_2,tindaklanjut_3,tindaklanjut_4,tindaklanjut_5,tindaklanjut_6,tindaklanjut_7,tindaklanjut_8,tindaklanjut_9,tindaklanjut_10,tindaklanjut_11,tindaklanjut_12";
+						$ext_ygmembantu = "ygmembantu,ygmembantu_2,ygmembantu_3,ygmembantu_4,ygmembantu_5,ygmembantu_6,ygmembantu_7,ygmembantu_8,ygmembantu_9,ygmembantu_10,ygmembantu_11,ygmembantu_12";
 						$ext_clm = "target_12 as jumlah";break;
 			}	
-		$query = "select keterangan,kendala,tindaklanjut,ygmembantu,{$ext_clm} from monev_bulanan WHERE id='{$id}'";
+		$query = "select keterangan,{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu},{$ext_clm} from monev_bulanan WHERE id='{$id}'";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
@@ -1602,31 +1645,67 @@ class m_penetapanAngaran extends Database {
 	function get_data_monev_bln_anggaran($id,$param){
 		switch ($param){
 				case 1:
+						$ext_kendala = "kendala";
+						$ext_tindaklanjut = "tindaklanjut";
+						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "anggaran_1 as jumlah";break; 
 				case 2:
+						$ext_kendala = "kendala_2";
+						$ext_tindaklanjut = "tindaklanjut_2";
+						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "anggaran_2 as jumlah";break;
 				case 3:
+						$ext_kendala = "kendala_3";
+						$ext_tindaklanjut = "tindaklanjut_3";
+						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "anggaran_3 as jumlah";break;
-				case 4:
+				case 4:	
+						$ext_kendala = "kendala_4";
+						$ext_tindaklanjut = "tindaklanjut_4";
+						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "anggaran_4 as jumlah";break;
 				case 5:
+						$ext_kendala = "kendala_5";
+						$ext_tindaklanjut = "tindaklanjut_5";
+						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "anggaran_5 as jumlah";break;
 				case 6:
+						$ext_kendala = "kendala_6";
+						$ext_tindaklanjut = "tindaklanjut_6";
+						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "anggaran_6 as jumlah";break;
 				case 7:
+						$ext_kendala = "kendala_7";
+						$ext_tindaklanjut = "tindaklanjut_7";
+						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "anggaran_7 as jumlah";break;
 				case 8:
+						$ext_kendala = "kendala_8";
+						$ext_tindaklanjut = "tindaklanjut_8";
+						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "anggaran_8 as jumlah";break;
 				case 9:
+						$ext_kendala = "kendala_9";
+						$ext_tindaklanjut = "tindaklanjut_9";
+						$ext_ygmembantu = "ygmembantu_9";
 						$ext_clm = "anggaran_9 as jumlah";break;
 				case 10:
+						$ext_kendala = "kendala_10";
+						$ext_tindaklanjut = "tindaklanjut_10";
+						$ext_ygmembantu = "ygmembantu_10";
 						$ext_clm = "anggaran_10 as jumlah";break;
 				case 11:
+						$ext_kendala = "kendala_11";
+						$ext_tindaklanjut = "tindaklanjut_11";
+						$ext_ygmembantu = "ygmembantu_11";
 						$ext_clm = "anggaran_11 as jumlah";break;
 				case 12:
+						$ext_kendala = "kendala_12";
+						$ext_tindaklanjut = "tindaklanjut_12";
+						$ext_ygmembantu = "ygmembantu_12";
 						$ext_clm = "anggaran_12 as jumlah";break;
 			}	
-		$query = "select keterangan,kendala,tindaklanjut,ygmembantu,{$ext_clm} from monev_bulanan WHERE id='{$id}'";
+		$query = "select keterangan,{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu},{$ext_clm} from monev_bulanan WHERE id='{$id}'";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
@@ -1638,35 +1717,71 @@ class m_penetapanAngaran extends Database {
 		// pr($sasaran_1);
 		switch ($bulan){
 				case 01:
-						$ext_clm = "target_1 = '{$target}' ";break; 
+						$ext_kendala ="kendala";
+						$ext_tindaklanjut = "tindaklanjut";
+						$ext_ygmembantu = "ygmembantu";
+						$ext_clm = "target_1";break; 
 				case 02:
-						$ext_clm = "target_2 = '{$target}'";break;
+						$ext_kendala ="kendala_2";
+						$ext_tindaklanjut = "tindaklanjut_2";
+						$ext_ygmembantu = "ygmembantu_2";
+						$ext_clm = "target_2";break;
 				case 03:
-						$ext_clm = "target_3 = '{$target}'";break;
+						$ext_kendala ="kendala_3";
+						$ext_tindaklanjut = "tindaklanjut_3";
+						$ext_ygmembantu = "ygmembantu_3";
+						$ext_clm = "target_3";break;
 				case 04:
-						$ext_clm = "target_4 = '{$target}'";break;
+						$ext_kendala ="kendala_4";
+						$ext_tindaklanjut = "tindaklanjut_4";
+						$ext_ygmembantu = "ygmembantu_4";
+						$ext_clm = "target_4";break;
 				case 05:
-						$ext_clm = "target_5 = '{$target}'";break;
+						$ext_kendala ="kendala_5";
+						$ext_tindaklanjut = "tindaklanjut_5";
+						$ext_ygmembantu = "ygmembantu_5";
+						$ext_clm = "target_5";break;
 				case 06:
-						$ext_clm = "target_6 = '{$target}'";break;
+						$ext_kendala ="kendala_6";
+						$ext_tindaklanjut = "tindaklanjut_6";
+						$ext_ygmembantu = "ygmembantu_6";
+						$ext_clm = "target_6";break;
 				case 07:
-						$ext_clm = "target_7 = '{$target}'";break;
+						$ext_kendala ="kendala_7";
+						$ext_tindaklanjut = "tindaklanjut_7";
+						$ext_ygmembantu = "ygmembantu_7";
+						$ext_clm = "target_7";break;
 				case 08:
-						$ext_clm = "target_8 = '{$target}'";break;
+						$ext_kendala ="kendala_8";
+						$ext_tindaklanjut = "tindaklanjut_8";
+						$ext_ygmembantu = "ygmembantu_8";
+						$ext_clm = "target_8";break;
 				case 09:
-						$ext_clm = "target_9 = '{$target}'";break;
+						$ext_kendala ="kendala_9";
+						$ext_tindaklanjut = "tindaklanjut_9";
+						$ext_ygmembantu = "ygmembantu_9";
+						$ext_clm = "target_9";break;
 				case 10:
-						$ext_clm = "target_10 = '{$target}'";break;
+						$ext_kendala ="kendala_10";
+						$ext_tindaklanjut = "tindaklanjut_10";
+						$ext_ygmembantu = "ygmembantu_10";
+						$ext_clm = "target_10";break;
 				case 11:
-						$ext_clm = "target_11 = '{$target}'";break;
+						$ext_kendala ="kendala_11";
+						$ext_tindaklanjut = "tindaklanjut_11";
+						$ext_ygmembantu = "ygmembantu_11";
+						$ext_clm = "target_11";break;
 				case 12:
-						$ext_clm = "target_12 = '{$target}'";break;
+						$ext_kendala ="kendala_12";
+						$ext_tindaklanjut = "tindaklanjut_12";
+						$ext_ygmembantu = "ygmembantu_12";
+						$ext_clm = "target_12";break;
 			}	
-		$query = "UPDATE monev_bulanan SET kendala = '".addslashes(html_entity_decode($kendala))."', 
-								tindaklanjut = '".addslashes(html_entity_decode($tindaklanjut))."' ,  
-								ygmembantu = '".addslashes(html_entity_decode($ygmembantu))."' ,
+		$query = "UPDATE monev_bulanan SET {$ext_kendala} = '".addslashes(html_entity_decode($kendala))."', 
+								{$ext_tindaklanjut} = '".addslashes(html_entity_decode($tindaklanjut))."' ,  
+								{$ext_ygmembantu} = '".addslashes(html_entity_decode($ygmembantu))."' ,
 								keterangan = '".addslashes(html_entity_decode($keterangan))."' ,
-								{$ext_clm}
+								{$ext_clm} = '{$target}'
 								WHERE id = '{$id}' ";
 		// pr($query);	
 		// exit;		
@@ -1677,39 +1792,84 @@ class m_penetapanAngaran extends Database {
 						 $kendala,$tindaklanjut,$ygmembantu,$target,$keterangan){
 		switch ($bulan){
 				case 01:
+						$ext_kendala ="kendala";
+						$ext_tindaklanjut = "tindaklanjut";
+						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "target_1";break; 
 				case 02:
+						$ext_kendala ="kendala_2";
+						$ext_tindaklanjut = "tindaklanjut_2";
+						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "target_2";break;
 				case 03:
+						$ext_kendala ="kendala_3";
+						$ext_tindaklanjut = "tindaklanjut_3";
+						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "target_3";break;
 				case 04:
+						$ext_kendala ="kendala_4";
+						$ext_tindaklanjut = "tindaklanjut_4";
+						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "target_4";break;
 				case 05:
+						$ext_kendala ="kendala_5";
+						$ext_tindaklanjut = "tindaklanjut_5";
+						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "target_5";break;
 				case 06:
+						$ext_kendala ="kendala_6";
+						$ext_tindaklanjut = "tindaklanjut_6";
+						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "target_6";break;
 				case 07:
+						$ext_kendala ="kendala_7";
+						$ext_tindaklanjut = "tindaklanjut_7";
+						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "target_7";break;
 				case 08:
+						$ext_kendala ="kendala_8";
+						$ext_tindaklanjut = "tindaklanjut_8";
+						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "target_8";break;
 				case 09:
+						$ext_kendala ="kendala_9";
+						$ext_tindaklanjut = "tindaklanjut_9";
+						$ext_ygmembantu = "ygmembantu_9";
 						$ext_clm = "target_9";break;
 				case 10:
+						$ext_kendala ="kendala_10";
+						$ext_tindaklanjut = "tindaklanjut_10";
+						$ext_ygmembantu = "ygmembantu_10";
 						$ext_clm = "target_10";break;
 				case 11:
+						$ext_kendala ="kendala_11";
+						$ext_tindaklanjut = "tindaklanjut_11";
+						$ext_ygmembantu = "ygmembantu_11";
 						$ext_clm = "target_11";break;
 				case 12:
+						$ext_kendala ="kendala_12";
+						$ext_tindaklanjut = "tindaklanjut_12";
+						$ext_ygmembantu = "ygmembantu_12";
 						$ext_clm = "target_12";break;
 			}	
 		$kategori = '1';
-		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
+		/*$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
 						kendala,tindaklanjut,ygmembantu,keterangan,kategori,{$ext_clm})
 						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$kdkmpnen}' ,
 						'".addslashes(html_entity_decode($kendala))."' , '".addslashes(html_entity_decode($tindaklanjut))."' , 
 						'".addslashes(html_entity_decode($ygmembantu))."' , 
 						'".addslashes(html_entity_decode($keterangan))."' , 
 						'{$kategori}' ,
-						'{$target}')";
+						'{$target}')";*/
+						
+		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
+						{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu},keterangan,kategori,{$ext_clm})
+						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$kdkmpnen}' ,
+						'".addslashes(html_entity_decode($kendala))."' , '".addslashes(html_entity_decode($tindaklanjut))."' , 
+						'".addslashes(html_entity_decode($ygmembantu))."' , 
+						'".addslashes(html_entity_decode($keterangan))."' , 
+						'{$kategori}' ,
+						'{$target}')";			
 		// pr($query);
 		// exit;
 		$result = $this->query($query);
@@ -1719,33 +1879,69 @@ class m_penetapanAngaran extends Database {
 						 $kendala,$tindaklanjut,$ygmembantu,$realisasi){
 		switch ($bulan){
 				case 01:
+						$ext_kendala ="kendala";
+						$ext_tindaklanjut = "tindaklanjut";
+						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "anggaran_1";break; 
 				case 02:
+						$ext_kendala ="kendala_2";
+						$ext_tindaklanjut = "tindaklanjut_2";
+						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "anggaran_2";break;
 				case 03:
+						$ext_kendala ="kendala_3";
+						$ext_tindaklanjut = "tindaklanjut_3";
+						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "anggaran_3";break;
 				case 04:
+						$ext_kendala ="kendala_4";
+						$ext_tindaklanjut = "tindaklanjut_4";
+						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "anggaran_4";break;
 				case 05:
+						$ext_kendala ="kendala_5";
+						$ext_tindaklanjut = "tindaklanjut_5";
+						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "anggaran_5";break;
 				case 06:
+						$ext_kendala ="kendala_6";
+						$ext_tindaklanjut = "tindaklanjut_6";
+						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "anggaran_6";break;
 				case 07:
+						$ext_kendala ="kendala_7";
+						$ext_tindaklanjut = "tindaklanjut_7";
+						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "anggaran_7";break;
 				case 08:
+						$ext_kendala ="kendala_8";
+						$ext_tindaklanjut = "tindaklanjut_8";
+						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "anggaran_8";break;
 				case 09:
+						$ext_kendala ="kendala_9";
+						$ext_tindaklanjut = "tindaklanjut_9";
+						$ext_ygmembantu = "ygmembantu_9";
 						$ext_clm = "anggaran_9";break;
 				case 10:
+						$ext_kendala ="kendala_10";
+						$ext_tindaklanjut = "tindaklanjut_10";
+						$ext_ygmembantu = "ygmembantu_10";
 						$ext_clm = "anggaran_10";break;
 				case 11:
+						$ext_kendala ="kendala_11";
+						$ext_tindaklanjut = "tindaklanjut_11";
+						$ext_ygmembantu = "ygmembantu_11";
 						$ext_clm = "anggaran_11";break;
 				case 12:
+						$ext_kendala ="kendala_12";
+						$ext_tindaklanjut = "tindaklanjut_12";
+						$ext_ygmembantu = "ygmembantu_12";
 						$ext_clm = "anggaran_12";break;
 			}	
 		$kategori = '2';
 		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
-						kendala,tindaklanjut,ygmembantu,kategori,{$ext_clm})
+						{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu},kategori,{$ext_clm})
 						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$kdkmpnen}' ,
 						'".addslashes(html_entity_decode($kendala))."' , '".addslashes(html_entity_decode($tindaklanjut))."' , 
 						'".addslashes(html_entity_decode($ygmembantu))."' , 
@@ -1760,33 +1956,69 @@ class m_penetapanAngaran extends Database {
 		// pr($sasaran_1);
 		switch ($bulan){
 				case 01:
+						$ext_kendala ="kendala";
+						$ext_tindaklanjut = "tindaklanjut";
+						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "anggaran_1 = '{$realisasi}'";break; 
 				case 02:
+						$ext_kendala ="kendala_2";
+						$ext_tindaklanjut = "tindaklanjut_2";
+						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "anggaran_2 = '{$realisasi}'";break;
 				case 03:
+						$ext_kendala ="kendala_3";
+						$ext_tindaklanjut = "tindaklanjut_3";
+						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "anggaran_3 = '{$realisasi}'";break;
 				case 04:
+						$ext_kendala ="kendala_4";
+						$ext_tindaklanjut = "tindaklanjut_4";
+						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "anggaran_4 = '{$realisasi}'";break;
 				case 05:
+						$ext_kendala ="kendala_5";
+						$ext_tindaklanjut = "tindaklanjut_5";
+						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "anggaran_5 = '{$realisasi}'";break;
 				case 06:
+						$ext_kendala ="kendala_6";
+						$ext_tindaklanjut = "tindaklanjut_6";
+						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "anggaran_6 = '{$realisasi}'";break;
 				case 07:
+						$ext_kendala ="kendala_7";
+						$ext_tindaklanjut = "tindaklanjut_7";
+						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "anggaran_7 = '{$realisasi}'";break;
 				case 08:
+						$ext_kendala ="kendala_8";
+						$ext_tindaklanjut = "tindaklanjut_8";
+						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "anggaran_8 = '{$realisasi}'";break;
 				case 09:
+						$ext_kendala ="kendala_9";
+						$ext_tindaklanjut = "tindaklanjut_9";
+						$ext_ygmembantu = "ygmembantu_9";
 						$ext_clm = "anggaran_9 = '{$realisasi}'";break;
 				case 10:
+						$ext_kendala ="kendala_10";
+						$ext_tindaklanjut = "tindaklanjut_10";
+						$ext_ygmembantu = "ygmembantu_10";
 						$ext_clm = "anggaran_10 = '{$realisasi}'";break;
 				case 11:
+						$ext_kendala ="kendala_11";
+						$ext_tindaklanjut = "tindaklanjut_11";
+						$ext_ygmembantu = "ygmembantu_11";
 						$ext_clm = "anggaran_11 = '{$realisasi}'";break;
 				case 12:
+						$ext_kendala ="kendala_12";
+						$ext_tindaklanjut = "tindaklanjut_12";
+						$ext_ygmembantu = "ygmembantu_12";
 						$ext_clm = "anggaran_12 = '{$realisasi}'";break;		
 			}	
-		$query = "UPDATE monev_bulanan SET kendala = '".addslashes(html_entity_decode($kendala))."', 
-								tindaklanjut = '".addslashes(html_entity_decode($tindaklanjut))."' ,  
-								ygmembantu = '".addslashes(html_entity_decode($ygmembantu))."' ,
+		$query = "UPDATE monev_bulanan SET {$ext_kendala} = '".addslashes(html_entity_decode($kendala))."', 
+								{$ext_tindaklanjut} = '".addslashes(html_entity_decode($tindaklanjut))."' ,  
+								{$ext_ygmembantu} = '".addslashes(html_entity_decode($ygmembantu))."' ,
 								{$ext_clm}
 								WHERE id = '{$id}' ";
 		// pr($query);	

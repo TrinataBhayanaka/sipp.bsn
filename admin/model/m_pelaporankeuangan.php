@@ -76,7 +76,7 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind
 	function cek_kegiatan_group($thn_temp,$kd_satker)
 	{
-		$query = "select KDGIAT, sum(TOTNILMAK) as real_giat from m_spmind WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT<>'0000' group by KDGIAT";
+		$query = "select KDGIAT, sum(TOTNILMAK) as real_giat from m_spmind WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}'  group by KDGIAT";
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -186,23 +186,23 @@ class m_pelaporankeuangan extends Database {
 	{
 		foreach ($monthArray as $val) {	
 			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
-			//untuk query s/d bulan
 			/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";*/		   
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}'order by NILMAK";*/
+					   
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) = '{$val}'";		   
+					   
 			// pr($query);		   
+			
+			//untuk query s/d bulan
 			$result = $this->fetch($query);
 			// pr($result);
 			if($result['jml'] == 0){
 				$result['jml']=0;
 			}
-			// pr($newArray);
+			
 			$newArray[]= $result;
-			// $newArray."_".$val= $result;
 		}
 		return array($newArray);
 	}
@@ -212,16 +212,24 @@ class m_pelaporankeuangan extends Database {
 		foreach ($monthArray as $val) {	
 			
 			//untuk query bulan
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+			/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";		   
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}'  order by NILMAK";*/
+					   
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					 where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}'";
+					   
+			// and mk.KDGIAT <> '0000'
 			$result = $this->fetch($query);
 			
 			//untuk query s/d bulan
-			$query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+			/*$query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and mk.KDGIAT <> '0000' order by NILMAK";		   
-			
+					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}'  order by NILMAK";*/
+					   
+			$query2 = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					 where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}'";		   
+			// and mk.KDGIAT <> '0000'
 			$result2 = $this->fetch($query2);
 			
 			
@@ -272,9 +280,13 @@ class m_pelaporankeuangan extends Database {
 			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
 			
 			//untuk query bulan
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}'";
+			
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -296,17 +308,24 @@ class m_pelaporankeuangan extends Database {
 			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
 			
 			//untuk query bulan
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					 where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}'";
+					 
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
 			
 			//untuk query s.d bulan
-			$query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			// $query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			
+			$query2="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					 where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}'";
 			// pr($query);
 			$result2 = $this->fetch($query2);
 			// pr($result);
@@ -354,9 +373,13 @@ class m_pelaporankeuangan extends Database {
 			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
 			
 			//untuk query bulan
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			
+			$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}' and ms.KDOUTPUT ='{$kd_output}'";
+			
 			// pr($query);
 			$result = $this->fetch($query);
 			
@@ -380,16 +403,23 @@ class m_pelaporankeuangan extends Database {
 			// $query = "SELECT COUNT(1) AS total FROM user WHERE  YEAR(register_date) = {$year} AND MONTH(register_date) = {$val} AND n_status IN (1)";
 			
 			//untuk query bulan
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) = '{$val}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}' and ms.KDOUTPUT ='{$kd_output}'";
+			
 			// pr($query);
 			$result = $this->fetch($query);
 			
 			//untuk query bulan
-			$query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					   inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					   where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			// $query2 = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					   // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					   // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}' order by NILMAK";
+			$query2 = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) <= '{$val}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}' and ms.KDOUTPUT ='{$kd_output}'";
+			
+			
 			// pr($query);
 			$result2 = $this->fetch($query2);
 			
@@ -432,10 +462,15 @@ class m_pelaporankeuangan extends Database {
 	
 	// m_spmind dan m_spmmak
 	function realisasi_allbulan_unit($thn_temp,$max_bulan)
-	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+	{		
+			//and mk.KDGIAT <> '0000'
+			/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$max_bulan}' and mk.KDGIAT <> '0000' order by NILMAK";
+					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$max_bulan}'  order by NILMAK";*/
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) <='{$max_bulan}'";		  
+					  
+					  
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -448,9 +483,12 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind dan m_spmmak
 	function realisasi_allbulan_unit_kegiatan($thn_temp,$max_bulan,$kd_satker,$kd_giat)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$max_bulan}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$max_bulan}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' order by NILMAK";
+			
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) <= '{$max_bulan}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}'";	
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -463,9 +501,12 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind dan m_spmmak
 	function select_all_bulan_unit_kegiatan_ouput_perbulan($thn_temp,$max_bulan,$kd_satker,$kd_giat,$kd_output)
 	{
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$max_bulan}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}'  order by NILMAK";
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$max_bulan}' and ms.KDSATKER = '{$kd_satker}' and mk.KDGIAT ='{$kd_giat}' and mk.KDOUTPUT ='{$kd_output}'  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms where ms.THANG = '{$thn_temp}'
+					 and MONTH(ms.TGSP2D) <= '{$max_bulan}' and ms.KDSATKER = '{$kd_satker}' and ms.KDGIAT ='{$kd_giat}' and ms.KDOUTPUT ='{$kd_output}'";
+			
 			
 			// pr($query);
 			$result = $this->fetch($query);
@@ -780,31 +821,43 @@ class m_pelaporankeuangan extends Database {
 			if($trwln == 1){
 				$first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'  order by NILMAK";
+				$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
+				
+				// and mk.KDGIAT <> '0000'
 			}else if($trwln == 2){
 				$first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'  order by NILMAK";
+				$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
+				
+				// and mk.KDGIAT <> '0000'
 			}else if($trwln == 3){
 				$first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'  order by NILMAK";
+				
+				$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
+				// and mk.KDGIAT <> '0000'
 			}else if($trwln == 4){
 				$first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' order by NILMAK";
+				// and mk.KDGIAT <> '0000' 
+				$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
+				
 			}
 			
 			// pr($query);
@@ -818,10 +871,11 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_menteri_bulan_BSN($thn_temp,$bulan)
 	{
-		$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+		/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 			  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-			  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+			  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and mk.KDGIAT <> '0000' order by NILMAK";*/
+		$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+				where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}'";	
 		// pr($query);
 		$result = $this->fetch($query);
 		// pr($result);
@@ -867,31 +921,40 @@ class m_pelaporankeuangan extends Database {
 			if($trwln == 1){
 				// $first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}'  order by NILMAK";
+				// and mk.KDGIAT <> '0000'
+				
+				$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
 			}else if($trwln == 2){
 				// $first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' order by NILMAK";
+				 // and mk.KDGIAT <> '0000'
+				 $query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
 			}else if($trwln == 3){
 				// $first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}'  order by NILMAK";
+				// and mk.KDGIAT <> '0000'
+				$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
 			}else if($trwln == 4){
 				// $first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}'  order by NILMAK";
+				// and mk.KDGIAT <> '0000'
+				$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
 			}
 			
 			// pr($query);
@@ -905,10 +968,13 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_menteri_sdbulan_BSN($thn_temp,$bulan)
 	{
-		$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+		/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 			  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-			  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and mk.KDGIAT <> '0000' order by NILMAK";
-
+			  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}'  order by NILMAK";*/
+		$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}'";	  
+			  
+		// and mk.KDGIAT <> '0000'
 		// pr($query);
 		$result = $this->fetch($query);
 		// pr($result);
@@ -988,31 +1054,40 @@ class m_pelaporankeuangan extends Database {
 			if($trwln == 1){
 				$first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";
+				// and mk.KDGIAT <> '0000'
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
+				
 			}else if($trwln == 2){
 				$first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
+				
 			}else if($trwln == 3){
 				$first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
+				
 			}else if($trwln == 4){
 				$first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
+				
 			}
 			
 			// pr($query);
@@ -1026,10 +1101,12 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_satker_bulan($thn_temp,$bulan,$kd_satker)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+		// and mk.KDGIAT <> '0000'
+			/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";*/
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} ";
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -1042,34 +1119,40 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind dan m_spmmak
 	function real_satker_sdtriwulan($thn_temp,$trwln,$kd_satker)
 	{
+		// and mk.KDGIAT <> '0000'
 			if($trwln == 1){
 				// $first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
+
 			}else if($trwln == 2){
 				// $first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
 			}else if($trwln == 3){
 				// $first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
 			}else if($trwln == 4){
 				// $first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} ";
 			}
 			
 			// pr($query);
@@ -1083,10 +1166,11 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_satker_sdbulan($thn_temp,$bulan,$kd_satker)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+			/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} order by NILMAK";*/
+			$query = "select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					 where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker}";
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -1154,34 +1238,43 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind dan m_spmmak
 	function real_giat_triwulan($thn_temp,$trwln,$kd_satker,$kd_giat)
 	{
+			// and mk.KDGIAT <> '0000'
 			if($trwln == 1){
 				$first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}else if($trwln == 2){
 				$first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}else if($trwln == 3){
 				$first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}else if($trwln == 4){
 				$first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}
 			
 			// pr($query);
@@ -1195,10 +1288,12 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_giat_bulan($thn_temp,$bulan,$kd_satker,$kd_giat)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+			// and mk.KDGIAT <> '0000'
+			/*$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
 				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  order by NILMAK";*/
+			$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}";
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -1212,34 +1307,43 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind dan m_spmmak
 	function real_giat_sdtriwulan($thn_temp,$trwln,$kd_satker,$kd_giat)
 	{
+			// and mk.KDGIAT <> '0000'
 			if($trwln == 1){
 				// $first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}else if($trwln == 2){
 				// $first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}else if($trwln == 3){
 				// $first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}else if($trwln == 4){
 				// $first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} ";
+
 			}
 			
 			// pr($query);
@@ -1253,10 +1357,14 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_giat_sdbulan($thn_temp,$bulan,$kd_satker,$kd_giat)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' order by NILMAK";
-		
+			// and mk.KDGIAT <> '0000' 
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} order by NILMAK";
+			
+			$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					 where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}";
+			
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -1269,35 +1377,44 @@ class m_pelaporankeuangan extends Database {
 	
 	// m_spmind dan m_spmmak
 	function real_output_triwulan($thn_temp,$trwln,$kd_satker,$kd_giat,$kd_output)
-	{
+	{		
+			// and mk.KDGIAT <> '0000'
 			if($trwln == 1){
 				$first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}else if($trwln == 2){
 				$first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}else if($trwln == 3){
 				$first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}else if($trwln == 4){
 				$first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+						// where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}
 			
 			// pr($query);
@@ -1311,10 +1428,12 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_output_bulan($thn_temp,$bulan,$kd_satker,$kd_giat,$kd_output)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
-			
+			// and mk.KDGIAT <> '0000' 
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDOUTPUT = '{$kd_output}' order by NILMAK";
+			$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) = '{$bulan}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat} and ms.KDOUTPUT = '{$kd_output}'";
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -1327,34 +1446,43 @@ class m_pelaporankeuangan extends Database {
 	// m_spmind dan m_spmmak
 	function real_output_sdtriwulan($thn_temp,$trwln,$kd_satker,$kd_giat,$kd_output)
 	{
+			// and mk.KDGIAT <> '0000'
 			if($trwln == 1){
 				// $first_month = 1;
 				$last_month = 3;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+						where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}else if($trwln == 2){
 				// $first_month = 4;
 				$last_month = 6;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}else if($trwln == 3){
 				// $first_month = 7;
 				$last_month = 9;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}else if($trwln == 4){
 				// $first_month = 10;
 				$last_month = 12;
-				$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-					  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-					  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
-			
+				// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+					  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+					  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
+				$query ="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$last_month}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
+
 			}
 			
 			// pr($query);
@@ -1368,10 +1496,12 @@ class m_pelaporankeuangan extends Database {
 	
 	function real_output_sdbulan($thn_temp,$bulan,$kd_satker,$kd_giat,$kd_output)
 	{
-			$query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
-				  inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
-				  where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat} and mk.KDGIAT <> '0000' and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
-		
+			// and mk.KDGIAT <> '0000'
+			// $query = "select sum(ms.NILMAK) as jml from m_spmmak as ms 
+				  // inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D 
+				  // where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and mk.KDGIAT = {$kd_giat}  and mk.KDOUTPUT = '{$kd_output}'  order by NILMAK";
+			$query="select sum(ms.TOTNILMAK) as jml from m_spmind as ms 
+					where ms.THANG = '{$thn_temp}' and MONTH(ms.TGSP2D) <= '{$bulan}' and ms.KDSATKER = {$kd_satker} and ms.KDGIAT = {$kd_giat}  and ms.KDOUTPUT = '{$kd_output}'";
 			// pr($query);
 			$result = $this->fetch($query);
 			// pr($result);
@@ -1743,10 +1873,10 @@ class m_pelaporankeuangan extends Database {
 				$first_month = 10;
 				$last_month = 12;
 			}
-		
+		// AND mk.KDGIAT <> '0000' 
 			$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
 					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
-					where ms.THANG = '{$thn_temp}' AND mk.KDGIAT <> '0000' 
+					where ms.THANG = '{$thn_temp}' 
 					and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'"; 
 		}elseif($param == 2){
 			if($trwln == 1){
@@ -1762,9 +1892,10 @@ class m_pelaporankeuangan extends Database {
 				// $first_month = 10;
 				$last_month = 12;
 			}
+			// AND mk.KDGIAT <> '0000'
 			$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
 					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
-					where ms.THANG = '{$thn_temp}' AND mk.KDGIAT <> '0000' 
+					where ms.THANG = '{$thn_temp}'  
 					and MONTH(ms.TGSP2D) <= '{$last_month}'"; 
 		
 		}
@@ -1807,17 +1938,18 @@ class m_pelaporankeuangan extends Database {
 		
 	function pagu_akun($thn_temp,$kode_akun,$bulan,$param){
 	if($param == 1){
-		
+		// AND mk.KDGIAT <> '0000' 
 		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
 					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
 					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
-					AND mk.KDGIAT <> '0000' 
+					
 					and MONTH(ms.TGSP2D) = '{$bulan}'";
 	}elseif($param == 2){
+		// AND mk.KDGIAT <> '0000'
 		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
 					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
 					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
-					AND mk.KDGIAT <> '0000' and MONTH(ms.TGSP2D) <= '{$bulan}'";
+					 and MONTH(ms.TGSP2D) <= '{$bulan}'";
 	}	
 	// pr($query);
 	$result = $this->fetch($query);
@@ -1844,10 +1976,11 @@ class m_pelaporankeuangan extends Database {
 			$first_month = 10;
 			$last_month = 12;
 		}
+		// AND mk.KDGIAT <> '0000' 
 		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
 					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
 					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
-					AND mk.KDGIAT <> '0000' 
+					
 					and MONTH(ms.TGSP2D) >= '{$first_month}' and MONTH(ms.TGSP2D) <= '{$last_month}'";
 	}elseif($param == 2){
 		if($trwln == 1){
@@ -1863,10 +1996,11 @@ class m_pelaporankeuangan extends Database {
 			// $first_month = 10;
 			$last_month = 12;
 		}
+		// AND mk.KDGIAT <> '0000' 
 		$query = "select sum(ms.NILMAK) as pagu_bulan from m_spmmak as ms 
 					inner join m_spmind as mk on mk.NOSP2D = ms.NOSP2D
 					where ms.THANG = '{$thn_temp}' AND ms.KDAKUN = '{$kode_akun}'  
-					AND mk.KDGIAT <> '0000' 
+					
 					and MONTH(ms.TGSP2D) <= '{$last_month}'";
 	}	
 	// pr($query);
