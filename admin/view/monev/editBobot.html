@@ -132,26 +132,26 @@ function isNumber(evt) {
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Kendala yang dihadapi</label>
 							<div class="col-md-9">
-								<textarea rows="5" class="form-control" name="kendala" id="kendala">{$data.kendala}</textarea>
+								<textarea rows="5" class="form-control month" name="kendala" id="kendala">{$data.kendala}</textarea>
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">3. Tindak Lanjut yang diperlukan</label>
 							<div class="col-md-9">
-								<textarea rows="5" class="form-control" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
+								<textarea rows="5" class="form-control month" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">4. Pihak yang dapat mengatasi masalah</label>
 							<div class="col-md-9">
-								<textarea rows="5" class="form-control" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
+								<textarea rows="5" class="form-control month" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
 						<label class="col-sm-2 control-label boldGrey">Bulan</label>
-							<select name="bulan" id="bulan" class="selectpicker" width="100%">
+							<select name="bulan" id="bulan" class="selectpicker" width="100%" onchange="return checkMonth(this);">
 								{foreach $bulan as $key=> $valbln}
 									{if $keybln == $key}
 										{$select_list = 'selected'}
@@ -210,7 +210,7 @@ function isNumber(evt) {
 												</td>
 												<td>
 													<div class="input-group" style="width:100px">
-														<input type="text" name="target" id="target" class="form-control span col-sm-2 percent" value="{number_format($data.jml_target,'2',',','.')}"  >
+														<input type="text" name="target" id="target" class="form-control span col-sm-2 percent month" value="{number_format($data.jml_target,'2',',','.')}"  >
 															<span class="input-group-addon">(%)</span>
 													</div>
 												</td>
@@ -241,7 +241,10 @@ function isNumber(evt) {
 				</form>
 				<!--===================================================-->
 				<!--End Horizontal Form-->
-	
+			
+				<!-- HIDDEN -->
+				<input type="hidden" id="typemember" value="{$usertype}">
+
 			</div>
 		</div>
 	</div>
@@ -360,6 +363,33 @@ $('#submit').on('click', function(){
 	  
 	});	
 });
+
+
+function checkMonth(item)
+{
+	var selmonth = $(item).val();
+	var d = new Date();
+	var month = new Array();
+	month[0] = "01";
+	month[1] = "02";
+	month[2] = "03";
+	month[3] = "04";
+	month[4] = "05";
+	month[5] = "06";
+	month[6] = "07";
+	month[7] = "08";
+	month[8] = "09";
+	month[9] = "10";
+	month[10] = "11";
+	month[11] = "12";
+	var n = month[d.getMonth()];
+	var type = $("#typemember").val();  
+	if(n != selmonth && type != 1){
+		$(".month").attr('disabled','disabled');
+	} else {
+		$(".month").removeAttr('disabled');
+	}
+}
 </script>
 {/literal}
 <!--End page content-->

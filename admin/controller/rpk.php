@@ -430,7 +430,7 @@ class rpk extends Controller {
 		$bobot = $this->m_penetapanAngaran->getBobotRpk($_GET);
 		$sumBobot = $this->m_penetapanAngaran->sumBobot($_GET);
 
-		// db($list);
+		$this->view->assign('usertype',$this->admin['type']);
 		$this->view->assign('sumBobot',$sumBobot[0]);
 		$this->view->assign('bobot',$bobot);	
 		$this->view->assign('info',$info);

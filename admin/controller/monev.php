@@ -381,6 +381,7 @@ class monev extends Controller {
 		// $totalbobot = '15';
 		$totalbobot = $this->m_penetapanAngaran->bobot_komponen($thn,$kd_giat,$kd_output,$kd_komponen);
 		// pr($totalbobot);
+		$this->view->assign('usertype',$this->admin['type']);
 		$sisacapaian = $totalbobot['bobot'] - $realisasi_sd_bulan['total']; 
 		$this->view->assign('totalbobot',$totalbobot['bobot']);
 		$this->view->assign('sisacapaian',$sisacapaian);
@@ -945,7 +946,7 @@ class monev extends Controller {
 		$this->view->assign('bulan',$monthArray);
 		$this->view->assign('keybln',$bl);
 		$this->view->assign('ketBulan',$ketBulan);
-		
+		$this->view->assign('usertype',$this->admin['type']);
 		// pr($data);
 		// pr($info);
 		// pr($rinc);
