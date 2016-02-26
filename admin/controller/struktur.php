@@ -132,6 +132,7 @@ class struktur extends Controller {
 			$kode = $getStruktur[0]['kode'];
 			$nama_satker =$getStruktur[0]['nama_satker'];
 			$singkatan = $getStruktur[0]['singkatan'];
+			// pr($getStruktur);
 			$this->view->assign('satker', $getStruktur);
 		}else{
 			$kode = "";
@@ -147,7 +148,8 @@ class struktur extends Controller {
 		$generataField = $this->generateField($dataForm);
 		$this->view->assign('form', $generataField);
 		if ($_POST['submit']){
-			
+			// pr($_POST);
+			// exit;
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 			

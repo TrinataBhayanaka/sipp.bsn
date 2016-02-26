@@ -434,6 +434,15 @@ document.getElementById(status_hidden).selected = "true";
 		var kdoutput = $('#kdoutput').val();
 		var kd_komponen = $('#kd_komponen').val();
 		
+		$.post(basedomain+"monev_trwln/getdata",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput,kd_komponen:kd_komponen},function(data){
+			document.getElementById('keterangan').value = data.keterangan;
+			document.getElementById('kendala').value = data.kendala;
+			document.getElementById('tindaklanjut').value = data.tindaklanjut;
+			document.getElementById('ygmembantu').value = data.ygmembantu;
+			
+		},"JSON");
+		
+		
 		$.post(basedomain+"monev_trwln/rencana",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput,kd_komponen:kd_komponen},function(rencana){
 		//.toPrecision(2)
 		$('#demo-morris-line-realisasi').empty();
@@ -564,6 +573,7 @@ $('#submit').on('click', function(){
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
 	var kd_komponen = $('#kd_komponen').val();
+	var kdtriwulan = $('#kdtriwulan').val();
 	
 	var keterangan = $('#keterangan').val();
 	var kendala = $('#kendala').val();
@@ -575,7 +585,7 @@ $('#submit').on('click', function(){
 	
 	  bootbox.confirm("Simpan Data?", function(result) {
 			if (result) {
-				$.post( basedomain+"monev_trwln/post", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu,keterangan:keterangan});										
+				$.post( basedomain+"monev_trwln/post", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu,keterangan:keterangan,kdtriwulan: kdtriwulan});										
 				$.niftyNoty({
 					type: 'success',
 					icon : 'fa fa-check',
@@ -583,11 +593,13 @@ $('#submit').on('click', function(){
 					container : 'floating',
 					timer : 2000
 				});
-				setTimeout(
+				/*setTimeout(
 			   function() 
 			   {
-				location.reload();
-			   }, 2000);
+				//location.reload();
+				window.location.replace(basedomain+"monev_trwln/editBobot/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen+"&trwln="+kdtriwulan);
+			   
+			   }, 2000);*/
 			}else{
 				$.niftyNoty({
 					type: 'danger',

@@ -63,6 +63,45 @@ class monev_trwln extends Controller {
 		exit;
 	}
 	
+	public function getdata(){
+		$trwln = $_POST['kdtriwulan'];
+		$kdunitkerja = $_POST['kdunitkerja'];
+		$kd_giat = $_POST['kdgiat'];
+		$kd_output = $_POST['kdoutput'];
+		$kd_komponen = $_POST['kd_komponen'];
+		
+		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+		$thn_temp = $thn_aktif['kode'];
+		
+		
+		$data = $this->m_penetapanAngaran->getdata($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen);
+		if($trwln == 1){
+			$data['keterangan'] = $data['keterangan'];
+			$data['kendala'] = $data['kendala'];
+			$data['tindaklanjut'] = $data['tindaklanjut'];
+			$data['ygmembantu'] = $data['ygmembantu'];
+		}elseif($trwln == 2){
+			$data['keterangan'] = $data['keterangan_2'];
+			$data['kendala'] = $data['kendala_2'];
+			$data['tindaklanjut'] = $data['tindaklanjut_2'];
+			$data['ygmembantu'] = $data['ygmembantu_2'];
+		}elseif($trwln == 3){
+			$data['keterangan'] = $data['keterangan_3'];
+			$data['kendala'] = $data['kendala_3'];
+			$data['tindaklanjut'] = $data['tindaklanjut_3'];
+			$data['ygmembantu'] = $data['ygmembantu_3'];
+		}elseif($trwln == 4){
+			$data['keterangan'] = $data['keterangan_4'];
+			$data['kendala'] = $data['kendala_4'];
+			$data['tindaklanjut'] = $data['tindaklanjut_4'];
+			$data['ygmembantu'] = $data['ygmembantu_4'];
+		}
+		// pr($rencana);
+		// $newformat = array('register'=>$register_user,'visitor'=>$visitor_user);
+		$newformat = array('keterangan'=>$data['keterangan'],'kendala'=>$data['kendala'],'tindaklanjut'=>$data['tindaklanjut'],'ygmembantu'=>$data['ygmembantu']);
+		print json_encode($newformat);
+		exit;
+	}
 	
 	public function index(){
 		global $basedomain;
@@ -214,22 +253,36 @@ class monev_trwln extends Controller {
 				
 			}
 		
-		
-		$bl =date('m');
-		switch ($bl){
-			case 1:$trwulan = 1;break;
-			case 2:$trwulan = 1;break;
-			case 3:$trwulan = 1;break;
-			case 4:$trwulan = 2;break;
-			case 5:$trwulan = 2;break;
-			case 6:$trwulan = 2;break;
-			case 7:$trwulan = 3;break;
-			case 8:$trwulan = 3;break;
-			case 9:$trwulan = 3;break;
-			case 10:$trwulan = 4;break;
-			case 11:$trwulan = 4;break;
-			case 12:$trwulan = 4;break;
+		//add	
+		$dinamic_tw = $_GET['trwln'];
+		if($dinamic_tw){
+			$bl = $dinamic_tw;
+			switch ($bl){
+				case 1:$trwulan = 1;break;
+				case 2:$trwulan = 2;break;
+				case 3:$trwulan = 3;break;
+				case 4:$trwulan = 4;break;
+				}
+		// pr($trwulan);		
+		}else{
+			$bl = date('m');
+			switch ($bl){
+				case 1:$trwulan = 1;break;
+				case 2:$trwulan = 1;break;
+				case 3:$trwulan = 1;break;
+				case 4:$trwulan = 2;break;
+				case 5:$trwulan = 2;break;
+				case 6:$trwulan = 2;break;
+				case 7:$trwulan = 3;break;
+				case 8:$trwulan = 3;break;
+				case 9:$trwulan = 3;break;
+				case 10:$trwulan = 4;break;
+				case 11:$trwulan = 4;break;
+				case 12:$trwulan = 4;break;
+			}
 		}
+		// $bl =date('m');
+		
 		
 		if($trwulan == 1){
 			$I = "selected";
@@ -263,21 +316,64 @@ class monev_trwln extends Controller {
 		$dataselected[]=$IV;
 		$dataselected[]=$ket;
 		
+		// pr($trwulan);
 		//cek id
 		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,3);
 		if($count['hit'] == 1){
 			// echo "masukk";
-			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id']);
-			$data['kendala'] = $get_data ['kendala'];
-			$data['tindaklanjut'] = $get_data['tindaklanjut'] ;
-			$data['ygmembantu'] = $get_data['ygmembantu'];
-			$data['keterangan'] = $get_data['keterangan'] ;
+			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id'],$trwulan);
+			if($trwulan == 1){
+				$data['kendala'] = $get_data ['kendala'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu'];
+				$data['keterangan'] = $get_data['keterangan'] ;
+			}elseif($trwulan == 2){
+				$data['kendala'] = $get_data ['kendala_2'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_2'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_2'];
+				$data['keterangan'] = $get_data['keterangan_2'] ;
+			}elseif($trwulan == 3){
+				$data['kendala'] = $get_data ['kendala_3'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_3'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_3'];
+				$data['keterangan'] = $get_data['keterangan_3'] ;
+			}elseif($trwulan == 4){
+				$data['kendala'] = $get_data ['kendala_4'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_4'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_4'];
+				$data['keterangan'] = $get_data['keterangan_4'] ;
+			}
+			// $data['kendala'] = $get_data ['kendala'];
+			// $data['tindaklanjut'] = $get_data['tindaklanjut'] ;
+			// $data['ygmembantu'] = $get_data['ygmembantu'];
+			// $data['keterangan'] = $get_data['keterangan'] ;
 			
 		}else{
-			$data['keterangan'] = '';
-			$data['kendala'] = '';
-			$data['tindaklanjut'] = '';
-			$data['ygmembantu'] = '';
+			if($trwulan == 1){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 2){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 3){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 4){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}
+			// $data['keterangan'] = '';
+			// $data['kendala'] = '';
+			// $data['tindaklanjut'] = '';
+			// $data['ygmembantu'] = '';
 		}
 		
 		
@@ -444,6 +540,7 @@ class monev_trwln extends Controller {
 		$kd_giat = $_POST['kdgiat'];
 		$kd_output = $_POST['kdoutput'];
 		$kd_komponen = $_POST['kd_komponen'];
+		$kdtriwulan = $_POST['kdtriwulan'];
 		
 		$kendala = $_POST['kendala'];
 		$tindaklanjut = $_POST['tindaklanjut'];
@@ -463,11 +560,11 @@ class monev_trwln extends Controller {
 			// echo "masuk";
 			// exit;
 			$id = $count['id'];
-			$update = $this->m_penetapanAngaran->update_monev_trwln($kendala,$tindaklanjut,$ygmembantu,$keterangan,$id);
+			$update = $this->m_penetapanAngaran->update_monev_trwln($kendala,$tindaklanjut,$ygmembantu,$keterangan,$id,$kdtriwulan);
 		}else{
 			
 			$insert = $this->m_penetapanAngaran->insert_monev_trwln($th,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen,
-															$kendala,$tindaklanjut,$ygmembantu,$keterangan);
+															$kendala,$tindaklanjut,$ygmembantu,$keterangan,$kdtriwulan);
 		}
 		
 		exit;

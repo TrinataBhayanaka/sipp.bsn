@@ -1540,10 +1540,31 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function insert_monev_trwln($th,$kdunitkerja,$kdgiat,$kdoutput,$kdkmpnen,
-								$kendala,$tindaklanjut,$ygmembantu,$keterangan){
+								$kendala,$tindaklanjut,$ygmembantu,$keterangan,$kdtriwulan){
 		$kategori = '3';
+		if($kdtriwulan == 1){
+			$ext_keterangan ="keterangan";
+			$ext_kendala ="kendala";
+			$ext_tindaklanjut = "tindaklanjut";
+			$ext_ygmembantu = "ygmembantu";
+		}elseif($kdtriwulan == 2){
+			$ext_keterangan ="keterangan_2";
+			$ext_kendala ="kendala_2";
+			$ext_tindaklanjut = "tindaklanjut_2";
+			$ext_ygmembantu = "ygmembantu_2";
+		}elseif($kdtriwulan == 3){
+			$ext_keterangan ="keterangan_3";
+			$ext_kendala ="kendala_3";
+			$ext_tindaklanjut = "tindaklanjut_3";
+			$ext_ygmembantu = "ygmembantu_3";
+		}elseif($kdtriwulan == 4){
+			$ext_keterangan ="keterangan_4";
+			$ext_kendala ="kendala_4";
+			$ext_tindaklanjut = "tindaklanjut_4";
+			$ext_ygmembantu = "ygmembantu_4";
+		}
 		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
-						kendala,tindaklanjut,ygmembantu,keterangan,kategori)
+						{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu},{$ext_keterangan},kategori)
 						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$kdkmpnen}' ,
 						'".addslashes(html_entity_decode($kendala))."' , '".addslashes(html_entity_decode($tindaklanjut))."' , 
 						'".addslashes(html_entity_decode($ygmembantu))."' , 
@@ -1552,24 +1573,95 @@ class m_penetapanAngaran extends Database {
 		$result = $this->query($query);				
 	}
 	
-	function update_monev_trwln($kendala,$tindaklanjut,$ygmembantu,$keterangan,$id){
-		$query = "UPDATE monev_bulanan SET kendala = '".addslashes(html_entity_decode($kendala))."', 
-								tindaklanjut = '".addslashes(html_entity_decode($tindaklanjut))."' ,  
-								ygmembantu = '".addslashes(html_entity_decode($ygmembantu))."' ,
-								keterangan = '".addslashes(html_entity_decode($keterangan))."' 
+	function update_monev_trwln($kendala,$tindaklanjut,$ygmembantu,$keterangan,$id,$kdtriwulan){
+		if($kdtriwulan == 1){
+			$ext_keterangan ="keterangan";
+			$ext_kendala ="kendala";
+			$ext_tindaklanjut = "tindaklanjut";
+			$ext_ygmembantu = "ygmembantu";
+		}elseif($kdtriwulan == 2){
+			$ext_keterangan ="keterangan_2";
+			$ext_kendala ="kendala_2";
+			$ext_tindaklanjut = "tindaklanjut_2";
+			$ext_ygmembantu = "ygmembantu_2";
+		}elseif($kdtriwulan == 3){
+			$ext_keterangan ="keterangan_3";
+			$ext_kendala ="kendala_3";
+			$ext_tindaklanjut = "tindaklanjut_3";
+			$ext_ygmembantu = "ygmembantu_3";
+		}elseif($kdtriwulan == 4){
+			$ext_keterangan ="keterangan_4";
+			$ext_kendala ="kendala_4";
+			$ext_tindaklanjut = "tindaklanjut_4";
+			$ext_ygmembantu = "ygmembantu_4";
+		}
+		
+		$query = "UPDATE monev_bulanan SET {$ext_kendala} = '".addslashes(html_entity_decode($kendala))."', 
+								{$ext_tindaklanjut} = '".addslashes(html_entity_decode($tindaklanjut))."' ,  
+								{$ext_ygmembantu} = '".addslashes(html_entity_decode($ygmembantu))."' ,
+								{$ext_keterangan} = '".addslashes(html_entity_decode($keterangan))."' 
 								WHERE id = '{$id}'";
 		// pr($query);	
 		// exit;		
-		$result = $this->query($query);				
+		// $result = $this->query($query);				
 	}
 	
-	function get_data_monev_trwln($id){
-		
-		$query = "select keterangan,kendala,tindaklanjut,ygmembantu from monev_bulanan WHERE id='{$id}'";
+	function get_data_monev_trwln($id,$kdtriwulan){
+		if($kdtriwulan == 1){
+			$ext_keterangan ="keterangan";
+			$ext_kendala ="kendala";
+			$ext_tindaklanjut = "tindaklanjut";
+			$ext_ygmembantu = "ygmembantu";
+		}elseif($kdtriwulan == 2){
+			$ext_keterangan ="keterangan_2";
+			$ext_kendala ="kendala_2";
+			$ext_tindaklanjut = "tindaklanjut_2";
+			$ext_ygmembantu = "ygmembantu_2";
+		}elseif($kdtriwulan == 3){
+			$ext_keterangan ="keterangan_3";
+			$ext_kendala ="kendala_3";
+			$ext_tindaklanjut = "tindaklanjut_3";
+			$ext_ygmembantu = "ygmembantu_3";
+		}elseif($kdtriwulan == 4){
+			$ext_keterangan ="keterangan_4";
+			$ext_kendala ="kendala_4";
+			$ext_tindaklanjut = "tindaklanjut_4";
+			$ext_ygmembantu = "ygmembantu_4";
+		}
+		$query = "select {$ext_keterangan},{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu} from monev_bulanan WHERE id='{$id}'";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
 	
+	}
+	
+	function getdata($thn_temp,$kdtriwulan,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen){
+		if($kdtriwulan == 1){
+			$ext_keterangan ="keterangan";
+			$ext_kendala ="kendala";
+			$ext_tindaklanjut = "tindaklanjut";
+			$ext_ygmembantu = "ygmembantu";
+		}elseif($kdtriwulan == 2){
+			$ext_keterangan ="keterangan_2";
+			$ext_kendala ="kendala_2";
+			$ext_tindaklanjut = "tindaklanjut_2";
+			$ext_ygmembantu = "ygmembantu_2";
+		}elseif($kdtriwulan == 3){
+			$ext_keterangan ="keterangan_3";
+			$ext_kendala ="kendala_3";
+			$ext_tindaklanjut = "tindaklanjut_3";
+			$ext_ygmembantu = "ygmembantu_3";
+		}elseif($kdtriwulan == 4){
+			$ext_keterangan ="keterangan_4";
+			$ext_kendala ="kendala_4";
+			$ext_tindaklanjut = "tindaklanjut_4";
+			$ext_ygmembantu = "ygmembantu_4";
+		}
+		$query = "select {$ext_keterangan},{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu} from monev_bulanan 
+				WHERE kdunitkerja= '{$kdunitkerja}' and kdgiat = '{$kd_giat}' and kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' and kategori = 3";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
 	}
 	
 	function get_data_monev_bln($id,$param){
