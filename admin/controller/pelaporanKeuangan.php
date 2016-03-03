@@ -33,17 +33,12 @@ class pelaporanKeuangan extends Controller {
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
+		$thn_renstra =$thn_aktif['data'];
+		// tambahan 
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		
 		$select_data_master_bsn = $this->m_pelaporankeuangan->select_data_master_bsn($thn_temp);
 		// pr($select_data_master_bsn);
-		//manipulasi sementara
-		// $select_data_master_bsn['THANG'] = $thn_temp;
-		// $select_data_master_bsn['KDSATKER'] = '613104';
-		// $select_pagu_bsn = $this->m_pelaporankeuangan->cek_pagu($thn_temp);
-		// $select_data_master_bsn['real_satker'] = $select_pagu_bsn['pagu_menteri'];
-		// pr($select_data_master_bsn);
-		//manipulasi
-		
 		//select pagu total
 		$select_data_pagu_master_bsn =$this->m_pelaporankeuangan->select_data_pagu_master_bsn($thn_temp,$select_data_master_bsn['KDSATKER']);
 		// pr($select_data_pagu_master_bsn);
@@ -68,9 +63,13 @@ class pelaporanKeuangan extends Controller {
 		
 		//cek realisasi Badan Standarisasi Nasional (084)
 		$cek_realisasi= $this->m_pelaporankeuangan->cek_realisasi($thn_temp);
-		
+		// pr($cek_realisasi);
 		//cek pagu Badan Standarisasi Nasional (084)
 		$cek_pagu= $this->m_pelaporankeuangan->cek_pagu($thn_temp);
+		// pr($cek_pagu);
+		//cek kegiatan 
+			$kd_unit = '841100';
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 		
 		//cek kegiatan 
 		$cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group($thn_temp,$select_data_master_bsn['KDSATKER']);
@@ -111,6 +110,8 @@ class pelaporanKeuangan extends Controller {
 		}
 		// pr($list_kegiatan);
 		//data master
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		$this->view->assign('data_master',$select_data_master_bsn_fix);
 		$this->view->assign('data_master_sub',$list_kegiatan);
 		// pr($select_data_master_bsn_fix);
@@ -122,12 +123,15 @@ class pelaporanKeuangan extends Controller {
 
 	public function realisasiBulanan(){
 		//realisasi Bulanan
-		// $thn_temp = '2013';
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
-		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
+		$thn_renstra =$thn_aktif['data'];
+		
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
+		
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		
 		//KODE BSN
 		//start====084(BSN)=============
 		$kode_BSN = "840000";
@@ -185,7 +189,6 @@ class pelaporanKeuangan extends Controller {
 		// exit;
 		// end====084(BSN)=============
 		
-		
 		//start==613104===============
 		$select_data_master_bsn = $this->m_pelaporankeuangan->select_data_master_bsn($thn_temp);
 		// pr($select_data_master_bsn);
@@ -209,83 +212,150 @@ class pelaporanKeuangan extends Controller {
 		$select_data_master_bsn_fix[0]['total_realisasi'] = $select_data_master_bsn_fix_induk[0]['total_realisasi'];
 		$select_data_master_bsn_fix[0]['sisa_anggaran'] = $select_data_master_bsn_fix_induk[0]['sisa_anggaran'];
 			
-		// pr($select_data_master_bsn_fix);
-		// end==613104===============
-		// exit;
-		
-		// pr($select_data_master_bsn_fix_induk);
-		// pr($select_data_master_bsn_fix);
-		// exit;
-		//start Unit Eselon II
-		//cek kegiatan 
-		$cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
-		// pr($cek_kegiatan_group);
-		// exit;
-		foreach ($cek_kegiatan_group as $k=>$val) {
-			$list_kegiatan[] = $val;
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
+		if($_POST['unit']){
+			//start Unit Eselon II
+			//cek kegiatan 
+			$kd_unit = $_POST['unit'];
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			
-			$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_perbulan_unit_kegiatan($thn_temp,$monthArray,$val['KDGIAT'],$select_data_master_bsn['KDSATKER']);
-			$list_kegiatan[$k]['nama_giat']= $nama_kegiatan['nmgiat'];
-			$pagu_real = $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['pagu_giat']= $pagu_real;
-			
-			foreach ($realisasi_perbulan_kegiatan  as $rkbv)
-			{
-				$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
+			// pr($cek_kegiatan_group);
+			// exit;
+			foreach ($kd_kegiatan as $k=>$val) {
+				$list_kegiatan[] = $val;
+				$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+				$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
 				
-			}
-		
-			// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
-			// {
-				// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
-			// }
-			$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan($thn_temp,$max_bulan,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			$list_kegiatan[$k]['total_realisasi'] = $select_all_bulan_unit_kegiatan['jml'];
-			if($pagu_real == 0){
-				$persentase = 0;
-			}else{
-				$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
-			}
-			$list_kegiatan[$k]['persentase']= $persentase;
-			$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
-			$list_kegiatan[$k]['sisa_anggaran'] = $sisa_anggaran_kegiatan;
-			
-			
-			$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
-			{
-				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
-				$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_perbulan($thn_temp,$monthArray,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				
+				$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_perbulan_unit_kegiatan_rev($thn_temp,$monthArray,$val['kdgiat']);
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				$pagu_real = $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['pagu_giat']= $pagu_real;
+				
+				foreach ($realisasi_perbulan_kegiatan  as $rkbv)
 				{
-					$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+					
 				}
-				$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan($thn_temp,$max_bulan,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
-				if($valprb['pagu_output'] == 0){
-					$persentase_output = 0;
+			
+				// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
+				// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
+				// {
+					// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
+				// }
+				$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan_rev($thn_temp,$max_bulan,$val['kdgiat']);
+				$list_kegiatan[$k]['total_realisasi'] = $select_all_bulan_unit_kegiatan['jml'];
+				if($pagu_real == 0){
+					$persentase = 0;
 				}else{
-					$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
 				}
-				$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
-				$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
-				$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=$sisa_anggaran_kegiatan_output;
+				$list_kegiatan[$k]['persentase']= $persentase;
+				$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
+				$list_kegiatan[$k]['sisa_anggaran'] = $sisa_anggaran_kegiatan;
+				
+				
+				$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
+				{
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_perbulan_rev($thn_temp,$monthArray,$val['kdgiat'],$valprb['KDOUTPUT']);
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+					{
+						$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					}
+					$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan_rev($thn_temp,$max_bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					if($valprb['pagu_output'] == 0){
+						$persentase_output = 0;
+					}else{
+						$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					}
+					$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
+					$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=$sisa_anggaran_kegiatan_output;
+				}
 			}
+		}else{
+			//start Unit Eselon II
+			//cek kegiatan 
+			$kd_unit = '841100';
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			
+			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
+			// pr($cek_kegiatan_group);
+			// exit;
+			foreach ($kd_kegiatan as $k=>$val) {
+				$list_kegiatan[] = $val;
+				$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+				$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
+				
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				
+				$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_perbulan_unit_kegiatan_rev($thn_temp,$monthArray,$val['kdgiat']);
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				$pagu_real = $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['pagu_giat']= $pagu_real;
+				
+				foreach ($realisasi_perbulan_kegiatan  as $rkbv)
+				{
+					$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+					
+				}
 			
+				// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
+				// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
+				// {
+					// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
+				// }
+				$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan_rev($thn_temp,$max_bulan,$val['kdgiat']);
+				$list_kegiatan[$k]['total_realisasi'] = $select_all_bulan_unit_kegiatan['jml'];
+				if($pagu_real == 0){
+					$persentase = 0;
+				}else{
+					$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
+				}
+				$list_kegiatan[$k]['persentase']= $persentase;
+				$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
+				$list_kegiatan[$k]['sisa_anggaran'] = $sisa_anggaran_kegiatan;
+				
+				
+				$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
+				{
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_perbulan_rev($thn_temp,$monthArray,$val['kdgiat'],$valprb['KDOUTPUT']);
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+					{
+						$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					}
+					$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan_rev($thn_temp,$max_bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					if($valprb['pagu_output'] == 0){
+						$persentase_output = 0;
+					}else{
+						$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					}
+					$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
+					$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=$sisa_anggaran_kegiatan_output;
+				}
+			}
 		}
+		
 		
 		
 		//end Unit Eselon II
 		$this->view->assign('data_master_induk',$select_data_master_bsn_fix_induk);
 		$this->view->assign('data_master',$select_data_master_bsn_fix);
 		$this->view->assign('data_master_sub',$list_kegiatan);
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		
 		// pr($select_data_master_bsn_fix_induk);
 		// pr($select_data_master_bsn_fix);
@@ -297,12 +367,13 @@ class pelaporanKeuangan extends Controller {
 	//new
 	public function realisasisdBulanan(){
 		//realisasi Bulanan
-		// $thn_temp = '2013';
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
-		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
+		$thn_renstra =$thn_aktif['data'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		
 		//KODE BSN
 		//start====084(BSN)=============
 		$kode_BSN = "840000";
@@ -397,120 +468,215 @@ class pelaporanKeuangan extends Controller {
 		// exit;
 		//end==613104===============
 		
-		
-		//start Unit Eselon II
-		//cek kegiatan 
-		$cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
-		// pr($cek_kegiatan_group);
-		foreach ($cek_kegiatan_group as $k=>$val) {
-			// pr($val);
-			$list_kegiatan[] = $val;
-			// pr($list_kegiatan);
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			
-			$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_sdbulan_unit_kegiatan($thn_temp,$monthArray,$val['KDGIAT'],$select_data_master_bsn['KDSATKER']);
-			// pr($realisasi_perbulan_kegiatan);
-			// exit;
-			$list_kegiatan[$k]['nama_giat']= $nama_kegiatan['nmgiat'];
-			/*echo "<pre>";
-			echo "pagu giat=".$val['pagu_giat'];
-			echo "</pre>";
-			echo "hasil pagu = ".$val['pagu_giat'] / 2;*/
-			$pagu_real = $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['pagu_giat']= $pagu_real;
-			// $count_array = 0 ;
-			
-			foreach ($realisasi_perbulan_kegiatan  as $rkbv)
-			{
-				$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+		if($_POST['unit'] != ''){
+			//start Unit Eselon II
+			//cek kegiatan 
+			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
+			$kd_unit = $_POST['unit'];
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// pr($cek_kegiatan_group);
+			foreach ($kd_kegiatan as $k=>$val) {
+				// pr($val);
+				$list_kegiatan[] = $val;
+				// pr($list_kegiatan);
+				$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+				$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
 				
-			}
-			$persentase_realisasi_bulan = array();
-			foreach ($realisasi_perbulan_kegiatan  as $prkbv)
-			{
-				foreach ($prkbv as $prst_prkbv){
-					$temp_rest = round(($prst_prkbv / $pagu_real) * 100,2);
-					$persentase_realisasi_bulan[] = $temp_rest;
-				}
-			}
-			$list_kegiatan[$k]['persentase_realisasi_bulan'] = $persentase_realisasi_bulan;
-			// pr($list_kegiatan);
-			// exit;
-			// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_2($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			// pr($penarikan_unit_perbulan_kegiatan);
-			// exit;
-			// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
-			// {
-				// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
-			// }
-			// exit;
-			$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan($thn_temp,$max_bulan,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			$list_kegiatan[$k]['total_realisasi'] = $select_all_bulan_unit_kegiatan['jml'];
-			// if($val['pagu_giat'] == 0){
-			if($pagu_real == 0){
-				$persentase = 0;
-			}else{
-				// $persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $val['pagu_giat'])*100,2);
-				$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
-			}
-			$list_kegiatan[$k]['persentase']= $persentase;
-			// $sisa_anggaran_kegiatan = $val['pagu_giat'] - $select_all_bulan_unit_kegiatan['jml'];
-			$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
-			$list_kegiatan[$k]['sisa_anggaran'] = $sisa_anggaran_kegiatan;
-			$list_kegiatan[$k]['persentase_sisa_anggaran'] = round(($sisa_anggaran_kegiatan / $pagu_real)*100,2);
-			
-			// $list_kegiatan[$k]['persentase']= 0;
-			
-			
-			$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			// pr($pagutotal_kode_output_kegiatan_perbulan);
-			foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
-			{
-				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
-				$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_sdbulan_kegiatan_perbulan($thn_temp,$monthArray,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+				$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_sdbulan_unit_kegiatan_rev($thn_temp,$monthArray,$val['kdgiat']);
+				
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				$pagu_real = $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['pagu_giat']= $pagu_real;
+				// $count_array = 0 ;
+				
+				foreach ($realisasi_perbulan_kegiatan  as $rkbv)
 				{
-					$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+					
 				}
-				$persentase_realisasi_bulan_out = array();
-				foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $realsdout)
+				$persentase_realisasi_bulan = array();
+				foreach ($realisasi_perbulan_kegiatan  as $prkbv)
 				{
-					foreach ($realsdout as $real_out){
-						$temp_rest_out = round(($real_out / $valprb['pagu_output']) * 100,2);
-						$persentase_realisasi_bulan_out[] = $temp_rest_out;
+					foreach ($prkbv as $prst_prkbv){
+						$temp_rest = round(($prst_prkbv / $pagu_real) * 100,2);
+						$persentase_realisasi_bulan[] = $temp_rest;
 					}
 				}
-				
-				$list_kegiatan[$k]['output'][$vprb]['persentase_realisasi_sd_bulan'] = $persentase_realisasi_bulan_out;
-				
-				$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan($thn_temp,$max_bulan,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
-				if($valprb['pagu_output'] == 0){
-					$persentase_output = 0;
+				$list_kegiatan[$k]['persentase_realisasi_bulan'] = $persentase_realisasi_bulan;
+				// pr($list_kegiatan);
+				// exit;
+				// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_2($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
+				// pr($penarikan_unit_perbulan_kegiatan);
+				// exit;
+				// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
+				// {
+					// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
+				// }
+				// exit;
+				$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan_rev($thn_temp,$max_bulan,$val['kdgiat']);
+				$list_kegiatan[$k]['total_realisasi'] = $select_all_bulan_unit_kegiatan['jml'];
+				// if($val['pagu_giat'] == 0){
+				if($pagu_real == 0){
+					$persentase = 0;
 				}else{
-					$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					// $persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $val['pagu_giat'])*100,2);
+					$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
 				}
-				$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
-				$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
-				$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=$sisa_anggaran_kegiatan_output;
-				$list_kegiatan[$k]['output'][$vprb]['persentase_sisa_anggaran_kegiatan_output']= round(($sisa_anggaran_kegiatan_output / $valprb['pagu_output'])*100,2);
+				$list_kegiatan[$k]['persentase']= $persentase;
+				// $sisa_anggaran_kegiatan = $val['pagu_giat'] - $select_all_bulan_unit_kegiatan['jml'];
+				$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
+				$list_kegiatan[$k]['sisa_anggaran'] = $sisa_anggaran_kegiatan;
+				$list_kegiatan[$k]['persentase_sisa_anggaran'] = round(($sisa_anggaran_kegiatan / $pagu_real)*100,2);
+				
+				// $list_kegiatan[$k]['persentase']= 0;
+				
+				
+				$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				// pr($pagutotal_kode_output_kegiatan_perbulan);
+				foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
+				{
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_sdbulan_kegiatan_perbulan_rev($thn_temp,$monthArray,$val['kdgiat'],$valprb['KDOUTPUT']);
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+					{
+						$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					}
+					$persentase_realisasi_bulan_out = array();
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $realsdout)
+					{
+						foreach ($realsdout as $real_out){
+							$temp_rest_out = round(($real_out / $valprb['pagu_output']) * 100,2);
+							$persentase_realisasi_bulan_out[] = $temp_rest_out;
+						}
+					}
+					
+					$list_kegiatan[$k]['output'][$vprb]['persentase_realisasi_sd_bulan'] = $persentase_realisasi_bulan_out;
+					
+					$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan_rev($thn_temp,$max_bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					if($valprb['pagu_output'] == 0){
+						$persentase_output = 0;
+					}else{
+						$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					}
+					$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
+					$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=$sisa_anggaran_kegiatan_output;
+					$list_kegiatan[$k]['output'][$vprb]['persentase_sisa_anggaran_kegiatan_output']= round(($sisa_anggaran_kegiatan_output / $valprb['pagu_output'])*100,2);
+				}
 			}
-			
-			
+		}else{
+			//start Unit Eselon II
+			//cek kegiatan 
+			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
+			$kd_unit = '841100';
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// pr($cek_kegiatan_group);
+			foreach ($kd_kegiatan as $k=>$val) {
+				// pr($val);
+				$list_kegiatan[] = $val;
+				// pr($list_kegiatan);
+				$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+				$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				
+				$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_sdbulan_unit_kegiatan_rev($thn_temp,$monthArray,$val['kdgiat']);
+				
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				$pagu_real = $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['pagu_giat']= $pagu_real;
+				// $count_array = 0 ;
+				
+				foreach ($realisasi_perbulan_kegiatan  as $rkbv)
+				{
+					$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+					
+				}
+				$persentase_realisasi_bulan = array();
+				foreach ($realisasi_perbulan_kegiatan  as $prkbv)
+				{
+					foreach ($prkbv as $prst_prkbv){
+						$temp_rest = round(($prst_prkbv / $pagu_real) * 100,2);
+						$persentase_realisasi_bulan[] = $temp_rest;
+					}
+				}
+				$list_kegiatan[$k]['persentase_realisasi_bulan'] = $persentase_realisasi_bulan;
+				// pr($list_kegiatan);
+				// exit;
+				// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_2($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
+				// pr($penarikan_unit_perbulan_kegiatan);
+				// exit;
+				// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
+				// {
+					// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
+				// }
+				// exit;
+				$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan_rev($thn_temp,$max_bulan,$val['kdgiat']);
+				$list_kegiatan[$k]['total_realisasi'] = $select_all_bulan_unit_kegiatan['jml'];
+				// if($val['pagu_giat'] == 0){
+				if($pagu_real == 0){
+					$persentase = 0;
+				}else{
+					// $persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $val['pagu_giat'])*100,2);
+					$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
+				}
+				$list_kegiatan[$k]['persentase']= $persentase;
+				// $sisa_anggaran_kegiatan = $val['pagu_giat'] - $select_all_bulan_unit_kegiatan['jml'];
+				$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
+				$list_kegiatan[$k]['sisa_anggaran'] = $sisa_anggaran_kegiatan;
+				$list_kegiatan[$k]['persentase_sisa_anggaran'] = round(($sisa_anggaran_kegiatan / $pagu_real)*100,2);
+				
+				// $list_kegiatan[$k]['persentase']= 0;
+				
+				
+				$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				// pr($pagutotal_kode_output_kegiatan_perbulan);
+				foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
+				{
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_sdbulan_kegiatan_perbulan_rev($thn_temp,$monthArray,$val['kdgiat'],$valprb['KDOUTPUT']);
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+					{
+						$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					}
+					$persentase_realisasi_bulan_out = array();
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $realsdout)
+					{
+						foreach ($realsdout as $real_out){
+							$temp_rest_out = round(($real_out / $valprb['pagu_output']) * 100,2);
+							$persentase_realisasi_bulan_out[] = $temp_rest_out;
+						}
+					}
+					
+					$list_kegiatan[$k]['output'][$vprb]['persentase_realisasi_sd_bulan'] = $persentase_realisasi_bulan_out;
+					
+					$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan_rev($thn_temp,$max_bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					if($valprb['pagu_output'] == 0){
+						$persentase_output = 0;
+					}else{
+						$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					}
+					$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
+					$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - $select_all_bulan_unit_kegiatan_ouput_perbulan['jml'];
+					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=$sisa_anggaran_kegiatan_output;
+					$list_kegiatan[$k]['output'][$vprb]['persentase_sisa_anggaran_kegiatan_output']= round(($sisa_anggaran_kegiatan_output / $valprb['pagu_output'])*100,2);
+				}
+			}
 		}
+		
 		//end Unit Eselon II
 		$this->view->assign('data_master_induk',$select_data_master_bsn_fix_induk);
 		$this->view->assign('data_master',$select_data_master_bsn_fix);
 		$this->view->assign('data_master_sub',$list_kegiatan);
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		
-		// pr($select_data_master_bsn_fix_induk);
-		// pr($select_data_master_bsn_fix);
-		// pr($list_kegiatan);
-		// exit;
 		return $this->loadView('pelaporanKeuangan/laporanBulanan/realisasisdBulanan');
 	}
 	
@@ -520,8 +686,10 @@ class pelaporanKeuangan extends Controller {
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
+		$thn_renstra =$thn_aktif['data'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		//KODE BSN
 		//start====084(BSN)=============
 		$kode_BSN = "840000";
@@ -602,121 +770,232 @@ class pelaporanKeuangan extends Controller {
 		// exit;
 		// end==613104===============
 		
-		
-		//start Unit Eselon II
-		//cek kegiatan 
-		$cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
-		// pr($cek_kegiatan_group);
-		foreach ($cek_kegiatan_group as $k=>$val) {
-			// pr($val);
-			$list_kegiatan[] = $val;
-			// pr($list_kegiatan);
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			
-			$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_sdbulan_unit_kegiatan($thn_temp,$monthArray,$val['KDGIAT'],$select_data_master_bsn['KDSATKER'],1);
-			// pr($realisasi_perbulan_kegiatan);
-			// exit;
-			$list_kegiatan[$k]['nama_giat']= $nama_kegiatan['nmgiat'];
-			$pagu_real = $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['pagu_giat']= round($pagu_real / 1000000,0);
-			// $count_array = 0 ;
-			
-			foreach ($realisasi_perbulan_kegiatan  as $rkbv)
-			{
-				$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+		if($_POST['unit'] !=0){
+			//start Unit Eselon II
+			//cek kegiatan 
+			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
+			$kd_unit = $_POST['unit'];
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// pr($cek_kegiatan_group);
+			foreach ($kd_kegiatan as $k=>$val) {
+				// pr($val);
+				$list_kegiatan[] = $val;
+				// pr($list_kegiatan);
+				$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+				$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
+				$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_sdbulan_unit_kegiatan_rev($thn_temp,$monthArray,$val['kdgiat'],1);
+				// pr($realisasi_perbulan_kegiatan);
+				// exit;
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				$pagu_real = $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['pagu_giat']= round($pagu_real / 1000000,0);
+				// $count_array = 0 ;
 				
-			}
-			$persentase_realisasi_bulan = array();
-			/*foreach ($realisasi_perbulan_kegiatan  as $prkbv)
-			{
-				foreach ($prkbv as $prst_prkbv){
-					$temp_rest = round(($prst_prkbv / $pagu_real) * 100,2);
-					$persentase_realisasi_bulan[] = $temp_rest;
-				}
-			}
-			$list_kegiatan[$k]['persentase_realisasi_bulan'] = $persentase_realisasi_bulan;*/
-			// pr($list_kegiatan);
-			// exit;
-			$penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_2($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],1);
-			// pr($penarikan_unit_perbulan_kegiatan);
-			// exit;
-			foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
-			{
-				$list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
-			}
-			// exit;
-			$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan($thn_temp,$max_bulan,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			$list_kegiatan[$k]['total_realisasi'] = round($select_all_bulan_unit_kegiatan['jml'] / 1000000,0);
-			// if($val['pagu_giat'] == 0){
-			if($pagu_real == 0){
-				$persentase = 0;
-			}else{
-				// $persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $val['pagu_giat'])*100,2);
-				$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
-			}
-			$list_kegiatan[$k]['persentase']= $persentase;
-			// $sisa_anggaran_kegiatan = $val['pagu_giat'] - $select_all_bulan_unit_kegiatan['jml'];
-			$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
-			$list_kegiatan[$k]['sisa_anggaran'] = round($sisa_anggaran_kegiatan / 1000000,0);
-			// $list_kegiatan[$k]['persentase_sisa_anggaran'] = round(($sisa_anggaran_kegiatan / $pagu_real)*100,2);
-			
-			// $list_kegiatan[$k]['persentase']= 0;
-			
-			// pr($list_kegiatan);
-			// exit;
-			// $pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],1);
-			$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],1);
-			// pr($pagutotal_kode_output_kegiatan_perbulan);
-			foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
-			{
-				// pr($valprb);
-				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$list_kegiatan[$k]['output'][$vprb]['new_pagu_output']=round($valprb['pagu_output'] / 1000000,0);
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
-				$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_sdbulan_kegiatan_perbulan($thn_temp,$monthArray,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],1);
-				foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+				foreach ($realisasi_perbulan_kegiatan  as $rkbv)
 				{
-					$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+					
 				}
-				$persentase_realisasi_bulan_out = array();
-				/*foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $realsdout)
+				$persentase_realisasi_bulan = array();
+				/*foreach ($realisasi_perbulan_kegiatan  as $prkbv)
 				{
-					foreach ($realsdout as $real_out){
-						$temp_rest_out = round(($real_out / $valprb['pagu_output']) * 100,2);
-						$persentase_realisasi_bulan_out[] = $temp_rest_out;
+					foreach ($prkbv as $prst_prkbv){
+						$temp_rest = round(($prst_prkbv / $pagu_real) * 100,2);
+						$persentase_realisasi_bulan[] = $temp_rest;
 					}
 				}
-				
-				$list_kegiatan[$k]['output'][$vprb]['persentase_realisasi_sd_bulan'] = $persentase_realisasi_bulan_out;*/
-				
-				$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan($thn_temp,$max_bulan,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				// pr($select_all_bulan_unit_kegiatan_ouput_perbulan);
-				$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = round($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / 1000000,0);
-				if($valprb['pagu_output'] == 0){
-					$persentase_output = 0;
+				$list_kegiatan[$k]['persentase_realisasi_bulan'] = $persentase_realisasi_bulan;*/
+				// pr($list_kegiatan);
+				// exit;
+				// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_2($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],1);
+				// pr($penarikan_unit_perbulan_kegiatan);
+				// exit;
+				// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
+				// {
+					// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
+				// }
+				// exit;
+				$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan_rev($thn_temp,$max_bulan,$val['kdgiat']);
+				$list_kegiatan[$k]['total_realisasi'] = round($select_all_bulan_unit_kegiatan['jml'] / 1000000,0);
+				// if($val['pagu_giat'] == 0){
+				if($pagu_real == 0){
+					$persentase = 0;
 				}else{
-					// $persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
-					$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					// $persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $val['pagu_giat'])*100,2);
+					$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
 				}
-				$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
-				$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - ($select_all_bulan_unit_kegiatan_ouput_perbulan['jml']);
-				$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=round($sisa_anggaran_kegiatan_output / 1000000,0);
-				// $list_kegiatan[$k]['output'][$vprb]['persentase_sisa_anggaran_kegiatan_output']= round(($sisa_anggaran_kegiatan_output / $valprb['pagu_output'])*100,2);
+				$list_kegiatan[$k]['persentase']= $persentase;
+				// $sisa_anggaran_kegiatan = $val['pagu_giat'] - $select_all_bulan_unit_kegiatan['jml'];
+				$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
+				$list_kegiatan[$k]['sisa_anggaran'] = round($sisa_anggaran_kegiatan / 1000000,0);
+				// $list_kegiatan[$k]['persentase_sisa_anggaran'] = round(($sisa_anggaran_kegiatan / $pagu_real)*100,2);
+				
+				// $list_kegiatan[$k]['persentase']= 0;
 				
 				// pr($list_kegiatan);
 				// exit;
+				// $pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],1);
+				$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat'],1);
+				// pr($pagutotal_kode_output_kegiatan_perbulan);
+				foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
+				{
+					// pr($valprb);
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$list_kegiatan[$k]['output'][$vprb]['new_pagu_output']=round($valprb['pagu_output'] / 1000000,0);
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_sdbulan_kegiatan_perbulan_rev($thn_temp,$monthArray,$val['kdgiat'],$valprb['KDOUTPUT'],1);
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+					{
+						$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					}
+					$persentase_realisasi_bulan_out = array();
+					/*foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $realsdout)
+					{
+						foreach ($realsdout as $real_out){
+							$temp_rest_out = round(($real_out / $valprb['pagu_output']) * 100,2);
+							$persentase_realisasi_bulan_out[] = $temp_rest_out;
+						}
+					}
+					
+					$list_kegiatan[$k]['output'][$vprb]['persentase_realisasi_sd_bulan'] = $persentase_realisasi_bulan_out;*/
+					
+					$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan_rev($thn_temp,$max_bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+					// pr($select_all_bulan_unit_kegiatan_ouput_perbulan);
+					$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = round($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / 1000000,0);
+					if($valprb['pagu_output'] == 0){
+						$persentase_output = 0;
+					}else{
+						// $persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+						$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					}
+					$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
+					$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - ($select_all_bulan_unit_kegiatan_ouput_perbulan['jml']);
+					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=round($sisa_anggaran_kegiatan_output / 1000000,0);
+					// $list_kegiatan[$k]['output'][$vprb]['persentase_sisa_anggaran_kegiatan_output']= round(($sisa_anggaran_kegiatan_output / $valprb['pagu_output'])*100,2);
+					
+					// pr($list_kegiatan);
+					// exit;
+				}
 			}
-			
-			
+		}else{
+			//start Unit Eselon II
+			//cek kegiatan 
+			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
+			$kd_unit = '841100';
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// pr($cek_kegiatan_group);
+			foreach ($kd_kegiatan as $k=>$val) {
+				// pr($val);
+				$list_kegiatan[] = $val;
+				// pr($list_kegiatan);
+				$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+				$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
+				$realisasi_perbulan_kegiatan= $this->m_pelaporankeuangan->realisasi_sdbulan_unit_kegiatan_rev($thn_temp,$monthArray,$val['kdgiat'],1);
+				// pr($realisasi_perbulan_kegiatan);
+				// exit;
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				$pagu_real = $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['pagu_giat']= round($pagu_real / 1000000,0);
+				// $count_array = 0 ;
+				
+				foreach ($realisasi_perbulan_kegiatan  as $rkbv)
+				{
+					$list_kegiatan[$k]['realisasi_bulan'] = $rkbv;
+					
+				}
+				$persentase_realisasi_bulan = array();
+				/*foreach ($realisasi_perbulan_kegiatan  as $prkbv)
+				{
+					foreach ($prkbv as $prst_prkbv){
+						$temp_rest = round(($prst_prkbv / $pagu_real) * 100,2);
+						$persentase_realisasi_bulan[] = $temp_rest;
+					}
+				}
+				$list_kegiatan[$k]['persentase_realisasi_bulan'] = $persentase_realisasi_bulan;*/
+				// pr($list_kegiatan);
+				// exit;
+				// $penarikan_unit_perbulan_kegiatan = $this->m_pelaporankeuangan->penarikan_unit_perbulan_kegiatan_2($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],1);
+				// pr($penarikan_unit_perbulan_kegiatan);
+				// exit;
+				// foreach ($penarikan_unit_perbulan_kegiatan  as $pkrb=>$pkrbv)
+				// {
+					// $list_kegiatan[$k]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan;
+				// }
+				// exit;
+				$select_all_bulan_unit_kegiatan = $this->m_pelaporankeuangan->realisasi_allbulan_unit_kegiatan_rev($thn_temp,$max_bulan,$val['kdgiat']);
+				$list_kegiatan[$k]['total_realisasi'] = round($select_all_bulan_unit_kegiatan['jml'] / 1000000,0);
+				// if($val['pagu_giat'] == 0){
+				if($pagu_real == 0){
+					$persentase = 0;
+				}else{
+					// $persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $val['pagu_giat'])*100,2);
+					$persentase = round(($select_all_bulan_unit_kegiatan['jml'] / $pagu_real)*100,2);
+				}
+				$list_kegiatan[$k]['persentase']= $persentase;
+				// $sisa_anggaran_kegiatan = $val['pagu_giat'] - $select_all_bulan_unit_kegiatan['jml'];
+				$sisa_anggaran_kegiatan = $pagu_real - $select_all_bulan_unit_kegiatan['jml'];
+				$list_kegiatan[$k]['sisa_anggaran'] = round($sisa_anggaran_kegiatan / 1000000,0);
+				// $list_kegiatan[$k]['persentase_sisa_anggaran'] = round(($sisa_anggaran_kegiatan / $pagu_real)*100,2);
+				
+				// $list_kegiatan[$k]['persentase']= 0;
+				
+				// pr($list_kegiatan);
+				// exit;
+				// $pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],1);
+				$pagutotal_kode_output_kegiatan_perbulan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat'],1);
+				// pr($pagutotal_kode_output_kegiatan_perbulan);
+				foreach ($pagutotal_kode_output_kegiatan_perbulan as $vprb=>$valprb)
+				{
+					// pr($valprb);
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$list_kegiatan[$k]['output'][$vprb]['new_pagu_output']=round($valprb['pagu_output'] / 1000000,0);
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					$penarikan_unit_perbulan_kegiatan_perbulan = $this->m_pelaporankeuangan->penarikan_unit_sdbulan_kegiatan_perbulan_rev($thn_temp,$monthArray,$val['kdgiat'],$valprb['KDOUTPUT'],1);
+					foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $pukrb=>$upukrbv)
+					{
+						$list_kegiatan[$k]['output'][$vprb]['penarikan_bulan'] = $penarikan_unit_perbulan_kegiatan_perbulan;
+					}
+					$persentase_realisasi_bulan_out = array();
+					/*foreach ($penarikan_unit_perbulan_kegiatan_perbulan  as $realsdout)
+					{
+						foreach ($realsdout as $real_out){
+							$temp_rest_out = round(($real_out / $valprb['pagu_output']) * 100,2);
+							$persentase_realisasi_bulan_out[] = $temp_rest_out;
+						}
+					}
+					
+					$list_kegiatan[$k]['output'][$vprb]['persentase_realisasi_sd_bulan'] = $persentase_realisasi_bulan_out;*/
+					
+					$select_all_bulan_unit_kegiatan_ouput_perbulan = $this->m_pelaporankeuangan->select_all_bulan_unit_kegiatan_ouput_perbulan_rev($thn_temp,$max_bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+					// pr($select_all_bulan_unit_kegiatan_ouput_perbulan);
+					$list_kegiatan[$k]['output'][$vprb]['total_realisasi'] = round($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / 1000000,0);
+					if($valprb['pagu_output'] == 0){
+						$persentase_output = 0;
+					}else{
+						// $persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+						$persentase_output = round(($select_all_bulan_unit_kegiatan_ouput_perbulan['jml'] / $valprb['pagu_output'])*100,2);
+					}
+					$list_kegiatan[$k]['output'][$vprb]['persentase']=$persentase_output;
+					$sisa_anggaran_kegiatan_output = $valprb['pagu_output'] - ($select_all_bulan_unit_kegiatan_ouput_perbulan['jml']);
+					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_kegiatan_output']=round($sisa_anggaran_kegiatan_output / 1000000,0);
+					// $list_kegiatan[$k]['output'][$vprb]['persentase_sisa_anggaran_kegiatan_output']= round(($sisa_anggaran_kegiatan_output / $valprb['pagu_output'])*100,2);
+					
+					// pr($list_kegiatan);
+					// exit;
+				}
+			}
 		}
+		
 		//end Unit Eselon II
 		$this->view->assign('data_master_induk',$select_data_master_bsn_fix_induk);
 		$this->view->assign('data_master',$select_data_master_bsn_fix);
 		$this->view->assign('data_master_sub',$list_kegiatan);
-		
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		// pr($select_data_master_bsn_fix_induk);
 		// pr($select_data_master_bsn_fix);
 		// pr($list_kegiatan);
@@ -759,7 +1038,9 @@ class pelaporanKeuangan extends Controller {
 	// $thn_temp = '2013';
 	$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 	$thn_temp = $thn_aktif['kode'];
-	if($_POST['bulan'] != ''){
+	$thn_renstra =$thn_aktif['data'];
+	$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	if($_POST['bulan'] != '' && $_POST['unit'] !=''){
 		// pr($_POST['bulan']);
 		$bulan = $_POST['bulan'];
 		
@@ -837,45 +1118,46 @@ class pelaporanKeuangan extends Controller {
 		// pr($data_bsn_induk_sub);
 		// exit;
 		//unit eselon II
-		$select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		foreach ($select_kegiatan as $k=>$val) {
+		$kd_unit = $_POST['unit'];
+		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			$renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+			$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
 			
-			if($renc_giat_sdbulan['rencana'] == 0){
-				$persentase_thd_Rencana_Penarikan_kegiatan  = 0;
-			}else{
-				$persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
-			}
+			// $renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			// if($renc_giat_sdbulan['rencana'] == 0){
+				// $persentase_thd_Rencana_Penarikan_kegiatan  = 0;
+			// }else{
+				// $persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
+			// }
 			
-			if($val['pagu_giat'] == 0){
+			if($pagu_giat['pagu_giat'] == 0){
 				$persentase_thn_pagu_satker_kegiatan = 0;
 			}else{
-				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($val['pagu_giat'] /2))*100,2);
+				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($pagu_giat['pagu_giat']))*100,2);
 			}
 			
-			$sisa_anggaran_kegiatan = ($val['pagu_giat'] /2) - $real_giat_sdbulan['jml'];
+			$sisa_anggaran_kegiatan = $pagu_giat['pagu_giat'] - $real_giat_sdbulan['jml'];
 			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-			$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
+			$list_kegiatan[$k]['nama_kegiatan']= $val['nmgiat'];
+			$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
+			// $list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
 			$list_kegiatan[$k]['real_giat_bulan']= $real_giat_bulan['jml'];
 			$list_kegiatan[$k]['real_giat_sdbulan']= $real_giat_sdbulan['jml'];
-			$list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
+			// $list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
 			$list_kegiatan[$k]['persentase_thn_pagu_satker_kegiatan']= $persentase_thn_pagu_satker_kegiatan;
 			$list_kegiatan[$k]['sisa_anggaran_kegiatan']= $sisa_anggaran_kegiatan;
 			
 			
-			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
 			foreach ($select_output as $vprb=>$valprb){
 				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+				$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
 				
 				if($valprb['pagu_output'] == 0){
 					$persentase_pagu_output = 0;
@@ -970,45 +1252,47 @@ class pelaporanKeuangan extends Controller {
 		// pr($data_bsn_induk_sub);
 		// exit;
 		//unit eselon II
-		$select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		foreach ($select_kegiatan as $k=>$val) {
+		// $select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
+		$kd_unit = '841100';
+		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			$renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+			$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
 			
-			if($renc_giat_sdbulan['rencana'] == 0){
-				$persentase_thd_Rencana_Penarikan_kegiatan  = 0;
-			}else{
-				$persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
-			}
+			// $renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			// if($renc_giat_sdbulan['rencana'] == 0){
+				// $persentase_thd_Rencana_Penarikan_kegiatan  = 0;
+			// }else{
+				// $persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
+			// }
 			
-			if($val['pagu_giat'] == 0){
+			if($pagu_giat['pagu_giat'] == 0){
 				$persentase_thn_pagu_satker_kegiatan = 0;
 			}else{
-				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($val['pagu_giat'] /2))*100,2);
+				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($pagu_giat['pagu_giat']))*100,2);
 			}
 			
-			$sisa_anggaran_kegiatan = ($val['pagu_giat'] /2) - $real_giat_sdbulan['jml'];
+			$sisa_anggaran_kegiatan = $pagu_giat['pagu_giat'] - $real_giat_sdbulan['jml'];
 			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-			$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
+			$list_kegiatan[$k]['nama_kegiatan']= $val['nmgiat'];
+			$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
+			// $list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
 			$list_kegiatan[$k]['real_giat_bulan']= $real_giat_bulan['jml'];
 			$list_kegiatan[$k]['real_giat_sdbulan']= $real_giat_sdbulan['jml'];
-			$list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
+			// $list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
 			$list_kegiatan[$k]['persentase_thn_pagu_satker_kegiatan']= $persentase_thn_pagu_satker_kegiatan;
 			$list_kegiatan[$k]['sisa_anggaran_kegiatan']= $sisa_anggaran_kegiatan;
 			
 			
-			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
 			foreach ($select_output as $vprb=>$valprb){
 				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+				$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
 				
 				if($valprb['pagu_output'] == 0){
 					$persentase_pagu_output = 0;
@@ -1039,12 +1323,14 @@ class pelaporanKeuangan extends Controller {
 		$this->view->assign('data_master_induk',$data_bsn_induk);
 		$this->view->assign('data_master',$data_bsn_induk_sub);
 		$this->view->assign('data_master_sub',$list_kegiatan);
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		// exit;
 		return $this->loadView('pelaporanKeuangan/laporanBulanan/anggaranTotalBulanan');
 		
 	}
 	
-	//ga bisa
+	//bisa
 	public function anggaranJenisBelanja(){
 		
 		if($_POST['bulan'] != ''){
@@ -1081,8 +1367,11 @@ class pelaporanKeuangan extends Controller {
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		// $thn_temp = '2013';
 		$thn_temp = $thn_aktif['kode'];
+		$thn_renstra =$thn_aktif['data'];
+		//tambahan 
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		
-		if($_POST['bulan'] != ''){
+		if($_POST['bulan'] != '' && $_POST['unit'] != ''){
 			$bl = $_POST['bulan'];
 			$select_data_master_bsn = $this->m_penetapanAngaran->cek_pagu($thn_temp);
 			// pr($select_data_master_bsn);
@@ -1190,23 +1479,23 @@ class pelaporanKeuangan extends Controller {
 			$data_bsn_induk_sub[]['persentase_total_realisasi_jenis_belanja']= $persentase_realisasi_jenis_belanja;
 			$data_bsn_induk_sub[]['sisa_anggaran_total_realisasi_jenis_belanja']= $sisa_anggaran_jenis_belanja;
 			// pr($data_bsn_induk_sub);
-			// exit;
+			
 			//unit eselon II
-			$select_kegiatan= $this->m_penetapanAngaran->cek_kegiatan_group_scnd($thn_temp,$select_kd_satker['KDSATKER']);
-			// pr($select_kegiatan);
-			foreach ($select_kegiatan as $k=>$val) {
+			$kd_unit = $_POST['unit'];
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			foreach ($kd_kegiatan as $k=>$val) {
 				$list_kegiatan[] = $val;
-				// $nama_unit= $this->m_penetapanAngaran->nm_unit($val['kdunitkerja']);
-				$nama_kegiatan= $this->m_penetapanAngaran->nama_kegiatan($val['KDGIAT']);
-				// $list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-				$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-				$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'];
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
 				
+				$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
+				
+				// pr($list_kegiatan);
+				// exit;
 				//belanja pegawai
-				$anggaran_belanja_menteri_pegawai_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_pegawai_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_giat($thn_temp,$val['kdgiat']);
 				
 				//add
-				$realisasi_anggaran_belanja_menteri_pegawai_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,51);
+				$realisasi_anggaran_belanja_menteri_pegawai_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,51);
 				if($anggaran_belanja_menteri_pegawai_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_pegawai_giat = $anggaran_belanja_menteri_pegawai_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_pegawai_giat['realisasi'];
 				}else{
@@ -1214,27 +1503,27 @@ class pelaporanKeuangan extends Controller {
 				}
 				
 				//belanja barang
-				$anggaran_belanja_menteri_barang_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_barang_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_giat($thn_temp,$val['kdgiat']);
 				//add
-				$realisasi_anggaran_belanja_menteri_barang_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,52);
+				$realisasi_anggaran_belanja_menteri_barang_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,52);
 				if($anggaran_belanja_menteri_barang_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_barang_giat = $anggaran_belanja_menteri_barang_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_barang_giat['realisasi'];
 				}else{
 					$sisa_anggaran_belanja_menteri_barang_giat = 0;
 				}
 				//barang modal
-				$anggaran_belanja_menteri_modal_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_modal_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_giat($thn_temp,$val['kdgiat']);
 				//add
-				$realisasi_anggaran_belanja_menteri_modal_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,53);
+				$realisasi_anggaran_belanja_menteri_modal_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,53);
 				if($anggaran_belanja_menteri_modal_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_modal_giat = $anggaran_belanja_menteri_modal_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_modal_giat['realisasi'];
 				}else{
 					$sisa_anggaran_belanja_menteri_modal_giat = 0;
 				}
 				//belanja perjalanan
-				$anggaran_belanja_menteri_perjalanan_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_perjalanan_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_giat($thn_temp,$val['kdgiat']);
 				//add
-				$realisasi_anggaran_belanja_menteri_perjalanan_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,524);
+				$realisasi_anggaran_belanja_menteri_perjalanan_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,524);
 				if($anggaran_belanja_menteri_perjalanan_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_perjalanan_giat = $anggaran_belanja_menteri_perjalanan_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_perjalanan_giat['realisasi'];
 				}else{
@@ -1245,8 +1534,8 @@ class pelaporanKeuangan extends Controller {
 																 $realisasi_anggaran_belanja_menteri_barang_giat['realisasi'] +
 																 $realisasi_anggaran_belanja_menteri_modal_giat['realisasi'] +
 																 $realisasi_anggaran_belanja_menteri_perjalanan_giat['realisasi'];
-				$sisa_anggaran_belanja_menteri_giat_total = $val['pagu_giat'] - $realisasi_anggaran_belanja_menteri_giat_total;
-				$persentase_anggaran_belanja_menteri_giat_total = round(($realisasi_anggaran_belanja_menteri_giat_total / $val['pagu_giat']) * 100,2);
+				$sisa_anggaran_belanja_menteri_giat_total = $pagu_giat['pagu_giat'] - $realisasi_anggaran_belanja_menteri_giat_total;
+				$persentase_anggaran_belanja_menteri_giat_total = round(($realisasi_anggaran_belanja_menteri_giat_total / $pagu_giat['pagu_giat']) * 100,2);
 				
 				$list_kegiatan[$k]['pagu_giat_pegawai']= $anggaran_belanja_menteri_pegawai_giat['pagu_satker'];
 				$list_kegiatan[$k]['realisasi_giat_pegawai']= $realisasi_anggaran_belanja_menteri_pegawai_giat['realisasi'];
@@ -1267,17 +1556,20 @@ class pelaporanKeuangan extends Controller {
 				$list_kegiatan[$k]['realisasi_anggaran_belanja_menteri_giat_total']= $realisasi_anggaran_belanja_menteri_giat_total;
 				$list_kegiatan[$k]['persentase_anggaran_belanja_menteri_giat_total']= $persentase_anggaran_belanja_menteri_giat_total;
 				$list_kegiatan[$k]['sisa_anggaran_belanja_menteri_giat_total']= $sisa_anggaran_belanja_menteri_giat_total;
-				
-				$select_output= $this->m_penetapanAngaran->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				// echo "masuk";
+				// exit;
+				$select_output= $this->m_penetapanAngaran->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				// pr($select_output);
+				// exit;
 				foreach ($select_output as $vprb=>$valprb){
 					$list_kegiatan[$k]['output'][$vprb]=$valprb;
-					$nama_output= $this->m_penetapanAngaran->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
+					$nama_output= $this->m_penetapanAngaran->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
 					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
 					
 					//belanja pegawai
-					$anggaran_belanja_menteri_pegawai_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+					$anggaran_belanja_menteri_pegawai_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_pegawai_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,51);
+					$realisasi_anggaran_belanja_menteri_pegawai_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,51);
 					if($anggaran_belanja_menteri_pegawai_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_pegawai_output = $anggaran_belanja_menteri_pegawai_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_pegawai_output['realisasi'];
 					}else{
@@ -1285,10 +1577,10 @@ class pelaporanKeuangan extends Controller {
 					}
 					
 					//belanja barang
-					$anggaran_belanja_menteri_barang_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],
+					$anggaran_belanja_menteri_barang_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_output($thn_temp,$val['kdgiat'],
 					$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_barang_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,52);
+					$realisasi_anggaran_belanja_menteri_barang_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,52);
 					if($anggaran_belanja_menteri_barang_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_barang_output = $anggaran_belanja_menteri_barang_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_barang_output['realisasi'];
 					}else{
@@ -1296,19 +1588,19 @@ class pelaporanKeuangan extends Controller {
 					}
 					
 					//belanja modal
-					$anggaran_belanja_menteri_modal_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+					$anggaran_belanja_menteri_modal_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_modal_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,53);
+					$realisasi_anggaran_belanja_menteri_modal_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,53);
 					if($anggaran_belanja_menteri_modal_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_modal_output = $anggaran_belanja_menteri_modal_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_modal_output['realisasi'];
 					}else{
 						$sisa_anggaran_belanja_menteri_modal_output = 0;
 					}
 					//belanja perjalanan
-					$anggaran_belanja_menteri_perjalanan_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],
+					$anggaran_belanja_menteri_perjalanan_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_output($thn_temp,$val['kdgiat'],
 					$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_perjalanan_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,524);
+					$realisasi_anggaran_belanja_menteri_perjalanan_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,524);
 					if($anggaran_belanja_menteri_perjalanan_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_perjalanan_output = $anggaran_belanja_menteri_perjalanan_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_perjalanan_output['realisasi'];
 					}else{
@@ -1344,9 +1636,7 @@ class pelaporanKeuangan extends Controller {
 					$list_kegiatan[$k]['output'][$vprb]['realisasi_anggaran_belanja_menteri_output_total']=$realisasi_anggaran_belanja_menteri_output_total;
 					$list_kegiatan[$k]['output'][$vprb]['persentase_anggaran_belanja_menteri_output_total']=$persentase_anggaran_belanja_menteri_output_total;
 					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_belanja_menteri_output_total']=$sisa_anggaran_belanja_menteri_output_total;
-					
 				}
-				
 			}
 
 		}else{
@@ -1354,7 +1644,7 @@ class pelaporanKeuangan extends Controller {
 			// pr($select_data_master_bsn);
 			$kode_BSN = "840000";
 			$Select_nama_BSN = $this->m_penetapanAngaran->nm_unit($kode_BSN);
-			
+			// exit;
 			$pegawai = $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai($thn_temp);
 			if($select_data_master_bsn['pagu_menteri'] != 0){
 				$p_pegawai = round(($pegawai['pagu_satker']/$select_data_master_bsn['pagu_menteri'])*100,2) ;
@@ -1371,6 +1661,7 @@ class pelaporanKeuangan extends Controller {
 			}else{ 
 				$p_barang = 0 ;
 			}
+		
 			//add
 			$realisasi_barang = $this->m_pelaporankeuangan->realisasi_general($thn_temp,$bl,52);
 			$sisa_anggaran_barang = $barang['pagu_satker'] - $realisasi_barang['realisasi'];
@@ -1381,6 +1672,7 @@ class pelaporanKeuangan extends Controller {
 			}else{ 
 				$p_modal = 0 ;
 			}
+				
 			//add
 			$realisasi_modal = $this->m_pelaporankeuangan->realisasi_general($thn_temp,$bl,53);
 			$sisa_anggaran_modal = $modal['pagu_satker'] - $realisasi_modal['realisasi'];
@@ -1403,7 +1695,7 @@ class pelaporanKeuangan extends Controller {
 			$sisa_anggaran_jenis_belanja = $select_data_master_bsn['pagu_menteri'] - $total_realisasi_jenis_belanja;
 			// pr($pegawai);
 			// pr($p_pegawai);
-			
+			// exit;
 			$data_bsn_induk[]['kode']= '084';
 			$data_bsn_induk[]= $select_data_master_bsn;
 			$data_bsn_induk[]= $Select_nama_BSN;
@@ -1457,22 +1749,24 @@ class pelaporanKeuangan extends Controller {
 			$data_bsn_induk_sub[]['sisa_anggaran_total_realisasi_jenis_belanja']= $sisa_anggaran_jenis_belanja;
 			// pr($data_bsn_induk_sub);
 			// exit;
+			
+			
 			//unit eselon II
-			$select_kegiatan= $this->m_penetapanAngaran->cek_kegiatan_group_scnd($thn_temp,$select_kd_satker['KDSATKER']);
-			// pr($select_kegiatan);
-			foreach ($select_kegiatan as $k=>$val) {
+			$kd_unit = '841100';
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			foreach ($kd_kegiatan as $k=>$val) {
 				$list_kegiatan[] = $val;
-				// $nama_unit= $this->m_penetapanAngaran->nm_unit($val['kdunitkerja']);
-				$nama_kegiatan= $this->m_penetapanAngaran->nama_kegiatan($val['KDGIAT']);
-				// $list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-				$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-				$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'];
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
 				
+				$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
+				
+				// pr($list_kegiatan);
+				// exit;
 				//belanja pegawai
-				$anggaran_belanja_menteri_pegawai_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_pegawai_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_giat($thn_temp,$val['kdgiat']);
 				
 				//add
-				$realisasi_anggaran_belanja_menteri_pegawai_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,51);
+				$realisasi_anggaran_belanja_menteri_pegawai_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,51);
 				if($anggaran_belanja_menteri_pegawai_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_pegawai_giat = $anggaran_belanja_menteri_pegawai_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_pegawai_giat['realisasi'];
 				}else{
@@ -1480,27 +1774,27 @@ class pelaporanKeuangan extends Controller {
 				}
 				
 				//belanja barang
-				$anggaran_belanja_menteri_barang_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_barang_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_giat($thn_temp,$val['kdgiat']);
 				//add
-				$realisasi_anggaran_belanja_menteri_barang_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,52);
+				$realisasi_anggaran_belanja_menteri_barang_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,52);
 				if($anggaran_belanja_menteri_barang_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_barang_giat = $anggaran_belanja_menteri_barang_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_barang_giat['realisasi'];
 				}else{
 					$sisa_anggaran_belanja_menteri_barang_giat = 0;
 				}
 				//barang modal
-				$anggaran_belanja_menteri_modal_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_modal_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_giat($thn_temp,$val['kdgiat']);
 				//add
-				$realisasi_anggaran_belanja_menteri_modal_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,53);
+				$realisasi_anggaran_belanja_menteri_modal_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,53);
 				if($anggaran_belanja_menteri_modal_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_modal_giat = $anggaran_belanja_menteri_modal_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_modal_giat['realisasi'];
 				}else{
 					$sisa_anggaran_belanja_menteri_modal_giat = 0;
 				}
 				//belanja perjalanan
-				$anggaran_belanja_menteri_perjalanan_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				$anggaran_belanja_menteri_perjalanan_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_giat($thn_temp,$val['kdgiat']);
 				//add
-				$realisasi_anggaran_belanja_menteri_perjalanan_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$bl,524);
+				$realisasi_anggaran_belanja_menteri_perjalanan_giat = $this->m_pelaporankeuangan->realisasi_kegiatan_general($thn_temp,$val['kdgiat'],$bl,524);
 				if($anggaran_belanja_menteri_perjalanan_giat['pagu_satker']){
 					$sisa_anggaran_belanja_menteri_perjalanan_giat = $anggaran_belanja_menteri_perjalanan_giat['pagu_satker'] - $realisasi_anggaran_belanja_menteri_perjalanan_giat['realisasi'];
 				}else{
@@ -1511,8 +1805,9 @@ class pelaporanKeuangan extends Controller {
 																 $realisasi_anggaran_belanja_menteri_barang_giat['realisasi'] +
 																 $realisasi_anggaran_belanja_menteri_modal_giat['realisasi'] +
 																 $realisasi_anggaran_belanja_menteri_perjalanan_giat['realisasi'];
-				$sisa_anggaran_belanja_menteri_giat_total = $val['pagu_giat'] - $realisasi_anggaran_belanja_menteri_giat_total;
-				$persentase_anggaran_belanja_menteri_giat_total = round(($realisasi_anggaran_belanja_menteri_giat_total / $val['pagu_giat']) * 100,2);
+				// pr($realisasi_anggaran_belanja_menteri_giat_total);
+				$sisa_anggaran_belanja_menteri_giat_total = $pagu_giat['pagu_giat'] - $realisasi_anggaran_belanja_menteri_giat_total;
+				$persentase_anggaran_belanja_menteri_giat_total = round(($realisasi_anggaran_belanja_menteri_giat_total / $pagu_giat['pagu_giat']) * 100,2);
 				
 				$list_kegiatan[$k]['pagu_giat_pegawai']= $anggaran_belanja_menteri_pegawai_giat['pagu_satker'];
 				$list_kegiatan[$k]['realisasi_giat_pegawai']= $realisasi_anggaran_belanja_menteri_pegawai_giat['realisasi'];
@@ -1533,17 +1828,20 @@ class pelaporanKeuangan extends Controller {
 				$list_kegiatan[$k]['realisasi_anggaran_belanja_menteri_giat_total']= $realisasi_anggaran_belanja_menteri_giat_total;
 				$list_kegiatan[$k]['persentase_anggaran_belanja_menteri_giat_total']= $persentase_anggaran_belanja_menteri_giat_total;
 				$list_kegiatan[$k]['sisa_anggaran_belanja_menteri_giat_total']= $sisa_anggaran_belanja_menteri_giat_total;
-				
-				$select_output= $this->m_penetapanAngaran->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+				// echo "masuk";
+				// exit;
+				$select_output= $this->m_penetapanAngaran->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				// pr($select_output);
+				// exit;
 				foreach ($select_output as $vprb=>$valprb){
 					$list_kegiatan[$k]['output'][$vprb]=$valprb;
-					$nama_output= $this->m_penetapanAngaran->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
+					$nama_output= $this->m_penetapanAngaran->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
 					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
 					
 					//belanja pegawai
-					$anggaran_belanja_menteri_pegawai_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+					$anggaran_belanja_menteri_pegawai_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_pegawai_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,51);
+					$realisasi_anggaran_belanja_menteri_pegawai_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,51);
 					if($anggaran_belanja_menteri_pegawai_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_pegawai_output = $anggaran_belanja_menteri_pegawai_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_pegawai_output['realisasi'];
 					}else{
@@ -1551,10 +1849,10 @@ class pelaporanKeuangan extends Controller {
 					}
 					
 					//belanja barang
-					$anggaran_belanja_menteri_barang_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],
+					$anggaran_belanja_menteri_barang_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_output($thn_temp,$val['kdgiat'],
 					$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_barang_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,52);
+					$realisasi_anggaran_belanja_menteri_barang_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,52);
 					if($anggaran_belanja_menteri_barang_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_barang_output = $anggaran_belanja_menteri_barang_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_barang_output['realisasi'];
 					}else{
@@ -1562,19 +1860,19 @@ class pelaporanKeuangan extends Controller {
 					}
 					
 					//belanja modal
-					$anggaran_belanja_menteri_modal_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+					$anggaran_belanja_menteri_modal_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_modal_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,53);
+					$realisasi_anggaran_belanja_menteri_modal_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,53);
 					if($anggaran_belanja_menteri_modal_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_modal_output = $anggaran_belanja_menteri_modal_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_modal_output['realisasi'];
 					}else{
 						$sisa_anggaran_belanja_menteri_modal_output = 0;
 					}
 					//belanja perjalanan
-					$anggaran_belanja_menteri_perjalanan_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_output($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],
+					$anggaran_belanja_menteri_perjalanan_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_output($thn_temp,$val['kdgiat'],
 					$valprb['KDOUTPUT']);
 					//add
-					$realisasi_anggaran_belanja_menteri_perjalanan_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT'],$bl,524);
+					$realisasi_anggaran_belanja_menteri_perjalanan_output =$this->m_pelaporankeuangan->realisasi_output_general($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT'],$bl,524);
 					if($anggaran_belanja_menteri_perjalanan_output['pagu_satker']){
 						$sisa_anggaran_belanja_menteri_perjalanan_output = $anggaran_belanja_menteri_perjalanan_output['pagu_satker'] - $realisasi_anggaran_belanja_menteri_perjalanan_output['realisasi'];
 					}else{
@@ -1610,11 +1908,12 @@ class pelaporanKeuangan extends Controller {
 					$list_kegiatan[$k]['output'][$vprb]['realisasi_anggaran_belanja_menteri_output_total']=$realisasi_anggaran_belanja_menteri_output_total;
 					$list_kegiatan[$k]['output'][$vprb]['persentase_anggaran_belanja_menteri_output_total']=$persentase_anggaran_belanja_menteri_output_total;
 					$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_belanja_menteri_output_total']=$sisa_anggaran_belanja_menteri_output_total;
-				}	
+				}
 			}
 		}
 		
-		// pr($list_kegiatan);
+		// pr($data_bsn_induk);
+		// pr($data_bsn_induk_sub);
 		// exit;
 		$this->view->assign('tahun',$thn_temp);
 		$this->view->assign('bulan',$monthArray);
@@ -1623,14 +1922,19 @@ class pelaporanKeuangan extends Controller {
 		$this->view->assign('data_master_induk',$data_bsn_induk);
 		$this->view->assign('data_master_induk_sub',$data_bsn_induk_sub);
 		$this->view->assign('data_master_induk_sub_sub',$list_kegiatan);
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		
 		// pr($data_bsn_induk);
+		// pr($list_kegiatan);
 		return $this->loadView('pelaporanKeuangan/laporanBulanan/anggaranJenisBelanja');
 	
 	}
-	//ga bisa
+	//bisa
 	public function anggaranAkunBsn(){
-	
+		
+		// pr($_POST);
+		// EXIT;
 		if($_POST['bulan'] != ''){
 			$bl = $_POST['bulan'];
 		}else{
@@ -1666,7 +1970,7 @@ class pelaporanKeuangan extends Controller {
 		$thn_temp = $thn_aktif['kode'];
 		// pr($thn_temp);
 		//core
-		if($_POST['bulan'] != ''){
+		if($_POST['bulan'] != '' && $_POST['jns_blnj'] != ''){
 			$bl = $_POST['bulan'];
 			$pagu_menteri = $this->m_pelaporankeuangan->cek_pagu($thn_temp);
 			if($pagu_menteri){
@@ -1683,8 +1987,36 @@ class pelaporanKeuangan extends Controller {
 				$induk_bsn['bsn']['persentase'] = $persentase_pagu_bsn;
 				$induk_bsn['bsn']['sisa_anggaran'] = $pagu_menteri['pagu_menteri'] - $pagu_bsn_sd_bulan_ini['pagu_bulan'];
 			}
+			$jns_blnj = $_POST['jns_blnj'];
+			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp,$jns_blnj);
+			$dataselected =array();
+			if($jns_blnj == 51){
+				$I = "selected";
+				$II = "";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 52){
+				$I = "";
+				$II = "selected";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 53){
+				$I = "";
+				$II = "";
+				$III = "selected";
+				$IV = "";
+			}elseif($jns_blnj == 524){
+				$I = "";
+				$II = "";
+				$III = "";
+				$IV = "selected";
+			}
 			
-			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp);
+			$dataselected[]=$I;
+			$dataselected[]=$II;
+			$dataselected[]=$III;
+			$dataselected[]=$IV;
+			
 			$list_kode_akun = array();
 			if($kode_akun){
 				foreach ($kode_akun as $data_akun=>$val_kdakun){
@@ -1703,6 +2035,7 @@ class pelaporanKeuangan extends Controller {
 			}
 		}else{
 			$pagu_menteri = $this->m_pelaporankeuangan->cek_pagu($thn_temp);
+			// pr($pagu_menteri);
 			if($pagu_menteri){
 				$induk_bsn['bsn']['kode'] = '084';
 				$kode_unit = '840000';
@@ -1717,8 +2050,39 @@ class pelaporanKeuangan extends Controller {
 				$induk_bsn['bsn']['persentase'] = $persentase_pagu_bsn;
 				$induk_bsn['bsn']['sisa_anggaran'] = $pagu_menteri['pagu_menteri'] - $pagu_bsn_sd_bulan_ini['pagu_bulan'];
 			}
+			// pr($induk_bsn);
+			$jns_blnj = '51';
+			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp,$jns_blnj);
+			// pr($kode_akun);
+			// exit;
+			$dataselected =array();
+			if($jns_blnj == 51){
+				$I = "selected";
+				$II = "";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 52){
+				$I = "";
+				$II = "selected";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 53){
+				$I = "";
+				$II = "";
+				$III = "selected";
+				$IV = "";
+			}elseif($jns_blnj == 524){
+				$I = "";
+				$II = "";
+				$III = "";
+				$IV = "selected";
+			}
 			
-			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp);
+			$dataselected[]=$I;
+			$dataselected[]=$II;
+			$dataselected[]=$III;
+			$dataselected[]=$IV;
+			
 			$list_kode_akun = array();
 			if($kode_akun){
 				foreach ($kode_akun as $data_akun=>$val_kdakun){
@@ -1738,8 +2102,9 @@ class pelaporanKeuangan extends Controller {
 		
 		}
 		
-		
-		
+		// pr($list_kode_akun);
+		// exit;
+		$this->view->assign('dataselected',$dataselected);
 		$this->view->assign('tahun',$thn_temp);
 		$this->view->assign('bulan',$monthArray);
 		$this->view->assign('keybln',$bl);
@@ -1749,7 +2114,7 @@ class pelaporanKeuangan extends Controller {
 		
 		return $this->loadView('pelaporanKeuangan/laporanBulanan/anggaranAkunBsn');
 	}
-	//ga bisa
+	//bisa
 	public function anggaranAkunSatker(){
 	
 		if($_POST['bulan'] != ''){
@@ -1822,7 +2187,36 @@ class pelaporanKeuangan extends Controller {
 			
 			}
 			//kode akun
-			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp);
+			$jns_blnj = $_POST['jns_blnj'];
+			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp,$jns_blnj);
+			$dataselected =array();
+			if($jns_blnj == 51){
+				$I = "selected";
+				$II = "";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 52){
+				$I = "";
+				$II = "selected";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 53){
+				$I = "";
+				$II = "";
+				$III = "selected";
+				$IV = "";
+			}elseif($jns_blnj == 524){
+				$I = "";
+				$II = "";
+				$III = "";
+				$IV = "selected";
+			}
+			
+			$dataselected[]=$I;
+			$dataselected[]=$II;
+			$dataselected[]=$III;
+			$dataselected[]=$IV;
+			
 			$list_kode_akun = array();
 			if($kode_akun){
 				foreach ($kode_akun as $data_akun=>$val_kdakun){
@@ -1873,7 +2267,38 @@ class pelaporanKeuangan extends Controller {
 			
 			}
 			//kode akun
-			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp);
+			$jns_blnj = '51';
+			$kode_akun = $this->m_pelaporankeuangan->kode_akun($thn_temp,$jns_blnj);
+			// pr($kode_akun);
+			// exit;
+			$dataselected =array();
+			if($jns_blnj == 51){
+				$I = "selected";
+				$II = "";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 52){
+				$I = "";
+				$II = "selected";
+				$III = "";
+				$IV = "";
+			}elseif($jns_blnj == 53){
+				$I = "";
+				$II = "";
+				$III = "selected";
+				$IV = "";
+			}elseif($jns_blnj == 524){
+				$I = "";
+				$II = "";
+				$III = "";
+				$IV = "selected";
+			}
+			
+			$dataselected[]=$I;
+			$dataselected[]=$II;
+			$dataselected[]=$III;
+			$dataselected[]=$IV;
+			
 			$list_kode_akun = array();
 			if($kode_akun){
 				foreach ($kode_akun as $data_akun=>$val_kdakun){
@@ -1890,13 +2315,13 @@ class pelaporanKeuangan extends Controller {
 					$list_kode_akun[$data_akun]['sisa_anggaran_pagu_akun'] =  $sisa_anggaran_pagu_akun;
 				}
 			}
-		
 		}
 		
 		
 		// pr($induk_bsn);
 		// pr($bsn_induk_sub);
 		// exit;
+		$this->view->assign('dataselected',$dataselected);
 		$this->view->assign('tahun',$thn_temp);
 		$this->view->assign('bulan',$monthArray);
 		$this->view->assign('keybln',$bl);
@@ -1907,9 +2332,9 @@ class pelaporanKeuangan extends Controller {
 		
 		return $this->loadView('pelaporanKeuangan/laporanBulanan/anggaranAkunSatker');
 	}
-	//ga bisa
+	//bisa
 	public function anggaranAkunGiat(){
-		if($_POST['bulan'] != ''){
+	if($_POST['bulan'] != ''){
 		$bl = $_POST['bulan'];
 	}else{
 		$bl = date('m');
@@ -1942,8 +2367,14 @@ class pelaporanKeuangan extends Controller {
 	// $thn_temp = '2013';
 	$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 	$thn_temp = $thn_aktif['kode'];
-	// pr($thn_temp);
-	if($_POST['bulan'] != ''){
+	$thn_renstra =$thn_aktif['data'];
+	// tambahan 
+	$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	
+	// pr($thn_temp); 
+	// pr($_POST);
+	// EXIT;
+	if($_POST['bulan'] != '' && $_POST['unit'] != ''){
 		// pr($_POST['bulan']);
 		$bulan = $_POST['bulan'];
 		
@@ -2021,45 +2452,31 @@ class pelaporanKeuangan extends Controller {
 		// pr($data_bsn_induk_sub);
 		// exit;
 		//unit eselon II
-		$select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		foreach ($select_kegiatan as $k=>$val) {
+		$kd_unit = $_POST['unit'];
+		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			$renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+			// $nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
 			
-			if($renc_giat_sdbulan['rencana'] == 0){
-				$persentase_thd_Rencana_Penarikan_kegiatan  = 0;
-			}else{
-				$persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
-			}
+			$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan_rev($thn_temp,$bulan,$val['kdgiat']);
 			
-			if($val['pagu_giat'] == 0){
-				$persentase_thn_pagu_satker_kegiatan = 0;
-			}else{
-				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($val['pagu_giat'] /2))*100,2);
-			}
-			
-			$sisa_anggaran_kegiatan = ($val['pagu_giat'] /2) - $real_giat_sdbulan['jml'];
+			$sisa_anggaran_kegiatan = $pagu_giat['pagu_giat'] - $real_giat_sdbulan['jml'];
 			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-			$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
+			$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
 			$list_kegiatan[$k]['real_giat_bulan']= $real_giat_bulan['jml'];
 			$list_kegiatan[$k]['real_giat_sdbulan']= $real_giat_sdbulan['jml'];
-			$list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
-			$list_kegiatan[$k]['persentase_thn_pagu_satker_kegiatan']= $persentase_thn_pagu_satker_kegiatan;
 			$list_kegiatan[$k]['sisa_anggaran_kegiatan']= $sisa_anggaran_kegiatan;
 			
-			
-			$select_pagu_akun_giat= $this->m_pelaporankeuangan->kode_akun_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$select_pagu_akun_giat= $this->m_pelaporankeuangan->kode_akun_giat_rev($thn_temp,$val['kdgiat']);
+			// pr($select_pagu_akun_giat);
 			foreach ($select_pagu_akun_giat as $vprb=>$valprb){
 				$list_kegiatan[$k]['output'][$vprb]=$valprb;
 				$nama_akun = $this->m_pelaporankeuangan->nama_akun($valprb['KDAKUN']);
-				$pagu_akun_giat_bulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDAKUN'],$bl,1);
-				$pagu_akun_giat_sdbulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDAKUN'],$bl,2);
+				$pagu_akun_giat_bulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat_rev($thn_temp,$val['kdgiat'],$valprb['KDAKUN'],$bl,1);
+				$pagu_akun_giat_sdbulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat_rev($thn_temp,$val['kdgiat'],$valprb['KDAKUN'],$bl,2);
 				$persentase_akun_giat = round(($pagu_akun_giat_sdbulan_ini['pagu_bulan'] / $valprb['pagu_akun'])* 100,2);
 				$sisa_anggaran_pagu_akun_giat = $valprb['pagu_akun'] - $pagu_akun_giat_sdbulan_ini['pagu_bulan'];
 				
@@ -2068,6 +2485,7 @@ class pelaporanKeuangan extends Controller {
 				$list_kegiatan[$k]['output'][$vprb]['pagu_akun_giat_sdbulan_ini']=$pagu_akun_giat_sdbulan_ini['pagu_bulan'];
 				$list_kegiatan[$k]['output'][$vprb]['persentase_akun_giat']=$persentase_akun_giat;
 				$list_kegiatan[$k]['output'][$vprb]['sisa_anggaran_pagu_akun_giat']=$sisa_anggaran_pagu_akun_giat;
+				
 			}
 			
 		}
@@ -2149,46 +2567,38 @@ class pelaporanKeuangan extends Controller {
 		// pr($data_bsn_induk_sub);
 		// exit;
 		//unit eselon II
-		$select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		foreach ($select_kegiatan as $k=>$val) {
+		$kd_unit = '841100';
+		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			$renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+			// $nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
 			
-			if($renc_giat_sdbulan['rencana'] == 0){
-				$persentase_thd_Rencana_Penarikan_kegiatan  = 0;
-			}else{
-				$persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
-			}
+			$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan_rev($thn_temp,$bulan,$val['kdgiat']);
 			
-			if($val['pagu_giat'] == 0){
+			if($pagu_giat['pagu_giat'] == 0){
 				$persentase_thn_pagu_satker_kegiatan = 0;
 			}else{
-				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($val['pagu_giat'] /2))*100,2);
+				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / $pagu_giat['pagu_giat'])*100,2);
 			}
 			
-			$sisa_anggaran_kegiatan = ($val['pagu_giat'] /2) - $real_giat_sdbulan['jml'];
+			$sisa_anggaran_kegiatan = $pagu_giat['pagu_giat'] - $real_giat_sdbulan['jml'];
 			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-			$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
+			$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
 			$list_kegiatan[$k]['real_giat_bulan']= $real_giat_bulan['jml'];
 			$list_kegiatan[$k]['real_giat_sdbulan']= $real_giat_sdbulan['jml'];
-			$list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
 			$list_kegiatan[$k]['persentase_thn_pagu_satker_kegiatan']= $persentase_thn_pagu_satker_kegiatan;
 			$list_kegiatan[$k]['sisa_anggaran_kegiatan']= $sisa_anggaran_kegiatan;
 			
-			
-			// $select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$select_pagu_akun_giat= $this->m_pelaporankeuangan->kode_akun_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$select_pagu_akun_giat= $this->m_pelaporankeuangan->kode_akun_giat_rev($thn_temp,$val['kdgiat']);
+			// pr($select_pagu_akun_giat);
 			foreach ($select_pagu_akun_giat as $vprb=>$valprb){
 				$list_kegiatan[$k]['output'][$vprb]=$valprb;
 				$nama_akun = $this->m_pelaporankeuangan->nama_akun($valprb['KDAKUN']);
-				$pagu_akun_giat_bulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDAKUN'],$bl,1);
-				$pagu_akun_giat_sdbulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDAKUN'],$bl,2);
+				$pagu_akun_giat_bulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat_rev($thn_temp,$val['kdgiat'],$valprb['KDAKUN'],$bl,1);
+				$pagu_akun_giat_sdbulan_ini = $this->m_pelaporankeuangan->pagu_akun_giat_rev($thn_temp,$val['kdgiat'],$valprb['KDAKUN'],$bl,2);
 				$persentase_akun_giat = round(($pagu_akun_giat_sdbulan_ini['pagu_bulan'] / $valprb['pagu_akun'])* 100,2);
 				$sisa_anggaran_pagu_akun_giat = $valprb['pagu_akun'] - $pagu_akun_giat_sdbulan_ini['pagu_bulan'];
 				
@@ -2205,21 +2615,21 @@ class pelaporanKeuangan extends Controller {
 		
 	
 		// pr($list_kegiatan);
-		$this->view->assign('dataselected',$dataselected);
+		// exit;
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		$this->view->assign('tahun',$thn_temp);
 		$this->view->assign('bulan',$monthArray);
 		$this->view->assign('keybln',$bl);
 		$this->view->assign('ketBulan',$ketBulan);
-		// pr($data_bsn_induk);
-		// pr($data_bsn_induk_sub);
-		// pr($list_kegiatan);
 		$this->view->assign('data_master_induk',$data_bsn_induk);
 		$this->view->assign('data_master',$data_bsn_induk_sub);
 		$this->view->assign('data_master_sub',$list_kegiatan);
+		
 		// exit;
 		return $this->loadView('pelaporanKeuangan/laporanBulanan/anggaranAkunGiat');
 	}
-	
+	//bisa
 	public function anggaranOutput(){
 		if($_POST['bulan'] != ''){
 		$bl = $_POST['bulan'];
@@ -2254,8 +2664,11 @@ class pelaporanKeuangan extends Controller {
 	// $thn_temp = '2013';
 	$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 	$thn_temp = $thn_aktif['kode'];
+	$thn_renstra =$thn_aktif['data'];
+	// tambahan 
+	$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 	
-	if($_POST['bulan'] != ''){
+	if($_POST['bulan'] != '' && $_POST['unit'] != ''){
 		// pr($_POST['bulan']);
 		$bulan = $_POST['bulan'];
 		
@@ -2333,45 +2746,38 @@ class pelaporanKeuangan extends Controller {
 		// pr($data_bsn_induk_sub);
 		// exit;
 		//unit eselon II
-		$select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		foreach ($select_kegiatan as $k=>$val) {
+		$kd_unit = $_POST['unit'];
+		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			$renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+			$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
 			
-			if($renc_giat_sdbulan['rencana'] == 0){
-				$persentase_thd_Rencana_Penarikan_kegiatan  = 0;
-			}else{
-				$persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
-			}
+			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan_rev($thn_temp,$bulan,$val['kdgiat']);
 			
-			if($val['pagu_giat'] == 0){
+			if($pagu_giat['pagu_giat'] == 0){
 				$persentase_thn_pagu_satker_kegiatan = 0;
 			}else{
-				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($val['pagu_giat'] /2))*100,2);
+				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / $pagu_giat['pagu_giat'])*100,2);
 			}
-			
-			$sisa_anggaran_kegiatan = ($val['pagu_giat'] /2) - $real_giat_sdbulan['jml'];
+		
+			$sisa_anggaran_kegiatan = $pagu_giat['pagu_giat'] - $real_giat_sdbulan['jml'];
 			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-			$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
+			$list_kegiatan[$k]['nama_kegiatan']= $val['nmgiat'];
+			$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
 			$list_kegiatan[$k]['real_giat_bulan']= $real_giat_bulan['jml'];
 			$list_kegiatan[$k]['real_giat_sdbulan']= $real_giat_sdbulan['jml'];
-			$list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
 			$list_kegiatan[$k]['persentase_thn_pagu_satker_kegiatan']= $persentase_thn_pagu_satker_kegiatan;
 			$list_kegiatan[$k]['sisa_anggaran_kegiatan']= $sisa_anggaran_kegiatan;
 			
 			
-			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
 			foreach ($select_output as $vprb=>$valprb){
 				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+				$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
 				
 				if($valprb['pagu_output'] == 0){
 					$persentase_pagu_output = 0;
@@ -2466,45 +2872,40 @@ class pelaporanKeuangan extends Controller {
 		// pr($data_bsn_induk_sub);
 		// exit;
 		//unit eselon II
-		$select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		foreach ($select_kegiatan as $k=>$val) {
+		// $select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
+		$kd_unit = '841100';
+		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+
+		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
-			$nama_unit= $this->m_pelaporankeuangan->nm_unit($val['kdunitkerja']);
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			$renc_giat_sdbulan = $this->m_pelaporankeuangan->renc_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
-			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$nama_unit= $this->m_pelaporankeuangan->nm_unit($kd_unit);
+			$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
 			
-			if($renc_giat_sdbulan['rencana'] == 0){
-				$persentase_thd_Rencana_Penarikan_kegiatan  = 0;
-			}else{
-				$persentase_thd_Rencana_Penarikan_kegiatan  = round(($real_giat_sdbulan['jml'] / $renc_giat_sdbulan['rencana'])*100,2);
-			}
+			$real_giat_bulan = $this->m_pelaporankeuangan->real_giat_bulan_rev($thn_temp,$bulan,$val['kdgiat']);
+			$real_giat_sdbulan = $this->m_pelaporankeuangan->real_giat_sdbulan_rev($thn_temp,$bulan,$val['kdgiat']);
 			
-			if($val['pagu_giat'] == 0){
+			if($pagu_giat['pagu_giat'] == 0){
 				$persentase_thn_pagu_satker_kegiatan = 0;
 			}else{
-				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / ($val['pagu_giat'] /2))*100,2);
+				$persentase_thn_pagu_satker_kegiatan  = round(($real_giat_sdbulan['jml'] / $pagu_giat['pagu_giat'])*100,2);
 			}
-			
-			$sisa_anggaran_kegiatan = ($val['pagu_giat'] /2) - $real_giat_sdbulan['jml'];
+		
+			$sisa_anggaran_kegiatan = $pagu_giat['pagu_giat'] - $real_giat_sdbulan['jml'];
 			$list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-			$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'] / 2;
-			$list_kegiatan[$k]['renc_giat_sdbulan']= $renc_giat_sdbulan['rencana'];
+			$list_kegiatan[$k]['nama_kegiatan']= $val['nmgiat'];
+			$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
 			$list_kegiatan[$k]['real_giat_bulan']= $real_giat_bulan['jml'];
 			$list_kegiatan[$k]['real_giat_sdbulan']= $real_giat_sdbulan['jml'];
-			$list_kegiatan[$k]['persentase_thd_Rencana_Penarikan_kegiatan']= $persentase_thd_Rencana_Penarikan_kegiatan;
 			$list_kegiatan[$k]['persentase_thn_pagu_satker_kegiatan']= $persentase_thn_pagu_satker_kegiatan;
 			$list_kegiatan[$k]['sisa_anggaran_kegiatan']= $sisa_anggaran_kegiatan;
 			
 			
-			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan($thn_temp,$select_kd_satker['KDSATKER'],$val['KDGIAT']);
+			$select_output= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
 			foreach ($select_output as $vprb=>$valprb){
 				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
-				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan($thn_temp,$bulan,$select_kd_satker['KDSATKER'],$val['KDGIAT'],$valprb['KDOUTPUT']);
+				$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_bulan= $this->m_pelaporankeuangan->real_output_bulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
+				$real_output_sdbulan= $this->m_pelaporankeuangan->real_output_sdbulan_rev($thn_temp,$bulan,$val['kdgiat'],$valprb['KDOUTPUT']);
 				
 				if($valprb['pagu_output'] == 0){
 					$persentase_pagu_output = 0;
@@ -2524,14 +2925,12 @@ class pelaporanKeuangan extends Controller {
 	}
 		// pr($dataselected);
 		// pr($list_kegiatan);
-		$this->view->assign('dataselected',$dataselected);
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
 		$this->view->assign('tahun',$thn_temp);
 		$this->view->assign('bulan',$monthArray);
 		$this->view->assign('keybln',$bl);
 		$this->view->assign('ketBulan',$ketBulan);
-		// pr($data_bsn_induk);
-		// pr($data_bsn_induk_sub);
-		// pr($list_kegiatan);
 		$this->view->assign('data_master_induk',$data_bsn_induk);
 		$this->view->assign('data_master',$data_bsn_induk_sub);
 		$this->view->assign('data_master_sub',$list_kegiatan);

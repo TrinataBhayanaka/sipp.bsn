@@ -27,6 +27,7 @@ class rpk extends Controller {
 	public function index(){
 		global $basedomain;
 		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		// pr($list_dropdown);
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		// pr($thn_aktif);
 		// $thn_temp = '2015';
@@ -88,6 +89,7 @@ class rpk extends Controller {
 			
 			
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// pr($kd_kegiatan);
 			foreach($kd_kegiatan as $key=>$val){
 				$list[] = $val;
 				$pagu_giat = $this->m_penetapanAngaran->pagu_giat($thn_temp,$val['kdgiat']);

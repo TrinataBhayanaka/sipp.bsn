@@ -69,13 +69,25 @@
 					{/foreach}
 					
 				</select>
+				<select name="unit"  class="selectpicker" width="100%">
+					<option value="" selected>--Pilih Unit Kerja--</option>
+					{foreach $list_dropdown as $value}
+						{if $value.kdunit == $kd_unit}
+							{$select ="selected"}
+						{else}
+							{$select =""}
+						{/if}
+					<option value="{$value.kdunit}" {$select}>{$value.nmunit}</option>
+					{/foreach}
+				</select> 
 					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
 				</div>
 			</div>
 			</form>
 		</div>
 			
-		<div class="table-responsive" style="overflow:scroll;max-height:550px">
+		<div class="table-responsive" style="overflow:scroll;max-height:600px">
+		
 				<table class="table table-bordered" >
 					<thead>
 						<tr>
@@ -116,7 +128,7 @@
 					</thead>
 					<tbody>
 						{if $data_master_induk}
-						<tr>
+						<tr style="color:green">
 							<td>{$data_master_induk.0.kode}</td>
 							<td>{$data_master_induk.2.nmunit}</td>
 							<td class="text-right">{number_format($data_master_induk.1.pagu_menteri,"0",",",".")}</td>
@@ -147,7 +159,7 @@
 						</tr>
 						{/if}
 						{if $data_master_induk_sub}
-						<tr>
+						<tr style="color:black">
 							<td>{$data_master_induk_sub.0.kode}</td>
 							<td>{$data_master_induk_sub.2.nama}</td>
 							<td class="text-right">{number_format($data_master_induk_sub.1.pagu,"0",",",".")}</td>
@@ -179,9 +191,9 @@
 						{/if}
 							{if $data_master_induk_sub_sub}
 							{foreach $data_master_induk_sub_sub as $valgiat}
-							<tr>
-								<td>{$valgiat.KDGIAT}</td>
-								<td>{$valgiat.nama_kegiatan}</td>
+							<tr style="color:blue">
+								<td>{$valgiat.kdgiat}</td>
+								<td>{$valgiat.nmgiat}</td>
 								<td class="text-right">{number_format($valgiat.pagu_giat,"0",",",".")}</td>
 								
 								<td class="text-right">{number_format($valgiat.pagu_giat_pegawai,"0",",",".")}</td>

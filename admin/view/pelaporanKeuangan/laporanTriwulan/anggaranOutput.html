@@ -87,6 +87,17 @@
 					<option value="3" {$dataselected.2}>Triwulan III</option>
 					<option value="4" {$dataselected.3}>Triwulan IV</option>
 				</select>
+				<select name="unit"  class="selectpicker" width="100%">
+					<option value="" selected>--Pilih Unit Kerja--</option>
+					{foreach $list_dropdown as $value}
+						{if $value.kdunit == $kd_unit}
+							{$select ="selected"}
+						{else}
+							{$select =""}
+						{/if}
+					<option value="{$value.kdunit}" {$select}>{$value.nmunit}</option>
+					{/foreach}
+				</select>
 					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
 				</div>
 			</div>
@@ -103,7 +114,7 @@
 							Nama Kegiatan /
 							Output</th>
 							<th class="text-center" rowspan="2">Pagu Anggaran</th>
-							<th class="text-center" colspan="3">Realisasi Anggaran</th>
+							<th class="text-center" colspan="3">Realisasi {$dataselected.4} Tahun {$tahun}</th>
 							<th class="text-center" rowspan="2">Sisa Anggaran</th>
 						</tr>
 						<tr>
@@ -114,7 +125,7 @@
 					</thead>
 					<tbody>
 						{if $data_master_induk}
-						<tr>
+						<tr style="color:green">
 							<td>&nbsp;</td>
 							<td>{$data_master_induk.0.kode}</td>
 							<td>{$data_master_induk.2.nmunit}</td>
@@ -124,7 +135,7 @@
 							<td class="text-right">{number_format($data_master_induk.7.persentase_thn_pagu,"2",",",".")}</td>
 							<td class="text-right">{number_format($data_master_induk.8.sisa_anggaran,"0",",",".")}</td>
 						</tr>
-						<tr>
+						<tr style="color:black">
 							<td>&nbsp;</td>
 							<td>{$data_master.0.kode}</td>
 							<td>{$data_master.2.NMSATKER}</td>
@@ -137,9 +148,9 @@
 						{/if}
 						{if $data_master_sub}
 						{foreach $data_master_sub as $value}
-						<tr>
+						<tr style="color:blue">
 							<td>{$value.nama_unit}</td>
-							<td>{$value.KDGIAT}</td>
+							<td>{$value.kdgiat}</td>
 							<td>{$value.nama_kegiatan}</td>
 							<td class="text-right">{number_format($value.pagu_giat,"0",",",".")}</td>
 							<td class="text-right">{number_format($value.real_giat_triwulan,"0",",",".")}</td>

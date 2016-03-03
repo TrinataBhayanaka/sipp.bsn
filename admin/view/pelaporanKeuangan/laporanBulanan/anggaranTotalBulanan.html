@@ -69,6 +69,17 @@
 					{/foreach}
 					
 				</select>
+				<select name="unit"  class="selectpicker" width="100%">
+					<option value="" selected>--Pilih Unit Kerja--</option>
+					{foreach $list_dropdown as $value}
+						{if $value.kdunit == $kd_unit}
+							{$select ="selected"}
+						{else}
+							{$select =""}
+						{/if}
+					<option value="{$value.kdunit}" {$select}>{$value.nmunit}</option>
+					{/foreach}
+				</select>
 					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
 				</div>
 			</div>
@@ -84,55 +95,55 @@
 							Nama Satuan Kerja /
 							Nama Kegiatan /
 							Output</th>
-							<th class="text-center" colspan="2">Pagu</th>
+							<th class="text-center" rowspan="2">Pagu</th>
 							<!--<th class="text-center" colspan="4">Realisasi {$ketBulan} Tahun {$tahun}</th>-->
-							<th class="text-center" colspan="4">Realisasi</th>
+							<th class="text-center" colspan="3">Realisasi</th>
 							<th class="text-center" rowspan="2">Sisa Anggaran</th>
 						</tr>
 						<tr>
-							<th class="text-center">Pagu</th>
-							<th class="text-center">Rencana s.d Bulan Ini</th>
+							<!--<th class="text-center">Pagu</th>
+							<th class="text-center">Rencana s.d Bulan Ini</th>-->
 							<th class="text-center">Bulan Ini </th>
 							<th class="text-center">s.d Bulan Ini </th>
-							<th class="text-center">% thd Rencana Penarikan</th>
+							<!--<th class="text-center">% thd Rencana Penarikan</th>-->
 							<th class="text-center">% thd Pagu </th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr style="color:green">
 							<td>&nbsp;</td>
 							<td>{$data_master_induk.0.kode}</td>
 							<td>{$data_master_induk.2.nmunit}</td>
 							<td class="text-right">{number_format($data_master_induk.1.pagu_menteri,"0",",",".")}</td>
-							<td class="text-right">{number_format($data_master_induk.3.rencana,"0",",",".")}</td>
+							<!--<td class="text-right">{number_format($data_master_induk.3.rencana,"0",",",".")}</td>-->
 							<td class="text-right">{number_format($data_master_induk.4.jml,"0",",",".")}</td>
 							<td class="text-right">{number_format($data_master_induk.5.jml,"0",",",".")}</td>
-							<td class="text-right">{number_format($data_master_induk.6.persentase_rncan_penarikan,"2",",",".")}</td>
+							<!--<td class="text-right">{number_format($data_master_induk.6.persentase_rncan_penarikan,"2",",",".")}</td>-->
 							<td class="text-right">{number_format($data_master_induk.7.persentase_thn_pagu,"2",",",".")}</td>
 							<td class="text-right">{number_format($data_master_induk.8.sisa_anggaran,"0",",",".")}</td>
 						</tr>
-						<tr>
+						<tr style="color:black">
 							<td>&nbsp;</td>
 							<td>{$data_master.0.kode}</td>
 							<td>{$data_master.2.NMSATKER}</td>
 							<td class="text-right">{number_format($data_master.1.pagu_satker,"0",",",".")}</td>
-							<td class="text-right">{number_format($data_master.3.rencana,"0",",",".")}</td>
+							<!--<td class="text-right">{number_format($data_master.3.rencana,"0",",",".")}</td>-->
 							<td class="text-right">{number_format($data_master.4.jml,"0",",",".")}</td>
 							<td class="text-right">{number_format($data_master.5.jml,"0",",",".")}</td>
-							<td class="text-right">{number_format($data_master.6.persentase_rncan_penarikan_satker,"2",",",".")}</td>
+							<!--td class="text-right">{number_format($data_master.6.persentase_rncan_penarikan_satker,"2",",",".")}</td>-->
 							<td class="text-right">{number_format($data_master.7.persentase_thn_pagu_satker,"2",",",".")}</td>
 							<td class="text-right">{number_format($data_master.8.sisa_anggaran_satker,"0",",",".")}</td>
 						</tr>
 						{foreach $data_master_sub as $value}
-						<tr>
+						<tr style="color:blue">
 							<td>{$value.nama_unit}</td>
-							<td>{$value.KDGIAT}</td>
+							<td>{$value.kdgiat}</td>
 							<td>{$value.nama_kegiatan}</td>
 							<td class="text-right">{number_format($value.pagu_giat,"0",",",".")}</td>
-							<td class="text-right">{number_format($value.renc_giat_sdbulan,"0",",",".")}</td>
+							<!--<td class="text-right">{number_format($value.renc_giat_sdbulan,"0",",",".")}</td>-->
 							<td class="text-right">{number_format($value.real_giat_bulan,"0",",",".")}</td>
 							<td class="text-right">{number_format($value.real_giat_sdbulan,"0",",",".")}</td>
-							<td class="text-right">{number_format($value.persentase_thd_Rencana_Penarikan_kegiatan,"2",",",".")}</td>
+							<!--<td class="text-right">{number_format($value.persentase_thd_Rencana_Penarikan_kegiatan,"2",",",".")}</td>-->
 							<td class="text-right">{number_format($value.persentase_thn_pagu_satker_kegiatan,"2",",",".")}</td>
 							<td class="text-right">{number_format($value.sisa_anggaran_kegiatan,"0",",",".")}</td>
 						</tr>
@@ -142,10 +153,10 @@
 								<td>{$val.KDOUTPUT}</td>
 								<td>{$val.namaoutput}</td>
 								<td class="text-right">{number_format($val.pagu_output,"0",",",".")}</td>
-								<td class="text-right">&nbsp;</td>
+								<!--<td class="text-right">&nbsp;</td>-->
 								<td class="text-right">{number_format($val.real_output_bulan,"0",",",".")}</td>
 								<td class="text-right">{number_format($val.real_output_sdbulan,"0",",",".")}</td>
-								<td class="text-right">&nbsp;</td>
+								<!--<td class="text-right">&nbsp;</td>-->
 								<td class="text-right">{number_format($val.persentase_pagu_output,"2",",",".")}</td>
 								<td class="text-right">{number_format($val.sisa_anggaran_kegiatan_output,"0",",",".")}</td>
 							</tr>

@@ -142,6 +142,16 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
+	function pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$kd_giat)
+	{
+		$query = "select KDOUTPUT, sum(jumlah) as pagu_output from d_item WHERE THANG='{$thn_temp}'  
+					and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
 	function pagutotal_kode_output_kegiatan_perbulan_condtn($thn_temp,$kd_satker,$kd_giat,$kd_output)
 	{
 		$query = "select KDOUTPUT, sum(jumlah) as pagu_output from d_item WHERE THANG='{$thn_temp}' and 
@@ -818,7 +828,7 @@ class m_penetapanAngaran extends Database {
 	function anggaran_belanja_menteri_pegawai($thn_temp)
 	{
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
-				left(KDAKUN,2) = '51' AND KDDEPT = '084' group by THANG";
+				KDAKUN LIKE '51%' AND KDDEPT = '084' group by THANG";
 		// pr($query);
 		$result = $this->fetch($query);
 		
@@ -827,8 +837,8 @@ class m_penetapanAngaran extends Database {
 	
 	function anggaran_belanja_menteri_barang($thn_temp)
 	{
-		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
-				AND left(KDAKUN,3) <> '524' AND KDDEPT = '084' group by THANG";
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND KDAKUN LIKE '52%' 
+				AND KDAKUN NOT LIKE '524%' AND KDDEPT = '084' group by THANG";
 		// pr($query);
 		$result = $this->fetch($query);
 		
@@ -838,7 +848,7 @@ class m_penetapanAngaran extends Database {
 	function anggaran_belanja_menteri_modal($thn_temp)
 	{
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
-				left(KDAKUN,2) = '53' AND KDDEPT = '084' group by THANG";
+				KDAKUN LIKE '53%' AND KDDEPT = '084' group by THANG";
 		// pr($query);
 		$result = $this->fetch($query);
 		
@@ -848,7 +858,7 @@ class m_penetapanAngaran extends Database {
 	function anggaran_belanja_menteri_perjalanan($thn_temp)
 	{
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
-				left(KDAKUN,3) = '524' AND KDDEPT = '084' group by THANG";
+				KDAKUN LIKE '524%' AND KDDEPT = '084' group by THANG";
 		// pr($query);
 		$result = $this->fetch($query);
 		
@@ -858,17 +868,31 @@ class m_penetapanAngaran extends Database {
 	function cek_kegiatan_group_scnd($thn_temp,$kd_satker)
 	{
 		$query = "select KDGIAT,sum(JUMLAH) as pagu_giat from d_item WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' group by KDGIAT";
-				  
+		// $query ="select sum(JUMLAH) as pagu_giat from d_item WHERE THANG='{$thn_temp}' and KDGIAT = '{$kd_giat}' group by KDGIAT";		  
 		// pr($query);
+		// exit;
 		$result = $this->fetch($query,1);
 		
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_pegawai_giat($thn_temp,$kd_satker,$kd_giat)
+	function cek_kegiatan_group_scnd_rev($thn_temp,$kd_giat)
 	{
+		$query ="select sum(JUMLAH) as pagu_giat from d_item WHERE THANG='{$thn_temp}' and KDGIAT = '{$kd_giat}' group by KDGIAT";		  
+		// pr($query);
+		// exit;
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function anggaran_belanja_menteri_pegawai_giat($thn_temp,$kd_giat)
+	{
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '51' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";*/
+				
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
-				left(KDAKUN,2) = '51' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
+				KDAKUN LIKE '51%' AND KDGIAT ='{$kd_giat}'";
 		// pr($query);
 		
 		$result = $this->fetch($query);
@@ -878,10 +902,13 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_barang_giat($thn_temp,$kd_satker,$kd_giat)
+	function anggaran_belanja_menteri_barang_giat($thn_temp,$kd_giat)
 	{
-		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
-				AND left(KDAKUN,3) <> '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
+				AND left(KDAKUN,3) <> '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";*/
+		
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND KDAKUN LIKE '52%' 
+				AND KDAKUN NOT LIKE '524%' AND KDGIAT ='{$kd_giat}' ";		
 		// pr($query);
 		$result = $this->fetch($query);
 		if($result['pagu_satker'] == 0){
@@ -890,10 +917,13 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_modal_giat($thn_temp,$kd_satker,$kd_giat)
+	function anggaran_belanja_menteri_modal_giat($thn_temp,$kd_giat)
 	{
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '53' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";*/
+				
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
-				left(KDAKUN,2) = '53' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by KDSATKER";
+				  KDAKUN LIKE '53%'  AND KDGIAT ='{$kd_giat}'";		
 		// pr($query);
 		$result = $this->fetch($query);
 		if($result['pagu_satker'] == 0){
@@ -902,10 +932,14 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_perjalanan_giat($thn_temp,$kd_satker,$kd_giat)
+	function anggaran_belanja_menteri_perjalanan_giat($thn_temp,$kd_giat)
 	{
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
+				left(KDAKUN,3) = '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by THANG";*/
+				
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
-				left(KDAKUN,3) = '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' group by THANG";
+				KDAKUN LIKE '524%'  AND KDGIAT ='{$kd_giat}'";
+				
 		// pr($query);
 		$result = $this->fetch($query);
 		if($result['pagu_satker'] == 0){
@@ -914,11 +948,16 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_pegawai_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	
+	function anggaran_belanja_menteri_pegawai_output($thn_temp,$kd_giat,$kd_output)
 	{
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '51' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}'
+				group by KDSATKER";*/
+				
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
-				left(KDAKUN,2) = '51' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}'
-				group by KDSATKER";
+				KDAKUN LIKE '51%' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}'
+				";		
 		// pr($query);
 		$result = $this->fetch($query);
 		if($result['pagu_satker'] == 0){
@@ -927,10 +966,13 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_barang_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	function anggaran_belanja_menteri_barang_output($thn_temp,$kd_giat,$kd_output)
 	{
-		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
-				AND left(KDAKUN,3) <> '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by KDSATKER";
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND left(KDAKUN,2) = '52' 
+				AND left(KDAKUN,3) <> '524' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by KDSATKER";*/
+		
+		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND KDAKUN LIKE '52%' 
+				AND KDAKUN NOT LIKE '524%' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' ";
 		// pr($query);
 		$result = $this->fetch($query);
 		if($result['pagu_satker'] == 0){
@@ -939,11 +981,14 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_modal_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	function anggaran_belanja_menteri_modal_output($thn_temp,$kd_giat,$kd_output)
 	{
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
+				left(KDAKUN,2) = '53' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' 
+				group by KDSATKER";*/
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND
-				left(KDAKUN,2) = '53' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' 
-				group by KDSATKER";
+				KDAKUN LIKE '53%' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' 
+				";		
 		// pr($query);
 		$result = $this->fetch($query);
 		if($result['pagu_satker'] == 0){
@@ -952,10 +997,13 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function anggaran_belanja_menteri_perjalanan_output($thn_temp,$kd_satker,$kd_giat,$kd_output)
+	function anggaran_belanja_menteri_perjalanan_output($thn_temp,$kd_giat,$kd_output)
 	{
+		/*$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
+				left(KDAKUN,3) = '524' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by THANG";*/
+				
 		$query = "select sum(JUMLAH) as pagu_satker from d_item WHERE THANG='{$thn_temp}' AND 
-				left(KDAKUN,3) = '524' AND KDSATKER = '{$kd_satker}' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}' group by THANG";
+				KDAKUN LIKE '524%' AND KDGIAT ='{$kd_giat}' AND KDOUTPUT= '{$kd_output}'";		
 		// pr($query);
 		$result = $this->fetch($query);
 		if($result['pagu_satker'] == 0){

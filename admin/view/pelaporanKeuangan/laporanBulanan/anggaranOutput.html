@@ -53,7 +53,7 @@
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
-			<div id="delete-toolbar" class="table-toolbar-right">
+			<div id="" class="table-toolbar-right">
 			<form action="{$basedomain}pelaporanKeuangan/anggaranOutput" method="post">
 			<div class="form-horizontal">
 				<div class="form-group">
@@ -68,6 +68,17 @@
 						<option value="{$key}" {$select_list}>{$valbln}</option>
 					{/foreach}
 					
+				</select>
+				<select name="unit"  class="selectpicker" width="100%">
+					<option value="" selected>--Pilih Unit Kerja--</option>
+					{foreach $list_dropdown as $value}
+						{if $value.kdunit == $kd_unit}
+							{$select ="selected"}
+						{else}
+							{$select =""}
+						{/if}
+					<option value="{$value.kdunit}" {$select}>{$value.nmunit}</option>
+					{/foreach}
 				</select>
 					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
 				</div>
@@ -96,7 +107,7 @@
 					</thead>
 					<tbody>
 						{if $data_master_induk}
-						<tr>
+						<tr style="color:green">
 							<td>&nbsp;</td>
 							<td>{$data_master_induk.0.kode}</td>
 							<td>{$data_master_induk.2.nmunit}</td>
@@ -108,7 +119,7 @@
 						</tr>
 						{/if}
 						{if $data_master}
-						<tr>
+						<tr style="color:black">
 							<td>&nbsp;</td>
 							<td>{$data_master.0.kode}</td>
 							<td>{$data_master.2.NMSATKER}</td>
@@ -121,9 +132,9 @@
 						{/if}
 						{if $data_master_sub}
 						{foreach $data_master_sub as $value}
-						<tr>
+						<tr style="color:blue">
 							<td>{$value.nama_unit}</td>
-							<td>{$value.KDGIAT}</td>
+							<td>{$value.kdgiat}</td>
 							<td>{$value.nama_kegiatan}</td>
 							<td class="text-right">{number_format($value.pagu_giat,"0",",",".")}</td>
 							<td class="text-right">{number_format($value.real_giat_bulan,"0",",",".")}</td>

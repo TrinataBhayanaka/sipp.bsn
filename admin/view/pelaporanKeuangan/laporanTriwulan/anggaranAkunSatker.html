@@ -63,6 +63,12 @@
 					<option value="3" {$dataselected.2}>Triwulan III</option>
 					<option value="4" {$dataselected.3}>Triwulan IV</option>
 				</select>
+				<select name="jns_blnj" class="selectpicker" width="100%">
+					<option value="51" {$dataselected2.0}>Belanja Pegawai</option>
+					<option value="52" {$dataselected2.1}>Belanja Barang</option>
+					<option value="53" {$dataselected2.2}>Belanja Modal</option>
+					<option value="524" {$dataselected2.3}>Belanja Perjalanan</option>
+				</select>	
 					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
 				</div>
 			</div>
@@ -88,7 +94,7 @@
 					<tbody>
 						{if $unit}
 						{foreach $unit as $val}
-							<tr>
+							<tr style="color:green">
 								<td>{$val.kode}</td>
 								<td>{$val.nama}</td>
 								<td class="text-right">{number_format($val.pagu,"0",",",".")}</td>
@@ -102,7 +108,7 @@
 						
 						{if $satker}
 						{foreach $satker as $val_sat}
-							<tr>
+							<tr style="color:black">
 								<td>{$val_sat.kode}</td>
 								<td>{$val_sat.nama}</td>
 								<td class="text-right">{number_format($val_sat.pagu,"0",",",".")}</td>
