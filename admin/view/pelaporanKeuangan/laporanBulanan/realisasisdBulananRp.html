@@ -110,6 +110,7 @@ $(window).on('load', function() {
 					</tr>
 				</thead>
 				<tbody>
+					{if $this->admin[type] == 1}
 					<tr style="color:green">
 						<td >&nbsp;</td>
 						<td  class="text-center" > 	084</td>
@@ -142,6 +143,7 @@ $(window).on('load', function() {
 						<!--<td class="text-right" colspan="1">{number_format($data_master_induk.0.penarikan_bulan.RPHPAGU,0,",",".")}</td>-->
 						
 					<!--</tr>-->
+					
 					<tr style="color:black">
 						<td >&nbsp;</td>
 						<td class="text-center" > 	{$data_master.0.KDSATKER}</td>
@@ -155,7 +157,7 @@ $(window).on('load', function() {
 						
 						<td  class="text-right" >{number_format($data_master.0.sisa_anggaran,0,",",".")}</td>
 					</tr>
-
+					{/if}
 					<!--<tr>
 						<td  class="text-right" >{number_format($data_master.0.penarikan_bulan.JML01,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($data_master.0.penarikan_bulan.JML02,0,",",".")} 	</td>

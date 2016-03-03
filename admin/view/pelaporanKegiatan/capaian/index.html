@@ -97,6 +97,7 @@ $(window).on('load', function() {
 					</tr>
 				</thead>
 				<tbody>
+				{if $data != ''}
 				{foreach $data as $key => $val}
 
 					<tr>
@@ -172,7 +173,7 @@ $(window).on('load', function() {
 						<td><a href="{$basedomain}pelaporanKegiatan/editForm{$url}/?id={$val.id}"><button class="btn btn-warning btn-labeled fa fa-pencil-square-o" >Edit Capaian</button></a></td>
 					</tr>
 					{/foreach}
-
+					{/if}
 				</tbody>
 			</table>
 		</div>

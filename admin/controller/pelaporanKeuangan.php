@@ -26,7 +26,8 @@ class pelaporanKeuangan extends Controller {
 	}
 	
 	public function index(){
-		// echo "masuk";
+		// pr($this->admin);
+		// echo $this->admin['name'];
 		//realisasi Keuangan
 		//select mster data induk Badan Standarisasi Nasional(kode,nama,realisasi)
 		// $thn_temp = '2013';
@@ -35,88 +36,173 @@ class pelaporanKeuangan extends Controller {
 		$thn_temp = $thn_aktif['kode'];
 		$thn_renstra =$thn_aktif['data'];
 		// tambahan 
-		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
-		
-		$select_data_master_bsn = $this->m_pelaporankeuangan->select_data_master_bsn($thn_temp);
-		// pr($select_data_master_bsn);
-		//select pagu total
-		$select_data_pagu_master_bsn =$this->m_pelaporankeuangan->select_data_pagu_master_bsn($thn_temp,$select_data_master_bsn['KDSATKER']);
-		// pr($select_data_pagu_master_bsn);
-		$select_nama = $this->m_pelaporankeuangan->select_nama($select_data_master_bsn['KDSATKER']);
-		if($select_data_pagu_master_bsn['pagu_satker'] == 0){
-			$select_persentase = 0; 
+		if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		}else{
-			$select_persentase = round(($select_data_master_bsn['real_satker'] / $select_data_pagu_master_bsn['pagu_satker'])*100,2); 
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = '1';
+				$kd_unit = $str;
+			}elseif($length == 4){
+				$param = '2';
+				$kd_unit = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
 		}
-		$select_data_master_bsn_fix[]=$select_data_master_bsn;
-		foreach ($select_data_master_bsn_fix  as $s=>$ms)
-		{
-			$select_data_master_bsn_fix[0]['pagu_total'] = $select_data_pagu_master_bsn['pagu_satker'];
-			$select_data_master_bsn_fix[0]['nama_satker'] = $select_nama['NMSATKER'];
-			$select_data_master_bsn_fix[0]['persentase'] = $select_persentase;
-		}
-		// pr($select_data_master_bsn_fix);
-		
-		//cek data upload 
-		$cek_data_upload = $this->m_pelaporankeuangan->cek_data_upload();
-		// pr($cek_data_upload);
-		
-		//cek realisasi Badan Standarisasi Nasional (084)
-		$cek_realisasi= $this->m_pelaporankeuangan->cek_realisasi($thn_temp);
-		// pr($cek_realisasi);
-		//cek pagu Badan Standarisasi Nasional (084)
-		$cek_pagu= $this->m_pelaporankeuangan->cek_pagu($thn_temp);
-		// pr($cek_pagu);
-		//cek kegiatan 
-			$kd_unit = '841100';
-			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
-		
-		//cek kegiatan 
-		$cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group($thn_temp,$select_data_master_bsn['KDSATKER']);
-		// pr($cek_kegiatan_group);
-		foreach ($cek_kegiatan_group as $k=>$val) {
-			// pr($val);
-			$list_kegiatan[] = $val;
-			// pr($list_kegiatan);
-			$pagu_giat_group= $this->m_pelaporankeuangan->pagu_giat_group($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
+			// pr($list_dropdown);
 			
-			$nama_kegiatan= $this->m_pelaporankeuangan->nama_kegiatan($val['KDGIAT']);
-			if($pagu_giat_group['pagu_giat'] == 0){
-				$persentase = 0;
+			//cek kegiatan 
+		if($_POST['unit'] != ''){
+			$select_data_master_bsn = $this->m_pelaporankeuangan->select_data_master_bsn($thn_temp);
+			$select_data_pagu_master_bsn =$this->m_pelaporankeuangan->select_data_pagu_master_bsn($thn_temp,$select_data_master_bsn['KDSATKER']);
+			$select_nama = $this->m_pelaporankeuangan->select_nama($select_data_master_bsn['KDSATKER']);
+			if($select_data_pagu_master_bsn['pagu_satker'] == 0){
+				$select_persentase = 0; 
 			}else{
-				$persentase = round(($val['real_giat'] / $pagu_giat_group['pagu_giat'])*100,2);
+				$select_persentase = round(($select_data_master_bsn['real_satker'] / $select_data_pagu_master_bsn['pagu_satker'])*100,2); 
 			}
-			
-			$list_kegiatan[$k]['pagu_giat']= $pagu_giat_group['pagu_giat'];
-			$list_kegiatan[$k]['persentase']= $persentase;
-			$list_kegiatan[$k]['nama_giat']= $nama_kegiatan['nmgiat'];
-			
-			$pagutotal_kode_output_kegiatan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT']);
-			// pr($pagutotal_kode_output_kegiatan);
-			foreach ($pagutotal_kode_output_kegiatan as $v=>$value)
+			$select_data_master_bsn_fix[]=$select_data_master_bsn;
+			foreach ($select_data_master_bsn_fix  as $s=>$ms)
 			{
-				$list_kegiatan[$k]['output'][$v]=$value;
-				$pagurealisasi_output_kegiatan= $this->m_pelaporankeuangan->pagurealisasi_output_kegiatan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['KDGIAT'],$value['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$v]['pagutotal']=$pagurealisasi_output_kegiatan['pagu_output'];
-				$nama_output= $this->m_pelaporankeuangan->nama_output($val['KDGIAT'],$value['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$v]['namaoutput']=$nama_output['NMOUTPUT'];
-				$persentase_output = round(($value['real_output'] / $pagurealisasi_output_kegiatan['pagu_output'])*100,2);
-				
-				$list_kegiatan[$k]['output'][$v]['realisasioutput']=$persentase_output;
-				
+				$select_data_master_bsn_fix[0]['pagu_total'] = $select_data_pagu_master_bsn['pagu_satker'];
+				$select_data_master_bsn_fix[0]['nama_satker'] = $select_nama['NMSATKER'];
+				$select_data_master_bsn_fix[0]['persentase'] = $select_persentase;
 			}
 			
 			
+			//cek data upload 
+			$cek_data_upload = $this->m_pelaporankeuangan->cek_data_upload();
+			// pr($cek_data_upload);
+			
+			//cek realisasi Badan Standarisasi Nasional (084)
+			$cek_realisasi= $this->m_pelaporankeuangan->cek_realisasi($thn_temp);
+			// pr($cek_realisasi);
+			//cek pagu Badan Standarisasi Nasional (084)
+			$cek_pagu= $this->m_pelaporankeuangan->cek_pagu($thn_temp);
+			// pr($cek_pagu);
+		
+			$kd_unit = $_POST['unit'];
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// pr($kd_kegiatan);
+			foreach ($kd_kegiatan as $k=>$val) {
+				$list_kegiatan[] = $val;
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				
+				$cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_rev($thn_temp,$val['kdgiat']);
+				if($pagu_giat['pagu_giat'] == 0){
+					$persentase = 0;
+				}else{
+					$persentase = round(($cek_kegiatan_group['real_giat'] / $pagu_giat['pagu_giat'])*100,2);
+				}
+				
+				$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['real_giat']= $cek_kegiatan_group['real_giat'];
+				$list_kegiatan[$k]['persentase']= $persentase;
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				
+				$pagutotal_kode_output_kegiatan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_rev($thn_temp,$val['kdgiat']);
+				foreach ($pagutotal_kode_output_kegiatan as $v=>$value)
+				{
+					$list_kegiatan[$k]['output'][$v]=$value;
+					$pagurealisasi_output_kegiatan= $this->m_pelaporankeuangan->pagurealisasi_output_kegiatan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['kdgiat'],$value['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$v]['pagutotal']=$pagurealisasi_output_kegiatan['pagu_output'];
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$value['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$v]['namaoutput']=$nama_output['NMOUTPUT'];
+					$persentase_output = round(($value['real_output'] / $pagurealisasi_output_kegiatan['pagu_output'])*100,2);
+					
+					$list_kegiatan[$k]['output'][$v]['realisasioutput']=$persentase_output;
+					
+				}
+			}	
+		}else{
+			$select_data_master_bsn = $this->m_pelaporankeuangan->select_data_master_bsn($thn_temp);
+			$select_data_pagu_master_bsn =$this->m_pelaporankeuangan->select_data_pagu_master_bsn($thn_temp,$select_data_master_bsn['KDSATKER']);
+			$select_nama = $this->m_pelaporankeuangan->select_nama($select_data_master_bsn['KDSATKER']);
+			if($select_data_pagu_master_bsn['pagu_satker'] == 0){
+				$select_persentase = 0; 
+			}else{
+				$select_persentase = round(($select_data_master_bsn['real_satker'] / $select_data_pagu_master_bsn['pagu_satker'])*100,2); 
+			}
+			$select_data_master_bsn_fix[]=$select_data_master_bsn;
+			foreach ($select_data_master_bsn_fix  as $s=>$ms)
+			{
+				$select_data_master_bsn_fix[0]['pagu_total'] = $select_data_pagu_master_bsn['pagu_satker'];
+				$select_data_master_bsn_fix[0]['nama_satker'] = $select_nama['NMSATKER'];
+				$select_data_master_bsn_fix[0]['persentase'] = $select_persentase;
+			}
+			//cek data upload 
+			$cek_data_upload = $this->m_pelaporankeuangan->cek_data_upload();
+			//cek realisasi Badan Standarisasi Nasional (084)
+			$cek_realisasi= $this->m_pelaporankeuangan->cek_realisasi($thn_temp);
+			// pr($cek_realisasi);
+			//cek pagu Badan Standarisasi Nasional (084)
+			$cek_pagu= $this->m_pelaporankeuangan->cek_pagu($thn_temp);
+			// pr($cek_pagu);
+			if($this->admin['type'] == 1){
+				$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+				
+			}
+			// exit;
+			$kd_unit = $kode;
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// pr($kd_kegiatan);
+			foreach ($kd_kegiatan as $k=>$val) {
+				$list_kegiatan[] = $val;
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				
+				$cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_rev($thn_temp,$val['kdgiat']);
+				if($pagu_giat['pagu_giat'] == 0){
+					$persentase = 0;
+				}else{
+					$persentase = round(($cek_kegiatan_group['real_giat'] / $pagu_giat['pagu_giat'])*100,2);
+				}
+				
+				$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
+				$list_kegiatan[$k]['real_giat']= $cek_kegiatan_group['real_giat'];
+				$list_kegiatan[$k]['persentase']= $persentase;
+				$list_kegiatan[$k]['nama_giat']= $val['nmgiat'];
+				
+				$pagutotal_kode_output_kegiatan= $this->m_pelaporankeuangan->pagutotal_kode_output_kegiatan_rev($thn_temp,$val['kdgiat']);
+				foreach ($pagutotal_kode_output_kegiatan as $v=>$value)
+				{
+					$list_kegiatan[$k]['output'][$v]=$value;
+					$pagurealisasi_output_kegiatan= $this->m_pelaporankeuangan->pagurealisasi_output_kegiatan($thn_temp,$select_data_master_bsn['KDSATKER'],$val['kdgiat'],$value['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$v]['pagutotal']=$pagurealisasi_output_kegiatan['pagu_output'];
+					$nama_output= $this->m_pelaporankeuangan->nama_output($val['kdgiat'],$value['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$v]['namaoutput']=$nama_output['NMOUTPUT'];
+					$persentase_output = round(($value['real_output'] / $pagurealisasi_output_kegiatan['pagu_output'])*100,2);
+					
+					$list_kegiatan[$k]['output'][$v]['realisasioutput']=$persentase_output;
+					
+				}
+			}	
+		
 		}
-		// pr($list_kegiatan);
+		// pr($kd_unit);
+			
 		//data master
+		
+		$this->view->assign('tahun',$thn_temp);
+		$this->view->assign('kd_satker',$select_data_master_bsn_fix[0]['KDSATKER']);
 		$this->view->assign('list_dropdown',$list_dropdown);
 		$this->view->assign('kd_unit',$kd_unit);
 		$this->view->assign('data_master',$select_data_master_bsn_fix);
 		$this->view->assign('data_master_sub',$list_kegiatan);
 		// pr($select_data_master_bsn_fix);
 		// pr($list_kegiatan);
-		
+		// exit;
 		return $this->loadView('pelaporanKeuangan/realisasiKeuangan');
 
 	}
@@ -130,7 +216,22 @@ class pelaporanKeuangan extends Controller {
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
 		
-		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		//=============================== 
+		if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = '1';
+				$kd_unit = $str;
+			}elseif($length == 4){
+				$param = '2';
+				$kd_unit = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+		}			
+		//===============================
 		
 		//KODE BSN
 		//start====084(BSN)=============
@@ -282,7 +383,23 @@ class pelaporanKeuangan extends Controller {
 		}else{
 			//start Unit Eselon II
 			//cek kegiatan 
-			$kd_unit = '841100';
+			//===============================		
+			if($this->admin['type'] == 1){
+				$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+			}
+			//===============================
+			$kd_unit = $kode;
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			
 			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
@@ -372,7 +489,22 @@ class pelaporanKeuangan extends Controller {
 		$thn_renstra =$thn_aktif['data'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
-		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		//=============================== 
+		if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = '1';
+				$kd_unit = $str;
+			}elseif($length == 4){
+				$param = '2';
+				$kd_unit = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+		}			
+		//===============================
 		
 		//KODE BSN
 		//start====084(BSN)=============
@@ -572,7 +704,23 @@ class pelaporanKeuangan extends Controller {
 			//start Unit Eselon II
 			//cek kegiatan 
 			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
-			$kd_unit = '841100';
+			//===============================		
+			if($this->admin['type'] == 1){
+				$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+			}
+			//===============================
+			$kd_unit = $kode;	
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			// pr($cek_kegiatan_group);
 			foreach ($kd_kegiatan as $k=>$val) {
@@ -689,7 +837,22 @@ class pelaporanKeuangan extends Controller {
 		$thn_renstra =$thn_aktif['data'];
 		$max_bulan = '12';
 		$monthArray =array('1','2','3','4','5','6','7','8','9','10','11','12');
-		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		//=============================== 
+		if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = '1';
+				$kd_unit = $str;
+			}elseif($length == 4){
+				$param = '2';
+				$kd_unit = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+		}			
+		//===============================
 		//KODE BSN
 		//start====084(BSN)=============
 		$kode_BSN = "840000";
@@ -883,7 +1046,23 @@ class pelaporanKeuangan extends Controller {
 			//start Unit Eselon II
 			//cek kegiatan 
 			// $cek_kegiatan_group= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_data_master_bsn['KDSATKER']);
-			$kd_unit = '841100';
+			//===============================		
+			if($this->admin['type'] == 1){
+				$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+			}
+			//===============================
+			$kd_unit = $kode;
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			// pr($cek_kegiatan_group);
 			foreach ($kd_kegiatan as $k=>$val) {
@@ -1039,7 +1218,24 @@ class pelaporanKeuangan extends Controller {
 	$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 	$thn_temp = $thn_aktif['kode'];
 	$thn_renstra =$thn_aktif['data'];
-	$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	
+	//=============================== 
+	if($this->admin['type'] == 1){
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	}else{
+		$str = rtrim($this->admin['kode'], '0');
+		$length = strlen($str);
+		if($length == 3){
+			$param = '1';
+			$kd_unit = $str;
+		}elseif($length == 4){
+			$param = '2';
+			$kd_unit = $this->admin['kode'];
+		}
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+	}			
+	//===============================
+	
 	if($_POST['bulan'] != '' && $_POST['unit'] !=''){
 		// pr($_POST['bulan']);
 		$bulan = $_POST['bulan'];
@@ -1253,7 +1449,23 @@ class pelaporanKeuangan extends Controller {
 		// exit;
 		//unit eselon II
 		// $select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		$kd_unit = '841100';
+		//===============================		
+		if($this->admin['type'] == 1){
+			$kode = '841100';
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = $str;
+				$select_unit = $this->m_penetapanAngaran->list_unit($param);
+				// pr($select_unit);
+				$kode = $select_unit['kdunit']; 
+			}elseif($length == 4){
+				$kode = $this->admin['kode'];
+			}
+		}
+		//===============================
+		$kd_unit = $kode;
 		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
@@ -1369,7 +1581,22 @@ class pelaporanKeuangan extends Controller {
 		$thn_temp = $thn_aktif['kode'];
 		$thn_renstra =$thn_aktif['data'];
 		//tambahan 
-		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		//=============================== 
+		if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = '1';
+				$kd_unit = $str;
+			}elseif($length == 4){
+				$param = '2';
+				$kd_unit = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+		}			
+		//===============================
 		
 		if($_POST['bulan'] != '' && $_POST['unit'] != ''){
 			$bl = $_POST['bulan'];
@@ -1752,7 +1979,23 @@ class pelaporanKeuangan extends Controller {
 			
 			
 			//unit eselon II
-			$kd_unit = '841100';
+			//===============================		
+			if($this->admin['type'] == 1){
+				$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+			}
+			//===============================
+			$kd_unit = $kode;
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			foreach ($kd_kegiatan as $k=>$val) {
 				$list_kegiatan[] = $val;
@@ -2369,7 +2612,22 @@ class pelaporanKeuangan extends Controller {
 	$thn_temp = $thn_aktif['kode'];
 	$thn_renstra =$thn_aktif['data'];
 	// tambahan 
-	$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	//=============================== 
+	if($this->admin['type'] == 1){
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	}else{
+		$str = rtrim($this->admin['kode'], '0');
+		$length = strlen($str);
+		if($length == 3){
+			$param = '1';
+			$kd_unit = $str;
+		}elseif($length == 4){
+			$param = '2';
+			$kd_unit = $this->admin['kode'];
+		}
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+	}			
+	//===============================
 	
 	// pr($thn_temp); 
 	// pr($_POST);
@@ -2567,7 +2825,23 @@ class pelaporanKeuangan extends Controller {
 		// pr($data_bsn_induk_sub);
 		// exit;
 		//unit eselon II
-		$kd_unit = '841100';
+		//===============================		
+		if($this->admin['type'] == 1){
+			$kode = '841100';
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = $str;
+				$select_unit = $this->m_penetapanAngaran->list_unit($param);
+				// pr($select_unit);
+				$kode = $select_unit['kdunit']; 
+			}elseif($length == 4){
+				$kode = $this->admin['kode'];
+			}
+		}
+		//===============================
+		$kd_unit = $kode;
 		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 		foreach ($kd_kegiatan as $k=>$val) {
 			$list_kegiatan[] = $val;
@@ -2666,7 +2940,22 @@ class pelaporanKeuangan extends Controller {
 	$thn_temp = $thn_aktif['kode'];
 	$thn_renstra =$thn_aktif['data'];
 	// tambahan 
-	$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	//=============================== 
+	if($this->admin['type'] == 1){
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+	}else{
+		$str = rtrim($this->admin['kode'], '0');
+		$length = strlen($str);
+		if($length == 3){
+			$param = '1';
+			$kd_unit = $str;
+		}elseif($length == 4){
+			$param = '2';
+			$kd_unit = $this->admin['kode'];
+		}
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+	}			
+	//===============================
 	
 	if($_POST['bulan'] != '' && $_POST['unit'] != ''){
 		// pr($_POST['bulan']);
@@ -2873,7 +3162,23 @@ class pelaporanKeuangan extends Controller {
 		// exit;
 		//unit eselon II
 		// $select_kegiatan= $this->m_pelaporankeuangan->cek_kegiatan_group_realisasi($thn_temp,$select_kd_satker['KDSATKER']);
-		$kd_unit = '841100';
+		//===============================		
+		if($this->admin['type'] == 1){
+			$kode = '841100';
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = $str;
+				$select_unit = $this->m_penetapanAngaran->list_unit($param);
+				// pr($select_unit);
+				$kode = $select_unit['kdunit']; 
+			}elseif($length == 4){
+				$kode = $this->admin['kode'];
+			}
+		}
+		//===============================
+		$kd_unit = $kode;
 		$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 
 		foreach ($kd_kegiatan as $k=>$val) {

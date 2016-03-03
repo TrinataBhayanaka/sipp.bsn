@@ -61,10 +61,10 @@
 							</a>
 			
 							<!--Submenu-->
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="{$basedomain}struktur/bsn">BSN</a></li>
-								<li><a href="{$basedomain}struktur/eselon1">Eselon I</a></li>
-								<li><a href="{$basedomain}struktur/eselon2">Eselon II</a></li>
+							<ul class="collapse {if $page.page eq 'struktur'}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}struktur/bsn">BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}struktur/eselon1">Eselon I</a></li>
+								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}struktur/eselon2">Eselon II</a></li>
 							</ul>
 						</li>
 						
@@ -82,9 +82,9 @@
 							</a>
 			
 							<!--Submenu-->
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="{$basedomain}renstra/visi_bsn">BSN</a></li>
-								<li><a href="{$basedomain}renstra/visi_eselon">Eselon I</a></li>
+							<ul class="collapse {if $page.page eq 'renstra'}in{/if}">
+								<li  class="{if $page.function eq 'visi_bsn'}active{/if}"><a href="{$basedomain}renstra/visi_bsn">BSN</a></li>
+								<li class="{if $page.function eq 'visi_eselon'}active{/if}"><a href="{$basedomain}renstra/visi_eselon">Eselon I</a></li>
 							</ul>
 						</li>
 
@@ -96,12 +96,12 @@
 							</a>
 			
 							<!--Submenu-->
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="{$basedomain}renstra/sasaran">Sasaran Utama</a></li>
-								<li><a href="{$basedomain}renstra/kinerja">SS dan IKSS BSN</a></li>
-								<li><a href="{$basedomain}renstra/program">Program, SP & IKP</a></li>
-								<li><a href="{$basedomain}renstra/kegiatan">Nama Kegiatan</a></li>
-								<li><a href="{$basedomain}renstra/output">Output dan IKK</a></li>
+							<ul class="collapse {if $page.page eq 'renstra'}in{/if}">
+								<li class="{if $page.function eq 'sasaran'}active{/if}"><a href="{$basedomain}renstra/sasaran">Sasaran Utama</a></li>
+								<li class="{if $page.function eq 'kinerja'}active{/if}"><a href="{$basedomain}renstra/kinerja">SS dan IKSS BSN</a></li>
+								<li class="{if $page.function eq 'program'}active{/if}"><a href="{$basedomain}renstra/program">Program, SP & IKP</a></li>
+								<li class="{if $page.function eq 'kegiatan'}active{/if}"><a href="{$basedomain}renstra/kegiatan">Nama Kegiatan</a></li>
+								<li class="{if $page.function eq 'output'}active{/if}"><a href="{$basedomain}renstra/output">Output dan IKK</a></li>
 							</ul>
 						</li>
 
@@ -113,10 +113,10 @@
 							</a>
 			
 							<!--Submenu-->
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="{$basedomain}renstra/dokumenBsn/?pid=1">Renstra Tk BSN</a></li>
-								<li><a href="{$basedomain}renstra/dokumenBSN/?pid=2">Renstra Tk Eselon I</a></li>
-								<li><a href="{$basedomain}renstra/dokumenBSN/?pid=3">Renstra Tk Eselon II</a></li>
+							<ul class="collapse {if $page.page eq 'renstra'}in{/if}">
+								<li class="{if $page.function eq 'dokumenBsn'}active{/if}"><a href="{$basedomain}renstra/dokumenBsn/?pid=1">Renstra Tk BSN</a></li>
+								<li class="{if $page.function eq 'dokumenBSN'}active{/if}"><a href="{$basedomain}renstra/dokumenBSN/?pid=2">Renstra Tk Eselon I</a></li>
+								<li class="{if $page.function eq 'dokumenBSN'}active{/if}">><a href="{$basedomain}renstra/dokumenBSN/?pid=3">Renstra Tk Eselon II</a></li>
 							</ul>
 						</li>
 
@@ -271,10 +271,10 @@
 								<span class="menu-title"><strong>Capaian</strong></span>
 								<i class="arrow"></i>
 							</a>
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="{$basedomain}pelaporanKegiatan/bsn">Tingkat BSN</a></li>
-								<li><a href="{$basedomain}pelaporanKegiatan/eselon1">Tingkat ESELON 1</a></li>
-								<li><a href="{$basedomain}pelaporanKegiatan/eselon2">Tingkat ESELON 2</a></li>
+							<ul class="collapse {if $page.page eq 'pelaporanKegiatan'}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/bsn">Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/eselon1">Tingkat ESELON 1</a></li>
+								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/eselon2">Tingkat ESELON 2</a></li>
 							</ul>
 						</li>
 						
@@ -284,10 +284,10 @@
 								<span class="menu-title"><strong>Dokumen LAKIP</strong></span>
 								<i class="arrow"></i>
 							</a>
-							<ul class="collapse {if $page.page eq 'news'}in{/if}">
-								<li><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=1">Tingkat BSN</a></li>
-								<li><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=2">Tingkat ESELON 1</a></li>
-								<li><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=3">Tingkat ESELON 2</a></li>
+							<ul class="collapse {if $page.page eq 'pelaporanKegiatan'}in{/if}">
+								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=1">Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=2">Tingkat ESELON 1</a></li>
+								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=3">Tingkat ESELON 2</a></li>
 							</ul>
 						</li>
 						<!-- <li>

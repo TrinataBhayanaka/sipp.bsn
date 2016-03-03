@@ -26,12 +26,25 @@ class monev extends Controller {
 	
 	public function index(){
 		global $basedomain;
-		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		//=============================== 
+		if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param_list = '1';
+				$kd_unit_list = $str;
+			}elseif($length == 4){
+				$param_list = '2';
+				$kd_unit_list = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param_list,$kd_unit_list);
+		}			
+		//===============================
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
-		// pr($thn_aktif);
-		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
-		// $thn_temp = '2013';
+		$thn_renstra =$thn_aktif['data'];
 		
 		if($_POST['unit'] !=''){
 			// pr($_POST['unit']);
@@ -40,7 +53,7 @@ class monev extends Controller {
 			$kd_unit = $_POST['unit'];
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
-			$thn_renstra =$thn_aktif['data'];
+			
 			
 			/*if($thn_temp >= 2015 and $thn_temp<=2019){
 				$thn_renstra ='2015-2019'; 
@@ -80,7 +93,23 @@ class monev extends Controller {
 			}
 		}else{
 			//default Biro perencanaan, keuangan dan tata usaha
-			$kd_unit = '841100';
+			//===============================		
+			if($this->admin['type'] == 1){
+				$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param_list = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param_list);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+			}
+			//===============================
+			$kd_unit = $kode;
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
 			$thn_renstra =$thn_aktif['data'];

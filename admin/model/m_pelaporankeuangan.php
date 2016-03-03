@@ -83,6 +83,16 @@ class m_pelaporankeuangan extends Database {
 		return $result;
 	}
 	
+	function cek_kegiatan_group_rev($thn_temp,$kd_giat)
+	{
+		$query = "select sum(TOTNILMAK) as real_giat from m_spmind WHERE THANG='{$thn_temp}' and KDGIAT='{$kd_giat}'";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	
 	//d_item
 	function pagu_giat_group($thn_temp,$kd_satker,$kd_giat)
 	{
@@ -119,6 +129,15 @@ class m_pelaporankeuangan extends Database {
 	function pagutotal_kode_output_kegiatan($thn_temp,$kd_satker,$kd_giat)
 	{
 		$query = "select KDOUTPUT, sum(TOTNILMAK) as real_output from m_spmind WHERE THANG='{$thn_temp}' and KDSATKER='{$kd_satker}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
+	function pagutotal_kode_output_kegiatan_rev($thn_temp,$kd_giat)
+	{
+		$query = "select KDOUTPUT, sum(TOTNILMAK) as real_output from m_spmind WHERE THANG='{$thn_temp}' and KDGIAT = '{$kd_giat}' group by KDOUTPUT";
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -174,6 +193,16 @@ class m_pelaporankeuangan extends Database {
 	function pagurealisasi_output_kegiatan($thn_temp,$kd_satker,$kd_giat,$kdoutput)
 	{
 		$query = "select sum(Jumlah) as pagu_output from d_item where THANG = '{$thn_temp}' and KDSATKER = '{$kd_satker}' and KDGIAT = '{$kd_giat}' and KDOUTPUT = '{$kdoutput}' group by KDOUTPUT"; 
+	
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function pagurealisasi_output_kegiatan_rev($thn_temp,$kd_giat,$kdoutput)
+	{
+		$query = "select sum(Jumlah) as pagu_output from d_item where THANG = '{$thn_temp}' and KDGIAT = '{$kd_giat}' and KDOUTPUT = '{$kdoutput}' "; 
 	
 		// pr($query);
 		$result = $this->fetch($query);

@@ -29,6 +29,21 @@ class penetapanAnggaran extends Controller {
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
+		$thn_renstra =$thn_aktif['data'];
+		if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param = '1';
+				$kd_unit = $str;
+			}elseif($length == 4){
+				$param = '2';
+				$kd_unit = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
+		}
 		
 		$select_data_master_bsn = $this->m_penetapanAngaran->cek_pagu($thn_temp);
 		// pr($select_data_master_bsn);
@@ -94,59 +109,132 @@ class penetapanAnggaran extends Controller {
 		$data_bsn_induk_sub[]['perjalanan']= $perjalanan;
 		$data_bsn_induk_sub[]['persentaseperjalanan']= $p_perjalanan;
 		// pr($data_bsn_induk_sub);
-		
-		//unit eselon II
-		$select_kegiatan= $this->m_penetapanAngaran->cek_kegiatan_group_scnd($thn_temp,$select_kd_satker['KDSATKER']);
-		// pr($select_kegiatan);
-		// exit;
-		foreach ($select_kegiatan as $k=>$val) {
-			$list_kegiatan[] = $val;
-			// $nama_unit= $this->m_penetapanAngaran->nm_unit($val['kdunitkerja']);
-			$nama_kegiatan= $this->m_penetapanAngaran->nama_kegiatan($val['KDGIAT']);
-			// $list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
-			$list_kegiatan[$k]['nama_kegiatan']= $nama_kegiatan['nmgiat'];
-			$list_kegiatan[$k]['pagu_giat']= $val['pagu_giat'];
-			
-			$anggaran_belanja_menteri_pegawai_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_giat($thn_temp,$val['KDGIAT']);
-			
-			$anggaran_belanja_menteri_barang_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_giat($thn_temp,$val['KDGIAT']);
-			
-			$anggaran_belanja_menteri_modal_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_giat($thn_temp,$val['KDGIAT']);
-			
-			$anggaran_belanja_menteri_perjalanan_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_giat($thn_temp,$val['KDGIAT']);
-			
-			$list_kegiatan[$k]['pagu_giat_pegawai']= $anggaran_belanja_menteri_pegawai_giat['pagu_satker'];
-			$list_kegiatan[$k]['pagu_giat_barang']= $anggaran_belanja_menteri_barang_giat['pagu_satker'];
-			$list_kegiatan[$k]['pagu_giat_modal']= $anggaran_belanja_menteri_modal_giat['pagu_satker'];
-			$list_kegiatan[$k]['pagu_giat_perjalanan']= $anggaran_belanja_menteri_perjalanan_giat['pagu_satker'];
-			
-			$select_output= $this->m_penetapanAngaran->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['KDGIAT']);
-			foreach ($select_output as $vprb=>$valprb){
-				$list_kegiatan[$k]['output'][$vprb]=$valprb;
-				$nama_output= $this->m_penetapanAngaran->nama_output($val['KDGIAT'],$valprb['KDOUTPUT']);
-				$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+		if($_POST['unit'] != ''){
+			$kd_unit = $_POST['unit'];
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// exit;
+			foreach ($kd_kegiatan as $k=>$val) {
+				$list_kegiatan[] = $val;
+				// $nama_unit= $this->m_penetapanAngaran->nm_unit($val['kdunitkerja']);
+				// $nama_kegiatan= $this->m_penetapanAngaran->nama_kegiatan($val['KDGIAT']);
+				// $list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
+				$list_kegiatan[$k]['nama_kegiatan']= $val['nmgiat'];
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
 				
-				$anggaran_belanja_menteri_pegawai_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_output($thn_temp,$val['KDGIAT'],$valprb['KDOUTPUT']);
-			
-				$anggaran_belanja_menteri_barang_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_output($thn_temp,$val['KDGIAT'],$valprb['KDOUTPUT']);
+				$anggaran_belanja_menteri_pegawai_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_giat($thn_temp,$val['kdgiat']);
 				
-				$anggaran_belanja_menteri_modal_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_output($thn_temp,$val['KDGIAT'],$valprb['KDOUTPUT']);
+				$anggaran_belanja_menteri_barang_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_giat($thn_temp,$val['kdgiat']);
 				
-				$anggaran_belanja_menteri_perjalanan_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_output($thn_temp,$val['KDGIAT'],$valprb['KDOUTPUT']);
+				$anggaran_belanja_menteri_modal_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_giat($thn_temp,$val['kdgiat']);
 				
-				$list_kegiatan[$k]['output'][$vprb]['pagu_output_pegawai']=$anggaran_belanja_menteri_pegawai_output['pagu_satker'];
-				$list_kegiatan[$k]['output'][$vprb]['pagu_output_barang']=$anggaran_belanja_menteri_barang_output['pagu_satker'];
-				$list_kegiatan[$k]['output'][$vprb]['pagu_output_modal']=$anggaran_belanja_menteri_modal_output['pagu_satker'];
-				$list_kegiatan[$k]['output'][$vprb]['pagu_output_perjalanan']=$anggaran_belanja_menteri_perjalanan_output['pagu_satker'];
+				$anggaran_belanja_menteri_perjalanan_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_giat($thn_temp,$val['kdgiat']);
+				
+				$list_kegiatan[$k]['pagu_giat_pegawai']= $anggaran_belanja_menteri_pegawai_giat['pagu_satker'];
+				$list_kegiatan[$k]['pagu_giat_barang']= $anggaran_belanja_menteri_barang_giat['pagu_satker'];
+				$list_kegiatan[$k]['pagu_giat_modal']= $anggaran_belanja_menteri_modal_giat['pagu_satker'];
+				$list_kegiatan[$k]['pagu_giat_perjalanan']= $anggaran_belanja_menteri_perjalanan_giat['pagu_satker'];
+				
+				$select_output= $this->m_penetapanAngaran->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				foreach ($select_output as $vprb=>$valprb){
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$nama_output= $this->m_penetapanAngaran->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					
+					$anggaran_belanja_menteri_pegawai_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+				
+					$anggaran_belanja_menteri_barang_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+					
+					$anggaran_belanja_menteri_modal_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+					
+					$anggaran_belanja_menteri_perjalanan_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+					
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_pegawai']=$anggaran_belanja_menteri_pegawai_output['pagu_satker'];
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_barang']=$anggaran_belanja_menteri_barang_output['pagu_satker'];
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_modal']=$anggaran_belanja_menteri_modal_output['pagu_satker'];
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_perjalanan']=$anggaran_belanja_menteri_perjalanan_output['pagu_satker'];
+				}
+				
 			}
-			
+		}else{
+			//unit eselon II
+			// $select_kegiatan= $this->m_penetapanAngaran->cek_kegiatan_group_scnd($thn_temp,$select_kd_satker['KDSATKER']);
+			// pr($select_kegiatan);
+			if($this->admin['type'] == 1){
+					$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+				
+			}
+			$kd_unit = $kode;
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			// exit;
+			foreach ($kd_kegiatan as $k=>$val) {
+				$list_kegiatan[] = $val;
+				// $nama_unit= $this->m_penetapanAngaran->nm_unit($val['kdunitkerja']);
+				// $nama_kegiatan= $this->m_penetapanAngaran->nama_kegiatan($val['KDGIAT']);
+				// $list_kegiatan[$k]['nama_unit']= $nama_unit['nmunit'];
+				$list_kegiatan[$k]['nama_kegiatan']= $val['nmgiat'];
+				$pagu_giat = $this->m_penetapanAngaran->cek_kegiatan_group_scnd_rev($thn_temp,$val['kdgiat']);
+				$list_kegiatan[$k]['pagu_giat']= $pagu_giat['pagu_giat'];
+				
+				$anggaran_belanja_menteri_pegawai_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_giat($thn_temp,$val['kdgiat']);
+				
+				$anggaran_belanja_menteri_barang_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_giat($thn_temp,$val['kdgiat']);
+				
+				$anggaran_belanja_menteri_modal_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_giat($thn_temp,$val['kdgiat']);
+				
+				$anggaran_belanja_menteri_perjalanan_giat= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_giat($thn_temp,$val['kdgiat']);
+				
+				$list_kegiatan[$k]['pagu_giat_pegawai']= $anggaran_belanja_menteri_pegawai_giat['pagu_satker'];
+				$list_kegiatan[$k]['pagu_giat_barang']= $anggaran_belanja_menteri_barang_giat['pagu_satker'];
+				$list_kegiatan[$k]['pagu_giat_modal']= $anggaran_belanja_menteri_modal_giat['pagu_satker'];
+				$list_kegiatan[$k]['pagu_giat_perjalanan']= $anggaran_belanja_menteri_perjalanan_giat['pagu_satker'];
+				
+				$select_output= $this->m_penetapanAngaran->pagutotal_kode_output_kegiatan_perbulan_rev($thn_temp,$val['kdgiat']);
+				foreach ($select_output as $vprb=>$valprb){
+					$list_kegiatan[$k]['output'][$vprb]=$valprb;
+					$nama_output= $this->m_penetapanAngaran->nama_output($val['kdgiat'],$valprb['KDOUTPUT']);
+					$list_kegiatan[$k]['output'][$vprb]['namaoutput']=$nama_output['NMOUTPUT'];
+					
+					$anggaran_belanja_menteri_pegawai_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_pegawai_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+				
+					$anggaran_belanja_menteri_barang_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_barang_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+					
+					$anggaran_belanja_menteri_modal_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_modal_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+					
+					$anggaran_belanja_menteri_perjalanan_output= $this->m_penetapanAngaran->anggaran_belanja_menteri_perjalanan_output($thn_temp,$val['kdgiat'],$valprb['KDOUTPUT']);
+					
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_pegawai']=$anggaran_belanja_menteri_pegawai_output['pagu_satker'];
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_barang']=$anggaran_belanja_menteri_barang_output['pagu_satker'];
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_modal']=$anggaran_belanja_menteri_modal_output['pagu_satker'];
+					$list_kegiatan[$k]['output'][$vprb]['pagu_output_perjalanan']=$anggaran_belanja_menteri_perjalanan_output['pagu_satker'];
+				}
+				
+			}
 		}
+		
 		
 		// pr($list_kegiatan);
 		$this->view->assign('data_master_induk',$data_bsn_induk);
 		$this->view->assign('data_master_induk_sub',$data_bsn_induk_sub);
 		$this->view->assign('data_master_induk_sub_sub',$list_kegiatan);
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('kd_unit',$kd_unit);
+		$this->view->assign('tahun',$thn_temp);
+		$this->view->assign('kodeSatker',$data_bsn_induk_sub[0]['kode']);
+		
 		return $this->loadView('penetapantahun/penetapanAnggaran');
+		
 	
 	}
 

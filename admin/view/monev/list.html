@@ -92,7 +92,7 @@ $(window).on('load', function() {
 				</thead>
 				<tbody>
 					{foreach $data as $val}
-					<tr style="color:green">
+					<tr style="color:blue">
 						<td class="text-center">{$val.kdgiat}</td>
 						<td>{$val.nmgiat}</td>
 						<td class="text-right">{number_format($val.pagu_giat,"0",",",".")}</td>
@@ -101,7 +101,7 @@ $(window).on('load', function() {
 						<td>&nbsp;</td>
 					</tr>
 						{foreach $val.output as $out}
-							<tr>
+							<tr style="color:green">
 								<td class="text-center">{$val.kdgiat|cat:'.'|cat:$out.KDOUTPUT}</td>
 								<td>{$out.nama_output}</td>
 								<td class="text-right">{number_format($out.pagu_output,"0",",",".")}</td>

@@ -359,40 +359,42 @@ function delete()
 		if($url){
 			$result=$this->model->getcapaian($id);
 			// pr($result);
-			foreach ($result as $key => $value) {
-				$twn1=(array)json_decode($value['twn1']);
-				$twn2=(array)json_decode($value['twn2']);
-				$twn3=(array)json_decode($value['twn3']);
-				$twn4=(array)json_decode($value['twn4']);
+			if($result){
+				foreach ($result as $key => $value) {
+					$twn1=(array)json_decode($value['twn1']);
+					$twn2=(array)json_decode($value['twn2']);
+					$twn3=(array)json_decode($value['twn3']);
+					$twn4=(array)json_decode($value['twn4']);
 
-				$data[$key]=$value;
-				$data[$key]['triwulan1_trgtO']=$twn1['trgtO'];
-				$data[$key]['triwulan1_trgtP']=$twn1['trgtP'];
-				$data[$key]['triwulan1_ntrgt']=$twn1['ntrgt'];
-				$data[$key]['triwulan1_realO']=$twn1['realO'];
-				$data[$key]['triwulan1_realP']=$twn1['realP'];
-				$data[$key]['triwulan1_nreal']=$twn1['nreal'];
+					$data[$key]=$value;
+					$data[$key]['triwulan1_trgtO']=$twn1['trgtO'];
+					$data[$key]['triwulan1_trgtP']=$twn1['trgtP'];
+					$data[$key]['triwulan1_ntrgt']=$twn1['ntrgt'];
+					$data[$key]['triwulan1_realO']=$twn1['realO'];
+					$data[$key]['triwulan1_realP']=$twn1['realP'];
+					$data[$key]['triwulan1_nreal']=$twn1['nreal'];
 
-				$data[$key]['triwulan2_trgtO']=$twn2['trgtO'];
-				$data[$key]['triwulan2_trgtP']=$twn2['trgtP'];
-				$data[$key]['triwulan2_ntrgt']=$twn2['ntrgt'];
-				$data[$key]['triwulan2_realO']=$twn2['realO'];
-				$data[$key]['triwulan2_realP']=$twn2['realP'];
-				$data[$key]['triwulan2_nreal']=$twn2['nreal'];
+					$data[$key]['triwulan2_trgtO']=$twn2['trgtO'];
+					$data[$key]['triwulan2_trgtP']=$twn2['trgtP'];
+					$data[$key]['triwulan2_ntrgt']=$twn2['ntrgt'];
+					$data[$key]['triwulan2_realO']=$twn2['realO'];
+					$data[$key]['triwulan2_realP']=$twn2['realP'];
+					$data[$key]['triwulan2_nreal']=$twn2['nreal'];
 
-				$data[$key]['triwulan3_trgtO']=$twn3['trgtO'];
-				$data[$key]['triwulan3_trgtP']=$twn3['trgtP'];
-				$data[$key]['triwulan3_ntrgt']=$twn3['ntrgt'];
-				$data[$key]['triwulan3_realO']=$twn3['realO'];
-				$data[$key]['triwulan3_realP']=$twn3['realP'];
-				$data[$key]['triwulan3_nreal']=$twn3['nreal'];
+					$data[$key]['triwulan3_trgtO']=$twn3['trgtO'];
+					$data[$key]['triwulan3_trgtP']=$twn3['trgtP'];
+					$data[$key]['triwulan3_ntrgt']=$twn3['ntrgt'];
+					$data[$key]['triwulan3_realO']=$twn3['realO'];
+					$data[$key]['triwulan3_realP']=$twn3['realP'];
+					$data[$key]['triwulan3_nreal']=$twn3['nreal'];
 
-				$data[$key]['triwulan4_trgtO']=$twn4['trgtO'];
-				$data[$key]['triwulan4_trgtP']=$twn4['trgtP'];
-				$data[$key]['triwulan4_ntrgt']=$twn4['ntrgt'];
-				$data[$key]['triwulan4_realO']=$twn4['realO'];
-				$data[$key]['triwulan4_realP']=$twn4['realP'];
-				$data[$key]['triwulan4_nreal']=$twn4['nreal'];
+					$data[$key]['triwulan4_trgtO']=$twn4['trgtO'];
+					$data[$key]['triwulan4_trgtP']=$twn4['trgtP'];
+					$data[$key]['triwulan4_ntrgt']=$twn4['ntrgt'];
+					$data[$key]['triwulan4_realO']=$twn4['realO'];
+					$data[$key]['triwulan4_realP']=$twn4['realP'];
+					$data[$key]['triwulan4_nreal']=$twn4['nreal'];
+				}
 			}
 			$this->view->assign('data',$data);
 			$this->view->assign('url',$url);

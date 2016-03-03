@@ -128,6 +128,7 @@
 					</thead>
 					<tbody>
 						{if $data_master_induk}
+						{if $this->admin[type] == 1}
 						<tr style="color:green">
 							<td>{$data_master_induk.0.kode}</td>
 							<td>{$data_master_induk.2.nmunit}</td>
@@ -158,7 +159,9 @@
 							
 						</tr>
 						{/if}
+						{/if}
 						{if $data_master_induk_sub}
+						{if $this->admin[type] == 1}
 						<tr style="color:black">
 							<td>{$data_master_induk_sub.0.kode}</td>
 							<td>{$data_master_induk_sub.2.nama}</td>
@@ -188,6 +191,7 @@
 							<td class="text-right">{number_format($data_master_induk_sub.22.sisa_anggaran_total_realisasi_jenis_belanja,"0",",",".")}</td>
 							
 						</tr>
+						{/if}
 						{/if}
 							{if $data_master_induk_sub_sub}
 							{foreach $data_master_induk_sub_sub as $valgiat}

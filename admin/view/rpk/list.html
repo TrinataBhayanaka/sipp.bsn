@@ -86,8 +86,8 @@ $(window).on('load', function() {
 						<th class="text-center">Kode APBN</th>
 						<th class="text-center">Kegiatan / Output</th>
 						<th class="text-center">Total Anggaran</th>
-						<th class="text-center">Status</th>
-						<th class="text-center" colspan="2">Aksi</th>
+						<!--<th class="text-center">Status</th>-->
+						<th class="text-center">Aksi</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -96,18 +96,18 @@ $(window).on('load', function() {
 						<td class="text-center">{$val.kdgiat}</td>
 						<td>{$val.nmgiat}</td>
 						<td class="text-right">{number_format($val.pagu_giat,"0",",",".")}</td>
+						<!--<td>&nbsp;</td>-->
 						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<!--<td>&nbsp;</td>-->
 					</tr>
 						{foreach $val.output as $out}
 							<tr>
 								<td class="text-center">{$out.KDOUTPUT}</td>
 								<td>{$out.nama_output}</td>
 								<td class="text-right">{number_format($out.pagu_output,"0",",",".")}</td>
-								<td>&nbsp;</td>
-								<td><a href="{$basedomain}rpk/edit/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
-								<td><a href="{$basedomain}rpk/"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>
+								<!--<td>&nbsp;</td>-->
+								<td class="text-center"><a href="{$basedomain}rpk/edit/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+								<!--<td><a href="{$basedomain}rpk/"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>-->
 							</tr>
 						{/foreach}
 					{/foreach}	

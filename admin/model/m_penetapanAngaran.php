@@ -1231,6 +1231,28 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
+	function list_unit($unit){
+		$ext_query = "kdunit like '{$unit}%' AND MID(kdunit,4,1) NOT LIKE '0'";
+		$query = "select * from tb_unitkerja WHERE {$ext_query} order by kdunit limit 1";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function list_dropdown_cstmn($param,$unit){
+		if($param == 1){
+			$ext_query = "kdunit like '{$unit}%'  AND MID(kdunit,4,1) NOT LIKE '0'";
+		}elseif($param == 2){
+			$ext_query = "kdunit = '{$unit}'";
+		}
+		$query = "select * from tb_unitkerja WHERE {$ext_query} order by kdunit asc ";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
 	function kd_kegiatan($thn_temp,$kd_satker){
 		$query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE ta = '{$thn_temp}' and kdunitkerja = '{$kd_satker}'";
 		// pr($query);
