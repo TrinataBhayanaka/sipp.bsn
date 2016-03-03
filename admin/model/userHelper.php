@@ -158,5 +158,48 @@ class userHelper extends Database {
         if ($res) return true;
         return false;
     }
+
+    function fetchData($data=array(),$debug=false)
+    {
+
+        $table = $data['table'];
+        $condition = $data['condition'];
+        $oderby = $data['oderby'];
+        $additional = $data;
+
+        $fetch = $this->fetchSingleTable($table, $condition, $oderby, $additional, $debug);
+        if ($fetch) return $fetch;
+        return false;
+    }
+
+    function saveData($data=array(), $table="ck_admin_member", $debug=false)
+    {
+        if ($table == "ck_admin_member"){
+
+            if ($data['id']) $id = " id = {$data['id']}";  
+            else $id = "";
+        }else $id = " id = {$data['id']}";
+        if ($id != ""){
+
+            $run = $this->save("update", "{$table}", $data, $id, $debug);
+
+        }else{
+           
+            $data['createDate'] = date('Y-m-d H:i;s');
+            $run = $this->save("insert", "{$table}", $data, false, $debug);
+    
+        }
+
+        if ($run) return true;
+        return false;
+    }
+
+    function UpdateData($data)
+    {
+        $sql = "UPDATE ck_admin_member SET n_status = {$data['n_status']} WHERE id = {$data['id']}";
+        $this->query($sql);
+
+        return true;
+    }
 }
 ?>
