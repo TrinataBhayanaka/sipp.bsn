@@ -97,7 +97,6 @@ $(window).on('load', function() {
 					</tr>
 				</thead>
 				<tbody>	
-					{if $this->admin[type] == 1}
 					<tr style="color:black">
 						<td>{$data_master.0.KDSATKER}</td>
 						<td>{$data_master.0.nama_satker}</td>
@@ -106,7 +105,6 @@ $(window).on('load', function() {
 						<td>{number_format($data_master.0.persentase,"2",",",".")}</td>
 						<td>&nbsp;</td>
 					</tr>
-					{/if}
 					{foreach $data_master_sub as $value}
 					<tr style="color:blue">
 						<td>{$value.kdgiat}</td>

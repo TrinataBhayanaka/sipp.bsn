@@ -1254,7 +1254,7 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function kd_kegiatan($thn_temp,$kd_satker){
-		$query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE ta = '{$thn_temp}' and kdunitkerja = '{$kd_satker}'";
+		$query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE ta = '{$thn_temp}' and kdunitkerja = '{$kd_satker}' order by kdgiat asc";
 		// pr($query);
 		$result = $this->fetch($query,1);
 		

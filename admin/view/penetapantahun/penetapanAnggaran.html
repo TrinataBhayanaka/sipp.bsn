@@ -48,9 +48,9 @@
 	<!-- Row selection and deletion (multiple rows) -->
 	<!--===================================================-->
 	<div class="panel">
-		<div class="panel-heading">
+		<!--<div class="panel-heading">
 			<h3 class="panel-title">Penetapan Anggaran Kegiatan dan Output Tahun Anggaran :  {$data_master_induk.11.tahun}</h3>
-		</div>
+		</div>-->
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
@@ -102,7 +102,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						{if $this->admin[type] == 1}
 						<tr style="color:green">
 							<td>{$data_master_induk.0.kode}</td>
 							<td>{$data_master_induk.2.nmunit}</td>
@@ -131,7 +130,6 @@
 													{number_format($data_master_induk_sub.10.persentaseperjalanan,"2",",",".")|cat:' %'}</td>
 							<td><a href="{$basedomain}penetapanAnggaran/detail613104/?thn={$data_master_induk.11.tahun}"><button class="btn btn-info btn-labeled fa fa-eye">Penarikan</button></a></td>
 						</tr>
-						{/if}
 						{foreach $data_master_induk_sub_sub as $value}
 						<tr style="color:blue">
 							<td>{$value.kdgiat}</td>

@@ -35,7 +35,7 @@ class rpk extends Controller {
 		$thn_renstra =$thn_aktif['data'];
 		// $thn_temp = '2013';
 		//=============================== 
-		if($this->admin['type'] == 1){
+		/*if($this->admin['type'] == 1){
 			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		}else{
 			$str = rtrim($this->admin['kode'], '0');
@@ -48,7 +48,8 @@ class rpk extends Controller {
 				$kd_unit_a = $this->admin['kode'];
 			}
 			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param_list,$kd_unit_a);
-		}			
+		}*/	
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		//===============================
 		if($_POST['unit'] !=''){
 			// pr($_POST['unit']);
@@ -56,6 +57,13 @@ class rpk extends Controller {
 			// exit;
 			$param = array();
 			$kd_unit = $_POST['unit'];
+			if($this->admin['type'] == 1){
+				$akses = '1';
+			}elseif($this->admin['kode'] == $kd_unit){
+				$akses = '1';
+			}else{
+				$akses = '0';
+			}
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
 			
@@ -92,7 +100,7 @@ class rpk extends Controller {
 			$param = array();
 			//default Biro perencanaan, keuangan dan tata usaha
 			//===============================		
-			if($this->admin['type'] == 1){
+			/*if($this->admin['type'] == 1){
 				$kode = '841100';
 			}else{
 				$str = rtrim($this->admin['kode'], '0');
@@ -106,9 +114,18 @@ class rpk extends Controller {
 					$kode = $this->admin['kode'];
 				}
 			}
-			//===============================
 			$kd_unit = $kode;
-			// $kd_unit = '841100';
+			*/
+			$kd_unit = '841100';
+			if($this->admin['type'] == 1){
+				$akses = '1';
+			}elseif($this->admin['kode'] == $kd_unit){
+				$akses = '1';
+			}else{
+				$akses = '0';
+			}
+			//===============================
+			
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
 			
@@ -141,11 +158,15 @@ class rpk extends Controller {
 				}	
 			}
 		}
-		// pr($list);
+		// pr($this->admin['kode']);
+		// pr($kd_unit);
+		// pr($akses);
+			
 		$this->view->assign('kd_unit',$kd_unit);
 		$this->view->assign('list_dropdown',$list_dropdown);
 		$this->view->assign('data',$list);
 		$this->view->assign('param',$param);
+		$this->view->assign('akses',$akses);
 		// pr($list);
 		//default kode
 		

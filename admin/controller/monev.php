@@ -27,7 +27,7 @@ class monev extends Controller {
 	public function index(){
 		global $basedomain;
 		//=============================== 
-		if($this->admin['type'] == 1){
+		/*if($this->admin['type'] == 1){
 			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		}else{
 			$str = rtrim($this->admin['kode'], '0');
@@ -40,7 +40,8 @@ class monev extends Controller {
 				$kd_unit_list = $this->admin['kode'];
 			}
 			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param_list,$kd_unit_list);
-		}			
+		}*/
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		//===============================
 		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		$thn_temp = $thn_aktif['kode'];
@@ -51,6 +52,13 @@ class monev extends Controller {
 			// echo "masukk";
 			// exit;
 			$kd_unit = $_POST['unit'];
+			if($this->admin['type'] == 1){
+				$akses = '1';
+			}elseif($this->admin['kode'] == $kd_unit){
+				$akses = '1';
+			}else{
+				$akses = '0';
+			}
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
 			
@@ -94,7 +102,7 @@ class monev extends Controller {
 		}else{
 			//default Biro perencanaan, keuangan dan tata usaha
 			//===============================		
-			if($this->admin['type'] == 1){
+			/*if($this->admin['type'] == 1){
 				$kode = '841100';
 			}else{
 				$str = rtrim($this->admin['kode'], '0');
@@ -107,9 +115,16 @@ class monev extends Controller {
 				}elseif($length == 4){
 					$kode = $this->admin['kode'];
 				}
-			}
+			}*/
 			//===============================
-			$kd_unit = $kode;
+			$kd_unit = '841100';
+			if($this->admin['type'] == 1){
+				$akses = '1';
+			}elseif($this->admin['kode'] == $kd_unit){
+				$akses = '1';
+			}else{
+				$akses = '0';
+			}
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
 			$thn_renstra =$thn_aktif['data'];
@@ -156,6 +171,7 @@ class monev extends Controller {
 		$this->view->assign('list_dropdown',$list_dropdown);
 		$this->view->assign('data',$list);
 		$this->view->assign('param',$param);
+		$this->view->assign('akses',$akses);
 		// pr($list);
 		//default kode
 		

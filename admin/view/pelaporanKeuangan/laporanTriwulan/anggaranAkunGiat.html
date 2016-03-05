@@ -100,7 +100,6 @@
 					</thead>
 					<tbody>
 						{if $data_master_induk}
-						{if $this->admin[type] == 1}
 						<tr style="color:green">
 							<td>&nbsp;</td>
 							<td>{$data_master_induk.0.kode}</td>
@@ -112,9 +111,7 @@
 							<td class="text-right">{number_format($data_master_induk.8.sisa_anggaran,"0",",",".")}</td>
 						</tr>
 						{/if}
-						{/if}
 						{if $data_master}
-						{if $this->admin[type] == 1}
 						<tr style="color:black">
 							<td>&nbsp;</td>
 							<td>{$data_master.0.kode}</td>
@@ -125,7 +122,6 @@
 							<td class="text-right">{number_format($data_master.7.persentase_thn_pagu_satker,"2",",",".")}</td>
 							<td class="text-right">{number_format($data_master.8.sisa_anggaran_satker,"0",",",".")}</td>
 						</tr>
-						{/if}
 						{/if}
 						{if $data_master_sub}
 						{foreach $data_master_sub as $value}

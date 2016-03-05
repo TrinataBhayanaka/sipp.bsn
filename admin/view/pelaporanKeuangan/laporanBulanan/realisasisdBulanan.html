@@ -110,7 +110,6 @@ $(window).on('load', function() {
 					</tr>
 				</thead>
 				<tbody>
-					{if $this->admin[type] == 1}
 					<tr style="color:green">
 						<td >&nbsp;</td>
 						<td  class="text-center" > 	084</td>
@@ -152,7 +151,6 @@ $(window).on('load', function() {
 						<!--<td  class="text-center" ><a href="{$basedomain}pelaporanKeuangan/"><i class="fa fa-line-chart">&nbsp;</i></a></td>-->
 						<td  class="text-right" >{number_format($data_master.0.persentase_sisa_anggaran,2,",",".")}</td>
 					</tr>
-					{/if}
 					<!--<tr>
 						<td  class="text-right" >{number_format($data_master.0.penarikan_bulan.JML01,0,",",".")} 	</td>
 						<td class="text-right" >{number_format($data_master.0.penarikan_bulan.JML02,0,",",".")} 	</td>

@@ -46,9 +46,9 @@ $(window).on('load', function() {
 	<!-- Row selection and deletion (multiple rows) -->
 	<!--===================================================-->
 	<div class="panel">
-		<div class="panel-heading">
+		<!--<div class="panel-heading">
 			<h3 class="panel-title">List RPK</h3>
-		</div>
+		</div>-->
 		
 		
 		<!--{pr($data)}
@@ -106,7 +106,11 @@ $(window).on('load', function() {
 								<td>{$out.nama_output}</td>
 								<td class="text-right">{number_format($out.pagu_output,"0",",",".")}</td>
 								<!--<td>&nbsp;</td>-->
+								{if $akses == 1}
 								<td class="text-center"><a href="{$basedomain}rpk/edit/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit RPK</button></a></td>
+								{elseif $akses == 0}
+								<td>&nbsp;</td>
+								{/if}
 								<!--<td><a href="{$basedomain}rpk/"><button class="btn btn-danger btn-labeled fa fa-file-pdf-o">Cetak Pdf RPK</button></a></td>-->
 							</tr>
 						{/foreach}

@@ -30,7 +30,7 @@ class penetapanAnggaran extends Controller {
 		// $thn_temp = '2015';
 		$thn_temp = $thn_aktif['kode'];
 		$thn_renstra =$thn_aktif['data'];
-		if($this->admin['type'] == 1){
+		/*if($this->admin['type'] == 1){
 			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		}else{
 			$str = rtrim($this->admin['kode'], '0');
@@ -43,8 +43,8 @@ class penetapanAnggaran extends Controller {
 				$kd_unit = $this->admin['kode'];
 			}
 			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param,$kd_unit);
-		}
-		
+		}*/
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		$select_data_master_bsn = $this->m_penetapanAngaran->cek_pagu($thn_temp);
 		// pr($select_data_master_bsn);
 		$kode_BSN = "840000";
@@ -160,7 +160,7 @@ class penetapanAnggaran extends Controller {
 			//unit eselon II
 			// $select_kegiatan= $this->m_penetapanAngaran->cek_kegiatan_group_scnd($thn_temp,$select_kd_satker['KDSATKER']);
 			// pr($select_kegiatan);
-			if($this->admin['type'] == 1){
+			/*if($this->admin['type'] == 1){
 					$kode = '841100';
 			}else{
 				$str = rtrim($this->admin['kode'], '0');
@@ -175,7 +175,8 @@ class penetapanAnggaran extends Controller {
 				}
 				
 			}
-			$kd_unit = $kode;
+			$kd_unit = $kode;*/
+			$kd_unit = '841100';
 			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
 			// exit;
 			foreach ($kd_kegiatan as $k=>$val) {

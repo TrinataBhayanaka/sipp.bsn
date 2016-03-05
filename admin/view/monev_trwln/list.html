@@ -61,7 +61,7 @@ $(window).on('load', function() {
 		<div id="separator-toolbar" class="table-toolbar-right">&nbsp;</div> -->
 		
 		<div id="delete-toolbar" class="table-toolbar-right">
-			<form method="POST" action ="{$basedomain}monev/">
+			<form method="POST" action ="{$basedomain}monev_trwln/">
 			<div class="form-horizontal">
 				<div class="form-group">
 				<select name="unit"  class="selectpicker" width="100%">
@@ -116,7 +116,11 @@ $(window).on('load', function() {
 									<td>{$kav.nama_komponen}</td>
 									<td class="text-right">{number_format($kav.pagu_kmpnen,"0",",",".")}</td>
 									<!--<td>&nbsp;</td>-->
+									{if $akses == 1}
 									<td class="text-center"><a href="{$basedomain}monev_trwln/editBobot/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Laporan Triwulan</button></a></td>
+									{else if $akses == 0}
+									<td>&nbsp;</td>
+									{/if}
 									<!--<td><a href="{$basedomain}monev_trwln/editAnggaran/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}">
 									<button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Anggaran</button></a></td>
 									<td>&nbsp;</td>-->

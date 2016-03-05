@@ -26,7 +26,7 @@ $(window).on('load', function() {
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Monitoring dan Evaluasi</h1>
+	<h1 class="page-header text-overflow">Monev Bulanan</h1>
 </div>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End page title-->
@@ -46,9 +46,9 @@ $(window).on('load', function() {
 	<!-- Row selection and deletion (multiple rows) -->
 	<!--===================================================-->
 	<div class="panel">
-		<div class="panel-heading">
+		<!--<div class="panel-heading">
 			<h3 class="panel-title">Monev Bulanan</h3>
-		</div>
+		</div>-->
 		
 		
 		<!--{pr($data)}
@@ -116,9 +116,13 @@ $(window).on('load', function() {
 									<td>{$kav.nama_komponen}</td>
 									<td class="text-right">{number_format($kav.pagu_kmpnen,"0",",",".")}</td>
 									<!--<td>&nbsp;</td>-->
+									{if $akses == 1}
 									<td><a href="{$basedomain}monev/editBobot/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Bobot Kinerja</button></a></td>
 									<td><a href="{$basedomain}monev/editAnggaran/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Anggaran</button></a></td>
-									
+									{else if $akses == 0}
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									{/if}
 								</tr>
 							{/foreach}	
 						{/foreach}
