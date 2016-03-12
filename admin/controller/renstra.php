@@ -540,7 +540,7 @@ class renstra extends Controller {
 			
 			$this->view->assign('parent_id', $dataStruktur['id']);
 			$this->view->assign('text1', "Kode");
-			$this->view->assign('text2', "Eselon 1");
+			$this->view->assign('text2', "Eselon I");
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', 6);
@@ -564,7 +564,7 @@ class renstra extends Controller {
 			
 			$this->view->assign('parent_id', $dataStruktur['id']);
 			$this->view->assign('text1', "Kode");
-			$this->view->assign('text2', "Eselon 1");
+			$this->view->assign('text2', "Eselon I");
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', 6);
@@ -588,7 +588,7 @@ class renstra extends Controller {
 			
 			$this->view->assign('parent_id', $dataStruktur['id']);
 			$this->view->assign('text1', "Kode");
-			$this->view->assign('text2', "Eselon 1");
+			$this->view->assign('text2', "Eselon I");
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', 6);
