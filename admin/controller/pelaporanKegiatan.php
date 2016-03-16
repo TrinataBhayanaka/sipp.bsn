@@ -15,6 +15,7 @@ class pelaporanKegiatan extends Controller {
 		$sessionAdmin = new Session;
 		$this->admin = $sessionAdmin->get_session();
 		// $this->validatePage();
+		// pr($this->admin);
 		$this->view->assign('app_domain',$app_domain);
 	}
 	
@@ -28,53 +29,114 @@ class pelaporanKegiatan extends Controller {
 	
 	public function index(){
 		
-		return $this->listData('bsn','1');
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1){
+			return $this->listData('bsn','1');
+		}else{
+			return $this->listData('bsn','1');
+		}
 
 	}
 	public function bsn(){
-		// $this->assign("url","bsn");
-		return $this->listData('bsn','1');
+
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1){
+			return $this->listData('bsn','1',true);
+		}else{
+			return $this->listData('bsn','1');
+		}
 
 	}
 	public function eselon1(){
 		
-		return $this->listData('es1','2');
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1){
+			return $this->listData('es1','2',true);
+		}else{
+			return $this->listData('es1','2');
+		}
 
 	}
 
 	public function eselon2(){
 		
-		return $this->listData('es2','3');
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1 || $Struktur[type]==3){
+			return $this->listData('es2','3',true);
+		}else{
+			return $this->listData('es2','3');
+		}
+
 
 	}
 	public function formbsn(){
 
-		return $this->form(1,'1');
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1){
+			return $this->form(1,'1');
+		}else{
+			redirect($basedomain . "bsn");
+		}
 
 	}
 	public function formes1(){
 		
-		return $this->form(3,'2');
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1){
+			return $this->form(3,'2');
+		}else{
+			redirect($basedomain . "es1");
+		}
 
 	}
 	public function formes2(){
 
-		return $this->form(4,'3');
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1 || $Struktur[type]==3){
+			return $this->form(4,'3');
+		}else{
+			redirect($basedomain . "es2");
+		}
 
 	}
 	public function editFormbsn(){
 
-		return $this->editForm(1,$_GET['id']);
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1){
+			return $this->editForm(1,$_GET['id']);
+		}else{
+			redirect($basedomain . "bsn");
+		}
 
 	}
 	public function editFormes1(){
 
-		return $this->editForm(3,$_GET['id']);
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1){
+			return $this->editForm(3,$_GET['id']);
+		}else{
+			redirect($basedomain . "es1");
+		}
 
 	}
 	public function editFormes2(){
 
-		return $this->editForm(4,$_GET['id']);
+		$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+		if($Struktur[type]==1 || $Struktur[type]==3){
+			return $this->editForm(4,$_GET['id']);
+		}else{
+			redirect($basedomain . "es2");
+		}
 
 	}
 	public function insertForm(){
@@ -91,6 +153,8 @@ class pelaporanKegiatan extends Controller {
 			
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['change_date'] = date('Y-m-d H:i:s');
+			$_POST['iduser'] 	  = $this->admin['id'];
+			$_POST['kodeUser'] 	  = $this->admin['kode'];
 			$_POST['n_status'] = 1;
 			if($_POST['categoryType']==1){
 				$url="bsn";
@@ -147,14 +211,42 @@ class pelaporanKegiatan extends Controller {
 			$dataStruktur['type'] = 1;
 			$type = 5;
 			$this->view->assign('isbsn', 1);
+
+			$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+			if($Struktur[type]==1){
+
+				$this->view->assign('button', true);
+			}else{
+
+				$this->view->assign('button', false);
+			}
 		} 
 		if ($pid ==2){
 			$dataStruktur['type'] = 2;
 			$type = 6;
+			$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+			if($Struktur[type]==1){
+
+				$this->view->assign('button', true);
+			}else{
+
+				$this->view->assign('button', false);
+			}
 		} 
 		if ($pid ==3){
 			$dataStruktur['type'] = 3;
 			$type = 7;
+			$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+			if($Struktur[type]==1 || $Struktur[type]==3 ){
+
+				$this->view->assign('button', true);
+			}else{
+
+				$this->view->assign('button', false);
+			}
 		} 
 
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
@@ -355,8 +447,9 @@ function delete()
 
 	}
 
-	function listData($url,$id=1){
+	function listData($url,$id=1,$button=false){
 		if($url){
+
 			$result=$this->model->getcapaian($id);
 			// pr($result);
 			if($result){
@@ -394,8 +487,21 @@ function delete()
 					$data[$key]['triwulan4_realO']=$twn4['realO'];
 					$data[$key]['triwulan4_realP']=$twn4['realP'];
 					$data[$key]['triwulan4_nreal']=$twn4['nreal'];
+
+					$Struktur=$this->model->getStruktur($this->admin[kode]);
+
+					if($Struktur[type]==1){
+
+						$data[$key]['linkEdit']=true;
+
+					}elseif($Struktur[type]==3 && $value['kodeUser']==$this->admin[kode]){
+
+						$data[$key]['linkEdit']=true;
+
+					}
 				}
 			}
+			$this->view->assign('button',$button);
 			$this->view->assign('data',$data);
 			$this->view->assign('url',$url);
 			// pr($data);exit;

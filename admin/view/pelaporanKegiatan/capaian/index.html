@@ -54,9 +54,11 @@ $(window).on('load', function() {
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
 			<div class="row">
+				{if $button}
 					<div class="col-sm-6 table-toolbar-left">
 						<a href="{$basedomain}pelaporanKegiatan/form{$url}"><button class="btn btn-primary btn-labeled fa fa-plus" >Tambah</button></a>
 					</div>
+				{/if}
 				</div>
 			<div class="table-responsive">
 				<table class="table table-bordered">
@@ -170,7 +172,15 @@ $(window).on('load', function() {
 						<td>{$val.triwulan4_nreal}</td>
 						<td>{$val.permasalahan}</td>
 						<td>{$val.perbaikan}</td>
-						<td><a href="{$basedomain}pelaporanKegiatan/editForm{$url}/?id={$val.id}"><button class="btn btn-warning btn-labeled fa fa-pencil-square-o" >Edit Capaian</button></a></td>
+						<td>
+						{if $val.linkEdit}
+						<a href="{$basedomain}pelaporanKegiatan/editForm{$url}/?id={$val.id}"><button class="btn btn-warning btn-labeled fa fa-pencil-square-o" >Edit Capaian</button>
+
+						</a>
+						{else}
+							&nbsp;
+						{/if}
+						</td>
 					</tr>
 					{/foreach}
 					{/if}
