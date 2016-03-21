@@ -41,28 +41,28 @@ function redirect(url)
   window.location.href=url;
 }
 
-function inputvisimisi(req, iddata)
+function inputvisimisi(req, iddata, button)
 {
   var id = $('.eselonid').val();
   
   if (iddata){
-    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id+"&id="+iddata);
+    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id+"&id="+iddata+"&button="+button);
 
   }else{
-    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id);
+    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id+"&button="+button);
   }
   
 }
 
-function inputsasaran(req, iddata)
+function inputsasaran(req, iddata, button)
 {
   var id = $('.eselonid').val();
   
   if (iddata){
-    redirect(basedomain+"renstra/editSasaran/?req=" + req + "&parent_id="+id+"&id="+iddata);
+    redirect(basedomain+"renstra/editSasaran/?req=" + req + "&parent_id="+id+"&id="+iddata+"&button="+button);
 
   }else{
-    redirect(basedomain+"renstra/editSasaran/?req=" + req + "&parent_id="+id);
+    redirect(basedomain+"renstra/editSasaran/?req=" + req + "&parent_id="+id+"&button="+button);
   }
   
 }

@@ -1,5 +1,4 @@
 <?php
-// defined ('TATARUANG') or exit ( 'Forbidden Access' );
 
 class struktur extends Controller {
 	
@@ -14,7 +13,6 @@ class struktur extends Controller {
 		$this->view = $this->setSmarty();
 		$sessionAdmin = new Session;
 		$this->admin = $sessionAdmin->get_session();
-		// $this->validatePage();
 		$this->view->assign('app_domain',$app_domain);
 	}
 	public function loadmodule()
@@ -52,7 +50,6 @@ class struktur extends Controller {
 				}
 			}
 
-			// pr($getStruktur);
 			$this->view->assign('struktur', $getStruktur);
 		}
 		return $this->loadView('struktur/bsn');
@@ -79,7 +76,6 @@ class struktur extends Controller {
 				}
 			}
 
-			// pr($getTugas);
 			$this->view->assign('tugas', $getTugas);
 		}
 
@@ -107,7 +103,6 @@ class struktur extends Controller {
 				}
 			}
 
-			// pr($getTugas);
 			$this->view->assign('tugas', $getTugas);
 		}
 		return $this->loadView('struktur/eselon2');
@@ -132,7 +127,6 @@ class struktur extends Controller {
 			$kode = $getStruktur[0]['kode'];
 			$nama_satker =$getStruktur[0]['nama_satker'];
 			$singkatan = $getStruktur[0]['singkatan'];
-			// pr($getStruktur);
 			$this->view->assign('satker', $getStruktur);
 		}else{
 			$kode = "";
@@ -148,8 +142,6 @@ class struktur extends Controller {
 		$generataField = $this->generateField($dataForm);
 		$this->view->assign('form', $generataField);
 		if ($_POST['submit']){
-			// pr($_POST);
-			// exit;
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 			
@@ -240,7 +232,6 @@ class struktur extends Controller {
 		if ($id){
 			$data['id'] = $id;
 			$getStruktur = $this->contentHelper->getContent($data);
-			// pr($getStruktur);
 			$kode = $getStruktur[0]['title'];
 			$nama_satker =$getStruktur[0]['desc'];
 			$this->view->assign('kegiatan', $getStruktur);
@@ -398,14 +389,12 @@ class struktur extends Controller {
 		$id = _g('id');
 		$req = _g('req');
 		$param = _g('param');
-		// $page = _g('page');
-
+		
 		if ($req == 1) $link = 'struktur';
 		if ($req == 2) $link = 'struktur/bsn';
 		if ($req == 3) $link = 'struktur/eselon1';
 		if ($req == 4) $link = 'struktur/eselon2';
-		// else $link = 'struktur';
-
+		
 		if ($param ==1) $table = "_struktur";
 		else $table = "_news_content";
 		$data['id'] = $id;
