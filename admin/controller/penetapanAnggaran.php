@@ -797,8 +797,10 @@ class penetapanAnggaran extends Controller {
 		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
 		        $data[$i]['KDSKMPNEN'] = $Record['kdskmpnen'];
 		        $data[$i]['KDAKUN'] = $Record['kdakun'];
-		        $data[$i]['JUMLAH'] = $Record['jumlah'];
-		       
+		        if($Record['jumlah'] != '')
+		        	$data[$i]['JUMLAH'] = $Record['jumlah'];
+		       else
+		       		$data[$i]['JUMLAH'] = 0;
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
 		        	$this->model->insert_import($data[$i],'d_akun');

@@ -203,5 +203,30 @@ class contentHelper extends Database {
         if ($fetch) return $fetch;
         return false;
     }
+
+    function getStructure($table){
+    	$sql = "select * from information_schema.columns where table_schema = '{$table}' order by table_name,ordinal_position";
+    	
+    	$result = $this->fetch($sql,1);
+
+    	return $result;
+    }
+
+    function gantiTabel()
+    {
+    	$sql = "ALTER TABLE d_akun MODIFY JUMLAH decimal(50,0)";
+    	$result = $this->query($sql);
+
+    	$sql = "ALTER TABLE d_item MODIFY JUMLAH decimal(50,0)";
+    	$result = $this->query($sql);
+
+    	// $sql = "SET SQL_MODE = 'NO_ENGINE_SUBSTITUTION'";
+    	// $res = $this->query($sql);
+
+    	$sql = "SELECT @@SQL_MODE";
+    	$result = $this->fetch($sql,1);
+    	db($result);
+    	return 1;
+    }
 }
 ?>

@@ -16,10 +16,10 @@ class mptn extends Database {
 		return false;
 	}
 	
-	function getpk($kd,$fkd,$id=false)
+	function getpk($kd,$fkd,$id=false,$thn)
 	{
 		if($id)$cond="AND a.id='{$id}'";else $cond="";
-		$sql = "SELECT a.*,b.desc FROM th_pk as a, bsn_news_content as b WHERE a.kdunitkerja = '{$kd}' AND a.th = '2015' AND a.no_sasaran = b.id AND b.parent_id = '{$fkd}' AND b.type='7' AND b.category = '1' {$cond} ORDER BY a.no_sasaran, a.no_pk";
+		$sql = "SELECT a.*,b.desc FROM th_pk as a, bsn_news_content as b WHERE a.kdunitkerja = '{$kd}' AND a.th = '{$thn}' AND a.no_sasaran = b.id AND b.parent_id = '{$fkd}' AND b.type='7' AND b.category = '1' {$cond} ORDER BY a.no_sasaran, a.no_pk";
 		// db($sql);
 		$res = $this->fetch($sql,1);
 
@@ -72,6 +72,14 @@ class mptn extends Database {
 	{
 		$res = $this->insert($data,$table);
 		return true;
+	}
+
+	function getTahun()
+	{
+		$query = "SELECT kode FROM bsn_sistem_setting WHERE `desc` = 'tahun_sistem' AND n_status = 1 ";
+		$res = $this->fetch($query);
+
+		return $res;
 	}
 	
 }

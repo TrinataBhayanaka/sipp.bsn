@@ -24,7 +24,8 @@ class perjanjiankinerja extends Controller {
 	}
 	
 	public function bsn(){
-		$data = $this->model->getpk('840000',1);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk('840000',1,false,$thn['kode']);
 		
 		$this->view->assign('data',$data);
 

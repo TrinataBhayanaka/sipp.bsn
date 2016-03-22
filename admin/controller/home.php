@@ -276,6 +276,21 @@ class home extends Controller {
 		
 			}
 	}
+
+	function getAllTableLala()
+	{
+		$table = $_GET['tbl'];
+		$data = $this->contentHelper->getStructure($table);
+
+		db($data);
+	}
+
+	function lalagantikolom()
+	{
+		$this->contentHelper->gantiTabel();
+
+		db($done);
+	}
 	
 }
 

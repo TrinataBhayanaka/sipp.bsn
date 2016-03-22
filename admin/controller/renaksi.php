@@ -23,9 +23,9 @@ class renaksi extends Controller {
 	}
 	
 	public function bsn(){
-
+		$thn = $this->model->getTahun();
 		$struktur = $this->model->getStruktur(1);
-		$data = $this->model->getpk($struktur[0]['kode']);
+		$data = $this->model->getpk($struktur[0]['kode'],$thn['kode']);
 
 		$this->view->assign('data',$data);
 
@@ -36,8 +36,8 @@ class renaksi extends Controller {
 	public function edit()
 	{
 		$id = $_GET['id'];
-
-		$data = $this->model->getpkid($id);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpkid($id,$thn['kode']);
 
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
@@ -153,6 +153,20 @@ class renaksi extends Controller {
 		$this->view->assign('struktur',$struktur);
 
 		return $this->loadView('renaksi/eselon2');
+	}
+
+	public function add_bsn()
+	{
+		$ss = $this->getSS(1);
+		$this->view->assign('ss',$ss);
+		return $this->loadView('renaksi/add_bsn');
+	}
+
+	public function getSS($id)
+	{
+		$data = $this->model->selectSS($id);
+
+		return $data;
 	}
 	
 }
