@@ -7,6 +7,20 @@ class mcapaian extends Database {
 	{
 		parent::__construct();
 	}
+	function getStruktur($kode)
+	{
+		if($kode){
+			$kode=$kode;
+		}else{
+			$kode="840000";
+		}
+		$sql = "SELECT * FROM bsn_Struktur WHERE kode='{$kode}'";
+		// db($sql);
+		$res = $this->fetch($sql);
+
+		if ($res) return $res;
+		return false;
+	}
 	function getcapaian($id)
 	{
 		$sql = "SELECT cp.*,b.desc,pk.nm_pk, pk.target FROM bsn_capaian as cp, bsn_news_content as b ,th_pk as pk WHERE cp.sasaran = b.id AND cp.indikator = pk.id AND b.type='7' AND b.category = '1' AND cp.categoryType='{$id}' ORDER BY cp.sasaran, cp.indikator";

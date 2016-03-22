@@ -3,14 +3,14 @@
 	
 	$(document).on('click', '#inputvisi', function(){
 
-		inputsasaran(1);
+		inputsasaran(1, false, 'sasaran');
 	})
 
 	
 
 	$(document).on('click', '#editvisi', function(){
 		var iddata = $(this).attr('data-id');
-		inputsasaran(1, iddata);
+		inputsasaran(1, iddata, 'sasaran');
 	})
 
 	

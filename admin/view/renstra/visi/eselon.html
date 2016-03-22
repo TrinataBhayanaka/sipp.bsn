@@ -3,32 +3,32 @@
 	
 	$(document).on('click', '#inputvisi', function(){
 
-		inputvisimisi(1);
+		inputvisimisi(1, false, 'visi');
 	})
 
 	$(document).on('click', '#inputmisi', function(){
 
-		inputvisimisi(2);
+		inputvisimisi(2, false, 'misi');
 	})
 
 	$(document).on('click', '#inputtujuan', function(){
 
-		inputvisimisi(3);
+		inputvisimisi(3, false, 'tujuan');
 	})
 
 	$(document).on('click', '#editvisi', function(){
 		var iddata = $(this).attr('data-id');
-		inputvisimisi(1, iddata);
+		inputvisimisi(1, iddata, 'visi');
 	})
 
 	$(document).on('click', '#editmisi', function(){
 		var iddata = $(this).attr('data-id');
-		inputvisimisi(2, iddata);
+		inputvisimisi(2, iddata, 'misi');
 	})
 
 	$(document).on('click', '#edittujuan', function(){
 		var iddata = $(this).attr('data-id');
-		inputvisimisi(3, iddata);
+		inputvisimisi(3, iddata, 'tujuan');
 	})
 
 	$(document).on('change', '.eselonid', function(){
