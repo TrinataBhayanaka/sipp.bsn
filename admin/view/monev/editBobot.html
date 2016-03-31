@@ -291,7 +291,7 @@ $('#target').on('keyup', function(){
 	
 	
 	if(tagetsd != 0 && tagetsd != ''){
-		var count =  parseFloat(tagetsd) - parseFloat(target);
+		var count =  parseFloat(tagetsd) + parseFloat(target);
 		var fix_count = count.toFixed(2);
 		var fix_total = parseFloat(total);
 		if(fix_count > fix_total){
