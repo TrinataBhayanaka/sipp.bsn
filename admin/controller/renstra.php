@@ -179,7 +179,18 @@ class renstra extends Controller {
 			exit;
 		}
 
-		$arrayTahun = $this->tahunRenstra($getSetting);
+		// $arrayTahun = $this->tahunRenstra($getSetting);
+		if ($getSetting){
+			list ($tahunawal, $tahunakhir) = explode('-',$getSetting[0]['data']);
+			$start = 1;
+			for($i=1; $i<=5; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahunawal;
+				}
+				$tahunawal++;
+				$start++;
+			}
+		}
 		$getSasaran = $this->contentHelper->getVisi(false, 9, 1, $parent_id);
 		if ($getSasaran){
 			foreach ($getSasaran as $key => $value) {
@@ -319,7 +330,7 @@ class renstra extends Controller {
 
 	function dokumenBsn()
 	{
-		global $basedomain;
+		global $basedomain,$app_domain;
 		$parent_id = _g('parent_id');
 		$pid = _g('pid');
 		$newData = array();
@@ -744,8 +755,19 @@ class renstra extends Controller {
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		
 		$getSetting = $this->contentHelper->getSetting();
-		$arrayTahun = $this->tahunRenstra($getSetting);
-
+		// $arrayTahun = $this->tahunRenstra($getSetting);
+		if ($getSetting){
+			list ($tahunawal, $tahunakhir) = explode('-',$getSetting[0]['data']);
+			$start = 1;
+			for($i=1; $i<=5; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahunawal;
+				}
+				$tahunawal++;
+				$start++;
+			}
+		}
+		// pr($arrayTahun);
 		$dataStruktur['id'] = _g('parent_id');
 		$getSasaran = $this->contentHelper->getVisi($child_id, 9, 1, $dataStruktur['id']);
 		
@@ -813,7 +835,6 @@ class renstra extends Controller {
 
 			
 		}else{
-
 			// input indikator
 			$getOutcome = $this->contentHelper->getVisi($dataStruktur['id'], 9, 2);
 
@@ -844,7 +865,11 @@ class renstra extends Controller {
 			}
 			
 			$getSetting = $this->contentHelper->getSetting();
-			$arrayTahun = $this->tahunRenstra($getSetting);
+			// pr($getSetting);
+			// $arrayTahun = $this->tahunRenstra($getSetting);
+			
+			// pr($arrayTahun);
+			// exit;
 			$dataForm[] = array('text'=>true, 'title'=>'Kode Program', 'name'=>'title', 'value'=>$title, 'readonly'=>'readonly');
 			$dataForm[] = array('text'=>true, 'title'=>'Program', 'name'=>'brief', 'value'=>$brief, 'readonly'=>'readonly');
 			$dataForm[] = array('textarea'=>true, 'title'=>'Outcome', 'name'=>'outcome', 'value'=>$outcome, 'disabled'=>'disabled' );
@@ -895,7 +920,7 @@ class renstra extends Controller {
 		$dataStruktur['condition'] = array('type'=>'1,2,3');
 		$dataStruktur['in'] = array('type');
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
-		
+		// pr($getStruktur);
 		$getSetting = $this->contentHelper->getSetting();
 		$arrayTahun = $this->tahunRenstra($getSetting);
 
@@ -925,6 +950,7 @@ class renstra extends Controller {
 			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>1);
 			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>10);
 			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
+			$dataForm[] = array('hidden'=>1, 'name'=>'tags', 'value'=> $id);
 
 
 			$generataField = $this->generateField($dataForm);
@@ -969,8 +995,18 @@ class renstra extends Controller {
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		
 		$getSetting = $this->contentHelper->getSetting();
-		$arrayTahun = $this->tahunRenstra($getSetting);
-
+		// $arrayTahun = $this->tahunRenstra($getSetting);
+		if ($getSetting){
+			list ($tahunawal, $tahunakhir) = explode('-',$getSetting[0]['data']);
+			$start = 1;
+			for($i=1; $i<=5; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahunawal;
+				}
+				$tahunawal++;
+				$start++;
+			}
+		}
 		$getSasaran = $this->contentHelper->getVisi($dataStruktur['id'], 10, 1);
 		$this->view->assign('submit', "submit");
 		
@@ -1001,7 +1037,7 @@ class renstra extends Controller {
 			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>1);
 			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>11);
 			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
-
+			// pr($dataForm);
 
 			$generataField = $this->generateField($dataForm);
 			$this->view->assign('form', $generataField);

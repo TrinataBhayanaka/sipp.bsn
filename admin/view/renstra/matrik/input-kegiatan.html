@@ -2,7 +2,7 @@
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Create Visi Misi</h1>
+	<h1 class="page-header text-overflow">Nama Kegiatan</h1>
 
 	<!--Searchbox-->
 	<!-- <div class="searchbox">
@@ -21,8 +21,8 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
-	<li><a href="{$basedomain}course/courselist">Course</a></li>
-	<li class="active">Add Course</li>
+	<li><a href="{$basedomain}renstra/kinerja/kegiatan">Matriks Kinerja</a></li>
+	<li class="active"><a href="{$basedomain}renstra/kegiatan">Nama Kegiatan</a></li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -36,13 +36,12 @@
 		<div class="col-sm-12">
 			<div class="panel">
 				<div class="panel-heading">
-					<h3 class="panel-title">Input Form</h3>
+					<h3 class="panel-title">Input Nama Kegiatan</h3>
 				</div>
 				
 				<!--===================================================-->
 				<form class="form-horizontal" method="POST" action="{$basedomain}renstra/editKegiatan" enctype="multipart/form-data">
 					<div class="panel-body">
-						
 						{if $form}
 						{foreach $form as $val}
 							{$val}
@@ -50,15 +49,14 @@
 						{/if}
 						
 						{if $req ==1}
-						
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Eselon 1</label>
+							<label class="col-sm-3 control-label">Lembaga/Eselon I/Eselon II</label>
 				    		<div class="col-sm-4">
 				    			
 				              		<select class="form-control eselonid" name="data">
 				                    {if $struktur}
 				                    {foreach $struktur as $val}
-				                    <option value="{$val.id}" {if $val.id == $kegiatan.0.title}selected{/if}>{$val.singkatan}</option>
+				                    <option value="{$val.id}" {if $val.id == $kegiatan.0.data}selected{/if}>{$val.singkatan}</option>
 				                    {/foreach}
 				                    {/if}
 				                  	</select>
@@ -69,10 +67,10 @@
 				    		<div class="col-sm-4">
 				    			
 			              		<select class="form-control eselonid" name="tags">
-			                    	<option value="K/L" {if $val.id == $kegiatan.0.tags}selected{/if}>K/L</option>
-			                    	<option value="N" {if $val.id == $kegiatan.0.tags}selected{/if}>N</option>
-			                    	<option value="B" {if $val.id == $kegiatan.0.tags}selected{/if}>B</option>
-			                    	<option value="NS" {if $val.id == $kegiatan.0.tags}selected{/if}>NS</option>
+			                    	<option value="K/L" {if $kegiatan.0.tags == "K/L"}selected{/if}>K/L</option>
+			                    	<option value="N" {if $kegiatan.0.tags == "N"}selected{/if}>N</option>
+			                    	<option value="B" {if $kegiatan.0.tags == "B"}selected{/if}>B</option>
+			                    	<option value="NS" {if $kegiatan.0.tags == "NS"}selected{/if}>NS</option>
 			                    </select>
 				          	</div>
 						</div>

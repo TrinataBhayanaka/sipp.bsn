@@ -2,7 +2,7 @@
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Create Visi Misi</h1>
+	<h1 class="page-header text-overflow">SS dan IKSS BSN</h1>
 
 	<!--Searchbox-->
 	<!-- <div class="searchbox">
@@ -21,8 +21,8 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
-	<li><a href="{$basedomain}course/courselist">Course</a></li>
-	<li class="active">Add Course</li>
+	<li><a href="{$basedomain}renstra/kinerja/kinerja">Matriks Kinerja</a></li>
+	<li class="active"><a href="{$basedomain}renstra/kinerja">Input SS dan IKSS BSN</a></li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -36,7 +36,7 @@
 		<div class="col-sm-12">
 			<div class="panel">
 				<div class="panel-heading">
-					<h3 class="panel-title">Input Form</h3>
+					<h3 class="panel-title">Input SS dan IKSS BSN</h3>
 				</div>
 				
 				<!--===================================================-->
@@ -82,7 +82,7 @@
 									<tbody>
 										<tr>
 											{foreach $tahuntarget as $k => $a}
-											<td><input type="text" class="form-control" name="input[]" value="{$target.0.target.$k}"></td>
+											<td><input type="text" class="form-control percent" name="input[]" value="{$target.0.target.$k}"></td>
 											{/foreach}
 										</tr>
 									</tbody>

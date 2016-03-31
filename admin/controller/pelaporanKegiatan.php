@@ -78,7 +78,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1){
-			return $this->form(1,'1');
+			return $this->form(1,'1','840000');
 		}else{
 			redirect($basedomain . "bsn");
 		}
@@ -511,10 +511,10 @@ function delete()
 		}
 	}
 
-	function form($id,$type){
+	function form($id,$type,$kd=false){
 		if($id){
 			global $basedomain;
-			$dataSasaran = $this->modelMptn->selectSS($id);
+			$dataSasaran = $this->modelMptn->selectSS($id,$kd);
 
 
 			$this->view->assign('dataSasaran',$dataSasaran);
