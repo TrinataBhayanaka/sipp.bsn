@@ -48,8 +48,8 @@ class renaksi extends Controller {
 	public function edit_eselon1()
 	{
 		$id = $_GET['id'];
-
-		$data = $this->model->getpkid($id);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpkid($id,$thn['kode']);
 
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
@@ -60,8 +60,8 @@ class renaksi extends Controller {
 	public function edit_eselon2()
 	{
 		$id = $_GET['id'];
-
-		$data = $this->model->getpkid($id);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpkid($id,$thn['kode']);
 
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
@@ -117,8 +117,8 @@ class renaksi extends Controller {
 			$this->view->assign('id',$exp[0]);
 			$this->view->assign('idpk',$idpk);
 		}
-
-		$data = $this->model->getpk($idpk);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk($idpk,$thn['kode']);
 
 		
 		$this->view->assign('data',$data);
@@ -145,8 +145,8 @@ class renaksi extends Controller {
 			$this->view->assign('id',$exp[0]);
 			$this->view->assign('idpk',$idpk);
 		}
-
-		$data = $this->model->getpk($idpk);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk($idpk,$thn['kode']);
 
 		
 		$this->view->assign('data',$data);

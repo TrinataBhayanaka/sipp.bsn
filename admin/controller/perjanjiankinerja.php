@@ -60,8 +60,8 @@ class perjanjiankinerja extends Controller {
 
 	public function edit()
 	{
-
-		$data = $this->model->getpk('840000',1,$_GET['id']);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk('840000',1,$_GET['id'],$thn['kode']);
 		$ss = $this->getSS(1,'840000');
 		
 		$this->view->assign('ss',$ss);
@@ -145,8 +145,8 @@ class perjanjiankinerja extends Controller {
 
 	public function edit_eselon()
 	{
-
-		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id']);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
 		$ss = $this->getSS($_GET['pr']);
 
 		$this->view->assign('ss',$ss);
@@ -162,7 +162,7 @@ class perjanjiankinerja extends Controller {
 
 		$this->model->edit_pk($_POST);
 
-		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/eselon1'</script>";
+		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
 		exit;
 	}
 
