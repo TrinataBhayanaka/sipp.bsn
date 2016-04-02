@@ -89,7 +89,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1){
-			return $this->form(3,'2');
+			return $this->form(3,'2',$_GET['kd']);
 		}else{
 			redirect($basedomain . "es1");
 		}
@@ -100,7 +100,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1 || $Struktur[type]==3){
-			return $this->form(4,'3');
+			return $this->form(4,'3',$_GET['kd']);
 		}else{
 			redirect($basedomain . "es2");
 		}
@@ -275,11 +275,12 @@ class pelaporanKegiatan extends Controller {
 		// pr($bsnid);
 		
 		$this->view->assign('bsnid', $bsnid);
-		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
-		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);
+
+		$getVisiBsn = $this->model->getVisi(false, $type, 1,$parent_id);
+		$getMisiBsn = $this->model->getVisi(false, $type, 2,$parent_id);
+		$getTujuanBsn = $this->model->getVisi(false, $type, 3,$parent_id);
 		
-		$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parent_id);
+		$getDokumen = $this->model->getVisi(false, 16, 1, $parent_id);
 		// pr($getDokumen);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {
@@ -300,6 +301,7 @@ class pelaporanKegiatan extends Controller {
 
 		$this->view->assign('pid', $pid);
 		$this->view->assign('parent_id', $parent_id);
+		// pr($getStruktur);
 		$this->view->assign('visi', $getVisiBsn);
 		$this->view->assign('misi', $getMisiBsn);
 		$this->view->assign('tujuan', $getTujuanBsn);
@@ -447,11 +449,28 @@ function delete()
 
 	}
 
-	function listData($url,$id=1,$button=false){
+	function listData($url,$id=1,$button=false,$formSearch=true){
 		if($url){
 
-			$result=$this->model->getcapaian($id);
-			// pr($result);
+			$struktur = $this->model->getStrukturAll($id);
+// pr($_POST);
+			if(!$_POST) {
+				$idpk = $struktur[0]['kode'];
+				$parent = $struktur[0]['id'];
+				$this->view->assign('label',$struktur[0]['nama_satker']);
+				$this->view->assign('id',$struktur[0]['id']);
+				$this->view->assign('idpk',$idpk);
+			} else {
+				$exp = explode("_", $_POST['struktur']);
+				$idpk = $exp[2];
+				$parent = $exp[0];
+				$this->view->assign('label',$exp[1]);
+				$this->view->assign('id',$exp[0]);
+				$this->view->assign('idpk',$idpk);
+			}
+
+			$result=$this->model->getcapaian($id,$parent);
+			// pr($struktur);
 			if($result){
 				foreach ($result as $key => $value) {
 					$twn1=(array)json_decode($value['twn1']);
@@ -489,6 +508,8 @@ function delete()
 					$data[$key]['triwulan4_nreal']=$twn4['nreal'];
 
 					$Struktur=$this->model->getStruktur($this->admin[kode]);
+					// pr($Struktur);
+					// pr($struktur);
 
 					if($Struktur[type]==1){
 
@@ -501,7 +522,25 @@ function delete()
 					}
 				}
 			}
+			// pr($url);
+			if($url=="es1"){
+				$formUrl="eselon1";
+			}elseif($url=="es2"){
+				$formUrl="eselon2";
+
+			}else{
+				$formUrl="bsn";
+			}
+			if($parent==1){
+				$formSearch=false;
+			}
+			$this->view->assign('buttonId',$parent);
+
+			$this->view->assign('formSearch',$formSearch);
 			$this->view->assign('button',$button);
+			$this->view->assign('formUrl',$formUrl);
+			$this->view->assign('kd',$idpk);
+			$this->view->assign('struktur',$struktur);
 			$this->view->assign('data',$data);
 			$this->view->assign('url',$url);
 			// pr($data);exit;
@@ -519,6 +558,7 @@ function delete()
 
 			$this->view->assign('dataSasaran',$dataSasaran);
 			$this->view->assign('type',$type);
+			$this->view->assign('parent',$_GET['parent']);
 
 			// pr($dataSasaran);exit;
 			return $this->loadView('pelaporanKegiatan/capaian/form');

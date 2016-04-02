@@ -90,7 +90,7 @@ class renstra extends Controller {
 		$this->view->assign('visi', $getVisiBsn);
 		
 		$this->view->assign('struktur', $getStruktur);
-
+pr($getVisiBsn);
 		return $this->loadView('renstra/matrik/sasaran');
 		
 	}

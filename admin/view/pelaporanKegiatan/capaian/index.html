@@ -47,18 +47,31 @@ $(window).on('load', function() {
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Pencapain Target</h3>
+			<h3 class="panel-title">Pencapain Target {$label} </h3>
 		</div>
 		
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
+		<div class="pad-btm form-inline">
 			<div class="row">
 				{if $button}
 					<div class="col-sm-6 table-toolbar-left">
-						<a href="{$basedomain}pelaporanKegiatan/form{$url}"><button class="btn btn-primary btn-labeled fa fa-plus" >Tambah</button></a>
+						<a href="{$basedomain}pelaporanKegiatan/form{$url}{if $buttonId}/?parent={$buttonId}&kd={$kd}{/if}"><button class="btn btn-primary btn-labeled fa fa-plus" >Tambah</button></a>
 					</div>
 				{/if}
+				{if $formSearch}
+				<div class="col-sm-6 table-toolbar-right">
+						<form method="post" action="{$basedomain}pelaporanKegiatan/{$formUrl}">
+							<select class="selectpicker" id="struktur" name="struktur">
+								{foreach $struktur as $val}
+								<option value="{$val.id}_{$val.nama_satker}_{$val.kode}" {if $val.id eq $id}selected{/if}>{$val.nama_satker}</option>
+								{/foreach}
+							</select>
+							<button type="submit" class="btn btn-primary"> Cari</button>
+						</form>
+					</div>{/if}
+				</div>
 				</div>
 			<div class="table-responsive">
 				<table class="table table-bordered">
