@@ -70,7 +70,7 @@ class mcapaian extends Database {
 	}
 	function saveData($data=array(), $table="bsn_news_content", $debug=0)
 	{
-		// pr($data);
+		// //pr($data);
 		if ($table == "bsn_news_content"){
 			$getSetting = $this->getSetting();
 			$data['year'] = $getSetting[0]['kode'];
@@ -88,8 +88,8 @@ class mcapaian extends Database {
 			$run = $this->save("insert", "{$table}", $data, false, $debug);
 	
 		}
-		// pr($data);
-		// pr($run);
+		// //pr($data);
+		// //pr($run);
 		// exit;
 		if ($run) return true;
 		return false;
