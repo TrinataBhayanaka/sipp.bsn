@@ -74,7 +74,7 @@
 
 					</tr>
 					<tr>
-						<th class="text-center">Sasaran Program (Outcome)</th>
+						<th class="text-center">Sasaran Program (Outcome)<br>Indikator Kinerja Program (IKP)</th>
 						<th class="text-center">Eselon 1 Pelaksana Program</th>
 						
 					</tr>
@@ -85,13 +85,13 @@
 					{foreach $sasaran as $k=> $val}
 					<tr>
 						<td>{if $k==0}{$val.title}{else}&nbsp;{/if}</td>
-						<td colspan="2">{$val.brief} - {$val.desc}
+						<td colspan="2"><strong>{$val.brief} - {$val.desc}</strong>
 							
 							{if $val.outcome}
 							{foreach $val.outcome as $value}
 							<br><br>
 							<div>
-								<table class="" width="100%">
+								<table class="table table-bordered" width="100%">
 									<thead>
 										<tr>
 											<td>{$value.desc}</td>
@@ -107,7 +107,7 @@
 								</table>
 							</div>
 							<div>
-								<table class="" width="100%">
+								<table class="table table-bordered" width="100%">
 									<thead>
 										<tr>
 											<td rowspan="2" class="text-center">Indikator</td>
@@ -126,7 +126,7 @@
 											
 											<td>{$v.desc}</td>
 											{foreach $v.target as $indi}
-											<td>{$indi}</td>
+											<td class="text-center">{$indi}</td>
 											{/foreach}
 											
 										</tr>
@@ -143,19 +143,31 @@
 							<table class="" width="100%">
 								<tbody>
 									<tr>
-										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=1&parent_id={$parent_id}&child={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Program</button></a>
-										
+										<td class="text-center">
+										<a href="{$basedomain}renstra/editProgram/?req=1&parent_id={$parent_id}&child={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Program</button></a>
+										<br>
+										<br>
 										<a href="{$basedomain}renstra/delete/?id={$val.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Program</button></a>
+										<br>
+										<br>
 										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Outcome</button></a>
+										<br>
+										<br>
 									</td>
 									</tr>
 									{if $val.outcome}
 									{foreach $val.outcome as $value}
 									<tr>
-										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
-										
+										<td class="text-center">
+										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
+										<br>
+										<br>
 										<a href="{$basedomain}renstra/delete/?id={$value.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a>
+										<br>
+										<br>
 										<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Indikator</button></a>
+										<br>
+										<br>
 									</td>
 									</tr>
 									{/foreach}
@@ -167,6 +179,7 @@
 									{foreach $value.indikator as $v}
 									<tr>
 										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
+										<br><br>
 										<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a></td>
 									</tr>
 									{/foreach}

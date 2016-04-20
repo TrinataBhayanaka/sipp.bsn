@@ -240,7 +240,9 @@ class penetapanAnggaran extends Controller {
 	}
 
 	public function detail084(){
+		//pr($_GET['thn']);
 		$tahun =$_GET['thn'];
+		//exit;
 		$detail084= $this->m_penetapanAngaran->detail084($tahun);
 		$kode_BSN = "840000";
 		$Select_nama_BSN = $this->m_penetapanAngaran->nm_unit($kode_BSN);

@@ -8,8 +8,13 @@ class mptn extends Database {
 		parent::__construct();
 	}
 
-	function selectSS($id)
+	function selectSS($id,$kd=false)
 	{
+		if($kd){
+			$sql = "SELECT id FROM bsn_struktur WHERE kode = '{$kd}'";
+			$res = $this->fetch($sql);
+			$id=$res['id'];
+		}
 		$sql = "SELECT * FROM bsn_news_content WHERE type='7' AND category='1' AND parent_id='{$id}' AND n_status='1'";
 		$res = $this->fetch($sql,1);
 		if ($res) return $res;
@@ -19,6 +24,10 @@ class mptn extends Database {
 	function getpk($kd,$fkd,$id=false,$thn)
 	{
 		if($id)$cond="AND a.id='{$id}'";else $cond="";
+		$sql = "SELECT id FROM bsn_struktur WHERE kode = '{$kd}'";
+		$res = $this->fetch($sql);
+		// pr($res);
+		$fkd=$res['id'];
 		$sql = "SELECT a.*,b.desc FROM th_pk as a, bsn_news_content as b WHERE a.kdunitkerja = '{$kd}' AND a.th = '{$thn}' AND a.no_sasaran = b.id AND b.parent_id = '{$fkd}' AND b.type='7' AND b.category = '1' {$cond} ORDER BY a.no_sasaran, a.no_pk";
 		// db($sql);
 		$res = $this->fetch($sql,1);

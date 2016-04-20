@@ -69,7 +69,7 @@
 				<thead>
 					<tr>
 						<th class="text-center">Kementrian / Lembaga</th>
-						<th class="text-center">Sasaran Strategis (SS)</th>
+						<th class="text-center"><strong>Sasaran Strategis (SS)</strong><br>Indikator Kinerja Sasaran Strategis (IKSS)</th>
 						<th class="text-center">Aksi</th>
 					</tr>
 				</thead>
@@ -78,14 +78,14 @@
 					{foreach $sasaran as $k=> $val}
 					<tr>
 						<td>{if $k==0}{$val.title}{else}&nbsp;{/if}</td>
-						<td>{$val.desc}
+						<td><strong>{$val.desc}</strong>
 							
 							{if $val.target}
 							{foreach $val.target as $value}
 							<br><br>
-							<div id="delete-toolbar" class="table-toolbar-left">
-								<legend>{$value.desc}</legend>
-								<table width="100%">
+							
+								<div class="well well-sm">{$value.desc}</div>
+								<table width="100%" class="table table-bordered">
 									<thead>
 										<tr>
 											{if $tahuntarget}
@@ -98,20 +98,24 @@
 									<tbody>
 										<tr>
 											{foreach $value.target as $v}
-											<td><input type="text" class="form-control" name="input[]" value="{$v}"></td>
+											<td>{$v}</td>
 											{/foreach}
 										</tr>
 									</tbody>
 								</table>
-							</div>
+							
 							{/foreach}
 							{/if}
 						</td>
 						<td>
 							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input IKSS</button></a>
 							
-							{if $val.target}							
+							{if $val.target}	
+							<br/>		
+							<br/>		
 							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}&id={$val.target.0.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit IKSS</button></a>
+							<br/>
+							<br/>
 							<a href="{$basedomain}renstra/delete/?id={$val.target.0.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
 							{/if}
 						</td>

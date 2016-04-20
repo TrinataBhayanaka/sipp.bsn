@@ -117,7 +117,8 @@ class struktur extends Controller {
 	function editStruktur()
 	{
 		global $basedomain;
-
+		// pr($_POST);
+		// exit;
 		$id = _g('id');
 		
 		if ($id){

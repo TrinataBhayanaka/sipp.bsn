@@ -26,7 +26,7 @@ class perjanjiankinerja extends Controller {
 	public function bsn(){
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk('840000',1,false,$thn['kode']);
-		
+	
 		$this->view->assign('data',$data);
 
 		return $this->loadView('pk/bsn');
@@ -34,15 +34,16 @@ class perjanjiankinerja extends Controller {
 	}
 
 	public function add(){
-
-		$ss = $this->getSS(1);
+		$ss = $this->getSS(1,'840000');
 		$this->view->assign('ss',$ss);
+		$thn = $this->model->getTahun();
+		$this->view->assign('thn',$thn['kode']);
 		return $this->loadView('pk/add');		
 	}
 
-	public function getSS($id)
+	public function getSS($id,$kd=false)
 	{
-		$data = $this->model->selectSS($id);
+		$data = $this->model->selectSS($id,$kd);
 
 		return $data;
 	}
@@ -59,10 +60,10 @@ class perjanjiankinerja extends Controller {
 
 	public function edit()
 	{
-
-		$data = $this->model->getpk('840000',1,$_GET['id']);
-		$ss = $this->getSS(1);
-
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk('840000',1,$_GET['id'],$thn['kode']);
+		$ss = $this->getSS(1,'840000');
+		
 		$this->view->assign('ss',$ss);
 		$this->view->assign('data',$data[0]);
 
@@ -111,8 +112,8 @@ class perjanjiankinerja extends Controller {
 			$this->view->assign('id',$exp[0]);
 			$this->view->assign('idpk',$idpk);
 		}
-
-		$data = $this->model->getpk($idpk,$parent);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
 
 		
 		$this->view->assign('data',$data);
@@ -124,7 +125,8 @@ class perjanjiankinerja extends Controller {
 	public function add_eselon()
 	{
 		$ss = $this->getSS($_GET['id']);
-
+		$thn = $this->model->getTahun();
+		$this->view->assign('thn',$thn['kode']);
 		$this->view->assign('ss',$ss);
 		$this->view->assign('idpk',$_GET['kd']);
 
@@ -143,8 +145,8 @@ class perjanjiankinerja extends Controller {
 
 	public function edit_eselon()
 	{
-
-		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id']);
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
 		$ss = $this->getSS($_GET['pr']);
 
 		$this->view->assign('ss',$ss);
@@ -160,7 +162,7 @@ class perjanjiankinerja extends Controller {
 
 		$this->model->edit_pk($_POST);
 
-		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/eselon1'</script>";
+		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
 		exit;
 	}
 
@@ -183,8 +185,9 @@ class perjanjiankinerja extends Controller {
 			$this->view->assign('id',$exp[0]);
 			$this->view->assign('idpk',$idpk);
 		}
-
-		$data = $this->model->getpk($idpk,$parent);
+		
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
 
 		
 		$this->view->assign('data',$data);

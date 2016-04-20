@@ -15,7 +15,7 @@ class pelaporanKegiatan extends Controller {
 		$sessionAdmin = new Session;
 		$this->admin = $sessionAdmin->get_session();
 		// $this->validatePage();
-		// pr($this->admin);
+		// //pr($this->admin);
 		$this->view->assign('app_domain',$app_domain);
 	}
 	
@@ -78,7 +78,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1){
-			return $this->form(1,'1');
+			return $this->form(1,'1','840000');
 		}else{
 			redirect($basedomain . "bsn");
 		}
@@ -89,7 +89,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1){
-			return $this->form(3,'2');
+			return $this->form(3,'2',$_GET['kd']);
 		}else{
 			redirect($basedomain . "es1");
 		}
@@ -100,7 +100,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1 || $Struktur[type]==3){
-			return $this->form(4,'3');
+			return $this->form(4,'3',$_GET['kd']);
 		}else{
 			redirect($basedomain . "es2");
 		}
@@ -140,14 +140,14 @@ class pelaporanKegiatan extends Controller {
 
 	}
 	public function insertForm(){
-		// pr($_POST);
+		// //pr($_POST);
 
 		$_POST['twn1']=json_encode($_POST['twn1']);
 		$_POST['twn2']=json_encode($_POST['twn2']);
 		$_POST['twn3']=json_encode($_POST['twn3']);
 		$_POST['twn4']=json_encode($_POST['twn4']);
-		// pr($twn1);
-		// pr($_POST);
+		// //pr($twn1);
+		// //pr($_POST);
 // exit;
 		if ($_POST['submit']){
 			
@@ -163,7 +163,7 @@ class pelaporanKegiatan extends Controller {
 			}elseif($_POST['categoryType']==3){
 				$url="eselon2";
 			}
-		// pr($_POST);
+		// //pr($_POST);
 			$save = $this->contentHelper->saveData($_POST,"_capaian");
 			if ($save) redirect($basedomain . $url);
 		}
@@ -171,14 +171,14 @@ class pelaporanKegiatan extends Controller {
 		return $this->loadView('pelaporanKegiatan/capaian/form');
 	}
 	public function updateForm(){
-		// pr($_POST);
+		// //pr($_POST);
 
 		$_POST['twn1']=json_encode($_POST['twn1']);
 		$_POST['twn2']=json_encode($_POST['twn2']);
 		$_POST['twn3']=json_encode($_POST['twn3']);
 		$_POST['twn4']=json_encode($_POST['twn4']);
-		// pr($twn1);
-		// pr($_POST);
+		// //pr($twn1);
+		// //pr($_POST);
 // exit;
 		if ($_POST['submit']){
 			
@@ -250,7 +250,7 @@ class pelaporanKegiatan extends Controller {
 		} 
 
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
-		// pr($getStruktur);
+		// //pr($getStruktur);
 		
 		if ($pid==1){
 			foreach ($getStruktur as $key => $value) {
@@ -258,29 +258,31 @@ class pelaporanKegiatan extends Controller {
 			}
 		}
 		
-
-		if (!$parent_id){
-			if (!$pid) $pid = 1;
-			
-			if ($pid==1){
-				foreach ($getStruktur as $key => $value) {
-					if ($value['kode']=='840000') $bsnid = $value['id'];
+		if($type!=5){
+			if (!$parent_id){
+				if (!$pid) $pid = 1;
+				
+				if ($pid==1){
+					foreach ($getStruktur as $key => $value) {
+						if ($value['kode']=='840000') $bsnid = $value['id'];
+					}
+				}else{
+					$bsnid = $getStruktur[0]['id'];
 				}
-			}else{
-				$bsnid = $getStruktur[0]['id'];
+				redirect($basedomain."pelaporanKegiatan/dokumenLakip/?pid={$pid}&parent_id=".$bsnid);
+				exit;
 			}
-			redirect($basedomain."pelaporanKegiatan/dokumenLakip/?pid={$pid}&parent_id=".$bsnid);
-			exit;
 		}
-		// pr($bsnid);
+		// //pr($bsnid);
 		
 		$this->view->assign('bsnid', $bsnid);
-		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
-		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);
+
+		$getVisiBsn = $this->model->getVisi(false, $type, 1,$parent_id);
+		$getMisiBsn = $this->model->getVisi(false, $type, 2,$parent_id);
+		$getTujuanBsn = $this->model->getVisi(false, $type, 3,$parent_id);
 		
-		$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parent_id);
-		// pr($getDokumen);
+		$getDokumen = $this->model->getVisi(false, 16, 1, $parent_id);
+		// //pr($getDokumen);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {
 				$tags[$value['id']] = $value['tags'];
@@ -300,6 +302,7 @@ class pelaporanKegiatan extends Controller {
 
 		$this->view->assign('pid', $pid);
 		$this->view->assign('parent_id', $parent_id);
+		// //pr($getStruktur);
 		$this->view->assign('visi', $getVisiBsn);
 		$this->view->assign('misi', $getMisiBsn);
 		$this->view->assign('tujuan', $getTujuanBsn);
@@ -353,7 +356,7 @@ class pelaporanKegiatan extends Controller {
 
 		if ($_POST['submit']){
 			
-				// pr($_POST['submit']);
+				// //pr($_POST['submit']);
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
@@ -361,23 +364,23 @@ class pelaporanKegiatan extends Controller {
 			$pid = $_POST['pid'];
 			$parent_id = $_POST['parent_id'];
 			$save = $this->contentHelper->saveData($_POST,"_news_content");
-				// pr($save);
+				// //pr($save);
 			if ($save){
 
 				$getLastData = $this->contentHelper->getDocument(false, 16);
-				// pr($getLastData);
+				// //pr($getLastData);
 				if ($getLastData){
 					if(!empty($_FILES)){
 						if($_FILES['file']['name'] != ''){
 							$image = uploadFile('file');
-							// pr($_FILES);
-							// pr($_POST);
+							// //pr($_FILES);
+							// //pr($_POST);
 							if ($image['status']){
 								$dataArr['id'] = $getLastData[0]['id'];
 								$dataArr['filename'] = $image['full_name'];
 								$updateData = $this->contentHelper->saveData($dataArr);
-							// pr($dataArr);
-							// pr($image);exit;
+							// //pr($dataArr);
+							// //pr($image);exit;
 								if ($updateData) redirect($basedomain."pelaporanKegiatan/dokumenLakip/?pid={$pid}&parent_id={$parent_id}");
 							}else{
 								echo "<script>alert('File type not allowed');</script>";
@@ -421,7 +424,7 @@ function delete()
 		$this->view->assign('data',$dataSasaran);
 
 		$data_layout=$this->loadView('pelaporanKegiatan/capaian/select');
-// pr($data_layout);
+// //pr($data_layout);
 		if ($dataSasaran){
             print json_encode(array('status'=>true, 'data'=>$data_layout));
         }else{
@@ -435,7 +438,7 @@ function delete()
 		$idSsr=$_POST['id'];
 		$dataSasaran = $this->model->getIDpk($idSsr);
 
-		// pr($dataSasaran);
+		// //pr($dataSasaran);
 
 		if ($dataSasaran){
             print json_encode(array('status'=>true, 'data'=>$dataSasaran['target']));
@@ -447,11 +450,28 @@ function delete()
 
 	}
 
-	function listData($url,$id=1,$button=false){
+	function listData($url,$id=1,$button=false,$formSearch=true){
 		if($url){
 
-			$result=$this->model->getcapaian($id);
-			// pr($result);
+			$struktur = $this->model->getStrukturAll($id);
+// //pr($_POST);
+			if(!$_POST) {
+				$idpk = $struktur[0]['kode'];
+				$parent = $struktur[0]['id'];
+				$this->view->assign('label',$struktur[0]['nama_satker']);
+				$this->view->assign('id',$struktur[0]['id']);
+				$this->view->assign('idpk',$idpk);
+			} else {
+				$exp = explode("_", $_POST['struktur']);
+				$idpk = $exp[2];
+				$parent = $exp[0];
+				$this->view->assign('label',$exp[1]);
+				$this->view->assign('id',$exp[0]);
+				$this->view->assign('idpk',$idpk);
+			}
+
+			$result=$this->model->getcapaian($id,$parent);
+			// //pr($struktur);
 			if($result){
 				foreach ($result as $key => $value) {
 					$twn1=(array)json_decode($value['twn1']);
@@ -489,6 +509,8 @@ function delete()
 					$data[$key]['triwulan4_nreal']=$twn4['nreal'];
 
 					$Struktur=$this->model->getStruktur($this->admin[kode]);
+					// //pr($Struktur);
+					// //pr($struktur);
 
 					if($Struktur[type]==1){
 
@@ -501,26 +523,45 @@ function delete()
 					}
 				}
 			}
+			// //pr($url);
+			if($url=="es1"){
+				$formUrl="eselon1";
+			}elseif($url=="es2"){
+				$formUrl="eselon2";
+
+			}else{
+				$formUrl="bsn";
+			}
+			if($parent==1){
+				$formSearch=false;
+			}
+			$this->view->assign('buttonId',$parent);
+
+			$this->view->assign('formSearch',$formSearch);
 			$this->view->assign('button',$button);
+			$this->view->assign('formUrl',$formUrl);
+			$this->view->assign('kd',$idpk);
+			$this->view->assign('struktur',$struktur);
 			$this->view->assign('data',$data);
 			$this->view->assign('url',$url);
-			// pr($data);exit;
+			// //pr($data);exit;
 			return $this->loadView('pelaporanKegiatan/capaian/index');
 		}else{
 			return false;
 		}
 	}
 
-	function form($id,$type){
+	function form($id,$type,$kd=false){
 		if($id){
 			global $basedomain;
-			$dataSasaran = $this->modelMptn->selectSS($id);
+			$dataSasaran = $this->modelMptn->selectSS($id,$kd);
 
 
 			$this->view->assign('dataSasaran',$dataSasaran);
 			$this->view->assign('type',$type);
+			$this->view->assign('parent',$_GET['parent']);
 
-			// pr($dataSasaran);exit;
+			// //pr($dataSasaran);exit;
 			return $this->loadView('pelaporanKegiatan/capaian/form');
 		}else{
 			return false;
@@ -532,7 +573,7 @@ function delete()
 
 		$dataSasaran = $this->modelMptn->selectSS($id);
 		$data = $this->model->getcapaianID($get);
-		// pr($dataSasaran);
+		// //pr($dataSasaran);
 			$twn1=(array)json_decode($data['twn1']);
 			$twn2=(array)json_decode($data['twn2']);
 			$twn3=(array)json_decode($data['twn3']);
@@ -567,12 +608,12 @@ function delete()
 			$data['triwulan4_nreal']=$twn4['nreal'];
 
 		$dataIndikator = $this->model->getAllpk($data['sasaran']);
-		// pr($dataIndikator);
+		// //pr($dataIndikator);
 		$this->view->assign('dataSasaran',$dataSasaran);
 		$this->view->assign('dataIndikator',$dataIndikator);
 		$this->view->assign('data',$data);
 
-		// pr($dataSasaran);exit;
+		// //pr($dataSasaran);exit;
 		return $this->loadView('pelaporanKegiatan/capaian/editform');
 	}
 
