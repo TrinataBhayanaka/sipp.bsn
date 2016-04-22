@@ -236,6 +236,7 @@ function isNumber(evt) {
 						
 					</div>
 					<div class="panel-footer text-right">
+						<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">
 						<input type="button"  name="submit" id="submit" value="save" class="btn btn-info">
 					</div>
 				</form>
@@ -257,6 +258,20 @@ $(document).ready(function() {
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
+//print doc rpk
+$('#print').on('click', function(){
+	var th = $('#th').val();
+	var bulan = $('#bulan').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+
+	window.location.href=basedomain+"monev/print_monev_bobot/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&kd_komponen="+kd_komponen;
+});	
+
+
+
 var total = $('#total').val();
 var tot_split = total.split(",");
 if(tot_split[0] == 0){

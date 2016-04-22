@@ -50,7 +50,7 @@ function isNumber(evt) {
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
-	<li><a href="{$basedomain}course/courselist">RPK</a></li>
+	<li><a href="{$basedomain}rpk">RPK</a></li>
 	<li class="active">Edit RPK</li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -395,6 +395,7 @@ function isNumber(evt) {
 						
 					</div>
 					<div class="panel-footer text-right">
+						<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">
 						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
 					</div>
 				</form>
@@ -406,12 +407,23 @@ function isNumber(evt) {
 	</div>
 </div>
 <!--===================================================-->
+{literal}
 <script>
 $(document).ready(function() {
 var status_hidden = $('#status_hidden').val();
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }
+//print doc rpk
+$('#print').on('click', function(){
+	var th = $('#th').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+
+	window.location.href=basedomain+"rpk/print_rpk/?th="+th+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput;
+});	
+
 $('#submit').on('click', function(){
 	var status = $('#status').val();
 	var tujuan = $('#tujuan').val();
@@ -491,4 +503,5 @@ $('#submit').on('click', function(){
 	});	
 });
 </script>
+{/literal}
 <!--End page content-->

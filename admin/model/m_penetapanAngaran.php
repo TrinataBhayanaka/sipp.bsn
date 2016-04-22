@@ -3,6 +3,38 @@ class m_penetapanAngaran extends Database {
 	
 	// m_spmmak dam m_spmind (upload foxpro dari iman)
 	// d_item ,d_trktrm (upload foxpro dari bayu)
+	function get_bobot_trwln($param,$kd_unit,$kd_giat,$kd_output,$kd_komponen){
+		if($param == 3){
+			$queryext="target_3 as tw_target";
+		}elseif($param == 6){
+			$queryext="target_6 as tw_target";
+		}elseif($param == 9){
+			$queryext="target_9 as tw_target";
+		}elseif($param == 12){
+			$queryext="target_12 as tw_target";
+		}
+		$query ="select {$queryext} from monev_bulanan where kategori = 3 and kdunitkerja = {$kd_unit} and kdgiat = {$kd_giat} and kdoutput = {$kd_output} and kdkmpnen = {$kd_komponen}" ;
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result; 
+	}
+	
+	function get_anggaran_trwln($param,$kd_unit,$kd_giat,$kd_output,$kd_komponen){
+		if($param == 3){
+			$queryext="anggaran_3 as tw_anggaran";
+		}elseif($param == 6){
+			$queryext="anggaran_6 as tw_anggaran";
+		}elseif($param == 9){
+			$queryext="anggaran_9 as tw_anggaran";
+		}elseif($param == 12){
+			$queryext="anggaran_12 as tw_anggaran";
+		}
+		$query ="select {$queryext} from monev_bulanan where kategori = 3 and kdunitkerja = {$kd_unit} and kdgiat = {$kd_giat} and kdoutput = {$kd_output} and kdkmpnen = {$kd_komponen}" ;
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result; 
+	}
+	
 	
 	function bobot_komponen($thn_temp,$kd_giat,$kd_output,$kd_komponen){
 		$query = "select bobot from thbp_kak_output_bobot WHERE th='{$thn_temp}' and kdgiat = '{$kd_giat}' and kdoutput ='{$kd_output}' and kdkmpnen = '{$kd_komponen}'";

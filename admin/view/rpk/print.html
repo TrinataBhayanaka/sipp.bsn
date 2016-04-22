@@ -1,0 +1,367 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3 align="center">RENCANA PELAKSANAAN KEGIATAN {$info.thn}</h3>
+	</div>
+</div>
+
+<div>
+	<label class="control-label "><strong>A. Deskripsi Kegiatan</strong></label>
+</div>
+<div>
+	<table cellspacing="0" width="100%">
+		<tr>
+			<td style="width:10px">1.</td>
+			<td style="width:200px">Output</td>
+			<td>: {$info.nama_output}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">2.</td>
+			<td style="width:200px">Kegiatan</td>
+			<td>: {$info.nama_kegiatan}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">3.</td>
+			<td style="width:200px">Anggaran</td>
+			<td>: {number_format($info.pagu_output,"0",",",".")}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">4.</td>
+			<td style="width:200px">Unit Eselon II</td>
+			<td>: {$info.unit_eselon}</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+</div>
+<br/>
+<div>
+	<label class="control-label"><strong>B. Rincian Kegiatan</strong></label>
+</div>
+<div>
+	<table cellspacing="0" width="100%">
+		<tr>
+			<td style="width:10px">a.</td>
+			<td colspan="4">Tujuan Kegiatan :</td>
+		</tr>
+		<tr>
+			<td >&nbsp;</td>
+			<td colspan="4">{$rinc.tujuan}</td>
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">b.</td>
+			<td colspan="4">Tahapan Kegiatan</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="4">
+				<ol style="list-style:none;list-style-position:outside;padding-left:0px" >
+					{foreach $list as $val}
+					<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
+					{/foreach}
+				</ol>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">c.</td>
+			<td colspan="4">Sasaran kinerja per triwulan (diisi sasaran kinerja per triwulan dan bobotnya)</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td style="width:10px">1.</td>
+			<td style="width:150px">Triwulan I</td>
+			<td>{$rinc.sasaran_trw_1}</td>
+			<td >{$detail.bobot_1|cat:'%'}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td style="width:10px">2.</td>
+			<td style="width:150px">Triwulan II</td>
+			<td>{$rinc.sasaran_trw_2}</td>
+			<td>{$detail.bobot_2|cat:'%'}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td style="width:10px">3.</td>
+			<td style="width:150px">Triwulan III</td>
+			<td>{$rinc.sasaran_trw_3}</td>
+			<td>{$detail.bobot_3|cat:'%'}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td style="width:10px">4.</td>
+			<td style="width:150px">Triwulan IV</td>
+			<td >{$rinc.sasaran_trw_4}</td>
+			<td>{$detail.bobot_4|cat:'%'}</td>
+		</tr>
+	</table>
+</div>
+<br/>
+<div>
+	<label class="control-label"><strong>C. Rincian Kegiatan, Jadwal Pelaksanaan dan Anggaran</strong></label>
+</div>
+<br/>
+<div>
+	<table border = "1"  cellspacing="0" width="100%" style="font-size:11pt">
+	<thead>
+		<tr>
+			<th style="text-align:center;" rowspan="3">Kode</th>
+			<th style="text-align:center; width:200px;" rowspan="3">Kegiatan/Komponen/Tahapan<br/>(sesuai TOR dan RAB)</th>
+			<th style="text-align:center;" colspan="12">Anggaran (Rp)</th>
+			<th style="text-align:center;" rowspan="3">Jumlah Anggaran (Rp)</th>
+		</tr>
+		<tr>
+			<th style="text-align:center;" colspan="3">TW I</th>
+			<th style="text-align:center;" colspan="3">TW II</th>
+			<th style="text-align:center;" colspan="3">TW III</th>
+			<th style="text-align:center;" colspan="3">TW IV</th>
+		</tr>
+		<tr>
+			<th style="text-align:center; width:70px;" >Jan</th>
+			<th style="text-align:center; width:70px;" >Feb</th>
+			<th style="text-align:center; width:70px;" >Mar</th>
+			<th style="text-align:center; width:70px;" >Apr</th>
+			<th style="text-align:center; width:60px;" >Mei</th>
+			<th style="text-align:center; width:70px;" >Jun</th>
+			<th style="text-align:center; width:70px;" >Jul</th>
+			<th style="text-align:center; width:70px;" >Agst</th>
+			<th style="text-align:center; width:70px;" >Sept</th>
+			<th style="text-align:center; width:70px;" >Okt</th>
+			<th style="text-align:center; width:70px;" >Nov</th>
+			<th style="text-align:center; width:70px;" >Des</th>
+		</tr>
+		<tr>
+			<th style="text-align:center;">(1)</th>
+			<th style="text-align:center;">(2)</th>
+			<th style="text-align:center;" colspan="12">(3)</th>
+			<th style="text-align:center;">(4)</th>
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td style="text-align:center; font-weight: bold;" >{$info.kd_giat|cat:'.'|cat:$info.kd_output}</td>
+				<td style="font-weight: bold;" >{$info.nama_output}</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td style="text-align:right; font-weight: bold;">{number_format($info.pagu_output,"0",",",".")}</td>
+			</tr>
+		{foreach $list as $value}
+			<tr>
+				<td style="text-align:center; font-weight: bold;" >{$value.KDKMPNEN}</td>
+				<td style="text-align:; font-weight: bold;">{$value.nama_komponen}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_1,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_2,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_3,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_4,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_5,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_6,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_7,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_8,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_9,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_10,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_11,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.anggaran_12,"0",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.pagu_kmpnen,"0",",",".")}</td>
+			</tr>
+			{foreach $value.sub_komponen as $sub}
+				<tr>
+					<td  style="text-align:center;">{$sub.kd_tahapan}</td>
+					<td>{$sub.nm_tahapan}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_1,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_2,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_3,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_4,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_5,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_6,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_7,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_8,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_9,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_10,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_11,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.anggaran_12,"0",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.sum_anggaran,"0",",",".")}</td>
+				</tr>
+			{/foreach}
+		{/foreach}
+	</tbody>
+</table>
+</div>
+
+<br/>
+<label >Keterangan :</label><br/>
+<label >(1) Diisi dengan kode kegiatan/komponen</label><br/>
+<label >(2) Diisi dengan nama kegiatan/komponen/tahapan</label><br/>
+<label >(3) Diisi anggaran per bulan untuk setiap tahapan kegiatan</label><br/>
+<label >(4) Diisi anggaran pelaksanaan kegiatan (dalam rupiah)</label>
+<br/>
+<br/>
+<div>
+	<label class="control-label"><strong>D. Rincian Kegiatan dan Bobot Kinerja</strong></label>
+</div>
+<br/>
+<div>
+	<table border = "1"  cellspacing="0" width="100%" style="font-size:11pt" >
+	<thead>
+		<tr>
+			<th style="text-align:center;" rowspan="3">Kode</th>
+			<th style="text-align:center; width:200px;" rowspan="3">Kegiatan/Komponen/Tahapan<br/>(sesuai TOR dan RAB)</th>
+			<th style="text-align:center;" colspan="12">Bobot Kinerja (%)</th>
+			<th style="text-align:center;" rowspan="3">Jumlah Bobot (%)</th>
+		</tr>
+		<tr>
+			<th style="text-align:center;" colspan="3">TW I</th>
+			<th style="text-align:center;" colspan="3">TW II</th>
+			<th style="text-align:center;" colspan="3">TW III</th>
+			<th style="text-align:center;" colspan="3">TW IV</th>
+		</tr>
+		<tr>
+			<th style="text-align:center; width:70px;" >Jan</th>
+			<th style="text-align:center; width:70px;" >Feb</th>
+			<th style="text-align:center; width:70px;" >Mar</th>
+			<th style="text-align:center; width:70px;" >Apr</th>
+			<th style="text-align:center; width:70px;" >Mei</th>
+			<th style="text-align:center; width:70px;" >Jun</th>
+			<th style="text-align:center; width:70px;" >Jul</th>
+			<th style="text-align:center; width:70px;" >Agst</th>
+			<th style="text-align:center; width:70px;" >Sept</th>
+			<th style="text-align:center; width:70px;" >Okt</th>
+			<th style="text-align:center; width:70px;" >Nov</th>
+			<th style="text-align:center; width:70px;" >Des</th>
+		</tr>
+		<tr>
+			<th style="text-align:center;">(1)</th>
+			<th style="text-align:center;">(2)</th>
+			<th style="text-align:center;" colspan="12">(3)</th>
+			<th style="text-align:center;">(4)</th>
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td style="text-align:center; font-weight: bold;" >{$info.kd_giat|cat:'.'|cat:$info.kd_output}</td>
+				<td style="font-weight: bold;" >{$info.nama_output}</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td style="text-align:center; font-weight: bold;">{$totalBobot}</td>
+			</tr>
+		{foreach $list as $value}
+			<tr>
+				<td style="text-align:center; font-weight: bold;" >{$value.KDKMPNEN}</td>
+				<td style="text-align:; font-weight: bold;">{$value.nama_komponen}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_1,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_2,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_3,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_4,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_5,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_6,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_7,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_8,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_9,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_10,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_11,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_12,"2",",",".")}</td>
+				<td style="text-align:right; font-weight: bold;">{$value.total_bobot}</td>
+			</tr>
+			{foreach $value.sub_komponen as $sub}
+				<tr>
+					<td  style="text-align:center;">{$sub.kd_tahapan}</td>
+					<td>{$sub.nm_tahapan}</td>
+					<td style="text-align:right;">{number_format($sub.target_1,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_2,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_3,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_4,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_5,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_6,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_7,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_8,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_9,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_10,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_11,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.target_12,"2",",",".")}</td>
+					<td style="text-align:right;">{number_format($sub.sum_bobot,"2",",",".")}</td>
+				</tr>
+			{/foreach}
+		{/foreach}
+	</tbody>
+</table>
+</div>		
+<br/>
+<label >Keterangan :</label><br/>
+<label >(1) Diisi dengan kode kegiatan/komponen</label><br/>
+<label >(2) Diisi dengan nama kegiatan/komponen/tahapan</label><br/>
+<label >(3) Diisi dengan persentase bobot kinerja untuk setiap tahapan kegiatan</label><br/>
+<label >(4) Diisi dengan jumlah presentase bobot kinerja dari bobot kinerja per bulan</label>
+<br/>	
+<br/>
+<div>
+<table style="text-align: left; border-collapse: collapse; width: 100%; height: 90px;" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Jakarta, {$tgl_format}</td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">Mengetahui:</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">&nbsp;</td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">{$ttd_nama}</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Kepala {$info.unit_eselon}</td>
+	</tr>
+	<tr>
+	   <td colspan="11" style="height: 100px"></td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">(-----------------------------------)</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">(-----------------------------------)</td>
+	</tr>
+</table>
+</div>	
+

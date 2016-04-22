@@ -57,6 +57,7 @@ class monev_trwln extends Controller {
 		$rencana = $this->m_penetapanAngaran->rencana_bobot($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen);
 		$realisasi = $this->m_penetapanAngaran->realisasi_bobot($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen);
 		// pr($rencana);
+		// pr($realisasi);
 		// $newformat = array('register'=>$register_user,'visitor'=>$visitor_user);
 		$newformat = array('rncn'=>$rencana,'real'=>$realisasi);
 		print json_encode($newformat);
@@ -329,7 +330,7 @@ class monev_trwln extends Controller {
 			}
 		}
 		// $bl =date('m');
-		
+		//coba
 		
 		if($trwulan == 1){
 			$I = "selected";
@@ -337,25 +338,32 @@ class monev_trwln extends Controller {
 			$III = "";
 			$IV = "";
 			$ket = "Triwulan I";
+			//add 
+			$param = '3';
+			
 		}elseif($trwulan == 2){
 			$I = "";
 			$II = "selected";
 			$III = "";
 			$IV = "";
 			$ket = "Triwulan II";
+			$param = '6';
 		}elseif($trwulan == 3){
 			$I = "";
 			$II = "";
 			$III = "selected";
 			$IV = "";
 			$ket = "Triwulan III";
+			$param = '9';
 		}elseif($trwulan == 4){
 			$I = "";
 			$II = "";
 			$III = "";
 			$IV = "selected";
 			$ket = "Triwulan IV";
+			$param = '12';
 		}
+		
 		
 		$dataselected[]=$I;
 		$dataselected[]=$II;
@@ -428,9 +436,251 @@ class monev_trwln extends Controller {
 		$this->view->assign('info',$info);
 		$this->view->assign('list',$list);
 		$this->view->assign('data',$data);
-		
 		return $this->loadView('monev_trwln/editBobot');
 	}
+	
+	public function DateToIndo($date) { 
+		// fungsi atau method untuk mengubah tanggal ke format indonesia
+		// variabel BulanIndo merupakan variabel array yang menyimpan nama-nama bulan
+		$BulanIndo = array("Januari", "Februari", "Maret",
+						   "April", "Mei", "Juni",
+						   "Juli", "Agustus", "September",
+						   "Oktober", "November", "Desember");
+	
+		$tahun = substr($date, 0, 4); // memisahkan format tahun menggunakan substring
+		$bulan = substr($date, 5, 2); // memisahkan format bulan menggunakan substring
+		$tgl   = substr($date, 8, 2); // memisahkan format tanggal menggunakan substring
+		
+		$result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		return($result);
+	}
+	
+	public function print_triwulan(){
+		global $basedomain;
+		$thn = $_GET['thn'];
+		$kd_unit = $_GET['kd_unit'];
+		$kd_giat = $_GET['kd_giat'];
+		$kd_output = $_GET['kd_output'];
+		$kd_komponen = $_GET['kd_komponen'];
+		
+		//Deskripsi Kegiatan
+		//nama output
+		$nama_output = $this->m_penetapanAngaran->nama_output($kd_giat,$kd_output);
+		$pagu_output = $this->m_penetapanAngaran->output_cndtn($thn,$kd_giat,$kd_output);
+		//nama kegiatan
+		$nama_kegiatan = $this->m_penetapanAngaran->nama_kegiatan($kd_giat);
+		//unit eselon 
+		$unit_eselon = $this->m_penetapanAngaran->nama_unit($kd_unit);
+		
+		$info['nama_output'] = $nama_output['NMOUTPUT'];
+		$info['pagu_output'] = $pagu_output['pagu_output'];
+		$info['nama_kegiatan'] = $nama_kegiatan['nmgiat'];
+		$info['unit_eselon'] = $unit_eselon['nmunit'];
+		$info['thn'] = $thn;
+		$info['kd_unit'] = $kd_unit;
+		$info['kd_giat'] = $kd_giat;
+		$info['kd_output'] = $kd_output;
+		$info['kd_komponen'] = $kd_komponen;
+		
+		
+		//$thp kegiatan
+			$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan_condotion_monev($thn,$kd_giat,$kd_output,$kd_komponen);
+			// pr($thp_kegiatan);
+			// exit;
+			foreach ($thp_kegiatan as $key=>$val){
+				$list[] = $val;
+				$komponen = $this->m_penetapanAngaran->komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$val['KDSOUTPUT']);
+				// pr($komponen);
+				$list[$key]['nama_komponen'] = $komponen['URKMPNEN'];
+				
+				
+			}
+		
+		//add	
+		$dinamic_tw = $_GET['trwln'];
+		if($dinamic_tw){
+			$bl = $dinamic_tw;
+			switch ($bl){
+				case 1:$trwulan = 1;break;
+				case 2:$trwulan = 2;break;
+				case 3:$trwulan = 3;break;
+				case 4:$trwulan = 4;break;
+				}
+		// pr($trwulan);		
+		}else{
+			$bl = date('m');
+			switch ($bl){
+				case 1:$trwulan = 1;break;
+				case 2:$trwulan = 1;break;
+				case 3:$trwulan = 1;break;
+				case 4:$trwulan = 2;break;
+				case 5:$trwulan = 2;break;
+				case 6:$trwulan = 2;break;
+				case 7:$trwulan = 3;break;
+				case 8:$trwulan = 3;break;
+				case 9:$trwulan = 3;break;
+				case 10:$trwulan = 4;break;
+				case 11:$trwulan = 4;break;
+				case 12:$trwulan = 4;break;
+			}
+		}
+		// $bl =date('m');
+		if($trwulan == 1){
+			$I = "selected";
+			$II = "";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan I";
+			//add 
+			$param = '3';
+			
+		}elseif($trwulan == 2){
+			$I = "";
+			$II = "selected";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan II";
+			$param = '6';
+		}elseif($trwulan == 3){
+			$I = "";
+			$II = "";
+			$III = "selected";
+			$IV = "";
+			$ket = "Triwulan III";
+			$param = '9';
+		}elseif($trwulan == 4){
+			$I = "";
+			$II = "";
+			$III = "";
+			$IV = "selected";
+			$ket = "Triwulan IV";
+			$param = '12';
+		}
+		
+		$realisasi_bobot = $this->m_penetapanAngaran->get_bobot_trwln($param,$kd_unit,$kd_giat,$kd_output,$kd_komponen);
+		if($realisasi_bobot['tw_target']){
+			$realisasi_bobot_fix = $realisasi_bobot['tw_target'];
+		}else{
+			$realisasi_bobot_fix = 0;
+		}
+		$this->view->assign('realisasi_bobot_fix',$realisasi_bobot_fix);
+		
+		$realisasi_anggaran = $this->m_penetapanAngaran->get_anggaran_trwln($param,$kd_unit,$kd_giat,$kd_output,$kd_komponen);
+		if($realisasi_anggaran['tw_anggaran']){
+			$realisasi_anggaran_fix = $realisasi_anggaran['tw_anggaran'];
+		}else{
+			$realisasi_anggaran_fix = 0;
+		}
+		$this->view->assign('realisasi_anggaran_fix',$realisasi_anggaran_fix);
+		
+		
+		$dataselected[]=$I;
+		$dataselected[]=$II;
+		$dataselected[]=$III;
+		$dataselected[]=$IV;
+		$dataselected[]=$ket;
+		
+		// pr($trwulan);
+		//cek id
+		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,3);
+		if($count['hit'] == 1){
+			// echo "masukk";
+			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id'],$trwulan);
+			if($trwulan == 1){
+				$data['kendala'] = $get_data ['kendala'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu'];
+				$data['keterangan'] = $get_data['keterangan'] ;
+			}elseif($trwulan == 2){
+				$data['kendala'] = $get_data ['kendala_2'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_2'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_2'];
+				$data['keterangan'] = $get_data['keterangan_2'] ;
+			}elseif($trwulan == 3){
+				$data['kendala'] = $get_data ['kendala_3'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_3'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_3'];
+				$data['keterangan'] = $get_data['keterangan_3'] ;
+			}elseif($trwulan == 4){
+				$data['kendala'] = $get_data ['kendala_4'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_4'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_4'];
+				$data['keterangan'] = $get_data['keterangan_4'] ;
+			}
+			// $data['kendala'] = $get_data ['kendala'];
+			// $data['tindaklanjut'] = $get_data['tindaklanjut'] ;
+			// $data['ygmembantu'] = $get_data['ygmembantu'];
+			// $data['keterangan'] = $get_data['keterangan'] ;
+			
+		}else{
+			if($trwulan == 1){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 2){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 3){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 4){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}
+			// $data['keterangan'] = '';
+			// $data['kendala'] = '';
+			// $data['tindaklanjut'] = '';
+			// $data['ygmembantu'] = '';
+		}
+		
+		//kendala
+		$exp_kendala = explode('-',$data['kendala']);
+		$kendala_fix = array_filter($exp_kendala);
+		$this->view->assign('kendala',$kendala_fix);
+		
+		//tindak lanjut
+		$exp_tdklanjut = explode('-',$data['tindaklanjut']);
+		$tdklanjut_fix = array_filter($exp_tdklanjut);
+		$this->view->assign('tdklanjut',$tdklanjut_fix);
+		
+		//yang membantu
+		$exp_yg_membantu = explode('-',$data['ygmembantu']);
+		$yg_membantu_fix = array_filter($exp_yg_membantu);
+		$this->view->assign('ygmembantu',$yg_membantu_fix);
+		
+		//capaian
+		$exp_yg_capaian = explode('-',$data['keterangan']);
+		$yg_capaian_fix = array_filter($exp_yg_capaian);
+		$this->view->assign('capaian',$yg_capaian_fix);
+		
+		//new add		
+		$tgl = date("Y-m-d");
+		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);
+		
+		//ttd nama
+		$split = substr($kd_unit,0,3);
+		$join = $split.'000';
+		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
+		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
+		
+		
+		$this->view->assign('dataselected',$dataselected);
+		$this->view->assign('info',$info);
+		$this->view->assign('list',$list);
+		$this->view->assign('data',$data);
+		$this->reportHelper =$this->loadModel('reportHelper');
+		$html = $this->loadView('monev_trwln/print');
+		$generate = $this->reportHelper->loadMpdf($html, 'monev-triwulan',2);
+	}
+	
 	
 	public function editAnggaran(){
 		global $basedomain;

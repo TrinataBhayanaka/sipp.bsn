@@ -210,71 +210,11 @@ function isNumber(evt) {
 						</div>
 						
 						</div>
-						<!--<div class="row">
-							<div class="col-md-12 table-responsive">
-								<table id="" class="table table-bordered" cellspacing="0" width="100%">
-									<thead>
-										<tr>
-											<th class="text-center" rowspan="2">Sub Output <br>/ Kode</th>
-											<th rowspan="2">Komponen</th>
-											<th class="text-center" rowspan="2">Total Bobot</th>
-											<th class="text-center" colspan="2">Bobot Kinerja</th>
-											<th class="text-center" rowspan="2">Sisa Capaian <br/>Bobot Kinerja <br/>(3 - 5)</th>
-											<th class="text-center" rowspan="2">Keterangan</th>
-										</tr>
-										<tr>
-											<th  class="text-center" >Rencana sd <br/> bulan ini</th>
-											<th  class="text-center" >Realisasi sd <br/> bulan ini </th>
-										</tr>
-									</thead>
-									<tbody>
-										{foreach $list as $val}
-										<tr>
-												<td class="text-center boldGrey">1</td>
-												<td class="text-center boldGrey">2</td>
-												<td class="text-center boldGrey">3</td>
-												<td class="text-center boldGrey">4</td>
-												<td class="text-center boldGrey">5</td>
-												<td class="text-center boldGrey">6</td>
-												<td class="text-center boldGrey">7</td>
-										</tr>
-										<tr>
-												<td  class="text-center">{$val.KDKMPNEN}</td>
-												<td>{$val.nama_komponen}</td>
-												<td class="text-center">
-													<div class="input-group" style="width:100px">
-														<input type="text" name="total" id="total" class="form-control span col-sm-2" value="{number_format($totalbobot,'2',',','.')}"  readonly>
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td class="text-center">
-													<div class="input-group" style="width:100px">
-														<input type="text" name="rencana" id="rencana" class="form-control span col-sm-2" value="{number_format($rencanasdbulan,'2',',','.')}"  readonly>
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td>
-													<div class="input-group" style="width:100px">
-														<input type="text" name="target" id="target" class="form-control span col-sm-2" value="{number_format($data.jml_target,'2',',','.')}"  >
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td>
-													<div class="input-group" style="width:100px">
-														<input type="text" name="sisa" id="sisa" class="form-control span col-sm-2" value="{number_format($sisacapaian,'2',',','.')}"  readonly>
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td><textarea rows="5" class="form-control" name="keterangan" id="keterangan">{$data.keterangan}</textarea></td>
-										</tr>
-										{/foreach}
-									</tbody>
-								</table>
-							</div>
-						</div>-->
+						
 						
 					</div>
 					<div class="panel-footer text-right">
+						<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">
 						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
 					</div>
 				</form>
@@ -293,6 +233,18 @@ $(document).ready(function() {
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
+
+$('#print').on('click', function(){
+	var th = $('#th').val();
+	var kdtriwulan = $('#kdtriwulan').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+
+	window.location.href=basedomain+"monev_trwln/print_triwulan/?thn="+th+"&kdtriwulan="+kdtriwulan+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen;
+});	
+
 
 // MORRIS LINE CHART
 	// =================================================================
@@ -413,7 +365,7 @@ document.getElementById(status_hidden).selected = "true";
 			element: 'demo-morris-line-kinerja',
 			data: day_data_realisasi,
 			xkey: 'elapsed',
-			ykeys: ['value','val'],
+			ykeys: ['val','value'],
 			labels: ['rencana','realisasi'],
 			/*ykeys: ['value'],
 			labels: ['rencana'],*/
@@ -553,7 +505,7 @@ document.getElementById(status_hidden).selected = "true";
 			element: 'demo-morris-line-kinerja',
 			data: day_data_realisasi,
 			xkey: 'elapsed',
-			ykeys: ['value','val'],
+			ykeys: ['val','value'],
 			labels: ['rencana','realisasi'],
 			/*ykeys: ['value'],
 			labels: ['rencana'],*/

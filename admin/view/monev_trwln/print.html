@@ -1,0 +1,130 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3 align="center" style="text-transform: uppercase;">LAPORAN {$dataselected.4} {$info.thn}</h3>
+	</div>
+</div>
+<div>
+	<label class="control-label "><strong>A. Deskripsi</strong></label>
+</div>
+<div>
+	<table cellspacing="0" width="100%">
+		<tr>
+			<td style="width:10px">1.</td>
+			<td style="width:250px">Output/Indikator Kinerja Program </td>
+			<td>: {$info.nama_output|cat:' ('|cat:$info.kd_giat|cat:'.'|cat:$info.kd_output|cat:')'}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">2.</td>
+			<td style="width:250px">Kegiatan/Nama Program</td>
+			<td>: {$info.nama_kegiatan|cat:' ('|cat:$info.kd_giat|cat:')'} </td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">3.</td>
+			<td style="width:250px">Jumlah Anggaran</td>
+			<td>: {number_format($info.pagu_output,"0",",",".")}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">4.</td>
+			<td style="width:250px">Unit Kerja</td>
+			<td>: {$info.unit_eselon}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">5.</td>
+			<td style="width:250px">Realisasi Kinerja</td>
+			<td>: {$realisasi_bobot_fix|cat:'%'}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:10px">6.</td>
+			<td style="width:250px">Realisasi Anggaran</td>
+			<td>: {number_format($realisasi_anggaran_fix,"0",",",".")}</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+</div>
+<br/>
+
+<div>
+	<label class="control-label"><strong>B. Kemajuan Realisasi Pembiayaan</strong></label>
+</div>
+<br/>
+
+<div>
+	<label class="control-label"><strong>C. Grafik Pencapaian Realisasi Kinerja</strong></label>
+</div>
+<br/>
+
+<div>
+	<label class="control-label"><strong>D. Realisasi Kinerja</strong></label>
+</div>
+<dl>
+  <dt><strong><u>Capaian kinerja kegiatan :</u></strong></dt>
+  {foreach $capaian as $dt_capaian}
+	<dd>- {$dt_capaian}</dd>
+  {/foreach}
+<dl>
+  <dt><strong><u>Kendala-kendala yang dihadapi :</u></strong></dt>
+  {foreach $kendala as $dt_kendala}
+	<dd>- {$dt_kendala}</dd>
+  {/foreach}
+</dl>
+<dl>
+  <dt><strong><u>Rencana Tindak lanjut :</u></strong></dt>
+  {foreach $tdklanjut as $dt_tdklnjt}
+	<dd>- {$dt_tdklnjt}</dd>
+  {/foreach}
+</dl>
+<dl>
+  <dt><strong><u>Pihak yang dapat membantu penyelesaian kendala/permasalahan :</u></strong></dt>
+  {foreach $ygmembantu as $dt_ygmembantu}
+	<dd>- {$dt_ygmembantu}</dd>
+  {/foreach}
+</dl>
+<br/>
+<div>
+<table style="text-align: left; border-collapse: collapse; width: 100%; height: 90px; font-size:" border="0" >
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Jakarta, {$tgl_format}</td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">Mengetahui:</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Penanggung Jawab Kegiatan</td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">{$ttd_nama}</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Plh.Kepala {$info.unit_eselon}</td>
+	</tr>
+	<tr>
+	   <td colspan="11" style="height: 100px"></td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">(-----------------------------------)</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">(-----------------------------------)</td>
+	</tr>
+</table>
+</div>	

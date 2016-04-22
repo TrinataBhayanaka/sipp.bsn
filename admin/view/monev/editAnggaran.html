@@ -185,6 +185,17 @@ function isNumber(evt) {
 									</thead>
 									<tbody>
 										<tr>
+											<td class="text-center boldGrey">1</td>
+											<td class="text-center boldGrey">2</td>
+											<td class="text-center boldGrey">3</td>
+											<td class="text-center boldGrey">4</td>
+											<td class="text-center boldGrey">5</td>
+											<td class="text-center boldGrey">6</td>
+											<td class="text-center boldGrey">7</td>
+											<td class="text-center boldGrey">8</td>
+											<td class="text-center boldGrey">9</td>
+										</tr>
+										<tr>
 											<td  class="text-center">{$val.KDKMPNEN}</td>
 											<td>{$val.nama_komponen}</td>
 											<td class="text-right">
@@ -232,6 +243,7 @@ function isNumber(evt) {
 						
 					</div>
 					<div class="panel-footer text-right">
+						<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">
 						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
 					</div>
 				</form>
@@ -252,6 +264,19 @@ $(document).ready(function() {
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }*/
+//print doc rpk
+$('#print').on('click', function(){
+	var th = $('#th').val();
+	var bulan = $('#bulan').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+
+	window.location.href=basedomain+"monev/print_monev_anggaran/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&kd_komponen="+kd_komponen;
+});	
+
+
 var rencana = $('#rencanasdbulan').val();
 var rencana_split = rencana.split(".");
 var panjang = rencana_split.length;
@@ -268,6 +293,7 @@ if(output == 0){
 }
 
 $('#realisasi_blnini').on('keyup', function(){
+	//alert("masuk");
 	var pagu = $('#pagu').val();
 	var pagu_split = pagu.split(".");
 	var fix_pagu = "";
@@ -280,25 +306,25 @@ $('#realisasi_blnini').on('keyup', function(){
 	for (var i=0; i < realisasi_split.length; i++) {
 		fix_realisasi += realisasi_split[i];
 	}
-	
 	var realisasi_sdbulan = $('#realisasi_sdbulan').val();
 	var realisasi_sdbulan_split = realisasi_sdbulan.split(".");
 	var fix_realisasi_sdbulan = "";
 	for (var i=0; i < realisasi_sdbulan_split.length; i++) {
 		fix_realisasi_sdbulan += realisasi_sdbulan_split[i];
 	}
-	
-	if(fix_realisasi_sdbulan != 0 && fix_realisasi_sdbulan != ''){
-		var fix_count =  parseInt(fix_realisasi_sdbulan) - parseInt(fix_realisasi);
-		if(fix_count > fix_pagu){
+	if(parseInt(fix_realisasi_sdbulan) != 0 && parseInt(fix_realisasi_sdbulan) != ''){
+		var fix_count =  parseInt(fix_realisasi_sdbulan) + parseInt(fix_realisasi);
+		//console.log(fix_count);
+		//console.log(fix_pagu);
+		if(parseInt(fix_count) > parseInt(fix_pagu)){
 			alert("realisasi melebihi pagu");
 			$("#submit").attr('disabled','disabled');
 		}else{
 			//alert('masih kurang');
 			$("#submit").removeAttr('disabled');
 		}
-	}else{
-		if(fix_realisasi > fix_pagu){
+	}else{	
+		if(parseInt(fix_realisasi) > parseInt(fix_pagu)){
 			alert("realisasi melebihi pagu");
 			$("#submit").attr('disabled','disabled');
 		}else{
