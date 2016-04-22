@@ -649,12 +649,13 @@ class rpk extends Controller {
 		// pr($info);
 		$bobot = $this->m_penetapanAngaran->getBobotRpk($_GET);
 		$sumBobot = $this->m_penetapanAngaran->sumBobot($_GET);
-
+		
 		$this->view->assign('usertype',$this->admin['type']);
 		$this->view->assign('sumBobot',$sumBobot[0]);
 		$this->view->assign('bobot',$bobot);	
 		$this->view->assign('info',$info);
-		$this->view->assign('list',$list);	
+		$this->view->assign('list',$list);
+		$this->view->assign('pagu',$thp_kegiatan[0]['pagu_kmpnen']);	
 		return $this->loadView('rpk/editRencanaAnggaran');
 
 	}
