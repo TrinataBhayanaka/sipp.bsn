@@ -93,7 +93,7 @@
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
 						<td><a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editvisi" data-id="{$val.id}"></button></a>
-						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=3"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=3&id_parent={$parent_id}"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 						</td>
 					</tr>
 					{/foreach}
