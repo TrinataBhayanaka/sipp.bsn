@@ -89,7 +89,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1){
-			return $this->form(3,'2','841100');
+			return $this->form(3,'2',$_GET['kd']);
 		}else{
 			redirect($basedomain . "es1");
 		}
@@ -100,7 +100,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1 || $Struktur[type]==3){
-			return $this->form(4,'3','842000');
+			return $this->form(4,'3',$_GET['kd']);
 		}else{
 			redirect($basedomain . "es2");
 		}
