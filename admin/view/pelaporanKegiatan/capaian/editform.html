@@ -59,7 +59,7 @@ function isNumber(evt) {
 				{$data_list[0].namakursus}-->
 				<!--Horizontal Form-->
 				<!--===================================================-->
-				<form class="form-horizontal" id="fdata" method="POST" action="{$basedomain}pelaporanKegiatan/updateForm" enctype="multipart/form-data">
+				<form class="form-horizontal" id="fdata" method="POST" action="{$basedomain}pelaporanKegiatan/updateForm/?kd={$kd}" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="{$data.id}"/>
 				<input type="hidden" name="categoryType" id="type" class="form-control" value="{$data.categoryType}">
 					<div class="panel-body">

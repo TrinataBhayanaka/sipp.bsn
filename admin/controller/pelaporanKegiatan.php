@@ -111,7 +111,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1){
-			return $this->editForm(1,$_GET['id']);
+			return $this->editForm(1,$_GET['id'],'840000');
 		}else{
 			redirect($basedomain . "bsn");
 		}
@@ -122,7 +122,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1){
-			return $this->editForm(3,$_GET['id']);
+			return $this->editForm(3,$_GET['id'],$_GET['kd']);
 		}else{
 			redirect($basedomain . "es1");
 		}
@@ -133,7 +133,7 @@ class pelaporanKegiatan extends Controller {
 		$Struktur=$this->model->getStruktur($this->admin[kode]);
 
 		if($Struktur[type]==1 || $Struktur[type]==3){
-			return $this->editForm(4,$_GET['id']);
+			return $this->editForm(4,$_GET['id'],$_GET['kd']);
 		}else{
 			redirect($basedomain . "es2");
 		}
@@ -159,9 +159,9 @@ class pelaporanKegiatan extends Controller {
 			if($_POST['categoryType']==1){
 				$url="bsn";
 			}elseif($_POST['categoryType']==2){
-				$url="eselon1";
+				$url="eselon1/?kd=".$_GET['kd'];
 			}elseif($_POST['categoryType']==3){
-				$url="eselon2";
+				$url="eselon2/?kd=".$_GET['kd'];
 			}
 		// //pr($_POST);
 			$save = $this->contentHelper->saveData($_POST,"_capaian");
@@ -560,6 +560,7 @@ function delete()
 			$this->view->assign('dataSasaran',$dataSasaran);
 			$this->view->assign('type',$type);
 			$this->view->assign('parent',$_GET['parent']);
+			$this->view->assign('kd',$kd);
 
 			// //pr($dataSasaran);exit;
 			return $this->loadView('pelaporanKegiatan/capaian/form');
@@ -568,12 +569,12 @@ function delete()
 		}
 	}
 
-	function editForm($id,$get){
+	function editForm($id,$get,$kd=false){
 		global $basedomain;
 
-		$dataSasaran = $this->modelMptn->selectSS($id);
 		$data = $this->model->getcapaianID($get);
-		// //pr($dataSasaran);
+		$dataSasaran = $this->modelMptn->selectSS($id,$kd);
+		// pr($dataSasaran);
 			$twn1=(array)json_decode($data['twn1']);
 			$twn2=(array)json_decode($data['twn2']);
 			$twn3=(array)json_decode($data['twn3']);
@@ -610,8 +611,10 @@ function delete()
 		$dataIndikator = $this->model->getAllpk($data['sasaran']);
 		// //pr($dataIndikator);
 		$this->view->assign('dataSasaran',$dataSasaran);
+		// pr($dataSasaran);
 		$this->view->assign('dataIndikator',$dataIndikator);
 		$this->view->assign('data',$data);
+		$this->view->assign('kd',$kd);
 
 		// //pr($dataSasaran);exit;
 		return $this->loadView('pelaporanKegiatan/capaian/editform');
