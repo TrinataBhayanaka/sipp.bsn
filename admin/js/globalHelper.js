@@ -41,15 +41,15 @@ function redirect(url)
   window.location.href=url;
 }
 
-function inputvisimisi(req, iddata, button)
+function inputvisimisi(req, iddata, button, menu=1)
 {
   var id = $('.eselonid').val();
   
   if (iddata){
-    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id+"&id="+iddata+"&button="+button);
+    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id+"&id="+iddata+"&button="+button+"&menu="+menu);
 
   }else{
-    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id+"&button="+button);
+    redirect(basedomain+"renstra/editEselon/?req=" + req + "&parent_id="+id+"&button="+button+"&menu="+menu);
   }
   
 }

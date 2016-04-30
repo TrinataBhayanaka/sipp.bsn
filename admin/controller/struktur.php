@@ -61,7 +61,7 @@ class struktur extends Controller {
 		$data['category'] = 1;
 		
 		$getTugas = $this->contentHelper->getContent($data);
-		
+		// pr($getTugas);
 		if ($getTugas){
 			foreach ($getTugas as $key => $value) {
 				$a['id'] = $value['title'];
@@ -227,9 +227,27 @@ class struktur extends Controller {
 		$id = _g('id');
 		$req = _g('req');
 		
-		$dataStruktur['type'] = 2;
-		$getStrukturOrg = $this->contentHelper->getStruktur($dataStruktur);
+		$tupoksiData['type'] = 2;
+		$tupoksiData['category'] = 1;
+		$getTugas = $this->contentHelper->getContent($tupoksiData);
+		$tupoksiExist = [];
+		if ($getTugas){
+			foreach ($getTugas as $key => $value) {
+				$tupoksiExist[] = $value['title'];
+			}
+		}
 
+		$dataStruktur['type'] = 2;
+		$getStrukturOrgData = $this->contentHelper->getStruktur($dataStruktur);
+
+		if (count($tupoksiExist > 0)){
+			foreach ($getStrukturOrgData as $key => $value) {
+				if (!in_array($value['id'], $tupoksiExist)) $getStrukturOrg[] = $value;
+			}
+		}else{
+			$getStrukturOrg = $getStrukturOrgData;
+		}
+		
 		if ($id){
 			$data['id'] = $id;
 			$getStruktur = $this->contentHelper->getContent($data);

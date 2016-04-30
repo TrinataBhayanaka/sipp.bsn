@@ -70,6 +70,34 @@ class renstra extends Controller {
 		
 	}
 
+	public function visi_eselon2()
+	{
+		global $basedomain;
+		$parent_id = _g('parent_id');
+
+		$dataStruktur['type'] = 3;
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+		// pr($getStruktur);
+		if (!$parent_id){
+			redirect($basedomain."renstra/visi_eselon2/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+
+		$getVisiBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
+		$getMisiBsn = $this->contentHelper->getVisi(false, 7, 2, $parent_id);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, 7, 3, $parent_id);
+		
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('visi', $getVisiBsn);
+		$this->view->assign('misi', $getMisiBsn);
+		$this->view->assign('tujuan', $getTujuanBsn);
+
+		$this->view->assign('struktur', $getStruktur);
+
+		return $this->loadView('renstra/visi/eselon2');
+		
+	}
+
 	public function sasaran()
 	{
 		global $basedomain;
@@ -226,7 +254,7 @@ class renstra extends Controller {
 		$this->view->assign('parent_id', $parent_id);
 		$this->view->assign('sasaran', $getSasaran);
 
-
+		// pr($getSasaran);
 		return $this->loadView('renstra/matrik/program');
 	}
 
@@ -373,9 +401,10 @@ class renstra extends Controller {
 			exit;
 		}
 		$this->view->assign('bsnid', $bsnid);
-		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1);
-		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3);
+		$getVisiBsn = $this->contentHelper->getVisi(false, $type, 1, $parent_id);
+		// pr($getVisiBsn);
+		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2, $parent_id);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3, $parent_id);
 		
 		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
 		
@@ -511,7 +540,10 @@ class renstra extends Controller {
 		
 		$id = _g('id');
 		$req = _g('req');
-		
+		$menu = _g('menu');
+
+		if ($menu == 1) $type = 6;
+		else $type = 7;
 		
 		$dataStruktur['table'] = 'bsn_struktur';
 		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
@@ -523,7 +555,7 @@ class renstra extends Controller {
 		if ($req==1){
 
 			if ($id){
-				$getVisiBsn = $this->contentHelper->getVisi($id, 6, 1);
+				$getVisiBsn = $this->contentHelper->getVisi($id, $type, 1);
 				$this->view->assign('text1value', $getStruktur[0]['kode']);
 				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
 				$this->view->assign('text3value', $getVisiBsn[0]['desc']);
@@ -540,14 +572,14 @@ class renstra extends Controller {
 			$this->view->assign('text2', "Eselon I");
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
-			$this->view->assign('type', 6);
+			$this->view->assign('type', $type);
 			$this->view->assign('category', 1);
 		}
 
 		if ($req==2){
 
 			if ($id){
-				$getVisiBsn = $this->contentHelper->getVisi($id, 6, 2);
+				$getVisiBsn = $this->contentHelper->getVisi($id, $type, 2);
 				$this->view->assign('text1value', $getStruktur[0]['kode']);
 				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
 				$this->view->assign('text3value', $getVisiBsn[0]['desc']);
@@ -564,14 +596,14 @@ class renstra extends Controller {
 			$this->view->assign('text2', "Eselon I");
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
-			$this->view->assign('type', 6);
+			$this->view->assign('type', $type);
 			$this->view->assign('category', 2);
 		}
 
 		if ($req==3){
 
 			if ($id){
-				$getVisiBsn = $this->contentHelper->getVisi($id, 6, 3);
+				$getVisiBsn = $this->contentHelper->getVisi($id, $type, 3);
 				$this->view->assign('text1value', $getStruktur[0]['kode']);
 				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
 				$this->view->assign('text3value', $getVisiBsn[0]['desc']);
@@ -588,7 +620,7 @@ class renstra extends Controller {
 			$this->view->assign('text2', "Eselon I");
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
-			$this->view->assign('type', 6);
+			$this->view->assign('type', $type);
 			$this->view->assign('category', 3);
 		}
 
@@ -600,9 +632,12 @@ class renstra extends Controller {
 
 
 			$save = $this->contentHelper->saveData($_POST);
-			if ($save) redirect($basedomain . 'renstra/visi_eselon/?parent_id='. $_POST['parent_id']);
+			if ($_POST['menu']==1) $function = "visi_eselon";
+			else $function = "visi_eselon2";
+			if ($save) redirect($basedomain . "renstra/{$function}/?parent_id=". $_POST['parent_id']);
 		}
 
+		$this->view->assign('menu', _g('menu'));
 		$this->view->assign('button', ucfirst(_g('button') ? _g('button') : 'Visi'));
 		return $this->loadView('renstra/visi/input-eselon');
 	}
@@ -767,11 +802,18 @@ class renstra extends Controller {
 				$start++;
 			}
 		}
-		// pr($arrayTahun);
+		
 		$dataStruktur['id'] = _g('parent_id');
 		$getSasaran = $this->contentHelper->getVisi($child_id, 9, 1, $dataStruktur['id']);
-		
 		$this->view->assign('submit', "submit");
+		
+		$dataOutcome = $this->contentHelper->getVisi(false, 9, 2, $dataStruktur['id']);
+		$outcomeExist = [];
+		if ($dataOutcome){
+			foreach ($dataOutcome as $key => $value) {
+				$outcomeExist[] = $value['tags'];
+			}
+		}
 		
 		if ($req == 1){
 			// input prograM
@@ -815,7 +857,16 @@ class renstra extends Controller {
 				$brief = "";
 				$desc = "";
 			}
-			$getStruktur = $this->contentHelper->getStruktur();
+
+			$getStrukturData = $this->contentHelper->getStruktur();
+
+			if (count($outcomeExist > 0)){
+				foreach ($getStrukturData as $key => $value) {
+					if (!in_array($value['id'], $outcomeExist)) $getStruktur[] = $value;
+				}
+			}else{
+				$getStruktur = $getStrukturData;
+			}
 			
 			// pr($getOutcome);
 
@@ -902,6 +953,7 @@ class renstra extends Controller {
 			$save = $this->contentHelper->saveData($_POST);
 			if ($save) redirect($basedomain . 'renstra/program');
 		}
+
 
 		return $this->loadView('renstra/matrik/input-program');
 		
@@ -1205,10 +1257,15 @@ class renstra extends Controller {
 
 		$id = _g('id');
 		$req = _g('req');
+		$id_parent = _g('id_parent');
+		$menu = _g('menu');
 
 		if ($req == 1) $link = 'renstra/visi_bsn';
-		if ($req == 2) $link = 'renstra/visi_eselon';
-		if ($req == 3) $link = 'renstra/sasaran';
+		if ($req == 2){
+			if ($menu == 1)$link = 'renstra/visi_eselon/?parent_id='.$id_parent;
+			else $link = 'renstra/visi_eselon2/?parent_id='.$id_parent;
+		} 
+		if ($req == 3) $link = 'renstra/sasaran/?parent_id='.$id_parent;
 		if ($req == 4) $link = 'renstra/kinerja';
 		if ($req == 5) $link = 'renstra/program';
 		if ($req == 6) $link = 'renstra/kegiatan';

@@ -79,13 +79,14 @@ class contentHelper extends Database {
 
 	/* renstra */
 	
-	function getVisi($id=false, $type=5, $cat=0, $parent=0, $debug=false)
+	function getVisi($id=false, $type=5, $cat=0, $parent=0, $other=false, $debug=false)
 	{
 		$filter = "";
 		if ($id) $filter .= " AND id = {$id}";
 		if ($type) $filter .= " AND type = {$type}";
 		if ($cat) $filter .= " AND category = {$cat}";
 		if ($parent) $filter .= " AND parent_id = {$parent}";
+		if ($other) $filter .= " AND {$parent}";
 
 		$sql = array(
                 'table'=>"{$this->prefix}_news_content",
