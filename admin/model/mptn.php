@@ -90,6 +90,14 @@ class mptn extends Database {
 
 		return $res;
 	}
+
+	function getIK($type=5, $cat=0, $parent=0, $tahun=false)
+	{
+		$query = "SELECT * FROM bsn_news_content WHERE type = {$type} AND category = {$cat} AND parent_id = {$parent} AND year = {$tahun}";
+		$data = $this->fetch($query,1);
+
+		return $data;
+	}
 	
 }
 ?>
