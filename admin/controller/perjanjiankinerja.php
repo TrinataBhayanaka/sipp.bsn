@@ -21,6 +21,7 @@ class perjanjiankinerja extends Controller {
 	{
 		
 		$this->model = $this->loadModel('mptn');
+		$this->contentHelper = $this->loadModel('contentHelper');
 	}
 	
 	public function bsn(){
@@ -51,8 +52,16 @@ class perjanjiankinerja extends Controller {
 	public function ins_pk()
 	{
 		global $basedomain;
-
-		$this->model->insert_pk($_POST);
+		
+		foreach ($_POST['indikator'] as $val) {
+			$data['th'] = $_POST['th'];
+			$data['no_sasaran'] = $_POST['no_sasaran'];
+			$data['kdunitkerja'] = $_POST['kdunitkerja'];
+			$data['no_pk'] = $val['0'];
+			$data['nm_pk'] = $val['1'];
+			$data['target'] = $val['2'];
+			$this->model->insert_pk($data);
+		}
 
 		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/bsn'</script>";
 		exit;
@@ -194,6 +203,16 @@ class perjanjiankinerja extends Controller {
 		$this->view->assign('struktur',$struktur);
 
 		return $this->loadView('pk/eselon2');
+	}
+
+	function ajaxIndikator()
+	{
+		$ss = $_POST['ss'];
+		$th = $_POST['th'];
+		$ik = $this->model->getIK(8, 1, $ss, $th);
+
+		echo json_encode($ik);
+		exit;
 	}
 	
 }

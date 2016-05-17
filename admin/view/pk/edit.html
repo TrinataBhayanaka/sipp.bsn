@@ -40,7 +40,7 @@
 								<select class="selectpicker" name="no_sasaran" title="-- Pilih Sasaran Strategis --">
 									<option data-hidden="true"></option>
 									{foreach $ss as $val}
-										<option value="{$val.id}" {if $val.id eq $data.no_sasaran}selected{/if}>{$val.desc}</option>
+										<option value="{$val.id}" {if $val.id eq $data.no_sasaran}selected{else}disabled{/if}>{$val.desc}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -48,13 +48,13 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-text-input">No. Urut Indikator</label>
 							<div class="col-md-2">
-								<input type="text" name="no_pk" class="form-control" value="{$data.no_pk}">
+								<input type="text" name="no_pk" class="form-control" value="{$data.no_pk}" readonly>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-textarea-input">Indikator Kinerja</label>
 							<div class="col-md-9">
-								<textarea id="demo-textarea-input" name="nm_pk" rows="9" class="form-control">{$data.nm_pk}</textarea>
+								<textarea id="demo-textarea-input" name="nm_pk" rows="9" class="form-control" readonly>{$data.nm_pk}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
