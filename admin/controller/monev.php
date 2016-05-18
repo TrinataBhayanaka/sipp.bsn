@@ -178,6 +178,7 @@ class monev extends Controller {
 		return $this->loadView('monev/list');
 
 	}
+	
 	public function editBobot(){
 		global $basedomain;
 		$thn = $_GET['thn'];
@@ -1630,7 +1631,7 @@ class monev extends Controller {
 	
 	public function post(){
 		// pr($_POST);
-		
+		// exit;
 		$th = $_POST['th'];
 		$bulan = $_POST['bulan'];
 		$kdunitkerja = $_POST['kdunitkerja'];
@@ -1943,6 +1944,475 @@ class monev extends Controller {
 		exit;
 		
 	}
+
+	//revisi
+	public function monev_bulan(){
+		global $basedomain;
+		//=============================== 
+		/*if($this->admin['type'] == 1){
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		}else{
+			$str = rtrim($this->admin['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$param_list = '1';
+				$kd_unit_list = $str;
+			}elseif($length == 4){
+				$param_list = '2';
+				$kd_unit_list = $this->admin['kode'];
+			}
+			$list_dropdown = $this->m_penetapanAngaran->list_dropdown_cstmn($param_list,$kd_unit_list);
+		}*/
+		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
+		//===============================
+		$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+		$thn_temp = $thn_aktif['kode'];
+		$thn_renstra =$thn_aktif['data'];
+		
+		if($_POST['unit'] !=''){
+			// pr($_POST['unit']);
+			// echo "masukk";
+			// exit;
+			$kd_unit = $_POST['unit'];
+			if($this->admin['type'] == 1){
+				$akses = '1';
+			}elseif($this->admin['kode'] == $kd_unit){
+				$akses = '1';
+			}else{
+				$akses = '0';
+			}
+			$param['kd_unit'] = $kd_unit;
+			$param['thn_temp'] = $thn_temp;
+			
+			
+			/*if($thn_temp >= 2015 and $thn_temp<=2019){
+				$thn_renstra ='2015-2019'; 
+			}elseif($thn_temp >= 2020 and $thn_temp<=2024){
+				$thn_renstra ='2020-2024'; 
+			}elseif($thn_temp >= 2025 and $thn_temp<=2029){
+				$thn_renstra ='2025-2029'; 
+			}elseif($thn_temp >= 2030 and $thn_temp<=2034){
+				$thn_renstra ='2030-2034'; 
+			}*/
+			
+			
+			// pr($thn_renstra);
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			foreach($kd_kegiatan as $key=>$val){
+				$list[] = $val;
+				$pagu_giat = $this->m_penetapanAngaran->pagu_giat($thn_temp,$val['kdgiat']);
+				$list[$key]['pagu_giat'] = $pagu_giat['pagu_giat'];
+				
+				//output
+				$output = $this->m_penetapanAngaran->output($thn_temp,$val['kdgiat']);
+				$list_out = array();
+				foreach($output as $k=>$out){
+					$list[$key]['output'][$k] = $out;
+					$nama_output = $this->m_penetapanAngaran->nama_output($val['kdgiat'],$out['KDOUTPUT']);
+					$list[$key]['output'][$k]['nama_output'] = $nama_output['NMOUTPUT'];
+					
+					//$thp kegiatan
+					/*$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan($thn_temp,$val['kdgiat'],$out['KDOUTPUT']);
+					foreach ($thp_kegiatan as $kav=>$values){
+						$list[$key]['output'][$k]['tahapan'][] = $values; 
+						$komponen = $this->m_penetapanAngaran->komponen($thn_temp,$val['kdgiat'],$out['KDOUTPUT'],$values['KDKMPNEN'],$values['KDSOUTPUT']);
+						$list[$key]['output'][$k]['tahapan'][$kav]['nama_komponen'] = $komponen['URKMPNEN']; 
+					}*/
+				}
+				
+			}
+		}else{
+			//default Biro perencanaan, keuangan dan tata usaha
+			//===============================		
+			/*if($this->admin['type'] == 1){
+				$kode = '841100';
+			}else{
+				$str = rtrim($this->admin['kode'], '0');
+				$length = strlen($str);
+				if($length == 3){
+					$param_list = $str;
+					$select_unit = $this->m_penetapanAngaran->list_unit($param_list);
+					// pr($select_unit);
+					$kode = $select_unit['kdunit']; 
+				}elseif($length == 4){
+					$kode = $this->admin['kode'];
+				}
+			}*/
+			//===============================
+			$kd_unit = '841100';
+			if($this->admin['type'] == 1){
+				$akses = '1';
+			}elseif($this->admin['kode'] == $kd_unit){
+				$akses = '1';
+			}else{
+				$akses = '0';
+			}
+			$param['kd_unit'] = $kd_unit;
+			$param['thn_temp'] = $thn_temp;
+			$thn_renstra =$thn_aktif['data'];
+			/*if($thn_temp >= 2015 and $thn_temp<=2019){
+				$thn_renstra ='2015-2019'; 
+			}elseif($thn_temp >= 2020 and $thn_temp<=2024){
+				$thn_renstra ='2020-2024'; 
+			}elseif($thn_temp >= 2025 and $thn_temp<=2029){
+				$thn_renstra ='2025-2029'; 
+			}elseif($thn_temp >= 2030 and $thn_temp<=2034){
+				$thn_renstra ='2030-2034'; 
+			}*/
+			
+			
+			$kd_kegiatan = $this->m_penetapanAngaran->kd_kegiatan($thn_renstra,$kd_unit);
+			foreach($kd_kegiatan as $key=>$val){
+				$list[] = $val;
+				$pagu_giat = $this->m_penetapanAngaran->pagu_giat($thn_temp,$val['kdgiat']);
+				// pr($pagu_giat);
+				$list[$key]['pagu_giat'] = $pagu_giat['pagu_giat'];
+				
+				//output
+				$output = $this->m_penetapanAngaran->output($thn_temp,$val['kdgiat']);
+				// pr($output);
+				$list_out = array();
+				foreach($output as $k=>$out){
+					$list[$key]['output'][$k] = $out;
+					$nama_output = $this->m_penetapanAngaran->nama_output($val['kdgiat'],$out['KDOUTPUT']);
+					$list[$key]['output'][$k]['nama_output'] = $nama_output['NMOUTPUT'];
+				
+					//$thp kegiatan
+					/*$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan($thn_temp,$val['kdgiat'],$out['KDOUTPUT']);
+					foreach ($thp_kegiatan as $kav=>$values){
+						$list[$key]['output'][$k]['tahapan'][] = $values; 
+						$komponen = $this->m_penetapanAngaran->komponen($thn_temp,$val['kdgiat'],$out['KDOUTPUT'],$values['KDKMPNEN'],$values['KDSOUTPUT']);
+						$list[$key]['output'][$k]['tahapan'][$kav]['nama_komponen'] = $komponen['URKMPNEN']; 
+					}*/
+				}	
+			}
+		}
+		// pr($list);
+		// exit;
+		$this->view->assign('kd_unit',$kd_unit);
+		$this->view->assign('list_dropdown',$list_dropdown);
+		$this->view->assign('data',$list);
+		$this->view->assign('param',$param);
+		$this->view->assign('akses',$akses);
+		// pr($list);
+		//default kode
+		
+		return $this->loadView('monev/listmonev');
+
+	}
+	
+	public function editBobot_bulan(){
+		global $basedomain;
+		$thn = $_GET['thn'];
+		$kd_unit = $_GET['kd_unit'];
+		$kd_giat = $_GET['kd_giat'];
+		$kd_output = $_GET['kd_output'];
+		// $kd_komponen = $_GET['kd_komponen'];
+		
+		//Deskripsi Kegiatan
+		//nama output
+		$nama_output = $this->m_penetapanAngaran->nama_output($kd_giat,$kd_output);
+		$pagu_output = $this->m_penetapanAngaran->output_cndtn($thn,$kd_giat,$kd_output);
+		//nama kegiatan
+		$nama_kegiatan = $this->m_penetapanAngaran->nama_kegiatan($kd_giat);
+		//unit eselon 
+		$unit_eselon = $this->m_penetapanAngaran->nama_unit($kd_unit);
+		
+		$info['nama_output'] = $nama_output['NMOUTPUT'];
+		$info['pagu_output'] = $pagu_output['pagu_output'];
+		$info['nama_kegiatan'] = $nama_kegiatan['nmgiat'];
+		$info['unit_eselon'] = $unit_eselon['nmunit'];
+		$info['thn'] = $thn;
+		$info['kd_unit'] = $kd_unit;
+		$info['kd_giat'] = $kd_giat;
+		$info['kd_output'] = $kd_output;
+		// $info['kd_komponen'] = $kd_komponen;
+		
+		$dinamic_bl = $_GET['bln'];
+		if($dinamic_bl){
+			$bl = $dinamic_bl;
+		}else{
+			$bl = date('m');
+		}
+		
+		$ex = explode ('0',$bl);
+		if($ex[0] == ''){
+			$arrBln = $ex[1] - 1; 
+		}else{
+			if($bl == 10){
+				$arrBln = $bl - 1;
+			}else{
+				$arrBln = $ex[0] - 1;
+			}
+		}
+		
+		$monthArray = array("01"=>"Januari", "02"=>"Februari", "03"=>"Maret","04"=>"April","05"=>"Mei","06"=>"Juni",
+							"07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November","12"=>"Desember");
+		foreach ($monthArray as $key=> $valbln){
+			if ($bl == $key){
+				$ket[]= $valbln;
+			}else{
+				$ket[]= '';
+			}	
+		}
+			
+		$ketBulan = $ket[$arrBln]; 
+		
+		// pr($tgl);
+		switch ($bl){
+			case 01:$param = 1;break;
+			case 02:$param = 2;break;
+			case 03:$param = 3;break;
+			case 04:$param = 4;break;
+			case 05:$param = 5;break;
+			case 06:$param = 6;break;
+			case 07:$param = 7;break;
+			case 08:$param = 8;break;
+			case 09:$param = 9;break;
+			case 10:$param = 10;break;
+			case 11:$param = 11;break;
+			case 12:$param = 12;break;
+		}
+		
+		//$thp kegiatan
+			$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan($thn,$kd_giat,$kd_output);
+			// pr($thp_kegiatan);
+			// exit;
+			foreach ($thp_kegiatan as $key=>$val){
+				$list[] = $val;
+				$komponen = $this->m_penetapanAngaran->komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$val['KDSOUTPUT']);
+				// pr($komponen);
+				$list[$key]['nama_komponen'] = $komponen['URKMPNEN'];
+				$totbobot = $this->m_penetapanAngaran->bobot_komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN']);
+				$list[$key]['totalbobot'] = $totbobot['bobot'];
+				
+				//rencana sd bulan
+				$rencana_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$param,1);
+				$list[$key]['rencana_sd_bulan'] = $rencana_sd_bulan['total'];
+				//realisasi sd bulan
+				$realisasi_sd_bulan = $this->m_penetapanAngaran->monev_ren_sd_bulan($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$param,2);
+				$list[$key]['realisasi_sd_bulan'] = $realisasi_sd_bulan['total'];
+			}
+		
+		// pr($list);
+		//add	
+		
+		// pr($rencana_sd_bulan);
+		//cek id
+		$count = $this->m_penetapanAngaran->ceck_id($thn,$kd_giat,$kd_output,$kd_komponen,1);
+		/*if($count['hit'] == 1){
+			// echo "masukk";
+			$get_data = $this->m_penetapanAngaran->get_data_monev_bln($count['id'],$param);
+			
+			switch ($bl){
+				case 01:
+					$data['kendala'] = $get_data ['kendala'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu'];
+				break;
+				case 02:
+					$data['kendala'] = $get_data ['kendala_2'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_2'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_2'];
+				break;
+				case 03:
+					$data['kendala'] = $get_data ['kendala_3'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_3'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_3'];
+				break;
+				case 04:
+					$data['kendala'] = $get_data ['kendala_4'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_4'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_4'];
+				break;
+				case 05:
+					$data['kendala'] = $get_data ['kendala_5'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_5'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_5'];
+				break;
+				case 06:
+					$data['kendala'] = $get_data ['kendala_6'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_6'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_6'];
+				break;
+				case 07:
+					$data['kendala'] = $get_data ['kendala_7'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_7'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_7'];
+				break;
+				case 08:
+					$data['kendala'] = $get_data ['kendala_8'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_8'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_8'];
+				break;
+				case 09:
+					$data['kendala'] = $get_data ['kendala_9'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_9'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_9'];
+				break;
+				case 10:
+					$data['kendala'] = $get_data ['kendala_10'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_10'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_10'];
+				break;
+				case 11:
+					$data['kendala'] = $get_data ['kendala_11'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_11'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_11'];
+				break;
+				case 12:
+					$data['kendala'] = $get_data ['kendala_12'];
+					$data['tindaklanjut'] = $get_data['tindaklanjut_12'] ;
+					$data['ygmembantu'] = $get_data['ygmembantu_12'];
+				break;
+			}
+			
+			$data['jml_target'] = $get_data['jumlah'] ;
+			$data['keterangan'] = $get_data['keterangan'] ;
+			
+		}else{
+			switch ($bl){
+				case 01:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 02:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 03:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 04:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 05:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 06:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 07:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 08:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 09:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 10:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 11:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+				case 12:
+					$data['kendala'] = '';
+					$data['tindaklanjut'] = '';
+					$data['ygmembantu'] = '';
+				break;
+			}
+			
+			$data['keterangan'] = '';
+			$data['jml_target'] = '0';
+			
+			
+		}*/
+		
+		$this->view->assign('bulan',$monthArray);
+		$this->view->assign('keybln',$bl);
+		$this->view->assign('ketBulan',$ketBulan);
+		
+		// pr($info);
+		// pr($rinc);
+		// pr($list);
+		// exit;
+		// pr($data);
+		
+		$this->view->assign('usertype',$this->admin['type']);
+		$sisacapaian = $totalbobot['bobot'] - $realisasi_sd_bulan['total']; 
+		$this->view->assign('sisacapaian',$sisacapaian);
+		$this->view->assign('info',$info);
+		$this->view->assign('rinc',$rinc);
+		$this->view->assign('list',$list);
+		$this->view->assign('data',$data);
+		
+		$var_total = 'total';  
+		$this->view->assign('total',$var_total);
+		
+		$var_target = 'target';  
+		$this->view->assign('target',$var_target);
+		
+		$var_targetsd = 'tagetsd';  
+		$this->view->assign('tagetsd',$var_targetsd);
+		
+		return $this->loadView('monev/editBobotmonev');
+	}
+		
+	public function post_monev(){
+		pr($_POST);
+		//echo "field".$_POST['data'][0]['name'];
+		//$unserialize = unserialize($_POST['data']);
+		//pr($unserialize);
+		exit;
+		$th = $_POST['th'];
+		$bulan = $_POST['bulan'];
+		$kdunitkerja = $_POST['kdunitkerja'];
+		$kd_giat = $_POST['kdgiat'];
+		$kd_output = $_POST['kdoutput'];
+		$kd_komponen = $_POST['kd_komponen'];
+		
+		$kendala = $_POST['kendala'];
+		$tindaklanjut = $_POST['tindaklanjut'];
+		$ygmembantu = $_POST['ygmembantu'];
+		$keterangan = $_POST['keterangan'];
+		
+		//str_replace($bad_symbols, ".",$_POST['target_1']);
+		// $target = $_POST['target'];
+		
+		$bad_symbols = array(",", ".");
+		$target = str_replace($bad_symbols, ".",$_POST['target']);
+		// exit;
+		// pr($data);
+		$count = $this->m_penetapanAngaran->ceck_id($th,$kd_giat,$kd_output,$kd_komponen,1);
+		// pr($count);
+		if($count['hit'] == 1){
+			// echo "masuk";
+			// exit;
+			$id = $count['id'];
+			$update = $this->m_penetapanAngaran->update_monev($th,$bulan,$kendala,$tindaklanjut,$ygmembantu,$target,$keterangan,$id);
+		}else{
+			
+			$insert = $this->m_penetapanAngaran->insert_monev($th,$bulan,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen,
+															$kendala,$tindaklanjut,$ygmembantu,$target,$keterangan);
+		}
+		
+		exit;
+		// return $this->loadView('monev/editTahapan');
+
+	}	
+		
 }
 
 ?>
