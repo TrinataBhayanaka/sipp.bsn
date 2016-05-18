@@ -126,6 +126,40 @@ class perjanjiankinerja extends Controller {
 
 		
 		$this->view->assign('data',$data);
+		$this->view->assign('tipe',$es);
+		$this->view->assign('struktur',$struktur);
+
+		return $this->loadView('pk/eselon1');
+	}
+
+	public function pk_eselon2()
+	{
+		$es = $_GET['tp'];
+		$struktur = $this->model->getStruktur($es);
+		if($es == '2')$labelEs="I";else $labelEs="II";
+		$this->view->assign('labelEs',$labelEs);
+		$this->view->assign('es',$es);
+
+		if(!$_POST) {
+			$idpk = $struktur[0]['kode'];
+			$parent = $struktur[0]['id'];
+			$this->view->assign('label',$struktur[0]['nama_satker']);
+			$this->view->assign('id',$struktur[0]['id']);
+			$this->view->assign('idpk',$idpk);
+		} else {
+			$exp = explode("_", $_POST['struktur']);
+			$idpk = $exp[2];
+			$parent = $exp[0];
+			$this->view->assign('label',$exp[1]);
+			$this->view->assign('id',$exp[0]);
+			$this->view->assign('idpk',$idpk);
+		}
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
+
+		
+		$this->view->assign('data',$data);
+		$this->view->assign('tipe',$es);
 		$this->view->assign('struktur',$struktur);
 
 		return $this->loadView('pk/eselon1');
@@ -136,6 +170,7 @@ class perjanjiankinerja extends Controller {
 		$ss = $this->getSS($_GET['id']);
 		$thn = $this->model->getTahun();
 		$this->view->assign('thn',$thn['kode']);
+		$this->view->assign('tp',$_GET['tp']);
 		$this->view->assign('ss',$ss);
 		$this->view->assign('idpk',$_GET['kd']);
 
@@ -145,10 +180,20 @@ class perjanjiankinerja extends Controller {
 	public function ins_pk_eselon()
 	{
 		global $basedomain;
-		
-		$this->model->insert_pk($_POST);
 
-		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
+		$tipe = $_POST['tipe'];
+
+		foreach ($_POST['indikator'] as $val) {
+			$data['th'] = $_POST['th'];
+			$data['no_sasaran'] = $_POST['no_sasaran'];
+			$data['kdunitkerja'] = $_POST['kdunitkerja'];
+			$data['no_pk'] = $val['0'];
+			$data['nm_pk'] = $val['1'];
+			$data['target'] = $val['2'];
+			$this->model->insert_pk($data);
+		}
+		
+		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp={$tipe}'</script>";
 		exit;
 	}
 
@@ -213,6 +258,11 @@ class perjanjiankinerja extends Controller {
 
 		echo json_encode($ik);
 		exit;
+	}
+
+	function tesChart()
+	{
+		return $this->loadView('pk/charts');
 	}
 	
 }
