@@ -45,6 +45,15 @@ class mptn extends Database {
 		return false;
 	}
 
+	function getpkSS($kd,$fkd,$id=false,$thn)
+	{
+		$sql = "SELECT * FROM th_pk WHERE no_sasaran = '{$id}'";
+		$res = $this->fetch($sql,1);
+
+		if ($res) return $res;
+		return false;
+	}
+
 	function insert_pk($data)
 	{
 		$sql = $this->insert($data,'th_pk');
@@ -60,9 +69,11 @@ class mptn extends Database {
 		return true;
 	}
 
-	function delete_pk($id)
+	function delete_pk($id=false,$thn,$idpk=false)
 	{
-		$sql = "DELETE FROM th_pk WHERE id = '{$id}'";
+		if($id) $cndid = "AND no_sasaran = '{$id}'"; else $cndid = "";
+		if($idpk) $cndidpk = "AND id = '{$idpk}'"; else $cndidpk = "";
+		$sql = "DELETE FROM th_pk WHERE th = '{$thn['kode']}' {$cndid} {$cndidpk}";
 		$res = $this->query($sql);
 
 		return true;

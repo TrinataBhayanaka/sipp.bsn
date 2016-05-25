@@ -27,8 +27,21 @@ class perjanjiankinerja extends Controller {
 	public function bsn(){
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk('840000',1,false,$thn['kode']);
-	
-		$this->view->assign('data',$data);
+		foreach ($data as $key => $value) {
+			$perspektif[] = $value['perspektif'];
+		}
+		$fix_per = array_unique($perspektif);
+		
+		foreach ($fix_per as $key => $val) {
+			foreach ($data as $value) {
+				if($val == $value['perspektif']){
+					$data_fix[$val][] = $value;
+				}
+			}
+		}
+		
+		// db($data_fix);
+		$this->view->assign('data',$data_fix);
 
 		return $this->loadView('pk/bsn');
 
@@ -57,9 +70,11 @@ class perjanjiankinerja extends Controller {
 			$data['th'] = $_POST['th'];
 			$data['no_sasaran'] = $_POST['no_sasaran'];
 			$data['kdunitkerja'] = $_POST['kdunitkerja'];
+			$data['perspektif'] = $_POST['perspektif'];
 			$data['no_pk'] = $val['0'];
 			$data['nm_pk'] = $val['1'];
 			$data['target'] = $val['2'];
+			$data['satuan'] = $val['3'];
 			$this->model->insert_pk($data);
 		}
 
@@ -70,11 +85,13 @@ class perjanjiankinerja extends Controller {
 	public function edit()
 	{
 		$thn = $this->model->getTahun();
-		$data = $this->model->getpk('840000',1,$_GET['id'],$thn['kode']);
+		$data = $this->model->getpkSS('840000',1,$_GET['id'],$thn['kode']);
 		$ss = $this->getSS(1,'840000');
 		
 		$this->view->assign('ss',$ss);
-		$this->view->assign('data',$data[0]);
+		$this->view->assign('no_sasaran',$_GET['id']);
+		$this->view->assign('tahun',$thn['kode']);
+		$this->view->assign('data',$data);
 
 		return $this->loadView('pk/edit');
 	}
@@ -82,8 +99,18 @@ class perjanjiankinerja extends Controller {
 	public function edt_pk()
 	{
 		global $basedomain;
+		foreach ($_POST['indikator'] as $key => $value) {
+			$data['th'] = $_POST['th'];
+			$data['no_sasaran'] = $_POST['no_sasaran'];
+			$data['perspektif'] = $_POST['perspektif'];
+			$data['id'] = $value[0];
+			$data['no_pk'] = $value[1];
+			$data['nm_pk'] = $value[2];
+			$data['target'] = $value[3];
+			$data['satuan'] = $value[4];
 
-		$this->model->edit_pk($_POST);
+			$this->model->edit_pk($data);
+		}
 
 		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/bsn'</script>";
 		exit;
@@ -93,9 +120,21 @@ class perjanjiankinerja extends Controller {
 	{
 		global $basedomain;
 		$id = $_GET['id'];
-		$this->model->delete_pk($id);
+		$thn = $this->model->getTahun();
+		$this->model->delete_pk($id,$thn,$idpk);
 
 		echo "<script>alert('Data berhasil dihapus');window.location.href='".$basedomain."perjanjiankinerja/bsn'</script>";
+		exit;
+	}
+
+	public function del_pk_eselon()
+	{
+		global $basedomain;
+		$id = $_GET['id'];
+		$thn = $this->model->getTahun();
+		$this->model->delete_pk(false,$thn,$idpk);
+
+		echo "<script>alert('Data berhasil dihapus');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
 		exit;
 	}
 
@@ -123,9 +162,22 @@ class perjanjiankinerja extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
-
 		
-		$this->view->assign('data',$data);
+		foreach ($data as $key => $value) {
+			$perspektif[] = $value['perspektif'];
+		}
+		$fix_per = array_unique($perspektif);
+		
+		foreach ($fix_per as $key => $val) {
+			foreach ($data as $value) {
+				if($val == $value['perspektif']){
+					$data_fix[$val][] = $value;
+				}
+			}
+		}
+		
+		// db($data_fix);
+		$this->view->assign('data',$data_fix);
 		$this->view->assign('tipe',$es);
 		$this->view->assign('struktur',$struktur);
 
@@ -157,12 +209,25 @@ class perjanjiankinerja extends Controller {
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
 
+		foreach ($data as $key => $value) {
+			$perspektif[] = $value['perspektif'];
+		}
+		$fix_per = array_unique($perspektif);
 		
-		$this->view->assign('data',$data);
+		foreach ($fix_per as $key => $val) {
+			foreach ($data as $value) {
+				if($val == $value['perspektif']){
+					$data_fix[$val][] = $value;
+				}
+			}
+		}
+
+		
+		$this->view->assign('data',$data_fix);
 		$this->view->assign('tipe',$es);
 		$this->view->assign('struktur',$struktur);
 
-		return $this->loadView('pk/eselon1');
+		return $this->loadView('pk/eselon2');
 	}
 
 	public function add_eselon()
@@ -180,43 +245,74 @@ class perjanjiankinerja extends Controller {
 	public function ins_pk_eselon()
 	{
 		global $basedomain;
-
-		$tipe = $_POST['tipe'];
-
-		foreach ($_POST['indikator'] as $val) {
-			$data['th'] = $_POST['th'];
-			$data['no_sasaran'] = $_POST['no_sasaran'];
-			$data['kdunitkerja'] = $_POST['kdunitkerja'];
-			$data['no_pk'] = $val['0'];
-			$data['nm_pk'] = $val['1'];
-			$data['target'] = $val['2'];
-			$this->model->insert_pk($data);
-		}
 		
-		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp={$tipe}'</script>";
+		$tipe = $_POST['tipe'];
+		
+		$data['th'] = $_POST['th'];
+		$data['no_sasaran'] = $_POST['no_sasaran'];
+		$data['kdunitkerja'] = $_POST['kdunitkerja'];
+		$data['perspektif'] = $_POST['perspektif'];
+		$data['satuan'] = $_POST['satuan'];
+		$data['no_pk'] = $_POST['no_pk'];
+		$data['nm_pk'] = $_POST['nm_pk'];
+		$data['target'] = $_POST['target'];
+		
+		$this->model->insert_pk($data);
+		
+		if($tipe == 2){
+			$eselon = "eselon1";
+		} else {
+			$eselon = "pk_eselon2";
+		}
+		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/{$eselon}/?tp={$tipe}'</script>";
 		exit;
 	}
 
 	public function edit_eselon()
 	{
 		$thn = $this->model->getTahun();
-		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
+		$data = $this->model->getpkSS($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
 		$ss = $this->getSS($_GET['pr']);
-
+		
 		$this->view->assign('ss',$ss);
+		$this->view->assign('tahun',$thn['kode']);
 		$this->view->assign('data',$data[0]);
 		$this->view->assign('kode',$_GET['kd']);
 
 		return $this->loadView('pk/edit_eselon');
 	}
 
+	public function edit_eselon2()
+	{
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpkSS($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
+		$ss = $this->getSS($_GET['pr']);
+		
+		$this->view->assign('ss',$ss);
+		$this->view->assign('tahun',$thn['kode']);
+		$this->view->assign('data',$data[0]);
+		$this->view->assign('kode',$_GET['kd']);
+
+		return $this->loadView('pk/edit_eselon2');
+	}
+
 	public function edt_pk_eselon()
 	{
 		global $basedomain;
-
+		
 		$this->model->edit_pk($_POST);
 
 		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
+		exit;
+	}
+
+	public function edt_pk_eselon2()
+	{
+		global $basedomain;
+		
+		$this->model->edit_pk($_POST);
+
+		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/pk_eselon2/?tp=3'</script>";
 		exit;
 	}
 

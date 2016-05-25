@@ -37,12 +37,24 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label" for="demo-text-input">Sasaran Strategis</label>
 							<div class="col-md-10">
-								<select class="selectpicker" id="no_sasaran" name="no_sasaran" title="-- Pilih Sasaran Strategis --" onchange="return getIndikator();">
+								<select class="selectpicker" id="no_sasaran" name="no_sasaran" title="-- Pilih Sasaran Strategis --" onchange="return getIndikator();" required>
 									<option data-hidden="true"></option>
 									{foreach $ss as $val}
 										<option value="{$val.id}">{$val.desc}</option>
 									{/foreach}
 								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">Perspektif</label>
+							<div class="col-md-10">
+							<select class="selectpicker" name="perspektif" title="-- Pilih Perspektif --" required>
+								<option data-hidden="true"></option>
+								<option value="Stakeholder">Stakeholder Perspektif</option>
+								<option value="Customer">Customer Perspektif</option>
+								<option value="Internal">Internal Perspektif</option>
+								<option value="Learning and Growth">learning and Growth Perspektif</option>
+							</select>
 							</div>
 						</div>
 						<!-- <div class="form-group">
@@ -65,10 +77,12 @@
 								<div class="col-md-8">
 									<label><strong>Indikator Kinerja</strong></label>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-2">
 									<label><strong>Target</strong></label>
 								</div>
-
+								<div class="col-md-2">
+									<label><strong>Satuan</strong></label>
+								</div>
 								<div id="ik">
 								</div>
 									<label class="text-danger" id="help-text">Tidak ada Indikator silahkan pilih atau isi indikator kinerja dahulu</label>
@@ -113,7 +127,8 @@
 			for (var i = 0; i < data.length; i++) {
 				text+= "<input type='hidden' name='indikator["+i+"][]' value='"+data[i].id+"'>";
 				text+= "<div class='col-md-8'><input type='text' name='indikator["+i+"][]' value='"+data[i].desc+"' class='form-control' readonly></div>";
-				text+= "<div class='col-md-4'><input type='text' name='indikator["+i+"][]' class='form-control'></div>";
+				text+= "<div class='col-md-2'><input type='text' name='indikator["+i+"][]' class='form-control'></div>";
+				text+= "<div class='col-md-2'><input type='text' name='indikator["+i+"][]' class='form-control'></div>";
 			};
 			if(text.length > 0) $("#help-text").hide(); else $("#help-text").show();
 			$("#ik").html(text);
