@@ -27,17 +27,17 @@
 		<form class="form-horizontal form-padding" method="post" action="{$basedomain}perjanjiankinerja/ins_pk_eselon/">
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-lg-8">
+				<div class="col-lg-10">
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-text-input">Tahun</label>
+							<label class="col-md-2 control-label" for="demo-text-input">Tahun</label>
 							<div class="col-md-2">
-								<input type="text" name="th" value="{$thn}" readonly class="form-control">
+								<input type="text" name="th" id="th" value="{$thn}" readonly class="form-control">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-text-input">Sasaran Strategis</label>
-							<div class="col-md-9">
-								<select class="selectpicker" name="no_sasaran" title="-- Pilih Sasaran Strategis --">
+							<label class="col-md-2 control-label" for="demo-text-input">Sasaran Strategis</label>
+							<div class="col-md-10">
+								<select class="selectpicker" id="no_sasaran" name="no_sasaran" title="-- Pilih Sasaran Strategis --">
 									<option data-hidden="true"></option>
 									{foreach $ss as $val}
 										<option value="{$val.id}">{$val.desc}</option>
@@ -46,6 +46,18 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-md-2 control-label">Perspektif</label>
+							<div class="col-md-10">
+							<select class="selectpicker" name="perspektif" title="-- Pilih Perspektif --" required>
+								<option data-hidden="true"></option>
+								<option value="Stakeholder">Stakeholder Perspektif</option>
+								<option value="Customer">Customer Perspektif</option>
+								<option value="Internal">Internal Perspektif</option>
+								<option value="Learning and Growth">learning and Growth Perspektif</option>
+							</select>
+							</div>
+						</div>
+						<!-- <div class="form-group">
 							<label class="col-md-3 control-label" for="demo-text-input">No. Urut Indikator</label>
 							<div class="col-md-2">
 								<input type="text" name="no_pk" class="form-control">
@@ -62,10 +74,41 @@
 							<div class="col-md-4">
 								<input type="text" name="target" class="form-control">
 							</div>
+						</div> -->
+
+						<div class="row">
+
+							<div class="col-md-offset-2">
+
+								<div class="col-md-8">
+									<label><strong>Indikator Kinerja</strong></label>
+								</div>
+								<div class="col-md-2">
+									<label><strong>Target</strong></label>
+								</div>
+								<div class="col-md-2">
+									<label><strong>Satuan</strong></label>
+								</div>
+
+								<div id="ik">
+									<div class='col-md-8'>
+										<input type='text' name="nm_pk" value="" class='form-control'>
+									</div>
+									<div class='col-md-2'>
+										<input type='text' name="target" value="" class='form-control'>
+									</div>
+									<div class='col-md-2'>
+										<input type='text' name="satuan" value="" class='form-control'>
+									</div>
+								</div>
+
+							</div>
+
 						</div>
 						
 						<!-- HIDDEN -->
 						<input type="hidden" name="kdunitkerja" value="{$idpk}">
+						<input type="hidden" name="tipe" value="{$tp}">
 				</div>
 			</div>
 		</div>
@@ -81,4 +124,3 @@
 </div>
 <!--===================================================-->
 <!--End page content-->
-

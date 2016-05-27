@@ -29,7 +29,7 @@
 			<div class="pad-btm form-inline">
 				<div class="row">
 					<div class="col-sm-6 table-toolbar-left">
-						<a href="{$basedomain}perjanjiankinerja/add_eselon/?id={$id}&kd={$idpk}" id="addData">
+						<a href="{$basedomain}perjanjiankinerja/add_eselon/?id={$id}&kd={$idpk}&tp={$tipe}" id="addData">
 						<button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
 					</div>
 					<div class="col-sm-6 table-toolbar-right">
@@ -48,13 +48,39 @@
 				<thead>
 					<tr>
 						<th width="40%">Sasaran Strategis</th>
-						<th width="5%">No</th>
 						<th width="40%" class="min-tablet">Indikator Kinerja</th>
-						<th width="5%" class="min-tablet">Target</th>
+						<th width="5%" class="min-tablet" colspan="2">Target</th>
 						<th width="10%" class="min-desktop">Aksi</th>
 					</tr>
 				</thead>
 				<tbody>
+					{if !empty($data)}
+					{foreach $data as $key => $val}
+					<tr>
+					<td colspan="5"><strong>{$key} Perspectives</strong></td>
+					</tr>
+						{foreach $val as $value}
+							<tr>
+								<td>{$value.desc}</td>
+								<td>{$value.nm_pk}</td>
+								<td>{$value.target}</td>
+								<td>{$value.satuan}</td>
+								<td align="center">
+									<a href="{$basedomain}perjanjiankinerja/edit_eselon/?id={$value.no_sasaran}&kd={$idpk}&pr={$id}">
+										<button class="btn btn-sm btn-warning fa fa-pencil"></button>
+									</a>
+									<a href="{$basedomain}perjanjiankinerja/del_pk_eselon/?id={$value.id}" onclick="return confirm('Yakin Hapus?')">
+										<button class="btn btn-sm btn-danger fa fa-times"></button>
+									</a>
+								</td>
+							</tr>
+						{/foreach}
+					{/foreach}
+					{else}
+					<tr><td colspan="5">Tidak ada data</td></tr>
+					{/if}
+				</tbody>
+				<!-- <tbody>
 					{if !empty($data)}
 					{foreach $data as $val}
 					<tr>
@@ -75,7 +101,7 @@
 					{else}
 					<tr><td align="center" colspan="5">Data Kosong</td></tr>
 					{/if}
-				</tbody>
+				</tbody> -->
 			</table>
 		</div>
 	</div>

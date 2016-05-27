@@ -1,0 +1,122 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Tambah Data</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Form Penetapan Kinerja </h3>
+		</div>
+		<form class="form-horizontal form-padding" method="post" action="{$basedomain}perjanjiankinerja/ins_pk_eselon/">
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-lg-8">
+						<!--Morris Bar Chart placeholder -->
+						<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+						<div id="demo-morris-bar" style="height:212px"></div>
+						<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+						<div id="tesembed">
+							
+						</div>
+						<div id="img-out"></div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer text-left">
+			<button class="btn btn-info" type="button" id="print">Download</button>
+			<!-- <input type="button" id="btnSave" value="Save PNG"/> -->
+		</div>
+		</form>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+
+	Morris.Bar({
+		element: 'demo-morris-bar',
+		data: [
+			{ y: '1', a: 100, b: 90 },
+			{ y: '2', a: 75,  b: 65 },
+			{ y: '3', a: 20,  b: 15 },
+			{ y: '5', a: 50,  b: 40 },
+			{ y: '6', a: 75,  b: 95 },
+			{ y: '7', a: 15,  b: 65 },
+			{ y: '8', a: 70,  b: 100 },
+			{ y: '9', a: 100, b: 70 },
+			{ y: '10', a: 50, b: 70 },
+			{ y: '11', a: 20, b: 10 },
+			{ y: '12', a: 40, b: 90 },
+			{ y: '13', a: 70, b: 30 },
+			{ y: '14', a: 50, b: 50 },
+			{ y: '15', a: 100, b: 90 }
+		],
+		xkey: 'y',
+		ykeys: ['a', 'b'],
+		labels: ['Series A', 'Series B'],
+		gridEnabled: false,
+		gridLineColor: 'transparent',
+		barColors: ['#177bbb', '#afd2f0'],
+		resize:true,
+		hideHover: 'auto'
+	});
+	$('#print').click(function () {
+    printMe();
+});
+// render svg ke png
+function printMe() {
+	var click="return xepOnline.Formatter.Format('demo-morris-bar', {render:'download'})";
+
+    click=xepOnline.Formatter.Format('demo-morris-bar', {render:'embed', mimeType:'image/png', resolution:'300', srctype:'svg'});
+    jQuery('#tesembed').append(click);
+
+    //harus nunggu convertnya selesai dlu baru bisa di download timeout hrs disesuain atau check klo proses ud slesai
+    setTimeout(function(){
+	  toPng();
+	}, 5000);
+}
+
+function toPng() { 
+        html2canvas($("#demo-morris-bar"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+
+                // Convert and download as image 
+                Canvas2Image.saveAsPNG(canvas); 
+                // $("#img-out").append(canvas);
+                // Clean up 
+                document.body.removeChild(canvas);
+            }
+        });
+    }
+
+})
+
+</script>
+{/literal}
