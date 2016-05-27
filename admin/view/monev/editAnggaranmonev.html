@@ -12,7 +12,7 @@ $(document).ready(function() {
 				  ],
 		height: 200
 	});
-})
+})	
 //for ceck number
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
@@ -26,7 +26,7 @@ function isNumber(evt) {
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Edit Bobot Kinerja</h1>
+	<h1 class="page-header text-overflow">Edit Anggaran</h1>
 
 	<!--Searchbox-->
 	<!-- <div class="searchbox">
@@ -45,8 +45,8 @@ function isNumber(evt) {
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <ol class="breadcrumb">
 	<li><a href="{$basedomain}">Home</a></li>
-	<li><a href="{$basedomain}monev/editBobot">Monev Bulanan</a></li>
-	<li class="active">Edit Bobot Kinerja</li>
+	<li><a href="{$basedomain}monev/editAnggaran">Monev Bulanan</a></li>
+	<li class="active">Edit Anggaran</li>
 </ol>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End breadcrumb-->
@@ -60,7 +60,7 @@ function isNumber(evt) {
 		<div class="col-sm-12">
 			<div class="panel">
 				<div class="panel-heading">
-					<h3 class="panel-title">Edit Bobot Kinerja</h3>
+					<h3 class="panel-title">Edit Anggaran</h3>
 				</div>
 				<!--{pr($data_list)}-->
 				<!--{pr($data)}-->
@@ -75,13 +75,13 @@ function isNumber(evt) {
 					<input type="hidden" name="kdunitkerja" id="kdunitkerja" class="form-control" value="{$info.kd_unit}">
 					<input type="hidden" name="kdgiat" id="kdgiat" class="form-control" value="{$info.kd_giat}">
 					<input type="hidden" name="kdoutput" id="kdoutput" class="form-control" value="{$info.kd_output}">
-					<!--<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
-					<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
+					<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
+					<!--<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
 					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
 					<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h3 align="center" class="text-uppercase">LAPORAN BOBOT BULAN {$ketBulan} {$info.thn}</h3>
+							<h3 align="center" class="text-uppercase">LAPORAN ANGGARAN BULAN {$ketBulan} {$info.thn}</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -173,71 +173,79 @@ function isNumber(evt) {
 						</div>
 						
 						<div class="row">
-							<div class="col-md-12 table-responsive">
+							<div class="col-md-12 table-responsive" style="overflow:scroll;max-height:600px">
 								<table id="" class="table table-bordered" cellspacing="0" width="100%">
 									<thead>
 										<tr>
 											<th class="text-center" rowspan="2">Sub Output <br>/ Kode</th>
-											<th rowspan="2">Komponen</th>
-											<th class="text-center" rowspan="2">Total Bobot</th>
-											<th class="text-center" colspan="3">Bobot Kinerja</th>
-											<th class="text-center" rowspan="2">Sisa Capaian <br/>Bobot Kinerja <br/>(3 - 6)</th>
-											<th class="text-center" rowspan="2">Keterangan</th>
+											<th rowspan="2" >Komponen</th>
+											<th class="text-center" colspan="2">Anggaran</th>
+											<th class="text-center" colspan="4" class="text-center">Realisasi</th>
+											<th class="text-center" rowspan="2">Sisa Anggaran</th>
 										</tr>
 										<tr>
+											<th  class="text-center" >Pagu</th>
 											<th  class="text-center" >Rencana sd <br/> bulan ini</th>
-											<th  class="text-center" >Realisasi <br/> bulan ini </th>
-											<th  class="text-center" >Realisasi sd <br/> bulan ini </th>
+											<th  class="text-center" >Bulan ini</th>
+											<th  class="text-center" >sd Bulan ini</th>
+											<th  class="text-center" >% thd rencana penarikan</th>
+											<th  class="text-center" >% thd pagu</th>
 										</tr>
 									</thead>
 									<tbody>
-										
 										<tr>
-												<td class="text-center boldGrey">1</td>
-												<td class="text-center boldGrey">2</td>
-												<td class="text-center boldGrey">3</td>
-												<td class="text-center boldGrey">4</td>
-												<td class="text-center boldGrey">5</td>
-												<td class="text-center boldGrey">6</td>
-												<td class="text-center boldGrey">7</td>
-												<td class="text-center boldGrey">8</td>
+											<td class="text-center boldGrey">1</td>
+											<td class="text-center boldGrey">2</td>
+											<td class="text-center boldGrey">3</td>
+											<td class="text-center boldGrey">4</td>
+											<td class="text-center boldGrey">5</td>
+											<td class="text-center boldGrey">6</td>
+											<td class="text-center boldGrey">7</td>
+											<td class="text-center boldGrey">8</td>
+											<td class="text-center boldGrey">9</td>
 										</tr>
 										{foreach $list as $val}
-										<tr>	
-												<input type="hidden" name="kd_komponen" class="kd_komponen" value= "{$val.KDKMPNEN}">
-												<td  class="text-center">{$val.KDKMPNEN}</td>
-												<td>{$val.nama_komponen}</td>
-												<td class="text-center">
-													<div class="input-group" style="width:110px">
-														<input type="text" name="total[]" id="{$total|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 total" value="{number_format($val.totalbobot,'2',',','.')}"  readonly>
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td class="text-center">
-													<div class="input-group" style="width:110px">
-														<input type="text" name="" id="rencana" class="form-control span col-sm-2 rencana" value="{number_format($val.rencana_sd_bulan,'2',',','.')}"  readonly>
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td>
-													<div class="input-group" style="width:110px">
-														<input type="text" name="target[]" id="{$target|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 percent month target" value="{number_format($val.realisasi_bulan_ini,'2',',','.')}"  >
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td class="text-center">
-													<div class="input-group" style="width:110px">
-														<input type="text" name="tagetsd" id="{$tagetsd|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 tagetsd" value="{number_format($val.realisasi_sd_bulan,'2',',','.')}"  readonly>
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td>
-													<div class="input-group" style="width:110px">
-														<input type="text" name="" id="sisa" class="form-control span col-sm-2 sisa" value="{number_format($val.sisacapaian,'2',',','.')}"  readonly>
-															<span class="input-group-addon">(%)</span>
-													</div>
-												</td>
-												<td><textarea rows="5" class="form-control keterangan" name="keterangan[]" id="keterangan">{$val.keterangan}</textarea></td>
+										<tr>
+											<input type="hidden" name="kd_komponen" class="kd_komponen" value= "{$val.KDKMPNEN}">
+											<td  class="text-center">{$val.KDKMPNEN}</td>
+											<td>{$val.nama_komponen}</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="pagu" id="{$pagu|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 pagu" value="{number_format($val.pagu_kmpnen,'0',',','.')}"  readonly>
+												</div>
+											</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="rencanasdbulan" id="rencanasdbulan" class="form-control span col-sm-2" value="{number_format($val.rencanasdbulan,'0',',','.')}"  readonly>
+												</div>
+											</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="realisasi_blnini" id="{$realisasiblnini|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 money month realisasi_blnini" value="{number_format($val.realisasi_blnini,'0',',','.')}">
+												</div>
+											</td>
+											<td class="text-right">
+												<div class="input-group" style="width:100px">
+													<input type="text" name="realisasi_sdbulan" id="{$realisasisdbulan|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 realisasi_sdbulan" value="{number_format($val.realisasi_sdbulan,'0',',','.')}"  readonly>
+												</div>
+											</td>
+											<td class="text-center">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_rencana" id="persentase_rencana" class="form-control span col-sm-2" value="{number_format($val.persentase_rencana,'2',',','.')}"  readonly>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td >
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_pagu" id="persentase_pagu" class="form-control span col-sm-2" value="{number_format($val.persentase_pagu,'2',',','.')}"  readonly>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="sisa_anggaran" id="sisa_anggaran" class="form-control span col-sm-2" value="{number_format($val.sisa_anggaran,'0',',','.')}" readonly>
+												</div>
+											</td>
 										</tr>
 										{/foreach}
 									</tbody>
@@ -248,15 +256,14 @@ function isNumber(evt) {
 					</div>
 					<div class="panel-footer text-right">
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button"  name="submit" id="submit" value="save" class="btn btn-info">
+						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
 					</div>
 				</form>
 				<!--===================================================-->
 				<!--End Horizontal Form-->
-			
+				
 				<!-- HIDDEN -->
 				<input type="hidden" id="typemember" value="{$usertype}">
-
 			</div>
 		</div>
 	</div>
@@ -278,38 +285,86 @@ $('#print').on('click', function(){
 	var kdoutput = $('#kdoutput').val();
 	var kd_komponen = $('#kd_komponen').val();
 
-	window.location.href=basedomain+"monev/print_monev_bobot/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&kd_komponen="+kd_komponen;
+	window.location.href=basedomain+"monev/print_monev_anggaran/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&kd_komponen="+kd_komponen;
 });	
 
-//cek bobot
-/*var total = $('#total').val();
-var tot_split = total.split(",");
-if(tot_split[0] == 0){
-	//alert("Isi Rencana Bobot Terlebih Dahulu");
+
+/*var rencana = $('#rencanasdbulan').val();
+var rencana_split = rencana.split(".");
+var panjang = rencana_split.length;
+var output = "";
+for (var i=0; i < panjang; i++) {
+    output += rencana_split[i];
+}
+
+if(output == 0){
+	alert("Isi Rencana Anggaran Terlebih Dahulu");
 	$("#submit").attr('disabled','disabled');
 }else{
 	$("#submit").removeAttr('disabled');
 }*/
-//var total1 = $('#target_011').val();
-//alert(typeof total1);		        
-//alert( total1);		        
 
-//var x = document.getElementsByName("total");	
-//console.log(x);
-
-//var firstname = $("#testForm input[name='total[]']").val();
-//console.log(firstname);
-
-/*var vals = []; 
-//$('input:text[name="total[]"]').each(function() {
-$('input[name="total[]"]').each(function() {
-	//if (this.checked) {
-		// push the element into array
-		vals.push(this.value);
-	//}
-});
-var str = vals.join(",");
-//console.log(str);*/
+$('.realisasi_blnini').on('keyup', function(){
+	//alert("masuk");
+	var tot_real = $(this).attr('id');
+	//console.log(tot_real);
+	//split 
+	var val_split = tot_real.split("_");
+	//get id total bobot
+	var fix_pagu = "pagu_"+val_split[1];
+	//console.log(fix_pagu);
+	
+	var fix_real_bln_ini = "realisasiblnini_"+val_split[1];
+	//console.log(fix_real_bln_ini);
+	
+	var fix_real_sd_bln_ini = "realisasisdbulan_"+val_split[1];
+	//console.log(fix_real_bln_ini);
+	
+	
+	var pagu = $('#'+fix_pagu).val();
+	//console.log(pagu);
+	var pagu_split = pagu.split(".");
+	var fix_pagu = "";
+	for (var i=0; i < pagu_split.length; i++) {
+		fix_pagu += pagu_split[i];
+	}
+	var realisasi_blnini = $('#'+fix_real_bln_ini).val();
+	//console.log(realisasi_blnini);
+	
+	var realisasi_split = realisasi_blnini.split(".");
+	var fix_realisasi = "";
+	for (var i=0; i < realisasi_split.length; i++) {
+		fix_realisasi += realisasi_split[i];
+	}
+	var realisasi_sdbulan = $('#'+fix_real_sd_bln_ini).val();
+	//console.log(realisasi_sdbulan);
+	
+	var realisasi_sdbulan_split = realisasi_sdbulan.split(".");
+	var fix_realisasi_sdbulan = "";
+	for (var i=0; i < realisasi_sdbulan_split.length; i++) {
+		fix_realisasi_sdbulan += realisasi_sdbulan_split[i];
+	}
+	if(parseInt(fix_realisasi_sdbulan) != 0 && parseInt(fix_realisasi_sdbulan) != ''){
+		var fix_count =  parseInt(fix_realisasi_sdbulan) + parseInt(fix_realisasi);
+		//console.log(fix_count);
+		//console.log(fix_pagu);
+		if(parseInt(fix_count) > parseInt(fix_pagu)){
+			alert("realisasi melebihi pagu");
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//alert('masih kurang');
+			$("#submit").removeAttr('disabled');
+		}
+	}else{	
+		if(parseInt(fix_realisasi) > parseInt(fix_pagu)){
+			alert("realisasi melebihi pagu");
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//alert('masih kurang');
+			$("#submit").removeAttr('disabled');
+		}
+	}
+});	
 
 $('#bulan').on('change', function(){
 	var th = $('#th').val();
@@ -318,89 +373,17 @@ $('#bulan').on('change', function(){
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
 	setTimeout(
-	   function() 
-	   {
-		window.location.replace(basedomain+"monev/editBobot_bulan/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&bln="+bulan);
+	   function() {
+			window.location.replace(basedomain+"monev/editAnggaran_bulan/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen+"&bln="+bulan);
 	   }, 500);
+	
 });	
 
-$('.target').on('keyup', function(){
-	
-	//get id target realisasi bulan ini
-	var tot_bobot = $(this).attr('id');
-	//split 
-	var val_split = tot_bobot.split("_");
-	//get id total bobot
-	var fix_total = "total_"+val_split[1];
-	//get id target realisasi sd bulan ini
-	var fix_target_sd = "tagetsd_"+val_split[1];
-	
-	//get value total
-	var total = $('#'+fix_total).val();
-	//console.log(total);
-	//get value target realisasi bulan ini
-	var target = $('#'+tot_bobot).val();
-	//console.log(target);
-	//get value target realisasi sd bulan ini
-	var tagetsd = $('#'+fix_target_sd).val();
-	//console.log(tagetsd);
-	
-	if(tagetsd != 0 && tagetsd != ''){
-		var count =  parseFloat(tagetsd) + parseFloat(target);
-		var fix_count = count.toFixed(2);
-		var fix_total = parseFloat(total);
-		if(fix_count > fix_total){
-			alert("realisasi melebihi total bobot");
-			$("#submit").attr('disabled','disabled');
-		}else{
-			//alert('masih kurang');
-			$("#submit").removeAttr('disabled');
-		}
-	}else{
-		if(target > total){
-			alert("realisasi melebihi total bobot");
-			$("#submit").attr('disabled','disabled');
-		}else{
-			//alert('masih kurang');
-			$("#submit").removeAttr('disabled');
-		}
-	}
-	
-//alert(bulan);
-});
-
 $('#submit').on('click', function(){
-	//alert("masukk");
-	var target = []; 
-	$.each($('.target'), function (index, value) { 
-	  //console.log(index + ':' + $(value).val());
-	  //vals[] = $(value).val();
-	 target.push(this.value);	
-	 });
-	//console.log(target);
-
-	//kd_komponen
-	var kd_komponen = []; 
-	$.each($('.kd_komponen'), function (index, value) { 
-	  //console.log(index + ':' + $(value).val());
-	  //vals[] = $(value).val();
-	 kd_komponen.push(this.value);	
-	 });
-	//console.log(kd_komponen);
-	
-	//kd_komponen
-	var keterangan = []; 
-	$.each($('.keterangan'), function (index, value) { 
-	  //console.log(index + ':' + $(value).val());
-	  //vals[] = $(value).val();
-	 keterangan.push(this.value);	
-	 });
-	//console.log(keterangan);
-	
-	
 	var kdunitkerja = $('#kdunitkerja').val();
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
 	
 	/*var kendala = $('#kendala').val();
 	var tindaklanjut = $('#tindaklanjut').val();
@@ -409,19 +392,27 @@ $('#submit').on('click', function(){
 	var kendala = $('#kendala').code();
 	var tindaklanjut = $('#tindaklanjut').code();
 	var ygmembantu = $('#ygmembantu').code();
-	//console.log(kendala);
-	//console.log(tindaklanjut);
-	//console.log(ygmembantu);
 	
 	var th = $('#th').val();
 	var bulan = $('#bulan').val();
 	
-	//var x = $("form").serializeArray();
-	 
-	 //exit;
-	 bootbox.confirm("Simpan Data?", function(result) {
+	//var realisasi = $('#realisasi_blnini').val();
+	var realisasi = []; 
+	$.each($('.realisasi_blnini'), function (index, value) { 
+		realisasi.push(this.value);	
+	 });
+	//console.log(realisasi);
+
+	//kd_komponen
+	var kd_komponen = []; 
+	$.each($('.kd_komponen'), function (index, value) { 
+		kd_komponen.push(this.value);	
+	 });
+	//console.log(kd_komponen);	
+	
+	  bootbox.confirm("Simpan Data?", function(result) {
 			if (result) {
-				$.post( basedomain+"monev/post_monev", {th: th, bulan: bulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu, target : target, keterangan : keterangan});										
+				$.post( basedomain+"monev/post_anggaran_monev", { th: th, bulan: bulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu, realisasi : realisasi});										
 				$.niftyNoty({
 					type: 'success',
 					icon : 'fa fa-check',
@@ -429,11 +420,12 @@ $('#submit').on('click', function(){
 					container : 'floating',
 					timer : 2000
 				});
-				/*setTimeout(
+				setTimeout(
 			   function() 
 			   {
-				window.location.replace(basedomain+"monev/editBobot_bulan/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&bln="+bulan);
-			   }, 2000);*/
+				//location.reload();
+				window.location.replace(basedomain+"monev/editAnggaran_bulan/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen+"&bln="+bulan);
+				}, 2000);
 			}else{
 				$.niftyNoty({
 					type: 'danger',
@@ -448,10 +440,9 @@ $('#submit').on('click', function(){
 		});
 	  
 	  
-	});
-	
+	});	
+//});
 });
-
 
 function checkMonth(item)
 {
@@ -470,7 +461,7 @@ function checkMonth(item)
 	month[9] = "10";
 	month[10] = "11";
 	month[11] = "12";
-	var n = month[d.getMonth()];
+	var n = month[d.getMonth()];  
 	var type = $("#typemember").val();  
 	if(n != selmonth && type != 1){
 		$(".month").attr('disabled','disabled');
