@@ -147,10 +147,18 @@ class perjanjiankinerja extends Controller {
 		$this->view->assign('es',$es);
 
 		if(!$_POST) {
-			$idpk = $struktur[0]['kode'];
-			$parent = $struktur[0]['id'];
-			$this->view->assign('label',$struktur[0]['nama_satker']);
-			$this->view->assign('id',$struktur[0]['id']);
+			if(isset($_GET['kd'])){
+				$idpk = $_GET['kd'];
+			} else {
+				$idpk = $struktur[0]['kode'];
+			}
+			foreach ($struktur as $key => $value) {
+				if($value['kode'] == $idpk) {
+					$parent = $value['id'];
+					$this->view->assign('label',$value['nama_satker']);
+					$this->view->assign('id',$value['id']);
+				}
+			}
 			$this->view->assign('idpk',$idpk);
 		} else {
 			$exp = explode("_", $_POST['struktur']);
@@ -193,10 +201,18 @@ class perjanjiankinerja extends Controller {
 		$this->view->assign('es',$es);
 
 		if(!$_POST) {
-			$idpk = $struktur[0]['kode'];
-			$parent = $struktur[0]['id'];
-			$this->view->assign('label',$struktur[0]['nama_satker']);
-			$this->view->assign('id',$struktur[0]['id']);
+			if(isset($_GET['kd'])){
+				$idpk = $_GET['kd'];
+			} else {
+				$idpk = $struktur[0]['kode'];
+			}
+			foreach ($struktur as $key => $value) {
+				if($value['kode'] == $idpk) {
+					$parent = $value['id'];
+					$this->view->assign('label',$value['nama_satker']);
+					$this->view->assign('id',$value['id']);
+				}
+			}
 			$this->view->assign('idpk',$idpk);
 		} else {
 			$exp = explode("_", $_POST['struktur']);
@@ -264,7 +280,7 @@ class perjanjiankinerja extends Controller {
 		} else {
 			$eselon = "pk_eselon2";
 		}
-		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/{$eselon}/?tp={$tipe}'</script>";
+		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."perjanjiankinerja/{$eselon}/?tp={$tipe}&kd={$data['kdunitkerja']}'</script>";
 		exit;
 	}
 
