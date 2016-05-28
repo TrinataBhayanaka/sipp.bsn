@@ -1,0 +1,769 @@
+<script>
+$(document).ready(function() {
+	//$('#keterangan,#kendala,#tindaklanjut,#ygmembantu').summernote({
+	//$('.note').summernote({
+	$('#keterangan,#kendala,#tindaklanjut,#ygmembantu').summernote({
+		toolbar: [
+    // [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']]
+				  ],
+		height: 200
+	});
+})
+
+/*function getChart() {
+		
+		alert("masuk");
+		
+		getdatachart();
+		
+		function getdatachart(){
+			var svg = $("#demo-morris-line-realisasi").html();        
+				canvg(document.getElementById('canvas'), svg.split("<div")[0]);
+					html2canvas($("#canvas"), {
+					onrendered: function(canvas) {         
+						var imgData = canvas.toDataURL('image/png');
+						document.getElementById('scrn_anggaran').value = imgData;
+				//console.log(imgData);
+				}
+			});
+			var svg2 = $("#demo-morris-line-kinerja").html();        
+				canvg(document.getElementById('canvas2'), svg2.split("<div")[0]);
+				html2canvas($("#canvas2"), {
+				onrendered: function(canvas) {         
+			var imgData2 = canvas.toDataURL('image/png');
+			document.getElementById('scrn_kinerja').value = imgData2;
+			//$("#scrn_kinerja").val(imgData2);
+			//console.log(imgData2);
+				}
+			});
+			
+		}
+		//get char relisasi anggaran
+		
+		
+		setTimeout(
+	   function() 
+	   {
+	
+		console.log(imgData);
+		console.log(imgData2);
+	   }, 
+     3000);
+	
+	}*/
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Edit Laporan Triwulan</h1>
+
+	<!--Searchbox-->
+	<!-- <div class="searchbox">
+		<div class="input-group custom-search-form">
+			<input type="text" class="form-control" placeholder="Search..">
+			<span class="input-group-btn">
+				<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</div> -->
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}monev/editBobot">Monev Triwulan</a></li>
+	<li class="active">Edit Laporan Triwulan</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Edit Laporan Triwulan</h3>
+				</div>
+				<!--{pr($data_list)}-->
+				<!--{pr($data)}-->
+				<!--{$data_list[0].idKursus}
+				{$data_list[0].namakursus}-->
+				<!--Horizontal Form-->
+				<!--===================================================-->
+				<!--<form class="form-horizontal" method="POST" action="{$basedomain}rpk/edit">-->
+				
+				<!--<form class="form-horizontal" id="testForm" name = "myForm" class = "myForm" method="POST" action="{$basedomain}monev_trwln/print_triwulan_rev" onsubmit="return getChart()">-->
+				<!--<form class="form-horizontal" id="myForm" name = "myForm" class = "myForm" method="POST" action="{$basedomain}monev_trwln/print_triwulan_rev" >-->
+				<!--<form class="form-horizontal" id="testForm" name = "myForm" method="POST" action="{$basedomain}monev_trwln/print_triwulan_rev" >-->
+				<!--<form class="form-horizontal" name="myForm" id="myForm" target="_myFrame" action="test.php" method="POST">-->
+				
+				<form class="form-horizontal" name="myForm" id="myForm" action="{$basedomain}monev_trwln/print_triwulan_rev" method="POST">
+					<input type="hidden" name="th" id="th" name="th" class="form-control" value="{$info.thn}">
+					<input type="hidden" name="kdunitkerja" id="kdunitkerja" class="form-control" value="{$info.kd_unit}">
+					<input type="hidden" name="kdgiat" id="kdgiat" class="form-control" value="{$info.kd_giat}">
+					<input type="hidden" name="kdoutput" id="kdoutput" class="form-control" value="{$info.kd_output}">
+					<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
+					
+					<input type="hidden" name="scrn_anggaran" id="scrn_anggaran" class="form-control" value="">
+					<input type="hidden" name="scrn_kinerja" id="scrn_kinerja" class="form-control" value="">
+					
+					<!--<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
+					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
+					<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12">
+							<h3 align="center" class="text-uppercase">LAPORAN TRIWULAN {$info.thn}</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group  pull-left">
+								<label class="control-label "><strong>A. Deskripsi Kegiatan</strong></label>
+								&nbsp;
+							</div>
+						</div>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">1. Output</label>
+							<div class="col-sm-4">						
+								<label class=" control-label">{$info.nama_output}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
+							<div class="col-sm-5">						
+								<label class=" control-label">{$info.nama_kegiatan}</label>
+							 
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
+							<div class="col-sm-4">						
+								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
+							
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
+							<div class="col-sm-4">						
+								<label class=" control-label">{$info.unit_eselon}</label>
+							
+							</div>
+						</div>
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group pull-left">
+								<label class="control-label"><strong>B. Bobot Kinerja</strong></label>
+								
+							</div>
+						</div>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
+							<div class="col-sm-4 pull-left">	
+								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
+									{foreach $list as $val}
+									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
+									{/foreach}
+								</ul>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">2. Capaian Kinerja</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="keterangan" id="keterangan">{$data.keterangan}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">3. Kendala-kendala yang dihadapi</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="kendala" id="kendala">{$data.kendala}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">4. Rencana Tindak Lanjut</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">5. Pihak yang dapat membantu penyelesaian kendala/permasalahan</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+						<label class="col-sm-2 control-label boldGrey">Sampe Triwulan</label>
+							<!--<select name="bulan" id="bulan" class="selectpicker" width="100%">
+								{foreach $bulan as $key=> $valbln}
+									{if $keybln == $key}
+										{$select_list = 'selected'}
+									{else}
+										{$select_list = ''}
+									{/if}	
+									<option value="{$key}" {$select_list}>{$valbln}</option>
+								{/foreach}
+							</select>-->
+							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
+								<option value="1" {$dataselected.0}>Triwulan I</option>
+								<option value="2" {$dataselected.1}>Triwulan II</option>
+								<option value="3" {$dataselected.2}>Triwulan III</option>
+								<option value="4" {$dataselected.3}>Triwulan IV</option>
+							</select>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Kemajuan Realisasi Pembiayaan</h3>
+								</div>
+								<div class="panel-body">
+					
+									<!--Morris Line Chart placeholder-->
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+									<div id="demo-morris-line-realisasi" style="height:212px"></div>
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+					
+								</div>
+							</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-lg-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Grafik Pencapaian Realisasi (%)</h3>
+								</div>
+								<div class="panel-body">
+					
+									<!--Morris Line Chart placeholder-->
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+									<div id="demo-morris-line-kinerja" style="height:212px"></div>
+									<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+					
+								</div>
+							</div>
+							</div>
+						</div>
+						
+						<canvas id="canvas" width="900px" height="700px" style="display:none;"></canvas>
+									
+							<div id="imgBinary">
+							
+							</div>	
+							<canvas id="canvas2" width="900px" height="700px" style="display:none;"></canvas>
+							
+							<div id="imgBinary2">
+						
+						</div>	
+						
+						<!--<div class="row">
+							<div class="col-lg-12">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">html2canvas</h3>
+								</div>
+								<div class="panel-body">
+					
+									<canvas id="canvas" width="800px" height="600px"></canvas>
+									
+									<div id="imgBinary">
+									
+									</div>	
+									<canvas id="canvas2" width="800px" height="600px"></canvas>
+									
+									<div id="imgBinary2">
+									
+									</div>	
+
+									
+								</div>
+							</div>
+							</div>
+						</div>-->
+					</div>
+						
+						
+					</div>
+					<div class="panel-footer text-right">
+						<!--<input type="button" id="convert" name="convert" value="Download pdf" class="btn btn-danger">-->
+						<!--convert image-->
+						<button type="button" id="convert" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+						<!--download-->
+						<button type="submit" id="download" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
+						<input type="button" id="btnSubmit" name="btnSubmit" value="save" class="btn btn-info">
+					</div>
+				</form>
+				<!--===================================================-->
+				<!--End Horizontal Form-->
+	
+			</div>
+		</div>
+	</div>
+
+<!--===================================================-->
+{literal}
+<script>
+$(document).ready(function() {
+  $('#download').hide();
+  $('#canvas').hide();
+  $('#canvas2').hide();
+  
+  //var markupStr = $('#keterangan').summernote('code');
+  //console.log(markupStr);
+ // $('#keterangan').summernote('editor.insertText', 'hello world'));
+  
+$('#print').on('click', function(){
+	$('#canvas').show();
+	$('#canvas2').show();
+	//var kd_komponen = $('#kd_komponen').val();
+	/*console.log(th);
+	console.log(kdtriwulan);
+	console.log(kdunitkerja);
+	console.log(kdgiat);
+	console.log(kdoutput);*/
+	
+	//get gambar chart anggaran
+	var svg = $("#demo-morris-line-realisasi").html();        
+			canvg(document.getElementById('canvas'), svg.split("<div")[0]);
+			html2canvas($("#canvas"), {
+			onrendered: function(canvas) {         
+		var imgData = canvas.toDataURL('image/png');
+		document.getElementById('scrn_anggaran').value = imgData;
+		//console.log(imgData);
+		}
+	});
+	
+	//get gambar chart kinerja
+	//var imgData2;
+	var svg2 = $("#demo-morris-line-kinerja").html();        
+			canvg(document.getElementById('canvas2'), svg2.split("<div")[0]);
+			html2canvas($("#canvas2"), {
+			onrendered: function(canvas) {         
+		imgData2 = canvas.toDataURL('image/png');
+		//document.getElementById('scrn_kinerja').value = imgData2;
+		$("#scrn_kinerja").val(imgData2);
+		//console.log(imgData2);
+		}
+	});
+	
+	setTimeout(
+	   function() 
+	   {
+		var th = $('#th').val();
+		var kdtriwulan = $('#kdtriwulan').val();
+		var kdunitkerja = $('#kdunitkerja').val();
+		var kdgiat = $('#kdgiat').val();
+		var kdoutput = $('#kdoutput').val();
+		var scrn_anggaran = $('#scrn_anggaran').val(); 
+		var scrn_kinerja = $("#scrn_kinerja").val();
+		//console.log(scrn_anggaran);
+		//console.log(scrn_kinerja);
+		//window.location.href=basedomain+"monev_trwln/print_triwulan_rev/?thn="+th+"&kdtriwulan="+kdtriwulan+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&scrn_anggaran="+scrn_anggaran+"&scrn_kinerja="+scrn_kinerja";
+		//window.location.href=basedomain+"monev_trwln/print_triwulan_rev/?thn="+th+"&kdtriwulan="+kdtriwulan+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&scrn_anggaran="+scrn_anggaran+"&scrn_kinerja="+scrn_kinerja;
+		$.post( basedomain+"monev_trwln/print_triwulan_rev", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kdtriwulan: kdtriwulan, scrn_anggaran: scrn_anggaran, scrn_kinerja : scrn_kinerja});										
+				
+		//window.location.href=basedomain+"monev_trwln/print_triwulan_rev/?thn="+th+"&kdtriwulan="+kdtriwulan+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen;
+		//alert(test);
+	   }, 
+     2000);
+});	
+
+
+// MORRIS LINE CHART
+	// =================================================================
+	// Require MorrisJS Chart
+	// -----------------------------------------------------------------
+	// http://morrisjs.github.io/morris.js/
+	// =================================================================
+	var kdtriwulan = $('#kdtriwulan').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	$.post(basedomain+"monev_trwln/rencana_rev",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput},function(rencana){
+		//.toPrecision(2)
+		var Jan_rencana = rencana.rncn.rencana_1;
+		var Feb_rencana = rencana.rncn.rencana_2;
+		var Mar_rencana = rencana.rncn.rencana_3;
+		var Apr_rencana = rencana.rncn.rencana_4;
+		var Mei_rencana = rencana.rncn.rencana_5;
+		var Jun_rencana = rencana.rncn.rencana_6;
+		var Jul_rencana = rencana.rncn.rencana_7;
+		var Ags_rencana = rencana.rncn.rencana_8;
+		var Sept_rencana = rencana.rncn.rencana_9;
+		var Okt_rencana = rencana.rncn.rencana_10;
+		var Nov_rencana = rencana.rncn.rencana_11;
+		var Des_rencana = rencana.rncn.rencana_12;
+		
+		var Jan_realisasi = rencana.real.realisasi_1;
+		var Feb_realisasi = rencana.real.realisasi_2;
+		var Mar_realisasi = rencana.real.realisasi_3;
+		var Apr_realisasi = rencana.real.realisasi_4;
+		var Mei_realisasi = rencana.real.realisasi_5;
+		var Jun_realisasi = rencana.real.realisasi_6;
+		var Jul_realisasi = rencana.real.realisasi_7;
+		var Ags_realisasi = rencana.real.realisasi_8;
+		var Sept_realisasi = rencana.real.realisasi_9;
+		var Okt_realisasi = rencana.real.realisasi_10;
+		var Nov_realisasi = rencana.real.realisasi_11;
+		var Des_realisasi = rencana.real.realisasi_12;
+		
+		var day_data_realisasi = [
+		{"elapsed": "Jan", "value": Jan_rencana,"val": Jan_realisasi},
+		{"elapsed": "Feb", "value": Feb_rencana,"val": Feb_realisasi},
+		{"elapsed": "Mar", "value": Mar_rencana,"val": Mar_realisasi},
+		{"elapsed": "Apr", "value": Apr_rencana,"val": Apr_realisasi},
+		{"elapsed": "Mei", "value": Mei_rencana,"val": Mei_realisasi},
+		{"elapsed": "Jun", "value": Jun_rencana,"val": Jun_realisasi},
+		{"elapsed": "Jul", "value": Jul_rencana,"val": Jul_realisasi},
+		{"elapsed": "Ags", "value": Ags_rencana,"val": Ags_realisasi},
+		{"elapsed": "Sept", "value": Sept_rencana,"val": Sept_realisasi},
+		{"elapsed": "Okt", "value": Okt_rencana,"val": Okt_realisasi},
+		{"elapsed": "Nov", "value": Nov_rencana,"val": Nov_realisasi},
+		{"elapsed": "Des", "value": Des_rencana,"val": Des_realisasi}
+		];
+		
+		Morris.Line({
+			element: 'demo-morris-line-realisasi',
+			data: day_data_realisasi,
+			xkey: 'elapsed',
+			ykeys: ['value','val'],
+			labels: ['rencana','realisasi'],
+			/*ykeys: ['value'],
+			labels: ['rencana'],*/
+			gridEnabled: false,
+			gridLineColor: 'transparent',
+			lineColors: ['#045d97','#1DE645'],
+			lineWidth: 2,
+			parseTime: false,
+			resize:true,
+			hideHover: 'auto'
+		});
+	},"JSON");
+	
+	$.post(basedomain+"monev_trwln/bobot_rev",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput},function(bobot){
+		//.toPrecision(2)
+		var Jan_rencana = bobot.rncn.rencana_1;
+		var Feb_rencana = bobot.rncn.rencana_2;
+		var Mar_rencana = bobot.rncn.rencana_3;
+		var Apr_rencana = bobot.rncn.rencana_4;
+		var Mei_rencana = bobot.rncn.rencana_5;
+		var Jun_rencana = bobot.rncn.rencana_6;
+		var Jul_rencana = bobot.rncn.rencana_7;
+		var Ags_rencana = bobot.rncn.rencana_8;
+		var Sept_rencana = bobot.rncn.rencana_9;
+		var Okt_rencana = bobot.rncn.rencana_10;
+		var Nov_rencana = bobot.rncn.rencana_11;
+		var Des_rencana = bobot.rncn.rencana_12;
+		
+		var Jan_realisasi = bobot.real.realisasi_1;
+		var Feb_realisasi = bobot.real.realisasi_2;
+		var Mar_realisasi = bobot.real.realisasi_3;
+		var Apr_realisasi = bobot.real.realisasi_4;
+		var Mei_realisasi = bobot.real.realisasi_5;
+		var Jun_realisasi = bobot.real.realisasi_6;
+		var Jul_realisasi = bobot.real.realisasi_7;
+		var Ags_realisasi = bobot.real.realisasi_8;
+		var Sept_realisasi = bobot.real.realisasi_9;
+		var Okt_realisasi = bobot.real.realisasi_10;
+		var Nov_realisasi = bobot.real.realisasi_11;
+		var Des_realisasi = bobot.real.realisasi_12;
+		
+		var day_data_realisasi = [
+		{"elapsed": "Jan", "value": Jan_rencana,"val": Jan_realisasi},
+		{"elapsed": "Feb", "value": Feb_rencana,"val": Feb_realisasi},
+		{"elapsed": "Mar", "value": Mar_rencana,"val": Mar_realisasi},
+		{"elapsed": "Apr", "value": Apr_rencana,"val": Apr_realisasi},
+		{"elapsed": "Mei", "value": Mei_rencana,"val": Mei_realisasi},
+		{"elapsed": "Jun", "value": Jun_rencana,"val": Jun_realisasi},
+		{"elapsed": "Jul", "value": Jul_rencana,"val": Jul_realisasi},
+		{"elapsed": "Ags", "value": Ags_rencana,"val": Ags_realisasi},
+		{"elapsed": "Sept", "value": Sept_rencana,"val": Sept_realisasi},
+		{"elapsed": "Okt", "value": Okt_rencana,"val": Okt_realisasi},
+		{"elapsed": "Nov", "value": Nov_rencana,"val": Nov_realisasi},
+		{"elapsed": "Des", "value": Des_rencana,"val": Des_realisasi}
+		];
+		
+		Morris.Line({
+			element: 'demo-morris-line-kinerja',
+			data: day_data_realisasi,
+			xkey: 'elapsed',
+			ykeys: ['val','value'],
+			labels: ['rencana','realisasi'],
+			/*ykeys: ['value'],
+			labels: ['rencana'],*/
+			gridEnabled: false,
+			gridLineColor: 'transparent',
+			lineColors: ['#045d97','#1DE645'],
+			lineWidth: 2,
+			parseTime: false,
+			resize:true,
+			hideHover: 'auto'
+		});
+	},"JSON");
+	
+	$('#kdtriwulan').on('change', function(){
+		var kdtriwulan = $('#kdtriwulan').val();
+		var kdunitkerja = $('#kdunitkerja').val();
+		var kdgiat = $('#kdgiat').val();
+		var kdoutput = $('#kdoutput').val();
+		//var kd_komponen = $('#kd_komponen').val();
+		
+		 $('#download').hide();
+		 $('#canvas').hide();
+		 $('#canvas2').hide();
+		 $('#convert').show();
+		
+		$.post(basedomain+"monev_trwln/getdata_rev",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput},function(data){
+			/*document.getElementById('keterangan').value = data.keterangan;
+			document.getElementById('kendala').value = data.kendala;
+			document.getElementById('tindaklanjut').value = data.tindaklanjut;
+			document.getElementById('ygmembantu').value = data.ygmembantu;*/
+			$("#keterangan").code(data.keterangan);
+			$("#kendala").code(data.kendala);
+			$("#tindaklanjut").code(data.tindaklanjut);
+			$("#ygmembantu").code(data.ygmembantu);
+			
+		},"JSON");
+		
+		
+		$.post(basedomain+"monev_trwln/rencana_rev",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput},function(rencana){
+		//.toPrecision(2)
+		$('#demo-morris-line-realisasi').empty();
+		var Jan_rencana = rencana.rncn.rencana_1;
+		var Feb_rencana = rencana.rncn.rencana_2;
+		var Mar_rencana = rencana.rncn.rencana_3;
+		var Apr_rencana = rencana.rncn.rencana_4;
+		var Mei_rencana = rencana.rncn.rencana_5;
+		var Jun_rencana = rencana.rncn.rencana_6;
+		var Jul_rencana = rencana.rncn.rencana_7;
+		var Ags_rencana = rencana.rncn.rencana_8;
+		var Sept_rencana = rencana.rncn.rencana_9;
+		var Okt_rencana = rencana.rncn.rencana_10;
+		var Nov_rencana = rencana.rncn.rencana_11;
+		var Des_rencana = rencana.rncn.rencana_12;
+		
+		var Jan_realisasi = rencana.real.realisasi_1;
+		var Feb_realisasi = rencana.real.realisasi_2;
+		var Mar_realisasi = rencana.real.realisasi_3;
+		var Apr_realisasi = rencana.real.realisasi_4;
+		var Mei_realisasi = rencana.real.realisasi_5;
+		var Jun_realisasi = rencana.real.realisasi_6;
+		var Jul_realisasi = rencana.real.realisasi_7;
+		var Ags_realisasi = rencana.real.realisasi_8;
+		var Sept_realisasi = rencana.real.realisasi_9;
+		var Okt_realisasi = rencana.real.realisasi_10;
+		var Nov_realisasi = rencana.real.realisasi_11;
+		var Des_realisasi = rencana.real.realisasi_12;
+		
+		var day_data_realisasi = [
+		{"elapsed": "Jan", "value": Jan_rencana,"val": Jan_realisasi},
+		{"elapsed": "Feb", "value": Feb_rencana,"val": Feb_realisasi},
+		{"elapsed": "Mar", "value": Mar_rencana,"val": Mar_realisasi},
+		{"elapsed": "Apr", "value": Apr_rencana,"val": Apr_realisasi},
+		{"elapsed": "Mei", "value": Mei_rencana,"val": Mei_realisasi},
+		{"elapsed": "Jun", "value": Jun_rencana,"val": Jun_realisasi},
+		{"elapsed": "Jul", "value": Jul_rencana,"val": Jul_realisasi},
+		{"elapsed": "Ags", "value": Ags_rencana,"val": Ags_realisasi},
+		{"elapsed": "Sept", "value": Sept_rencana,"val": Sept_realisasi},
+		{"elapsed": "Okt", "value": Okt_rencana,"val": Okt_realisasi},
+		{"elapsed": "Nov", "value": Nov_rencana,"val": Nov_realisasi},
+		{"elapsed": "Des", "value": Des_rencana,"val": Des_realisasi}
+		];
+		
+		Morris.Line({
+			element: 'demo-morris-line-realisasi',
+			data: day_data_realisasi,
+			xkey: 'elapsed',
+			ykeys: ['value','val'],
+			labels: ['rencana','realisasi'],
+			/*ykeys: ['value'],
+			labels: ['rencana'],*/
+			gridEnabled: false,
+			gridLineColor: 'transparent',
+			lineColors: ['#045d97','#1DE645'],
+			lineWidth: 2,
+			parseTime: false,
+			resize:true,
+			hideHover: 'auto'
+		});
+	},"JSON");
+	
+		$.post(basedomain+"monev_trwln/bobot_rev",{kdtriwulan:kdtriwulan,kdunitkerja:kdunitkerja,kdgiat:kdgiat,kdoutput:kdoutput},function(bobot){
+		//.toPrecision(2)
+		$('#demo-morris-line-kinerja').empty();
+		var Jan_rencana = bobot.rncn.rencana_1;
+		var Feb_rencana = bobot.rncn.rencana_2;
+		var Mar_rencana = bobot.rncn.rencana_3;
+		var Apr_rencana = bobot.rncn.rencana_4;
+		var Mei_rencana = bobot.rncn.rencana_5;
+		var Jun_rencana = bobot.rncn.rencana_6;
+		var Jul_rencana = bobot.rncn.rencana_7;
+		var Ags_rencana = bobot.rncn.rencana_8;
+		var Sept_rencana = bobot.rncn.rencana_9;
+		var Okt_rencana = bobot.rncn.rencana_10;
+		var Nov_rencana = bobot.rncn.rencana_11;
+		var Des_rencana = bobot.rncn.rencana_12;
+		
+		var Jan_realisasi = bobot.real.realisasi_1;
+		var Feb_realisasi = bobot.real.realisasi_2;
+		var Mar_realisasi = bobot.real.realisasi_3;
+		var Apr_realisasi = bobot.real.realisasi_4;
+		var Mei_realisasi = bobot.real.realisasi_5;
+		var Jun_realisasi = bobot.real.realisasi_6;
+		var Jul_realisasi = bobot.real.realisasi_7;
+		var Ags_realisasi = bobot.real.realisasi_8;
+		var Sept_realisasi = bobot.real.realisasi_9;
+		var Okt_realisasi = bobot.real.realisasi_10;
+		var Nov_realisasi = bobot.real.realisasi_11;
+		var Des_realisasi = bobot.real.realisasi_12;
+		
+		var day_data_realisasi = [
+		{"elapsed": "Jan", "value": Jan_rencana,"val": Jan_realisasi},
+		{"elapsed": "Feb", "value": Feb_rencana,"val": Feb_realisasi},
+		{"elapsed": "Mar", "value": Mar_rencana,"val": Mar_realisasi},
+		{"elapsed": "Apr", "value": Apr_rencana,"val": Apr_realisasi},
+		{"elapsed": "Mei", "value": Mei_rencana,"val": Mei_realisasi},
+		{"elapsed": "Jun", "value": Jun_rencana,"val": Jun_realisasi},
+		{"elapsed": "Jul", "value": Jul_rencana,"val": Jul_realisasi},
+		{"elapsed": "Ags", "value": Ags_rencana,"val": Ags_realisasi},
+		{"elapsed": "Sept", "value": Sept_rencana,"val": Sept_realisasi},
+		{"elapsed": "Okt", "value": Okt_rencana,"val": Okt_realisasi},
+		{"elapsed": "Nov", "value": Nov_rencana,"val": Nov_realisasi},
+		{"elapsed": "Des", "value": Des_rencana,"val": Des_realisasi}
+		];
+		
+		Morris.Line({
+			element: 'demo-morris-line-kinerja',
+			data: day_data_realisasi,
+			xkey: 'elapsed',
+			ykeys: ['val','value'],
+			labels: ['rencana','realisasi'],
+			/*ykeys: ['value'],
+			labels: ['rencana'],*/
+			gridEnabled: false,
+			gridLineColor: 'transparent',
+			lineColors: ['#045d97','#1DE645'],
+			lineWidth: 2,
+			parseTime: false,
+			resize:true,
+			hideHover: 'auto'
+		});
+	},"JSON");
+	});
+
+	$('#btnSubmit').on('click', function(){
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	//var kd_komponen = $('#kd_komponen').val();
+	var kdtriwulan = $('#kdtriwulan').val();
+	
+	/*var textareaValue = $("#keterangan").code();
+	var keterangan = $('#keterangan').val();
+	var kendala = $('#kendala').val();
+	var tindaklanjut = $('#tindaklanjut').val();
+	var ygmembantu = $('#ygmembantu').val();*/
+	//alert(textareaValue);
+	
+	var keterangan = $('#keterangan').code();
+	var kendala = $('#kendala').code();
+	var tindaklanjut = $('#tindaklanjut').code();
+	var ygmembantu = $('#ygmembantu').code();
+	//alert(keterangan);
+	
+	var th = $('#th').val();
+		
+		bootbox.confirm("Simpan Data?", function(result) {
+			if (result) {
+				$.post( basedomain+"monev_trwln/postmonev", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu,keterangan:keterangan,kdtriwulan: kdtriwulan});										
+				$.niftyNoty({
+					type: 'success',
+					icon : 'fa fa-check',
+					message : 'Simpan Data Berhasil.',
+					container : 'floating',
+					timer : 2000
+				});
+				setTimeout(
+			   function() 
+			   {
+				//location.reload();
+				window.location.replace(basedomain+"monev_trwln/editBobotmonev/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&trwln="+kdtriwulan);
+			   
+			   }, 2000);
+			}else{
+				$.niftyNoty({
+					type: 'danger',
+					icon : 'fa fa-minus',
+					message : 'Simpan Data Gagal!',
+					container : 'floating',
+					timer : 2000
+				});
+			}
+
+
+		});
+	  
+	  
+	});	
+	
+	$('#convert').on('click', function(){  
+		$('#canvas').show();
+		$('#canvas2').show();
+		var svg = $("#demo-morris-line-realisasi").html();        
+			canvg(document.getElementById('canvas'), svg.split("<div")[0]);
+			html2canvas($("#canvas"), {
+			onrendered: function(canvas) {         
+		var imgData = canvas.toDataURL('image/png');
+		document.getElementById('scrn_anggaran').value = imgData;
+			}
+		});
+	
+		var svg2 = $("#demo-morris-line-kinerja").html();        
+			canvg(document.getElementById('canvas2'), svg2.split("<div")[0]);
+			html2canvas($("#canvas2"), {
+			onrendered: function(canvas) {         
+		var imgData2 = canvas.toDataURL('image/png');
+		document.getElementById('scrn_kinerja').value = imgData2;
+		
+			}
+		});
+		
+		
+		setTimeout(
+	   function() 
+		   {
+			$('#download').show();
+			$('#convert').hide();
+			$('#canvas').hide();
+			$('#canvas2').hide();
+			 submitform(); 
+			}, 
+		 0);
+	});
+});
+function submitform(){
+			//alert('test');
+			document.forms["myForm"].submit();
+        }
+</script>
+{/literal}
+<!--End page content-->

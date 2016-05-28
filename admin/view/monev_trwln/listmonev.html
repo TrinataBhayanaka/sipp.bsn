@@ -26,7 +26,7 @@ $(window).on('load', function() {
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
-	<h1 class="page-header text-overflow">Monev Bulanan</h1>
+	<h1 class="page-header text-overflow">Monitoring dan Evaluasi</h1>
 </div>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <!--End page title-->
@@ -46,9 +46,9 @@ $(window).on('load', function() {
 	<!-- Row selection and deletion (multiple rows) -->
 	<!--===================================================-->
 	<div class="panel">
-		<!--<div class="panel-heading">
-			<h3 class="panel-title">Monev Bulanan</h3>
-		</div>-->
+		<div class="panel-heading">
+			<h3 class="panel-title">Monev Triwulan</h3>
+		</div>
 		
 		
 		<!--{pr($data)}
@@ -61,19 +61,9 @@ $(window).on('load', function() {
 		<div id="separator-toolbar" class="table-toolbar-right">&nbsp;</div> -->
 		
 		<div id="delete-toolbar" class="table-toolbar-right">
-			<form method="POST" action ="{$basedomain}monev/monev_bulan">
+			<form method="POST" action ="{$basedomain}monev_trwln/">
 			<div class="form-horizontal">
 				<div class="form-group">
-				<select name="bulan" id="bulan" class="selectpicker" width="100%">
-					{foreach $bulan as $key=> $valbln}
-						{if $keybln == $key}
-							{$select_list = 'selected'}
-						{else}
-							{$select_list = ''}
-						{/if}	
-						<option value="{$key}" {$select_list}>{$valbln}</option>
-					{/foreach}
-				</select>
 				<select name="unit"  class="selectpicker" width="100%">
 					<option value="" selected>--Pilih Unit Kerja--</option>
 					{foreach $list_dropdown as $value}
@@ -97,23 +87,18 @@ $(window).on('load', function() {
 						<th class="text-center">Kegiatan / Output</th>
 						<th class="text-center">Total Anggaran</th>
 						<!--<th class="text-center">Status</th>-->
-						<th class="text-center" colspan="3">Aksi</th>
-						
-						<!--input type hidden-->
-						<input type="hidden" name="thn" id="th" value="{$param.thn_temp}">
-						<input type="hidden" name="kdunitkerja" id="kdunitkerja" value="{$param.kd_unit}">
+						<th class="text-center" >Aksi</th>
 					</tr>
 				</thead>
 				<tbody>
 					{foreach $data as $val}
-					<tr style="color:blue">
+					<tr style="color:green">
 						<td class="text-center">{$val.kdgiat}</td>
 						<td>{$val.nmgiat}</td>
 						<td class="text-right">{number_format($val.pagu_giat,"0",",",".")}</td>
-						<!--<td>&nbsp;</td>-->
 						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<!--<td>&nbsp;</td>
+						<td>&nbsp;</td>-->
 					</tr>
 						{foreach $val.output as $out}
 							<tr>
@@ -121,17 +106,12 @@ $(window).on('load', function() {
 								<td>{$out.nama_output}</td>
 								<td class="text-right">{number_format($out.pagu_output,"0",",",".")}</td>
 								{if $akses == 1}
-									<td><a href="{$basedomain}monev/editBobot_bulan/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Bobot Kinerja</button></a></td>
-									<td><a href="{$basedomain}monev/editAnggaran_bulan/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Anggaran</button></a></td>
-									<td><!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger btn-labeled fa fa-file-pdf-o">-->
-										<button type="button" id="print"  name="print" value="" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
-										<input type="hidden" name="kdgiat" id="kdgiat" value="{$val.kdgiat}">
-										<input type="hidden" name="kdoutput" id="kdoutput" value="{$out.KDOUTPUT}">
-									</td>
-								{else if $akses == 0}
-									<td>&nbsp;</td>
+									<td class="text-center"><a href="{$basedomain}monev_trwln/editBobotmonev/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Laporan Triwulan</button></a></td>
+									{else if $akses == 0}
 									<td>&nbsp;</td>
 								{/if}
+								<!--<td>&nbsp;</td>
+								<td>&nbsp;</td>-->
 							</tr>
 						{/foreach}
 					{/foreach}	
@@ -148,20 +128,6 @@ $(window).on('load', function() {
 	
 	
 </div>
-
-{literal}
-<script>
-$('#print').on('click', function(){
-	var th = $('#th').val();
-	var bulan = $('#bulan').val();
-	var kdunitkerja = $('#kdunitkerja').val();
-	var kdgiat = $('#kdgiat').val();
-	var kdoutput = $('#kdoutput').val();
-	
-	window.location.href=basedomain+"monev/print_monev_all/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput;
-});	
-</script>
-{/literal}
 <!--===================================================-->
 <!--End page content-->
 
