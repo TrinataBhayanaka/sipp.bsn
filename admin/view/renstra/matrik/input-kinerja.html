@@ -82,11 +82,21 @@
 									<tbody>
 										<tr>
 											{foreach $tahuntarget as $k => $a}
-											<td><input type="text" class="form-control percent" name="input[]" value="{$target.0.target.$k}"></td>
+											<td><input type="text" class="form-control _percent" name="input[]" value="{$target.0.target.$k}"></td>
 											{/foreach}
 										</tr>
+
 									</tbody>
 								</table>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">{$text6}</label>
+							<div class="col-sm-6">
+								<select name="satuan_target" class="form-control">
+									<option value="1" {if $target.0.satuan_target == 1}selected{/if}>%</option>
+									<option value="2" {if $target.0.satuan_target == 2}selected{/if}>Rp</option>
+								</select>
 							</div>
 						</div>
 					</div>
