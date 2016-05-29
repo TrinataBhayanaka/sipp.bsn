@@ -31,9 +31,10 @@
 					<div class="col-sm-6 table-toolbar-left">
 						<a href="{$basedomain}perjanjiankinerja/add_eselon/?id={$id}&kd={$idpk}&tp={$tipe}" id="addData">
 						<button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
+						<button type="button" id="print" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
 					</div>
 					<div class="col-sm-6 table-toolbar-right">
-						<form method="post" action="{$basedomain}perjanjiankinerja/eselon1/?tp={$es}">
+						<form method="post" action="{$basedomain}perjanjiankinerja/pk_eselon2/?tp={$es}">
 							<select class="selectpicker" id="struktur" name="struktur">
 								{foreach $struktur as $val}
 								<option value="{$val.id}_{$val.nama_satker}_{$val.kode}" {if $val.id eq $id}selected{/if}>{$val.nama_satker}</option>
@@ -112,5 +113,20 @@
 </div>
 <!--===================================================-->
 <!--End page content-->
+{literal}
+<script>
+	$(document).ready(function() {
+	
+		$('#print').on('click', function(){
+		var kd_unit = $('#struktur').val();
+		//console.log(kd_unit);
+		//var split_kode = kd_unit.split("_");
+		//console.log(split_kode[2]);
+		
+			window.location.href=basedomain+"perjanjiankinerja/print_eselon2/?kd_unit="+kd_unit;
+		});	
 
+});
+</script>
+{/literal}
 

@@ -22,24 +22,26 @@ class perjanjiankinerja extends Controller {
 		
 		$this->model = $this->loadModel('mptn');
 		$this->contentHelper = $this->loadModel('contentHelper');
+		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
 	}
 	
 	public function bsn(){
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk('840000',1,false,$thn['kode']);
-		foreach ($data as $key => $value) {
-			$perspektif[] = $value['perspektif'];
-		}
-		$fix_per = array_unique($perspektif);
-		
-		foreach ($fix_per as $key => $val) {
-			foreach ($data as $value) {
-				if($val == $value['perspektif']){
-					$data_fix[$val][] = $value;
+		if($data){
+			foreach ($data as $key => $value) {
+				$perspektif[] = $value['perspektif'];
+			}
+			$fix_per = array_unique($perspektif);
+			
+			foreach ($fix_per as $key => $val) {
+				foreach ($data as $value) {
+					if($val == $value['perspektif']){
+						$data_fix[$val][] = $value;
+					}
 				}
 			}
 		}
-		
 		// db($data_fix);
 		$this->view->assign('data',$data_fix);
 
@@ -170,7 +172,7 @@ class perjanjiankinerja extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
-		
+		if($data){
 		foreach ($data as $key => $value) {
 			$perspektif[] = $value['perspektif'];
 		}
@@ -183,7 +185,7 @@ class perjanjiankinerja extends Controller {
 				}
 			}
 		}
-		
+		}
 		// db($data_fix);
 		$this->view->assign('data',$data_fix);
 		$this->view->assign('tipe',$es);
@@ -224,20 +226,20 @@ class perjanjiankinerja extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
-
-		foreach ($data as $key => $value) {
-			$perspektif[] = $value['perspektif'];
-		}
-		$fix_per = array_unique($perspektif);
-		
-		foreach ($fix_per as $key => $val) {
-			foreach ($data as $value) {
-				if($val == $value['perspektif']){
-					$data_fix[$val][] = $value;
+		if($data){	
+			foreach ($data as $key => $value) {
+				$perspektif[] = $value['perspektif'];
+			}
+			$fix_per = array_unique($perspektif);
+			
+			foreach ($fix_per as $key => $val) {
+				foreach ($data as $value) {
+					if($val == $value['perspektif']){
+						$data_fix[$val][] = $value;
+					}
 				}
 			}
 		}
-
 		
 		$this->view->assign('data',$data_fix);
 		$this->view->assign('tipe',$es);
@@ -377,6 +379,276 @@ class perjanjiankinerja extends Controller {
 		return $this->loadView('pk/charts');
 	}
 	
+	public function DateToIndo($date) { 
+		// fungsi atau method untuk mengubah tanggal ke format indonesia
+		// variabel BulanIndo merupakan variabel array yang menyimpan nama-nama bulan
+		$BulanIndo = array("Januari", "Februari", "Maret",
+						   "April", "Mei", "Juni",
+						   "Juli", "Agustus", "September",
+						   "Oktober", "November", "Desember");
+	
+		$tahun = substr($date, 0, 4); // memisahkan format tahun menggunakan substring
+		$bulan = substr($date, 5, 2); // memisahkan format bulan menggunakan substring
+		$tgl   = substr($date, 8, 2); // memisahkan format tanggal menggunakan substring
+		
+		// $result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		return($result);
+	}
+	
+	function print_bsn(){
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk('840000',1,false,$thn['kode']);
+		if($data){
+			foreach ($data as $key => $value) {
+				$perspektif[] = $value['perspektif'];
+			}
+			$fix_per = array_unique($perspektif);
+			$k =1;
+			foreach ($fix_per as $val) {
+				$i=1;
+				$temp =array();
+				foreach ($data as $keys=>$value) {
+					$temp[] = $value['no_sasaran'];
+					$hit = count($temp);
+					if($val == $value['perspektif']){
+						$data_fix[$val][]= $value;
+						$count = count($data_fix[$val]);
+						$index = $count - 1; 
+						
+						$data_fix[$val][$index]['no'] = $i;
+						if($hit == 1){
+							$data_fix[$val][$index]['no_urut'] = $k;	
+						}else{
+							$get_val_array = $hit - 2;
+							if($temp[$get_val_array] == $value['no_sasaran']){
+								// nothing
+								$data_fix[$val][$index]['no_urut'] = '';	
+							}else{
+								$k++;
+								$data_fix[$val][$index]['no_urut'] = $k;	
+							}
+						}
+					}
+					$i++;
+				}
+			} 
+		}
+		$data_program = $this->model->getProgram($thn['kode']);
+		$j=1;
+		foreach ($data_program as $keyval=>$values){
+			$data_program_fix[] =  $values;
+			if($values['brief'] == "084.01"){
+				$param = '1';
+			}elseif($values['brief'] == "084.02"){
+				$param = '2';
+			}elseif($values['brief'] == "084.06"){
+				$param = '3';
+			}
+			$data_anggaran= $this->model->getAnggaran($param,$thn['kode']);
+			foreach ($data_anggaran as $anggaran){
+				$anggaran_fix += $anggaran['JML'];
+			}
+			$tot_angaran += $anggaran_fix;
+			$data_program_fix[$keyval]['anggaran'] =  $anggaran_fix;
+			$data_program_fix[$keyval]['no'] =  $j;
+			$anggaran_fix = 0;
+			$j++;
+			
+		}
+		
+		//new add		
+		$tgl = date("Y-m-d");
+		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);
+		
+		//ttd nama
+		$split = substr('840000',0,3);
+		$join = $split.'000';
+		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
+		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
+		
+		// exit;
+		$this->view->assign('data',$data_fix);
+		$this->view->assign('program',$data_program_fix);
+		$this->view->assign('all_anggaran',$tot_angaran);
+
+		$html = $this->loadView('pk/print_bsn');
+		// echo $html;
+		// exit;
+		$this->reportHelper =$this->loadModel('reportHelper');
+		$generate = $this->reportHelper->loadMpdf($html, 'pk-bsn',2);
+	}
+	
+	function print_eselon1(){
+		
+		$exp = explode("_", $_GET['kd_unit']);
+		$idpk = $exp[2];
+		$parent = $exp[0];
+		$this->view->assign('label',$exp[1]);
+		$this->view->assign('id',$exp[0]);
+		$this->view->assign('idpk',$idpk);
+		
+		$thn = $this->model->getTahun();
+		$this->view->assign('tahun',$thn['kode']);
+	
+		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
+		if($data){
+			foreach ($data as $key => $value) {
+				$perspektif[] = $value['perspektif'];
+			}
+			$fix_per = array_unique($perspektif);
+			$k =1;
+			foreach ($fix_per as $val) {
+				$i=1;
+				$temp =array();
+				foreach ($data as $keys=>$values) {
+					$temp[] = $values['no_sasaran'];
+					// pr($temp);
+					$hit = count($temp);
+					if($val == $values['perspektif']){
+						$data_fix[$val][]= $values;
+						$count = count($data_fix[$val]);
+						$index = $count - 1; 
+						
+						$data_fix[$val][$index]['no'] = $i;
+							if($hit == 1){
+								$data_fix[$val][$index]['no_urut'] = $k;	
+							}else{
+								$get_val_array = $hit - 2;
+								if($temp[$get_val_array] == $values['no_sasaran']){
+									// nothing
+									$data_fix[$val][$index]['no_urut'] = '';	
+								}else{
+									$k++;
+									$data_fix[$val][$index]['no_urut'] = $k;	
+								}
+							}
+					}
+					$i++;
+				}
+			} 
+		}
+		
+		$str = rtrim($exp[2], '0');
+		$data_kegiatan= $this->model->kd_kegiatan($str);
+		$j=1;
+		foreach ($data_kegiatan as $keyval=>$values){
+			$data_kegiatan_fix[] =  $values;
+			
+			$data_anggaran= $this->model->getAnggaraneselon($values['kdgiat'],$thn['kode']);
+			foreach ($data_anggaran as $anggaran){
+				$anggaran_fix += $anggaran['JML'];
+			}
+			$tot_angaran += $anggaran_fix;
+			$data_kegiatan_fix[$keyval]['anggaran'] =  $anggaran_fix;
+			$data_kegiatan_fix[$keyval]['no'] =  $j;
+			$anggaran_fix = 0;
+			$j++;
+			
+		}
+		//new add		
+		$tgl = date("Y-m-d");
+		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);
+		// db($data_fix);
+		// db($data_kegiatan_fix);
+		$this->view->assign('data',$data_fix);
+		$this->view->assign('program',$data_kegiatan_fix);
+		$this->view->assign('all_anggaran',$tot_angaran);
+
+		$html = $this->loadView('pk/print_eselon1');
+		// echo $html;
+		// exit;
+		$this->reportHelper =$this->loadModel('reportHelper');
+		$generate = $this->reportHelper->loadMpdf($html, 'pk-bsn',2);
+	}
+	
+	function print_eselon2(){
+		$exp = explode("_", $_GET['kd_unit']);
+		$idpk = $exp[2];
+		$parent = $exp[0];
+		$this->view->assign('label',$exp[1]);
+		$this->view->assign('id',$exp[0]);
+		$this->view->assign('idpk',$idpk);
+		
+		$thn = $this->model->getTahun();
+		$this->view->assign('tahun',$thn['kode']);
+	
+		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
+		if($data){
+			foreach ($data as $key => $value) {
+				$perspektif[] = $value['perspektif'];
+			}
+			$fix_per = array_unique($perspektif);
+			$k =1;
+			foreach ($fix_per as $val) {
+				$i=1;
+				$temp =array();
+				foreach ($data as $keys=>$values) {
+					$temp[] = $values['no_sasaran'];
+					// pr($temp);
+					$hit = count($temp);
+					if($val == $values['perspektif']){
+						$data_fix[$val][]= $values;
+						$count = count($data_fix[$val]);
+						$index = $count - 1; 
+						
+						$data_fix[$val][$index]['no'] = $i;
+							if($hit == 1){
+								$data_fix[$val][$index]['no_urut'] = $k;	
+							}else{
+								$get_val_array = $hit - 2;
+								if($temp[$get_val_array] == $values['no_sasaran']){
+									// nothing
+									$data_fix[$val][$index]['no_urut'] = '';	
+								}else{
+									$k++;
+									$data_fix[$val][$index]['no_urut'] = $k;	
+								}
+							}
+					}
+					$i++;
+				}
+			} 
+		}
+		
+		$str = rtrim($exp[2], '0');
+		// pr($exp[2]);
+		// pr($str);
+		$data_kegiatan= $this->model->kd_kegiatan($str);
+		$j=1;
+		foreach ($data_kegiatan as $keyval=>$values){
+			$data_kegiatan_fix[] =  $values;
+			
+			$data_anggaran= $this->model->getAnggaraneselon($values['kdgiat'],$thn['kode']);
+			foreach ($data_anggaran as $anggaran){
+				$anggaran_fix += $anggaran['JML'];
+			}
+			$tot_angaran += $anggaran_fix;
+			$data_kegiatan_fix[$keyval]['anggaran'] =  $anggaran_fix;
+			$data_kegiatan_fix[$keyval]['no'] =  $j;
+			$anggaran_fix = 0;
+			$j++;
+			
+		}
+		//new add		
+		$tgl = date("Y-m-d");
+		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);
+		$this->view->assign('data',$data_fix);
+		$this->view->assign('program',$data_kegiatan_fix);
+		$this->view->assign('all_anggaran',$tot_angaran);
+
+		//nama pejabat eselon I dan eselon II yg terkait 
+		
+		$html = $this->loadView('pk/print_eselon2');
+		// echo $html;
+		// exit;
+		$this->reportHelper =$this->loadModel('reportHelper');
+		$generate = $this->reportHelper->loadMpdf($html, 'pk-bsn',2);
+		
+	}
 }
 
 ?>

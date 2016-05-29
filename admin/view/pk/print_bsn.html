@@ -23,7 +23,11 @@
 						<td>&nbsp;</td>
 					{/if}
 					<td>{$value.no|cat:". "|cat:$value.nm_pk}</td>
-					<td style="text-align: center;" >{$value.target}</td>
+					{if is_numeric($value.target)}
+						<td style="text-align: center;" >{number_format($value.target,'0',',','.')}</td>
+					{else if}
+						<td style="text-align: center;" >{$value.target}</td>
+					{/if}
 					<td style="text-align: center;">{$value.satuan}</td>
 				</tr>
 			{/foreach}
@@ -43,13 +47,13 @@
 		{if $program}
 		{foreach $program as $dataval}
 		<tr>
-			<td>{$dataval.no|cat:". "|cat:$dataval.data.decription}</td>
+			<td>{$dataval.no|cat:". "|cat:$dataval.decription}</td>
 			<td style="text-align: right;">{number_format($dataval.anggaran,'0',',','.')}</td>
 		</tr>
 		{/foreach}
 		<tr>
-			<td style="text-align: center;">Jumlah</td>
-			<td style="text-align: right;">{number_format($all_anggaran,'0',',','.')}</td>
+			<td style="text-align: center;  font-weight: bold;">Jumlah</td>
+			<td style="text-align: right; font-weight: bold;">{number_format($all_anggaran,'0',',','.')}</td>
 		</tr>
 		{/if}
 	</tbody>
