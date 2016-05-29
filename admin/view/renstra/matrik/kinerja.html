@@ -20,13 +20,33 @@
 		var id = $(this).attr('data-kinerja-id');
 		var parentid = $(this).attr('data-parent');
 		$('.kinerja_'+parentid).attr('data-kinerja', id);
+		$('.hapuskinerja_'+parentid).attr('data-kinerja', id);
 	})
 
 	function editKinerja(data)
 	{
 		var url = $('.kinerja_'+data).attr('data-link'); 
 		var id = $('.kinerja_'+data).attr('data-kinerja');
-		redirect(url+id);
+		if (!id){
+			alert('Pilih data terlebih dahulu');
+			return false;
+		}else{
+			redirect(url+id);
+		}
+		
+	}
+
+	function hapusKinerja(data)
+	{
+		var url = $('.hapuskinerja_'+data).attr('data-link'); 
+		var id = $('.hapuskinerja_'+data).attr('data-kinerja');
+		if (!id){
+			alert('Pilih data terlebih dahulu');
+			return false;
+		}else{
+			redirect(url+id);
+		}
+		
 	}
 
 {/literal}
@@ -101,6 +121,7 @@
 											<td class="text-center">{$a}</td>
 											{/foreach}
 											{/if}
+											<td class="text-center">Satuan</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -108,6 +129,7 @@
 											{foreach $value.target as $v}
 											<td>{$v}</td>
 											{/foreach}
+											<td>{$value.satuan_target}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -124,7 +146,7 @@
 							<a href="javascript:void(0)" data-link="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}&id=" data-kinerja="" class="kinerja_{$val.id}" onclick="editKinerja({$val.id})"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="" data-id="{$val.id}">Edit IKSS</button></a>
 							<br/>
 							<br/>
-							<a href="{$basedomain}renstra/delete/?id={$val.target.0.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
+							<a href="javascript:void(0)" data-link="{$basedomain}renstra/delete/?req=4&id=" data-kinerja="" class="hapuskinerja_{$val.id}" onclick="hapusKinerja({$val.id})"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
 							{/if}
 						</td>
 					</tr>

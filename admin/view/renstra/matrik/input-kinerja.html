@@ -93,10 +93,8 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">{$text6}</label>
 							<div class="col-sm-6">
-								<select name="satuan_target" class="form-control">
-									<option value="1" {if $target.0.satuan_target == 1}selected{/if}>%</option>
-									<option value="2" {if $target.0.satuan_target == 2}selected{/if}>Rp</option>
-								</select>
+								<input name="satuan_target" type="text" value="{$text6value}" class="form-control">
+								
 							</div>
 						</div>
 					</div>
