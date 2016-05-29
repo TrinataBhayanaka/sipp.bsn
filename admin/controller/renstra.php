@@ -167,12 +167,13 @@ class renstra extends Controller {
 					foreach ($val as $key => $value) {
 						if ($value['data']){
 							$target = unserialize($value['data']);
-							$getTarget[$key]['target'] = $target['target'];
-							$getTarget[$key]['satuan_target'] = $target['satuan_target'];
+							$getKinerja[$k][$key]['target'] = $target['target'];
+							$getKinerja[$k][$key]['satuan_target'] = $target['satuan_target'];
 						} 
 						
 					}
 				}
+				// pr($getKinerja);
 				foreach ($getSasaran as $key => $value) {
 					
 					foreach ($getKinerja as $b) {
@@ -185,7 +186,7 @@ class renstra extends Controller {
 				}
 			}
 		}
-		
+		// pr($getSasaran);
 		$this->view->assign('tahuntarget', $arrayTahun);
 		$this->view->assign('kinerja', $getKinerja[0]);
 		$this->view->assign('parent_id', $parent_id);
@@ -744,8 +745,9 @@ class renstra extends Controller {
 
 				}
 			}
-			// pr($getTarget);
+			
 			$this->view->assign('text4value', $getTarget[0]['desc']);
+			$this->view->assign('text6value', $getTarget[0]['satuan_target']);
 			$this->view->assign('target', $getTarget);
 			$this->view->assign('id', $getTarget[0]['id']);
 			
@@ -853,12 +855,11 @@ class renstra extends Controller {
 		}else if ($req == 2){
 
 			// input outcome
-			$dataStruktur = [];
-			$dataStruktur['type'] = 2;
-			$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
-			
+			// $dataStruktur = [];
+			// $dataStruktur['type'] = 2;
+			// $getStruktur = $this->contentHelper->getStruktur($dataStruktur);
 			$getOutcome = $this->contentHelper->getVisi($dataStruktur['id'], 9, 1);
-
+			// pr($getOutcome);
 			if ($dataStruktur['id']){
 				$brief = $getOutcome[0]['brief'];
 				$title = $getOutcome[0]['desc'];
@@ -875,8 +876,8 @@ class renstra extends Controller {
 				$desc = "";
 			}
 
-			$getStrukturData = $this->contentHelper->getStruktur();
-					
+			$getStrukturData = $this->contentHelper->getStruktur(['type'=>2]);
+			
 			if (count($outcomeExist > 0)){
 				foreach ($getStrukturData as $key => $value) {
 					if (!in_array($value['id'], $outcomeExist)) $getStruktur[] = $value;
@@ -885,7 +886,7 @@ class renstra extends Controller {
 				$getStruktur = $getStrukturData;
 			}
 			
-			// pr($getOutcome);
+			// pr($getStruktur);
 
 			$dataForm[] = array('text'=>true, 'title'=>'Kode', 'name'=>'brief', 'value'=>$brief, 'readonly'=>'readonly');
 			$dataForm[] = array('text'=>true, 'title'=>'Program', 'name'=>'title', 'value'=>$title, 'disabled'=>'disabled');

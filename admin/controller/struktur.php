@@ -262,7 +262,7 @@ class struktur extends Controller {
 
 		$dataStruktur['type'] = 2;
 		$getStrukturOrgData = $this->contentHelper->getStruktur($dataStruktur);
-
+		/*
 		if (count($tupoksiExist > 0)){
 			foreach ($getStrukturOrgData as $key => $value) {
 				if (!in_array($value['id'], $tupoksiExist)) $getStrukturOrg[] = $value;
@@ -270,7 +270,8 @@ class struktur extends Controller {
 		}else{
 			$getStrukturOrg = $getStrukturOrgData;
 		}
-		
+		*/
+		$getStrukturOrg = $getStrukturOrgData;
 		if ($id){
 			$data['id'] = $id;
 			$getStruktur = $this->contentHelper->getContent($data);
