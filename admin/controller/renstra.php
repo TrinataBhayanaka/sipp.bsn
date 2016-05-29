@@ -880,19 +880,19 @@ class renstra extends Controller {
 				$brief = "";
 				$desc = "";
 			}
-
+		
 			$getStrukturData = $this->contentHelper->getStruktur(['type'=>2]);
 			
-			if (count($outcomeExist > 0)){
-				foreach ($getStrukturData as $key => $value) {
-					if (!in_array($value['id'], $outcomeExist)) $getStruktur[] = $value;
-				}
-			}else{
-				$getStruktur = $getStrukturData;
-			}
-			
+			// if (count($outcomeExist > 0)){
+			// 	foreach ($getStrukturData as $key => $value) {
+			// 		if (!in_array($value['id'], $outcomeExist)) $getStruktur[] = $value;
+			// 	}
+			// }else{
+			// 	$getStruktur = $getStrukturData;
+			// }
+			$getStruktur = $getStrukturData;
+			// pr($getOutcome);
 			// pr($getStruktur);
-
 			$dataForm[] = array('text'=>true, 'title'=>'Kode', 'name'=>'brief', 'value'=>$brief, 'readonly'=>'readonly');
 			$dataForm[] = array('text'=>true, 'title'=>'Program', 'name'=>'title', 'value'=>$title, 'disabled'=>'disabled');
 			$dataForm[] = array('textarea'=>true, 'title'=>'Outcome', 'name'=>'desc', 'value'=>$desc);
