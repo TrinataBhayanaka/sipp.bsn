@@ -75,6 +75,8 @@ class mptn extends Database {
 		if($id) $cndid = "AND no_sasaran = '{$id}'"; else $cndid = "";
 		if($idpk) $cndidpk = "AND id = '{$idpk}'"; else $cndidpk = "";
 		$sql = "DELETE FROM th_pk WHERE th = '{$thn['kode']}' {$cndid} {$cndidpk}";
+		// pr($sql);
+		// exit;
 		$res = $this->query($sql);
 
 		return true;
@@ -106,6 +108,7 @@ class mptn extends Database {
 	function getIK($type=5, $cat=0, $parent=0, $tahun=false)
 	{
 		$query = "SELECT * FROM bsn_news_content WHERE type = {$type} AND category = {$cat} AND parent_id = {$parent} AND year = {$tahun}  and n_status = 1";
+		// pr($query);
 		$data = $this->fetch($query,1);
 
 		return $data;
