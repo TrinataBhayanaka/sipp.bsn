@@ -240,7 +240,11 @@ class renstra extends Controller {
 						$getIndikator = $this->contentHelper->getVisi(false, 9, 3, $val['id']);
 						if ($getIndikator){
 							foreach ($getIndikator as $index => $v) {
-								if ($v['data']) $getIndikator[$index]['target'] = unserialize($v['data']);
+								if ($v['data']){
+									$target = unserialize($v['data']);
+									$getIndikator[$index]['target'] = $target['target'];
+									$getIndikator[$index]['satuan_target'] = $target['satuan_target'];
+								} 
 							}
 
 							$getSasaran[$key]['is_indikator'] = true;
@@ -254,6 +258,7 @@ class renstra extends Controller {
 			}
 			
 		}
+		// pr($getSasaran);
 		$this->view->assign('tahuntarget', $arrayTahun);
 		$this->view->assign('kinerja', $getKinerja[0]);
 		$this->view->assign('parent_id', $parent_id);
@@ -917,13 +922,18 @@ class renstra extends Controller {
 					
 					if ($getOutcome){
 						foreach ($getOutcome as $key => $value) {
-							if ($value['data']) $getOutcome[$key]['target'] = unserialize($value['data']);
+							if ($value['data']){
+								$target = unserialize($value['data']);
+								$getOutcome[$key]['target'] = $target['target'];
+								$getOutcome[$key]['satuan_target'] = $target['satuan_target'];
+							} 
 						}
 					}
 					$desc = $getOutcome[0]['desc'];
 
 					// pr($getOutcome);
 					$this->view->assign('outcome', $getOutcome);
+					$this->view->assign('satuan_target', $getOutcome[0]['satuan_target']);
 				}else{
 					$desc = "";
 				}
@@ -954,14 +964,14 @@ class renstra extends Controller {
 			$this->view->assign('form', $generataField);
 			$this->view->assign('struktur', $getStruktur);
 			$this->view->assign('tahuntarget', $arrayTahun);
+
 			
 		}
 
 		if ($_POST['submit']){
 			
 			if ($_POST['category']==3){
-				$serial = serialize($_POST['input']);
-				$_POST['data'] = $serial;
+				$_POST['data'] = serialize(array('target'=>$_POST['input'], 'satuan_target'=>$_POST['satuan_target']));
 			}
 			
 			$_POST['create_date'] = date('Y-m-d H:i:s');
