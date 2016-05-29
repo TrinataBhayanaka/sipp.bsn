@@ -341,12 +341,20 @@ class renstra extends Controller {
 				if ($getData){
 
 					foreach ($getData as $k => $val) {
-						if ($val['data']) $getData[$k]['target'] = unserialize($val['data']);
+						if ($val['data']){
+							$target = unserialize($val['data']);
+							$getData[$k]['target'] = $target['target'];
+							$getData[$k]['satuan_target'] = $target['satuan_target'];
+						} 
 
 						$getDataOut = $this->contentHelper->getVisi(false, 11, 2, $val['id']);
 						if ($getDataOut){
 							foreach ($getDataOut as $ka => $v) {
-								if ($v['data']) $getDataOut[$ka]['target'] = unserialize($v['data']);
+								if ($v['data']){
+									$target = unserialize($v['data']);
+									$getDataOut[$ka]['target'] = $target['target'];
+									$getDataOut[$ka]['satuan_target'] = $target['satuan_target'];
+								} 
 							}
 
 							$getData[$k]['output'] = $getDataOut;
@@ -1096,7 +1104,11 @@ class renstra extends Controller {
 				$getOutput = $this->contentHelper->getVisi($id, 11, 1);
 				
 				foreach ($getOutput as $k => $val) {
-					if ($val['data']) $getOutput[$k]['target'] = unserialize($val['data']);
+					if ($val['data']){
+						$target = unserialize($val['data']);
+						$getOutput[$k]['target'] = $target['target'];
+						$getOutput[$k]['satuan_target'] = $target['satuan_target'];
+					} 
 				}
 				$brief1 = $getSasaran[0]['title'];
 				$desc1 = $getSasaran[0]['desc'];
@@ -1104,6 +1116,7 @@ class renstra extends Controller {
 				$title = $getOutput[0]['title'];
 				$desc = $getOutput[0]['desc'];
 				$this->view->assign('output', $getOutput);
+				$this->view->assign('satuan_target', $getOutput[0]['satuan_target']);
 
 			}else{
 				$brief1 = $getSasaran[0]['title'];
@@ -1146,7 +1159,11 @@ class renstra extends Controller {
 				$getKegiatan1 = $this->contentHelper->getContent($out2);
 
 				foreach ($getOutput as $k => $val) {
-					if ($val['data']) $getOutput[$k]['target'] = unserialize($val['data']);
+					if ($val['data']){
+						$target = unserialize($val['data']);
+						$getOutput[$k]['target'] = $target['target'];
+						$getOutput[$k]['satuan_target'] = $target['satuan_target'];
+					} 
 				}
 				$brief1 = $getSasaran[0]['title'];
 				$desc1 = $getKegiatan1[0]['desc'];
@@ -1155,6 +1172,7 @@ class renstra extends Controller {
 				$title = $getOutput[0]['title'];
 				$desc = $getOutput[0]['desc'];
 				$this->view->assign('output', $getOutput);
+				$this->view->assign('satuan_target', $getOutput[0]['satuan_target']);
 
 			}else{
 				$title = $getSasaran[0]['title'];
@@ -1182,9 +1200,7 @@ class renstra extends Controller {
 
 		if ($_POST['submit']){
 			
-			
-			$serial = serialize($_POST['input']);
-			$_POST['data'] = $serial;
+			$_POST['data'] = serialize(array('target'=>$_POST['input'], 'satuan_target'=>$_POST['satuan_target']));
 			
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');

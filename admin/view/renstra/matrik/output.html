@@ -100,6 +100,7 @@
 											{foreach $tahuntarget as $tahun}
 											<th>{$tahun}</th>
 											{/foreach}
+											<th>Satuan Target</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -108,13 +109,14 @@
 											{foreach $v.target as $target}
 											<td>{$target}</td>
 											{/foreach}
+											<td>{$v.satuan_target}</td>
 										</tr>
 									</tbody>
 								</table>
 							</td>
 							<td>
 								<div id="create-toolbar" >
-									<a href="{$basedomain}renstra/editOutput/?req=7&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 							</td>
 							<td>
@@ -135,6 +137,7 @@
 											{foreach $tahuntarget as $tahun}
 											<th>{$tahun}</th>
 											{/foreach}
+											<th>Satuan Target</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -143,6 +146,7 @@
 											{foreach $out.target as $target}
 											<td>{$target}</td>
 											{/foreach}
+											<td>{$out.satuan_target}</td>
 										</tr>
 									</tbody>
 								</table>
