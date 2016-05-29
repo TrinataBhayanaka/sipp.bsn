@@ -57,11 +57,23 @@ class struktur extends Controller {
 	}
 	public function eselon1(){
 
+		global $basedomain;
+
 		$data['type'] = 2;
 		$data['category'] = 1;
 		
+		$parent_id = _g('parent_id');
+		$dataStruktur['type'] = 2;
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+
+		if (!$parent_id){
+			redirect($basedomain."struktur/eselon1/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+		$this->view->assign('struktur', $getStruktur);
+		$this->view->assign('eselon_id', $parent_id);
 		$getTugas = $this->contentHelper->getContent($data);
-		// pr($getTugas);
+		
 		if ($getTugas){
 			foreach ($getTugas as $key => $value) {
 				$a['id'] = $value['title'];
@@ -75,7 +87,7 @@ class struktur extends Controller {
 					$getTugas[$key]['fungsi'] = $getFungsi;
 				}
 			}
-
+			// pr($getTugas);
 			$this->view->assign('tugas', $getTugas);
 		}
 
@@ -84,9 +96,21 @@ class struktur extends Controller {
 	}
 
 	public function eselon2(){
+		global $basedomain;
+
 		$data['type'] = 3;
 		$data['category'] = 1;
 		
+		$parent_id = _g('parent_id');
+		$dataStruktur['type'] = 3;
+		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+
+		if (!$parent_id){
+			redirect($basedomain."struktur/eselon2/?parent_id=".$getStruktur[0]['id']);
+			exit;
+		}
+		$this->view->assign('struktur', $getStruktur);
+		$this->view->assign('eselon_id', $parent_id);
 		$getTugas = $this->contentHelper->getContent($data);
 		
 		if ($getTugas){
@@ -109,11 +133,6 @@ class struktur extends Controller {
 
 	}
 
-	public function sampleform()
-	{
-		return $this->loadView('home/sample_form');
-	}
-	
 	function editStruktur()
 	{
 		global $basedomain;
@@ -128,6 +147,8 @@ class struktur extends Controller {
 			$kode = $getStruktur[0]['kode'];
 			$nama_satker =$getStruktur[0]['nama_satker'];
 			$singkatan = $getStruktur[0]['singkatan'];
+			$custom_text = unserialize($getStruktur[0]['custom_text']);
+			$pejabat = $custom_text['pejabat'];
 			$this->view->assign('satker', $getStruktur);
 		}else{
 			$kode = "";
@@ -137,6 +158,7 @@ class struktur extends Controller {
 		$dataForm[] = array('text'=>true, 'title'=>'Kode', 'name'=>'kode', 'value'=>$kode);
 		$dataForm[] = array('textarea'=>true, 'title'=>'Unit Kerja', 'name'=>'nama_satker', 'value'=>$nama_satker);
 		$dataForm[] = array('text'=>true, 'title'=>'Singkatan', 'name'=>'singkatan', 'value'=>$singkatan);
+		$dataForm[] = array('text'=>true, 'title'=>'Nama Pejabat', 'name'=>'pejabat', 'value'=>$pejabat);
 		$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
 		$this->view->assign('submit', "submit");
 
@@ -146,6 +168,7 @@ class struktur extends Controller {
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 			
+			if ($_POST['pejabat']) $_POST['custom_text'] = serialize(array('pejabat'=>$_POST['pejabat']));
 			$save = $this->contentHelper->saveData($_POST, "_struktur");
 			if ($save) redirect($basedomain . 'struktur/index');
 		}

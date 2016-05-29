@@ -67,11 +67,12 @@
 		<div class="panel-heading">
 			<h3 class="panel-title">Visi Misi Eselon</h3>
 		</div>
-		
+		{if !$visi}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Visi</button></a>
 		</div>
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		{/if}
 		{*}
 		<div id="delete-toolbar" class="table-toolbar-left">
 			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>

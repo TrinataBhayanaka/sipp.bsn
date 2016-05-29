@@ -165,7 +165,11 @@ class renstra extends Controller {
 			if ($getKinerja){
 				foreach ($getKinerja as $k => $val) {
 					foreach ($val as $key => $value) {
-						if ($value['data']) $getKinerja[$k][$key]['target'] = unserialize($value['data']);
+						if ($value['data']){
+							$target = unserialize($value['data']);
+							$getTarget[$key]['target'] = $target['target'];
+							$getTarget[$key]['satuan_target'] = $target['satuan_target'];
+						} 
 						
 					}
 				}
@@ -732,9 +736,15 @@ class renstra extends Controller {
 			
 			if ($getTarget){
 				foreach ($getTarget as $key => $value) {
-					if ($value['data']) $getTarget[$key]['target'] = unserialize($value['data']);
+					if ($value['data']){
+						$target = unserialize($value['data']);
+						$getTarget[$key]['target'] = $target['target'];
+						$getTarget[$key]['satuan_target'] = $target['satuan_target'];
+					} 
+
 				}
 			}
+			// pr($getTarget);
 			$this->view->assign('text4value', $getTarget[0]['desc']);
 			$this->view->assign('target', $getTarget);
 			$this->view->assign('id', $getTarget[0]['id']);
@@ -742,6 +752,7 @@ class renstra extends Controller {
 		}else{
 			
 			$this->view->assign('text4value', "");
+			$this->view->assign('text6value', "");
 			
 		}
 
@@ -755,6 +766,7 @@ class renstra extends Controller {
 		$this->view->assign('text3', "Sasaran Strategis");
 		$this->view->assign('text4', "Indikator Kinerja Sasaran Strategis");
 		$this->view->assign('text5', "Target");
+		$this->view->assign('text6', "Satuan Target");
 		$this->view->assign('submit', "submit");
 		$this->view->assign('parent_id', $child_id);
 		$this->view->assign('type', 8);
@@ -763,11 +775,12 @@ class renstra extends Controller {
 
 		if ($_POST['submit']){
 			
-			$serial = serialize($_POST['input']);
+			// $serial = serialize($_POST['input']);
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
-			$_POST['data'] = $serial;
+			$_POST['data'] = serialize(array('target'=>$_POST['input'], 'satuan_target'=>$_POST['satuan_target']));
+
 			$save = $this->contentHelper->saveData($_POST);
 			if ($save) redirect($basedomain . 'renstra/kinerja');
 		}
@@ -840,6 +853,10 @@ class renstra extends Controller {
 		}else if ($req == 2){
 
 			// input outcome
+			$dataStruktur = [];
+			$dataStruktur['type'] = 2;
+			$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
+			
 			$getOutcome = $this->contentHelper->getVisi($dataStruktur['id'], 9, 1);
 
 			if ($dataStruktur['id']){
@@ -859,7 +876,7 @@ class renstra extends Controller {
 			}
 
 			$getStrukturData = $this->contentHelper->getStruktur();
-
+					
 			if (count($outcomeExist > 0)){
 				foreach ($getStrukturData as $key => $value) {
 					if (!in_array($value['id'], $outcomeExist)) $getStruktur[] = $value;
