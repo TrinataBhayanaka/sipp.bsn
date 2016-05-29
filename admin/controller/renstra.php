@@ -445,7 +445,7 @@ class renstra extends Controller {
 			
 
 		}
-
+		// pr($newData);
 		$this->view->assign('pid', $pid);
 		$this->view->assign('parent_id', $parent_id);
 		$this->view->assign('visi', $getVisiBsn);
@@ -1255,6 +1255,7 @@ class renstra extends Controller {
 			$this->view->assign('text2', "Teks yang tampil");
 			$this->view->assign('text3', "Nama File");
 			$this->view->assign('text4', "No. Urut");
+			$this->view->assign('text5', "Cover");
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', 15);
 			$this->view->assign('category', 1);
@@ -1281,7 +1282,21 @@ class renstra extends Controller {
 								$dataArr['id'] = $getLastData[0]['id'];
 								$dataArr['filename'] = $image['full_name'];
 								$updateData = $this->contentHelper->saveData($dataArr);
-								if ($updateData) redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
+								// if ($updateData) redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
+							}else{
+								echo "<script>alert('File type not allowed');</script>";
+								redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
+							}	
+						}
+
+						if($_FILES['cover']['name'] != ''){
+							$image = uploadFile('cover',null,'all');
+
+							if ($image['status']){
+								$dataArr['id'] = $getLastData[0]['id'];
+								$dataArr['tags'] = $image['full_name'];
+								$updateData = $this->contentHelper->saveData($dataArr);
+								// if ($updateData) redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
 							}else{
 								echo "<script>alert('File type not allowed');</script>";
 								redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
@@ -1291,6 +1306,7 @@ class renstra extends Controller {
 					}
 				}
 				
+				redirect($basedomain."renstra/dokumenBsn/?pid={$pid}&parent_id={$parent_id}");
 			}
 			
 		}
