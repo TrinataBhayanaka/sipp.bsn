@@ -152,6 +152,14 @@ class mptn extends Database {
 		
 		return $result;
 	}
+
+	function checkSS($idss)
+	{
+		$query = "SELECT COUNT(*) as total FROM th_pk WHERE no_sasaran = {$idss}";
+		$res = $this->fetch($query);
+
+		return $res['total'];
+	}
 	
 	
 }
