@@ -106,6 +106,16 @@
 									</tbody>
 								</table>
 							</div>
+							<div align="center">
+
+								<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
+								
+								<a href="{$basedomain}renstra/delete/?id={$value.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a>
+								
+								<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Indikator</button></a>
+									
+							</div>
+							<br>
 							<div>
 								<table class="table table-bordered" width="100%">
 									<thead>
@@ -117,6 +127,7 @@
 											{foreach $tahuntarget as $thn}
 											<td class="text-center">{$thn}</td>
 											{/foreach}
+											<td>Satuan Target</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -128,7 +139,13 @@
 											{foreach $v.target as $indi}
 											<td class="text-center">{$indi}</td>
 											{/foreach}
-											
+											<td class="text-center">{$v.satuan_target}</td>
+										</tr>
+										<tr>
+											<td class="text-center" colspan="7">
+												<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
+												<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a>
+											</td>
 										</tr>
 										{/foreach}
 										{/if}
@@ -155,8 +172,10 @@
 										<br>
 									</td>
 									</tr>
+									{*}
 									{if $val.outcome}
 									{foreach $val.outcome as $value}
+									
 									<tr>
 										<td class="text-center">
 										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
@@ -172,6 +191,7 @@
 									</tr>
 									{/foreach}
 									{/if}
+									
 
 									{if $val.is_indikator}
 									
@@ -185,6 +205,7 @@
 									{/foreach}
 									{/foreach}
 									{/if}
+									{/*}
 								</tbody>
 								
 							</table>

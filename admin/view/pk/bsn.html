@@ -30,6 +30,7 @@
 				<div class="row">
 					<div class="col-sm-6 table-toolbar-left">
 						<a href="{$basedomain}perjanjiankinerja/add"><button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
+						<button type="button" id="print" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
 					</div>
 				</div>
 			</div>
@@ -79,4 +80,10 @@
 </div>
 <!--===================================================-->
 <!--End page content-->
-
+{literal}
+<script>
+	$('#print').on('click', function(){
+		window.location.href=basedomain+"perjanjiankinerja/print_bsn/";
+	});	
+</script>
+{/literal}

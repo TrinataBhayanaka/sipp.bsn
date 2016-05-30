@@ -48,6 +48,7 @@ class mptn extends Database {
 	function getpkSS($kd,$fkd,$id=false,$thn)
 	{
 		$sql = "SELECT * FROM th_pk WHERE no_sasaran = '{$id}'";
+		// pr($sql);
 		$res = $this->fetch($sql,1);
 
 		if ($res) return $res;
@@ -74,6 +75,8 @@ class mptn extends Database {
 		if($id) $cndid = "AND no_sasaran = '{$id}'"; else $cndid = "";
 		if($idpk) $cndidpk = "AND id = '{$idpk}'"; else $cndidpk = "";
 		$sql = "DELETE FROM th_pk WHERE th = '{$thn['kode']}' {$cndid} {$cndidpk}";
+		// pr($sql);
+		// exit;
 		$res = $this->query($sql);
 
 		return true;
@@ -104,11 +107,52 @@ class mptn extends Database {
 
 	function getIK($type=5, $cat=0, $parent=0, $tahun=false)
 	{
-		$query = "SELECT * FROM bsn_news_content WHERE type = {$type} AND category = {$cat} AND parent_id = {$parent} AND year = {$tahun}";
+		$query = "SELECT * FROM bsn_news_content WHERE type = {$type} AND category = {$cat} AND parent_id = {$parent} AND year = {$tahun}  and n_status = 1";
+		// pr($query);
 		$data = $this->fetch($query,1);
 
 		return $data;
 	}
+	
+	function getProgram($tahun){
+		$query = "SELECT b.brief,b.desc as decription from bsn_news_content as b where b.type = '9' and b.category = '1' and b.year = '{$tahun}' and n_status = '1'";
+		// pr($query);
+		$data = $this->fetch($query,1);
+
+		return $data;
+	}
+	
+	function getAnggaran($param,$tahun){
+		if($param == 1){
+			$ext_query = "KDGIAT BETWEEN 3549 AND 3551";
+		}elseif($param == 2){
+			$ext_query = "KDGIAT = 3552";
+		}elseif($param == 3){
+			$ext_query = "KDGIAT BETWEEN 3553 AND 3561";
+		}
+		$query = "SELECT COUNT(1),KDGIAT,SUM(JUMLAH) AS JML FROM `d_item` WHERE {$ext_query} AND THANG = {$tahun} GROUP BY KDGIAT";
+		// pr($query);
+		$data = $this->fetch($query,1);
+		return $data;
+	}
+	
+	function getAnggaraneselon($param,$tahun){
+		$ext_query = "KDGIAT = $param";
+		
+		$query = "SELECT COUNT(1),KDGIAT,SUM(JUMLAH) AS JML FROM `d_item` WHERE {$ext_query} AND THANG = {$tahun} GROUP BY KDGIAT";
+		// pr($query);
+		$data = $this->fetch($query,1);
+		return $data;
+	}
+	
+	function kd_kegiatan($kd_satker){
+		$query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE kdunitkerja like '{$kd_satker}%' order by kdgiat asc";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		
+		return $result;
+	}
+	
 	
 }
 ?>

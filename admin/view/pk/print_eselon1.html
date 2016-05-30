@@ -1,0 +1,99 @@
+<h4 style="text-align: center;">PERJANJIAN KINERJA TAHUN {$tahun}</h4>
+<h4 style="text-align: center;">{$label|upper}</h4>
+<h4 style="text-align: center;">BADAN STANDARDISASI NASIONAL</h4>
+<!--<table border = "1" id="newslist" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">-->
+<table border = "1" style="text-align: left; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 100%;">
+	<thead>
+		<tr>
+			<th width="40%">SASARAN STRATEGIS</th>
+			<th width="40%" class="min-tablet">INDIKATOR KINERJA</th>
+			<th width="5%" class="min-tablet" colspan="2">TARGET</th>
+		</tr>
+	</thead>
+	<tbody>
+		{if !empty($data)}
+		{foreach $data as $key => $val}
+		<tr>
+		<td colspan="4"><strong>{$key} Perspectives</strong></td>
+		</tr>
+			{foreach $val as $value}
+				<tr>
+					{if $value.desc}
+						<td>{$value.no_urut|cat:". "|cat:$value.desc}</td>
+					{else}
+						<td>&nbsp;</td>
+					{/if}
+					<td>{$value.no|cat:". "|cat:$value.nm_pk}</td>
+					{if is_numeric($value.target)}
+						<td style="text-align: center;" >{number_format($value.target,'0',',','.')}</td>
+					{else if}
+						<td style="text-align: center;" >{$value.target}</td>
+					{/if}
+					<td style="text-align: center;">{$value.satuan}</td>
+				</tr>
+			{/foreach}
+		{/foreach}
+		{/if}
+	</tbody>
+</table>
+<br/>
+<table border=0 width="100%" class="table table-hover table-striped table-bordered" cellspacing="0">
+	<thead>
+		<tr>
+			<th width="80%" style="text-align: center;" >Kegiatan</th>
+			<th class="min-tablet" width="20%" style="text-align: center;">Anggaran (Rp.)</th>
+		</tr>
+	</thead>
+	<tbody>
+		{if $program}
+		{foreach $program as $dataval}
+		<tr>
+			<td>{$dataval.no|cat:". "|cat:$dataval.nmgiat}</td>
+			<td style="text-align: right;">{number_format($dataval.anggaran,'0',',','.')}</td>
+		</tr>
+		{/foreach}
+		<tr>
+			<td style="text-align: center; font-weight: bold;">Jumlah</td>
+			<td style="text-align: right; font-weight: bold;">{number_format($all_anggaran,'0',',','.')}</td>
+		</tr>
+		{/if}
+	</tbody>
+	
+</table>
+<br/>
+<br/>
+<br/>
+<div>
+<table style="text-align: left; border-collapse: collapse; width: 100%; height: 90px; font-size:" border="0" >
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Jakarta, &nbsp; &nbsp; {$tgl_format}</td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">Pihak Kedua</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Pihak Pertama</td>
+	</tr>
+	<tr>
+	   <td colspan="11" style="height: 100px"></td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">(Nama Pejabat BSN)</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">(Nama Pejabat {$label})</td>
+	</tr>
+</table>
+</div>	

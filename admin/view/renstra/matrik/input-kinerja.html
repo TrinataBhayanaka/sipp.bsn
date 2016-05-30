@@ -82,11 +82,19 @@
 									<tbody>
 										<tr>
 											{foreach $tahuntarget as $k => $a}
-											<td><input type="text" class="form-control percent" name="input[]" value="{$target.0.target.$k}"></td>
+											<td><input type="text" class="form-control _percent" name="input[]" value="{$target.0.target.$k}"></td>
 											{/foreach}
 										</tr>
+
 									</tbody>
 								</table>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">{$text6}</label>
+							<div class="col-sm-6">
+								<input name="satuan_target" type="text" value="{$text6value}" class="form-control">
+								
 							</div>
 						</div>
 					</div>
