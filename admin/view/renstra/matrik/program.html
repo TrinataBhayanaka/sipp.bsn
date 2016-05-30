@@ -142,9 +142,10 @@
 											<td class="text-center">{$v.satuan_target}</td>
 										</tr>
 										<tr>
-											<td class="text-center" colspan="6"><a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
-											
-											<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a></td>
+											<td class="text-center" colspan="7">
+												<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
+												<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a>
+											</td>
 										</tr>
 										{/foreach}
 										{/if}

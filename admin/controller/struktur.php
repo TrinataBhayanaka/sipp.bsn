@@ -88,7 +88,9 @@ class struktur extends Controller {
 				}
 			}
 			// pr($getTugas);
+			// exit;
 			$this->view->assign('tugas', $getTugas);
+			
 		}
 
 		return $this->loadView('struktur/eseloni');

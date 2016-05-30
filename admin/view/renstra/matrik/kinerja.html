@@ -117,6 +117,7 @@
 									<thead>
 										<tr>
 											{if $tahuntarget}
+											<td>&nbsp;</td>
 											{foreach $tahuntarget as $a}
 											<td class="text-center">{$a}</td>
 											{/foreach}
@@ -126,10 +127,11 @@
 									</thead>
 									<tbody>
 										<tr>
+											<td>Target</td>
 											{foreach $value.target as $v}
-											<td>{$v}</td>
+											<td class="text-center">{$v}</td>
 											{/foreach}
-											<td>{$value.satuan_target}</td>
+											<td class="text-center">{$value.satuan_target}</td>
 										</tr>
 									</tbody>
 								</table>

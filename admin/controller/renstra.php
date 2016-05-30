@@ -328,8 +328,21 @@ class renstra extends Controller {
 			exit;
 		}
 
-		$arrayTahun = $this->tahunRenstra($getSetting);
-
+		// $arrayTahun = $this->tahunRenstra($getSetting);
+		$getSetting = $this->contentHelper->getSetting();
+		// $arrayTahun = $this->tahunRenstra($getSetting);
+		if ($getSetting){
+			list ($tahunawal, $tahunakhir) = explode('-',$getSetting[0]['data']);
+			$start = 1;
+			for($i=1; $i<=5; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahunawal;
+				}
+				$tahunawal++;
+				$start++;
+			}
+		}
+		
 		$out['type'] = 10;
 		$out['category'] = 1;
 		
