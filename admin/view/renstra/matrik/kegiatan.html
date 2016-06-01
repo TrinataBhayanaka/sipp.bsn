@@ -89,10 +89,12 @@
 							<td class="text-center">{$val.brief}</td>
 							<td  colspan="5">{$val.desc}</td>
 							<td class="text-center" colspan="2">
+								{if $user.type==1}
 								<div id="create-toolbar" >
 									<a href="{$basedomain}renstra/editKegiatan/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Kegiatan</button></a>
 									<a href="{$basedomain}renstra/delete/?id={$val.id}&req=6"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 								</div>
+								{/if}
 							</td>
 						</tr>
 						{if $val.kegiatan}
@@ -105,12 +107,16 @@
 							<td>{$v.eselon.nama_satker}</td>
 							<td>{$v.tags}</td>
 							<td>
+								{if $user.type==1}
 								<div id="create-toolbar" >
 									<a href="{$basedomain}renstra/editKegiatan/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
+								{/if}
 							</td>
 							<td>
+								{if $user.type==1}
 									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=6"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+								{/if}
 							</td>
 						</tr>
 						{/foreach}

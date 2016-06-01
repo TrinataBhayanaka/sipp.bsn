@@ -138,6 +138,7 @@
 							{/if}
 						</td>
 						<td>
+							{if $user.type==1}
 							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input IKSS</button></a>
 							
 							{if $val.target}	
@@ -147,6 +148,7 @@
 							<br/>
 							<br/>
 							<a href="javascript:void(0)" data-link="{$basedomain}renstra/delete/?req=4&id=" data-kinerja="" class="hapuskinerja_{$val.id}" onclick="hapusKinerja({$val.id})"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
+							{/if}
 							{/if}
 						</td>
 					</tr>

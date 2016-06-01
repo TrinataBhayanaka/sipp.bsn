@@ -71,6 +71,7 @@ if ($vPage){
 	$validation['pid'] = @$vPage[0];
 	$validation['act'] = @$vPage[1];
 	$validation['det'] = @$vPage['det'];
+	$validation['param'] = @$vPage[2];
 	
 	
 }
@@ -105,6 +106,12 @@ if (isset($validation)) {
 	} else {
 		$setFunction = 'index';
 	}
+
+	if (isset($validation['param'])){
+		$setParam = explode('&amp;',$validation['param']);
+	} else {
+		$setParam = '';
+	}
 	
 } else {
 	
@@ -122,13 +129,14 @@ if (isset($validation)) {
 $DATA['admin']['page'] = @$setPage ;
 $DATA['admin']['function'] = @$setFunction ;
 $DATA['admin']['uri'] = @$validation ;
+$DATA['admin']['param'] = @$setParam ;
 
 /* proses pemanggilan controller dimulai disini
  * controller akan memanggil file yang direquest oleh
  * user sesuai dengan parameter
  * yang dikirimkan lewat browser
  */
- 
+// pr($getURI);
 // pr($DATA);exit;
 // pr($_GET);
 

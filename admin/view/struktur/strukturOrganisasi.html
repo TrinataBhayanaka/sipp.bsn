@@ -67,15 +67,19 @@
 	
 	<!-- Row selection and deletion (multiple rows) -->
 	<!--===================================================-->
+
+
 	<div class="panel">
 		<div class="panel-heading">
 			<h3 class="panel-title">Struktur Organisasi</h3>
 		</div>
+		{if $user.type == 1}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="{$basedomain}struktur/editStruktur">
 				<button id="demo-btn-addrow" class="btn btn-success btn-labeled fa fa-plus">Tambah</button>
 			</a>
 		</div>
+		{/if}
 		<div class="panel-body">
 			<div class="table-responsive">
 				<table id="strOrg" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -85,7 +89,7 @@
 							<th class="text-center">Kode</th>
 							<th class="text-center">Nama Unit Kerja</th>
 							<th class="text-center">Singkatan</th>
-							<th class="text-center" width="10%">Aksi</th>
+							{if $user.type == 1}<th class="text-center" width="10%">Aksi</th>{/if}
 						</tr>
 					</thead>
 					<tbody>
@@ -97,10 +101,12 @@
 							<td class="text-center">{$val.kode}</td>
 							<td >{$val.nama_satker}</td>
 							<td>{$val.singkatan}</td>
+							{if $user.type == 1}
 							<td class="text-center">	
 								<a href="{$basedomain}struktur/editStruktur/?id={$val.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>	
 								<a href="{$basedomain}struktur/delete/?id={$val.id}&param=1&req=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							</td>
+							{/if}
 						</tr>
 						{/foreach}
 						{/if}

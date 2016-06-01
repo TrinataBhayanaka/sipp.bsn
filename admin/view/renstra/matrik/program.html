@@ -51,10 +51,12 @@
 		<!-- <div class="panel-heading">
 			<h3 class="panel-title">Visi Misi BSN</h3>
 		</div> -->
-		
+		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="{$basedomain}renstra/editProgram/?req=1&parent_id={$parent_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Program</button></a>
-		</div>{*}
+		</div>
+		{/if}
+		{*}
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		
 		<div id="delete-toolbar" class="table-toolbar-left">
@@ -107,13 +109,13 @@
 								</table>
 							</div>
 							<div align="center">
-
+								{if $user.type==1}
 								<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
 								
 								<a href="{$basedomain}renstra/delete/?id={$value.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Outcome</button></a>
 								
 								<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Indikator</button></a>
-									
+								{/if}
 							</div>
 							<br>
 							<div>
@@ -142,9 +144,13 @@
 											<td class="text-center">{$v.satuan_target}</td>
 										</tr>
 										<tr>
-											<td class="text-center" colspan="6"><a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
+											<td class="text-center" colspan="6">
+												{if $user.type==1}
+												<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
 											
-											<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a></td>
+											<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a>
+											{/if}
+										</td>
 										</tr>
 										{/foreach}
 										{/if}
@@ -160,6 +166,7 @@
 								<tbody>
 									<tr>
 										<td class="text-center">
+											{if $user.type==1}
 										<a href="{$basedomain}renstra/editProgram/?req=1&parent_id={$parent_id}&child={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Program</button></a>
 										<br>
 										<br>
@@ -169,6 +176,7 @@
 										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Outcome</button></a>
 										<br>
 										<br>
+										{/if}
 									</td>
 									</tr>
 									{*}
@@ -177,6 +185,7 @@
 									
 									<tr>
 										<td class="text-center">
+											{if $user.type==1}
 										<a href="{$basedomain}renstra/editProgram/?req=2&parent_id={$val.id}&id={$value.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Outcome</button></a>
 										<br>
 										<br>
@@ -186,6 +195,7 @@
 										<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Indikator</button></a>
 										<br>
 										<br>
+										{/if}
 									</td>
 									</tr>
 									{/foreach}
@@ -197,9 +207,13 @@
 									{foreach $val.outcome as $value}
 									{foreach $value.indikator as $v}
 									<tr>
-										<td class="text-center"><a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
+										<td class="text-center">
+											{if $user.type==1}
+											<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
 										<br><br>
-										<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a></td>
+										<a href="{$basedomain}renstra/delete/?id={$v.id}&req=5"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus Kinerja</button></a>
+										{/if}
+									</td>
 									</tr>
 									{/foreach}
 									{/foreach}
@@ -212,9 +226,11 @@
 							
 							
 							
-							{if $val.target}							
+							{if $val.target}			
+							{if $user.type==1}				
 							<a href="{$basedomain}renstra/editProgram/?parent_id={$parent_id}&child={$val.id}&id={$val.target.0.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit IKSS</button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.target.0.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
+							{/if}
 							{/if}
 						</td>
 					</tr>
