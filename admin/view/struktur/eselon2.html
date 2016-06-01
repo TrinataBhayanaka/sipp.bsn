@@ -64,6 +64,7 @@
 			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
 		</div>
 		{/*}
+		<div class="row">
 		<div class="col-md-12 table-toolbar-right">
 			<div class="form-group">
               <!-- <label for="text-input">Eselon 1</label> -->
@@ -75,6 +76,7 @@
                     {/if}
                   </select>
           	</div>
+		</div>
 		</div>
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
@@ -96,8 +98,10 @@
 							<td>{$val.nama_satker}</td>
 							<td colspan="2">{$val.desc}</td>
 							<td colspan="2" class="text-center">
+
 								{if $user.type==1}
 								<a href="{$basedomain}struktur/editEselon2/?id={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+
 								<a href="{$basedomain}struktur/delete/?id={$val.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
 								{/if}
 							</td>
@@ -107,9 +111,11 @@
 							<td>&nbsp;</td>
 							<td class="text-center" colspan="2"><b>Fungsi</b></td>
 							<td colspan="2" class="text-center">
+
 								{if $user.type==1}
 								<a href="{$basedomain}struktur/editEselon2/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">tambah</button></a>
 								{/if}
+
 							</td>
 						</tr>
 						{if $tugas}

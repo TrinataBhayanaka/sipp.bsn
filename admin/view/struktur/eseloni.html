@@ -65,17 +65,19 @@
 			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
 		</div>
 		{/*}
-		<div class="col-md-12 table-toolbar-right">
-			<div class="form-group">
-              <!-- <label for="text-input">Eselon 1</label> -->
-                  <select class="form-control eselonid" name="parent_id">
-                    {if $struktur}
-                    {foreach $struktur as $val}
-                    <option value="{$val.id}" {if $val.id==$eselon_id}selected{/if}>{$val.singkatan}</option>
-                    {/foreach}
-                    {/if}
-                  </select>
-          	</div>
+		<div class="row">
+			<div class="col-md-12 table-toolbar-right">
+				<div class="form-group">
+				  <!-- <label for="text-input">Eselon 1</label> -->
+					  <select class="form-control eselonid" name="parent_id">
+						{if $struktur}
+						{foreach $struktur as $val}
+						<option value="{$val.id}" {if $val.id==$eselon_id}selected{/if}>{$val.singkatan}</option>
+						{/foreach}
+						{/if}
+					  </select>
+				</div>
+			</div>
 		</div>
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->

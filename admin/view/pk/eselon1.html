@@ -67,10 +67,10 @@
 								<td>{$value.target}</td>
 								<td>{$value.satuan}</td>
 								<td align="center">
-									<a href="{$basedomain}perjanjiankinerja/edit_eselon/?id={$value.no_sasaran}&kd={$idpk}&pr={$id}">
+									<a href="{$basedomain}perjanjiankinerja/edit_eselon/?id={$value.id}&kd={$idpk}&pr={$id}">
 										<button class="btn btn-sm btn-warning fa fa-pencil"></button>
 									</a>
-									<a href="{$basedomain}perjanjiankinerja/del_pk_eselon/?id={$value.id}" onclick="return confirm('Yakin Hapus?')">
+									<a href="{$basedomain}perjanjiankinerja/del_pk_eselon/?id={$value.id}&kd={$idpk}" onclick="return confirm('Yakin Hapus?')">
 										<button class="btn btn-sm btn-danger fa fa-times"></button>
 									</a>
 								</td>

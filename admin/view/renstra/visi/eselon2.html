@@ -109,12 +109,14 @@
 					<tr>
 						<td>{$val.title}</td>
 						<td>{$val.desc}</td>
+
 						<td>
 							{if $user.type==1}
 							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editvisi" data-id="{$val.id}"></button></a>
 						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2&id_parent={$parent_id}&menu=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 						{/if}
 					</td>
+
 					</tr>
 					{/foreach}
 					{else}
@@ -146,8 +148,10 @@
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
-						<td>
+
+						<td class="text-center">
 							{if $user.type==1}
+
 							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editmisi" data-id="{$val.id}"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2&id_parent={$parent_id}&menu=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>{/if}
 						</td>
@@ -178,8 +182,10 @@
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
-						<td>
+
+						<td class="text-center">
 							{if $user.type==1}
+
 							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="edittujuan" data-id="{$val.id}"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2&id_parent={$parent_id}&menu=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							{/if}

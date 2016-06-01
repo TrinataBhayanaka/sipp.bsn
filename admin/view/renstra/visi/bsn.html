@@ -79,9 +79,11 @@ $(window).on('load', function() {
 					<tr>
 						<td>{$val.title}</td>
 						<td>{$val.desc}</td>
+
 						<td>
 							{if $user.type==1}
 							<a href="{$basedomain}renstra/edit/?req=1&id={$val.id}&button=visi"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+
 						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1&button=visi"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 						{/if}
 						</td>
@@ -117,8 +119,10 @@ $(window).on('load', function() {
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
-						<td>
+
+						<td class="text-center">
 							{if $user.type==1}
+
 							<a href="{$basedomain}renstra/edit/?req=2&id={$val.id}&button=misi"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1&button=misi"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							{/if}
@@ -154,8 +158,10 @@ $(window).on('load', function() {
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
-						<td>
+
+						<td class="text-center">
 							{if $user.type==1}
+
 							<a href="{$basedomain}renstra/edit/?req=3&id={$val.id}&button=tujuan"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1&button=tujuan"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							{/if}

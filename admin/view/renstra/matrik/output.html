@@ -86,7 +86,7 @@
 								{if $user.type==1}
 								<div id="create-toolbar" >
 									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Output</button></a>
-									<a href="{$basedomain}renstra/delete/?id={$val.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+									<!--<a href="{$basedomain}renstra/delete/?id={$val.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>-->
 								</div>
 								{/if}
 							</td>
@@ -98,11 +98,11 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
-											<th>&nbsp;</th>
+											<th class="text-center">&nbsp;</th>
 											{foreach $tahuntarget as $tahun}
 											<th>{$tahun}</th>
 											{/foreach}
-											<th>Satuan Target</th>
+											<th class="text-center">Satuan Target</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -116,30 +116,35 @@
 										<tr>
 											<td>Target (Ribuan Rp.)</td>
 											{foreach $v.target as $target}
-											<td>{$target}</td>
+											<td class="text-center">{$target}</td>
 											{/foreach}
-											<td>{$v.satuan_target}</td>
+											<td class="text-center">{$v.satuan_target}</td>
 										</tr>
 									</tbody>
 								</table>
 							</td>
-							<td>
+
+							<td class="text-center">
 								{if $user.type==1}
+
 								<div id="create-toolbar" >
 									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 								{/if}
 							</td>
-							<td>
+
+							<td class="text-center">
 								{if $user.type==1}
+
 									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 								{/if}
 							</td>
 							<td>
 								{if $user.type==1}
-								<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$v.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">add Ikk</button></a>
+								<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$v.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Ikk</button></a>
 								{/if}
 							</td>
+
 						</tr>
 						{if $v.output}
 						{foreach $v.output as $a => $out}
@@ -150,33 +155,37 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
-											<th>&nbsp;</th>
+											<th >&nbsp;</th>
 											{foreach $tahuntarget as $tahun}
-											<th>{$tahun}</th>
+											<th class="text-center">{$tahun}</th>
 											{/foreach}
-											<th>Satuan Target</th>
+											<th class="text-center">Satuan Target</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>Target (Ribuan Rp.)</td>
 											{foreach $out.target as $target}
-											<td>{$target}</td>
+											<td class="text-center">{$target}</td>
 											{/foreach}
-											<td>{$out.satuan_target}</td>
+											<td class="text-center">{$out.satuan_target}</td>
 										</tr>
 									</tbody>
 								</table>
 							</td>
+
 							<td>
 								{if $user.type==1}
+
 								<div id="create-toolbar" >
 									<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$out.parent_id}&id={$out.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 								{/if}
 							</td>
+
 							<td>
 								{if $user.type==1}
+
 									<a href="{$basedomain}renstra/delete/?id={$out.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 								{/if}
 							</td>

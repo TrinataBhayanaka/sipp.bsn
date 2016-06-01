@@ -94,10 +94,12 @@
 						<td>{if $k==0}{$val.title}{else}&nbsp;{/if}</td>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
-						<td>
+
+						<td class="text-center">
 							{if $user.type==1}
 							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editvisi" data-id="{$val.id}"></button></a>
 						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=3&id_parent={$parent_id}"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>{/if}
+
 						</td>
 					</tr>
 					{/foreach}
