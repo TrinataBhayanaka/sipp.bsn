@@ -276,37 +276,37 @@
 			<tr>
 				<td style="text-align:center; font-weight: bold;" >{$value.KDKMPNEN}</td>
 				<td style="text-align:; font-weight: bold;">{$value.nama_komponen}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_1,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_2,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_3,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_4,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_5,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_6,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_7,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_8,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_9,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_10,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_11,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{number_format($value.bobot.target_12,"2",",",".")}</td>
-				<td style="text-align:right; font-weight: bold;">{$value.total_bobot}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_1,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_2,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_3,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_4,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_5,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_6,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_7,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_8,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_9,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_10,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_11,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{number_format($value.bobot.target_12,"2",",",".")}</td>
+				<td style="text-align:center; font-weight: bold;">{$value.total_bobot}</td>
 			</tr>
 			{foreach $value.sub_komponen as $sub}
 				<tr>
 					<td  style="text-align:center;">{$sub.kd_tahapan}</td>
 					<td>{$sub.nm_tahapan}</td>
-					<td style="text-align:right;">{number_format($sub.target_1,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_2,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_3,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_4,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_5,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_6,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_7,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_8,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_9,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_10,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_11,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.target_12,"2",",",".")}</td>
-					<td style="text-align:right;">{number_format($sub.sum_bobot,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_1,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_2,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_3,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_4,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_5,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_6,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_7,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_8,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_9,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_10,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_11,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.target_12,"2",",",".")}</td>
+					<td style="text-align:center;">{number_format($sub.sum_bobot,"2",",",".")}</td>
 				</tr>
 			{/foreach}
 		{/foreach}
@@ -354,13 +354,13 @@
 	   <td colspan="11" style="height: 100px"></td>
 	</tr>
 	<tr>
-	   <td style="text-align: center;" colspan="3" width="400px">(-----------------------------------)</td>
+	   <td style="text-align: center;" colspan="3" width="400px">({$nama_pejabat_eselon_I})</td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
-	   <td style="text-align: center;" colspan="3" width="400px">(-----------------------------------)</td>
+	   <td style="text-align: center;" colspan="3" width="400px">({$nama_pejabat_eselon_II})</td>
 	</tr>
 </table>
 </div>	

@@ -21,7 +21,7 @@ class monev_trwln extends Controller {
 	public function loadmodule()
 	{
 		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
-	
+		$this->model = $this->loadModel('mptn');
 	}
 	public function rencana(){
 		$trwln = $_POST['kdtriwulan'];
@@ -1827,6 +1827,20 @@ class monev_trwln extends Controller {
 		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
 		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
 		
+		$kd_eselon_I = $join;
+		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
+		// pr($nama_pejabat_eselon_I);
+		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+		// $this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		$nama_pejabat_eselon_I = $pejabat_eselon_I['pejabat'];
+		
+		$kd_eselon_II = $kd_unit;
+		$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
+		// pr($nama_pejabat_eselon_I);
+		$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+		// $this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
+		$nama_pejabat_eselon_II = $pejabat_eselon_II['pejabat'];
+		
 		//code_for_view_chart_anggaran
 		$scrn_anggaran = $_POST['scrn_anggaran'];
 		$this->view->assign('chart_anggaran',$scrn_anggaran);
@@ -1979,13 +1993,13 @@ class monev_trwln extends Controller {
 					   <td colspan=\"11\" style=\"height: 100px\"></td>
 					</tr>
 					<tr>
-					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">(-----------------------------------)</td>
+					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">($nama_pejabat_eselon_I)</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
-					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">(-----------------------------------)</td>
+					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">($nama_pejabat_eselon_II)</td>
 					</tr>
 				</table>
 				</div>";				

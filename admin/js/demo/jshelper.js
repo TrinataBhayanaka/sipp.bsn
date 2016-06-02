@@ -8,6 +8,9 @@ function isNumber(evt) {
     return true;
 	}
 
+	function tes(){
+		console.log();
+	}
  $(document).ready(function() {
 	
 	// BOOTBOX - CUSTOM HTML FORM
@@ -15,6 +18,234 @@ function isNumber(evt) {
 	// Require Bootbox
 	// http://bootboxjs.com/
 	// =================================================================
+	// referensi sipp
+	$('.kegiatan-edit').on('click', function(){
+		var idKdgiat = $(this).attr("value");
+		// alert(idGrup_kursus);
+		$.post(basedomain+"referensi/ajax_edit_kegiatan", {idKdgiat:idKdgiat}, function(data){
+							// alert(data[0].namagrup);
+							// console.log (data);
+							$("#kdunitkerja").val(data.kdunitkerja);
+							$("#kdgiat").val(data.kdgiat);
+							$("#nmgiat").val(data.nmgiat);
+							
+					   },"JSON");
+		bootbox.dialog({
+			title: "Edit Nama Kegiatan",
+			message:'<div class="row"> ' + 
+						'<div class="col-md-12"> ' +
+							'<form class="form-horizontal"> ' + 
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Kode Unit</label> ' +
+									'<div class="col-md-3"> ' +
+										'<input id="kdunitkerja" name="kdunitkerja" type="text" placeholder="Enter Writer" class="form-control input-md" required="required" readonly> ' +
+									'</div> ' +
+							'</div> ' +  
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Kode Kegiatan</label> ' +
+									'<div class="col-md-3"> ' +
+										'<input id="kdgiat" name="kdgiat" type="text" placeholder="Enter Writer" class="form-control input-md" required="required" readonly> ' +
+									'</div> ' +
+							'</div> ' + 
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Nama Kegiatan</label> ' +
+									'<div class="col-md-9"> ' +
+										'<input id="nmgiat" name="nmgiat" type="text" placeholder="Enter Writer" class="form-control input-md" required="required"> ' +
+									'</div> ' +
+							'</div> ' + 
+							'</form> </div> </div><script></script>',
+			buttons: {
+				success: {
+					label: "Update",
+					className: "btn-info",
+					callback: function() {
+						var kdunitkerja = $('#kdunitkerja').val();
+						var kdgiat = $("#kdgiat").val();
+						var nmgiat = $("#nmgiat").val();
+						//get values
+						// alert(namagrup);
+						// alert(answer);
+						if(kdunitkerja != '' && kdgiat != ''){
+						$.post( basedomain+"referensi/ajax_update_kegiatan", { kdunitkerja: kdunitkerja, kdgiat: kdgiat, nmgiat : nmgiat } );
+						
+						$.niftyNoty({
+							type: 'success',
+							icon : 'fa fa-check',
+							message : "Update Berhasil",
+							container : 'floating',
+							timer : 2000
+						});
+						setTimeout(
+						  function() 
+						  {
+							location.reload();
+						  }, 2000);
+						
+					}else{
+					
+						//alert( "isi Data" );
+						bootbox.alert("Data Cannot Empty!", function(){
+							//EMPTY
+						});
+					}
+					}
+				}
+			}
+		});
+
+		$(".demo-modal-radio").niftyCheck();
+	});
+	
+	$('.output-edit').on('click', function(){
+		var id = $(this).attr("value");
+		var val_split = id.split("_");
+		var kdunitkerja = val_split[0];
+		var kdoutput = val_split[1];
+		// alert(idGrup_kursus);
+		$.post(basedomain+"referensi/ajax_edit_output", {kdunitkerja:kdunitkerja,kdoutput:kdoutput}, function(data){
+							// alert(data.kdgiat);
+							//console.log (data);
+							$("#kdgiat2").val(data.kdgiat);
+							$("#kdoutput2").val(data.kdoutput);
+							$("#nmoutput2").val(data.nmoutput);
+							
+					   },"JSON");
+		bootbox.dialog({
+			title: "Edit Nama Output",
+			message:'<div class="row"> ' + 
+						'<div class="col-md-12"> ' +
+							'<form class="form-horizontal"> ' + 
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Kode Kegiatan</label> ' +
+									'<div class="col-md-3"> ' +
+										'<input id="kdgiat2" name="kdgiat" type="text" placeholder="Enter Writer" class="form-control input-md" required="required" readonly> ' +
+									'</div> ' +
+							'</div> ' + 
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Kode Output</label> ' +
+									'<div class="col-md-3"> ' +
+										'<input id="kdoutput2" name="kdoutput" type="text" placeholder="Enter Writer" class="form-control input-md" required="required" readonly> ' +
+									'</div> ' +
+							'</div> ' +  
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Nama Output</label> ' +
+									'<div class="col-md-9"> ' +
+										'<input id="nmoutput2" name="nmoutput" type="text" placeholder="Enter Writer" class="form-control input-md" required="required"> ' +
+									'</div> ' +
+							'</div> ' + 
+							'</form> </div> </div><script></script>',
+			buttons: {
+				success: {
+					label: "Update",
+					className: "btn-info",
+					callback: function() {
+						var kdgiat = $("#kdgiat2").val();
+						var kdoutput = $('#kdoutput2').val();
+						var nmoutput = $("#nmoutput2").val();
+						//get values
+						// alert(namagrup);
+						// alert(answer);
+						if(kdgiat != '' && kdoutput != ''){
+						$.post( basedomain+"referensi/ajax_update_output", { kdoutput: kdoutput, kdgiat: kdgiat, nmoutput : nmoutput } );
+						
+						$.niftyNoty({
+							type: 'success',
+							icon : 'fa fa-check',
+							message : "Update Berhasil",
+							container : 'floating',
+							timer : 2000
+						});
+						setTimeout(
+						  function() 
+						  {
+							location.reload();
+						  }, 2000);
+						
+					}else{
+					
+						//alert( "isi Data" );
+						bootbox.alert("Data Cannot Empty!", function(){
+							//EMPTY
+						});
+					}
+					}
+				}
+			}
+		});
+
+		$(".demo-modal-radio").niftyCheck();
+	});
+	
+	$('.akun-edit').on('click', function(){
+		var kdakun = $(this).attr("value");
+		// alert(idGrup_kursus);
+		$.post(basedomain+"referensi/ajax_edit_akun", {kdakun:kdakun}, function(data){
+							// alert(data.kdgiat);
+							//console.log (data);
+							$("#kdakun2").val(data.KDAKUN);
+							$("#nmakun2").val(data.NMAKUN);
+							
+					   },"JSON");
+		bootbox.dialog({
+			title: "Edit Nama Akun",
+			message:'<div class="row"> ' + 
+						'<div class="col-md-12"> ' +
+							'<form class="form-horizontal"> ' + 
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Kode Akun</label> ' +
+									'<div class="col-md-3"> ' +
+										'<input id="kdakun2" name="kdakun2" type="text" placeholder="Enter Writer" class="form-control input-md" required="required" readonly> ' +
+									'</div> ' +
+							'</div> ' + 
+							'<div class="form-group"> ' +
+								'<label class="col-md-3 control-label" for="name">Nama Output</label> ' +
+									'<div class="col-md-9"> ' +
+										'<input id="nmakun2" name="nmakun2" type="text" placeholder="Enter Writer" class="form-control input-md" required="required"> ' +
+									'</div> ' +
+							'</div> ' + 
+							'</form> </div> </div><script></script>',
+			buttons: {
+				success: {
+					label: "Update",
+					className: "btn-info",
+					callback: function() {
+						var kdakun = $("#kdakun2").val();
+						var nmakun = $('#nmakun2').val();
+						//get values
+						// alert(namagrup);
+						// alert(answer);
+						if(kdakun != '' && nmakun != ''){
+						$.post( basedomain+"referensi/ajax_update_akun", { kdakun: kdakun, nmakun: nmakun} );
+						
+						$.niftyNoty({
+							type: 'success',
+							icon : 'fa fa-check',
+							message : "Update Berhasil",
+							container : 'floating',
+							timer : 2000
+						});
+						setTimeout(
+						  function() 
+						  {
+							location.reload();
+						  }, 2000);
+						
+					}else{
+					
+						//alert( "isi Data" );
+						bootbox.alert("Data Cannot Empty!", function(){
+							//EMPTY
+						});
+					}
+					}
+				}
+			}
+		});
+
+		$(".demo-modal-radio").niftyCheck();
+	});
+	
+	
 	//insert ajax glosarium
 	$('#tahapan').on('click', function(){
 		bootbox.dialog({

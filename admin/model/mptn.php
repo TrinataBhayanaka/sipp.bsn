@@ -153,6 +153,13 @@ class mptn extends Database {
 		return $result;
 	}
 	
+	function nama_pejabat($kd_satker){
+		$query = "SELECT custom_text FROM bsn_struktur WHERE kode = '{$kd_satker}' ";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
 	
 }
 ?>

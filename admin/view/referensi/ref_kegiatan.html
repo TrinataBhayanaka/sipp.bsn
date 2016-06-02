@@ -1,0 +1,115 @@
+<script>
+{literal}
+	$(window).on('load', function() {
+
+		// Datatables
+		// Row selection and deletion (multiple rows)
+		// -----------------------------------------------------------------
+		var rowDeletion = $('#strOrg').DataTable({
+			"responsive": true,
+			"language": {
+				"paginate": {
+				  "previous": '<i class="fa fa-angle-left"></i>',
+				  "next": '<i class="fa fa-angle-right"></i>'
+				}
+			},
+			"dom": '<"toolbar">frtip'
+		});
+
+		$('#create-toolbar').appendTo($("div.toolbar"));
+
+	})
+	
+	$(document).on('click', '#inputvisi', function(){
+
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Referensi Kegiatan</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li class="active">Referensi Kegiatan</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Referensi Kegiatan</h3>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table id="strOrg" class="table table-striped table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th class="text-center">No.</th>
+							<th class="text-center">Kode Unit</th>
+							<th class="text-center">Kode Kegiatan</th>
+							<th class="text-center">Nama Kegiatan</th>
+							<th class="text-center" width="10%">Aksi</th>
+						</tr>
+					</thead>
+					<tbody>
+						{if $data}
+						{foreach $data as $k => $val}	
+						<tr>
+							<td class="text-center">{$k+1}</td>
+							<td class="text-center">{$val.kdunitkerja}</td>
+							<td class="text-center">{$val.kdgiat}</td>
+							<td>{$val.nmgiat}</td>
+							<td class="text-center">	
+								<button class="kegiatan-edit btn btn-warning btn-icon icon-lg fa fa-pencil" value="{$val.kdgiat}" href="#" ></button></a>	
+								<!--<a href="{$basedomain}referensi/delete/?id={$val.id}&param=1&req=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>-->
+							</td>
+						</tr>
+						{/foreach}
+						{/if}
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

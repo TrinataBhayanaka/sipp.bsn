@@ -21,6 +21,7 @@ class rpk extends Controller {
 	public function loadmodule()
 	{
 		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
+		$this->model = $this->loadModel('mptn');
 	
 	}
 	
@@ -430,6 +431,21 @@ class rpk extends Controller {
 		$this->view->assign('totalBobot',$totalBobot);
 		$this->view->assign('tgl_format',$tgl_format);
 		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
+		
+		//get nama pejabat
+		//eselon I
+		$kd_eselon_I = $join;
+		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
+		// pr($nama_pejabat_eselon_I);
+		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+		$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		
+		$kd_eselon_II = $kd_unit;
+		$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
+		// pr($nama_pejabat_eselon_I);
+		$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+		$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
+		
 		$html = $this->loadView('rpk/print');
 		$generate = $this->reportHelper->loadMpdf($html, 'rpk');
 		
