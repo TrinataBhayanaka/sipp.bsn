@@ -45,11 +45,12 @@ var pid = {$pid}
 		<div class="panel-heading">
 			<h3 class="panel-title">Renstra Tk {if !$isbsn}Eselon{else}BSN{/if}</h3>
 		</div>
-		
+		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputdokumen">Input dokumen</button></a>
 		</div>
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		{/if}
 		{*}
 		<div id="delete-toolbar" class="table-toolbar-left">
 			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>

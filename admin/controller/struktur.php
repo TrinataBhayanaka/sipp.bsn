@@ -14,6 +14,7 @@ class struktur extends Controller {
 		$sessionAdmin = new Session;
 		$this->admin = $sessionAdmin->get_session();
 		$this->view->assign('app_domain',$app_domain);
+		$this->view->assign('user',$this->admin);
 	}
 	public function loadmodule()
 	{
@@ -251,6 +252,7 @@ class struktur extends Controller {
 
 		$id = _g('id');
 		$req = _g('req');
+		$eselon_id = _g('parent_id');
 		
 		$tupoksiData['type'] = 2;
 		$tupoksiData['category'] = 1;
@@ -328,6 +330,7 @@ class struktur extends Controller {
 		
 		$this->view->assign('struktur', $getStrukturOrg);
 		$this->view->assign('submit', "submit");
+		$this->view->assign('eselon_id', $eselon_id);
 
 		$generataField = $this->generateField($dataForm);
 		$this->view->assign('form', $generataField);
@@ -336,7 +339,7 @@ class struktur extends Controller {
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
-			
+			// pr($_POST);exit;
 			$save = $this->contentHelper->saveData($_POST);
 			if ($save) redirect($basedomain . 'struktur/eselon1');
 		}

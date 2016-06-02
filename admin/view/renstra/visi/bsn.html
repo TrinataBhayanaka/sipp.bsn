@@ -50,9 +50,11 @@ $(window).on('load', function() {
 			<h3 class="panel-title">Visi Misi BSN</h3>
 		</div>
 		{if !$visi}
+		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="{$basedomain}renstra/edit/?req=1&button=visi"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Input Visi</button></a>
 		</div>
+		{/if}
 		{/if}
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		{*}
@@ -77,8 +79,13 @@ $(window).on('load', function() {
 					<tr>
 						<td>{$val.title}</td>
 						<td>{$val.desc}</td>
-						<td class="text-center"><a href="{$basedomain}renstra/edit/?req=1&id={$val.id}&button=visi"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+
+						<td>
+							{if $user.type==1}
+							<a href="{$basedomain}renstra/edit/?req=1&id={$val.id}&button=visi"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+
 						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1&button=visi"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+						{/if}
 						</td>
 					</tr>
 					{/foreach}
@@ -98,7 +105,12 @@ $(window).on('load', function() {
 					<tr>
 						<th class="text-center">&nbsp;</th>
 						<th class="text-center">Misi</th>
-						<th class="text-center">{if $visi}<a href="{$basedomain}renstra/edit/?req=2&button=misi"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Misi</button></a>{/if}</th>
+						<th class="text-center">
+							{if $visi}
+							{if $user.type==1}
+							<a href="{$basedomain}renstra/edit/?req=2&button=misi"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Misi</button></a>
+							{/if}
+							{/if}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -107,9 +119,13 @@ $(window).on('load', function() {
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
+
 						<td class="text-center">
+							{if $user.type==1}
+
 							<a href="{$basedomain}renstra/edit/?req=2&id={$val.id}&button=misi"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1&button=misi"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+							{/if}
 						</td>
 					</tr>
 					{/foreach}
@@ -129,7 +145,11 @@ $(window).on('load', function() {
 					<tr>
 						<th class="text-center">&nbsp;</th>
 						<th class="text-center">Tujuan</th>
-						<th class="text-center">{if $visi}<a href="{$basedomain}renstra/edit/?req=3&button=tujuan"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Tujuan</button></a>{/if}</th>
+						<th class="text-center">{if $visi}
+							{if $user.type==1}
+							<a href="{$basedomain}renstra/edit/?req=3&button=tujuan"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Tujuan</button></a>
+							{/if}
+							{/if}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -138,9 +158,13 @@ $(window).on('load', function() {
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
+
 						<td class="text-center">
+							{if $user.type==1}
+
 							<a href="{$basedomain}renstra/edit/?req=3&id={$val.id}&button=tujuan"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=1&button=tujuan"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+							{/if}
 						</td>
 					</tr>
 					{/foreach}

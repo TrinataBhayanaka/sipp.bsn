@@ -14,6 +14,7 @@ class renstra extends Controller {
 		$sessionAdmin = new Session;
 		$this->admin = $sessionAdmin->get_session();
 		$this->view->assign('app_domain',$app_domain);
+		$this->view->assign('user',$this->admin);
 	}
 	public function loadmodule()
 	{
@@ -358,6 +359,9 @@ class renstra extends Controller {
 							$target = unserialize($val['data']);
 							$getData[$k]['target'] = $target['target'];
 							$getData[$k]['satuan_target'] = $target['satuan_target'];
+
+							$getData[$k]['target_anggaran'] = $target['target_anggaran'];
+							$getData[$k]['satuan_target_anggaran'] = $target['satuan_target_anggaran'];
 						} 
 
 						$getDataOut = $this->contentHelper->getVisi(false, 11, 2, $val['id']);
@@ -367,6 +371,9 @@ class renstra extends Controller {
 									$target = unserialize($v['data']);
 									$getDataOut[$ka]['target'] = $target['target'];
 									$getDataOut[$ka]['satuan_target'] = $target['satuan_target'];
+
+									$getDataOut[$ka]['target_anggaran'] = $target['target_anggaran'];
+									$getDataOut[$ka]['satuan_target_anggaran'] = $target['satuan_target_anggaran'];
 								} 
 							}
 
@@ -1124,6 +1131,9 @@ class renstra extends Controller {
 						$target = unserialize($val['data']);
 						$getOutput[$k]['target'] = $target['target'];
 						$getOutput[$k]['satuan_target'] = $target['satuan_target'];
+
+						$getOutput[$k]['target_anggaran'] = $target['target_anggaran'];
+						$getOutput[$k]['satuan_target_anggaran'] = $target['satuan_target_anggaran'];
 					} 
 				}
 				$brief1 = $getSasaran[0]['title'];
@@ -1133,6 +1143,7 @@ class renstra extends Controller {
 				$desc = $getOutput[0]['desc'];
 				$this->view->assign('output', $getOutput);
 				$this->view->assign('satuan_target', $getOutput[0]['satuan_target']);
+				$this->view->assign('satuan_target_anggaran', $getOutput[0]['satuan_target_anggaran']);
 
 			}else{
 				$brief1 = $getSasaran[0]['title'];
@@ -1158,6 +1169,11 @@ class renstra extends Controller {
 
 		if ($req == 2){
 			// input prograM
+
+			$dataStruktur['table'] = 'bsn_struktur';
+			$dataStruktur['condition'] = array('type'=>'1,2,3');
+			$dataStruktur['in'] = array('type');
+			$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 
 			$getSasaran = $this->contentHelper->getVisi($dataStruktur['id'], 11, 1);
 			
@@ -1196,7 +1212,7 @@ class renstra extends Controller {
 				$desc2 = $getSasaran[0]['desc'];
 				$desc = "";
 			}
-			$dataForm[] = array('text'=>true, 'title'=>'Renstra', 'name'=>'title', 'value'=>$title, 'readonly'=>'readonly');
+			$dataForm[] = array('text'=>true, 'title'=>'Kode Output', 'name'=>'title', 'value'=>$title, 'readonly'=>'readonly');
 			$dataForm[] = array('textarea'=>true, 'title'=>'Nama Kegiatan', 'name'=>'desc1', 'value'=>$desc1, 'disabled'=>'disabled');
 			$dataForm[] = array('textarea'=>true, 'title'=>'Nama Output', 'name'=>'desc2', 'value'=>$desc2, 'disabled'=>'disabled');
 			$dataForm[] = array('textarea'=>true, 'title'=>'Indikator Kinerja Kegiatan', 'name'=>'desc', 'value'=>$desc);
@@ -1205,10 +1221,10 @@ class renstra extends Controller {
 			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>11);
 			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
 
-
+			// pr($getStruktur);
 			$generataField = $this->generateField($dataForm);
 			$this->view->assign('form', $generataField);
-			$this->view->assign('req', 1);
+			$this->view->assign('req', _g('req'));
 			$this->view->assign('struktur', $getStruktur);
 			$this->view->assign('tahuntarget', $arrayTahun);
 
@@ -1216,7 +1232,8 @@ class renstra extends Controller {
 
 		if ($_POST['submit']){
 			
-			$_POST['data'] = serialize(array('target'=>$_POST['input'], 'satuan_target'=>$_POST['satuan_target']));
+			$_POST['data'] = serialize(array('target'=>$_POST['input'], 'satuan_target'=>$_POST['satuan_target'], 
+								'target_anggaran'=> $_POST['input_anggaran'], 'satuan_target_anggaran'=>$_POST['satuan_target_anggaran']));
 			
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
@@ -1263,6 +1280,20 @@ class renstra extends Controller {
 				
 			}
 			
+			$isCover = false;
+			$parent_id = _g('parent_id');
+			$pid = _g('pid');
+			
+			if ($pid ==1) $parentid = 0;
+			if ($pid ==2 or $pid == 3) $parentid = $parent_id;
+			
+			$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
+			if ($getDokumen){
+				foreach ($getDokumen as $key => $value) {
+					if ($value['tags']) $isCover = true;
+				}
+			}
+
 			$this->view->assign('pid', $pid);
 			$this->view->assign('text1', "Tahun Anggaran");
 			$this->view->assign('text2', "Teks yang tampil");
@@ -1272,6 +1303,7 @@ class renstra extends Controller {
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', 15);
 			$this->view->assign('category', 1);
+			$this->view->assign('cover', $isCover);
 		}
 
 		if ($_POST['submit']){

@@ -53,10 +53,12 @@
 		<div class="panel-heading">
 			<h3 class="panel-title">Tugas & Fungsi</h3>
 		</div>
-		
+		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="{$basedomain}struktur/editBsn"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Tugas Pokok</button></a>
-		</div><br>{*}
+		</div><br>
+		{/if}
+		{*}
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		
 		<div id="delete-toolbar" class="table-toolbar-left">
@@ -73,7 +75,7 @@
 						<tr>
 							<th class="text-center" width="20%">Kementerian</th>
 							<th class="text-center" colspan="2">Tugas Pokok</th>
-							<th class="text-center" colspan="2" width="10%">Aksi</th>
+							{if $user.type==1}<th class="text-center" colspan="2" width="10%">Aksi</th>{/if}
 						</tr>
 					</thead>
 					<tbody>
@@ -82,16 +84,19 @@
 						<tr>
 							<td>{$val.title}</td>
 							<td colspan="2">{$val.desc}</td>
+							{if $user.type==1}
 							<td colspan="2" class="text-center">
 								<a href="{$basedomain}struktur/editBsn/?id={$val.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								<a href="{$basedomain}struktur/delete/?id={$val.id}&req=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 							</td>
+							{/if}
 						</tr>
 						<tr>
 							<td>&nbsp;</td>
 							<td class="text-center" colspan="2"><b>Fungsi</b></td>
 							<td colspan="2" class="text-center">
-								<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-icon icon-lg fa fa-plus"></button></a>
+								{if $user.type==1}
+								<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-icon icon-lg fa fa-plus"></button></a>{/if}
 							</td>
 						</tr>
 						{if $val.fungsi}
@@ -101,10 +106,12 @@
 							<td class="text-center">{$ka+1}</td>
 							<td>{$v.desc}</td>
 							<td class="text-center">	
-								<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+								{if $user.type==1}<a href="{$basedomain}struktur/editBsn/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>{/if}
 							</td>
 							<td class="text-center">	
+								{if $user.type==1}
 								<a href="{$basedomain}struktur/delete/?id={$v.id}&req=2"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+								{/if}
 							</td>
 						</tr>
 						{/foreach}

@@ -51,6 +51,11 @@ class perjanjiankinerja extends Controller {
 
 	public function add(){
 		$ss = $this->getSS(1,'840000');
+		foreach ($ss as $key => $value) {
+			$check = $this->model->checkSS($value['id']);
+
+			if($check > 0) unset($ss[$key]);
+		}
 		$this->view->assign('ss',$ss);
 		$thn = $this->model->getTahun();
 		$this->view->assign('thn',$thn['kode']);
@@ -132,11 +137,22 @@ class perjanjiankinerja extends Controller {
 	public function del_pk_eselon()
 	{
 		global $basedomain;
-		$id = $_GET['id'];
+		$idpk = $_GET['id'];
 		$thn = $this->model->getTahun();
 		$this->model->delete_pk(false,$thn,$idpk);
 
-		echo "<script>alert('Data berhasil dihapus');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
+		echo "<script>alert('Data berhasil dihapus');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2&kd={$_GET['kd']}'</script>";
+		exit;
+	}
+
+	public function del_pk_eselon2()
+	{
+		global $basedomain;
+		$idpk = $_GET['id'];
+		$thn = $this->model->getTahun();
+		$this->model->delete_pk(false,$thn,$idpk);
+
+		echo "<script>alert('Data berhasil dihapus');window.location.href='".$basedomain."perjanjiankinerja/pk_eselon2/?tp=3&kd={$_GET['kd']}'</script>";
 		exit;
 	}
 
@@ -289,7 +305,7 @@ class perjanjiankinerja extends Controller {
 	public function edit_eselon()
 	{
 		$thn = $this->model->getTahun();
-		$data = $this->model->getpkSS($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
+		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
 		$ss = $this->getSS($_GET['pr']);
 		
 		$this->view->assign('ss',$ss);
@@ -303,7 +319,7 @@ class perjanjiankinerja extends Controller {
 	public function edit_eselon2()
 	{
 		$thn = $this->model->getTahun();
-		$data = $this->model->getpkSS($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
+		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
 		$ss = $this->getSS($_GET['pr']);
 		
 		$this->view->assign('ss',$ss);
@@ -317,10 +333,10 @@ class perjanjiankinerja extends Controller {
 	public function edt_pk_eselon()
 	{
 		global $basedomain;
-		
+
 		$this->model->edit_pk($_POST);
 
-		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2'</script>";
+		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/eselon1/?tp=2&kd={$_POST['kdunitkerja']}'</script>";
 		exit;
 	}
 
@@ -330,7 +346,7 @@ class perjanjiankinerja extends Controller {
 		
 		$this->model->edit_pk($_POST);
 
-		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/pk_eselon2/?tp=3'</script>";
+		echo "<script>alert('Data berhasil dirubah');window.location.href='".$basedomain."perjanjiankinerja/pk_eselon2/?tp=3&kd={$_POST['kdunitkerja']}'</script>";
 		exit;
 	}
 

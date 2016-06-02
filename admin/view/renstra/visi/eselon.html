@@ -68,10 +68,12 @@
 			<h3 class="panel-title">Visi Misi Eselon I</h3>
 		</div>
 		{if !$visi}
+		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Visi</button></a>
 		</div>
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		{/if}
 		{/if}
 		{*}
 		<div id="delete-toolbar" class="table-toolbar-left">
@@ -107,8 +109,14 @@
 					<tr>
 						<td>{$val.title}</td>
 						<td>{$val.desc}</td>
-						<td class="text-center"><a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editvisi" data-id="{$val.id}"></button></a>
-						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2&id_parent={$parent_id}&menu=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a></td>
+
+						<td>
+							{if $user.type==1}
+							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editvisi" data-id="{$val.id}"></button></a>
+						<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2&id_parent={$parent_id}&menu=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+						{/if}
+					</td>
+
 					</tr>
 					{/foreach}
 					{else}
@@ -127,7 +135,9 @@
 					<tr>
 						<th class="text-center">&nbsp;</th>
 						<th class="text-center">Misi</th>
-						<th class="text-center">{if $visi}<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputmisi">Tambah Misi</button></a>{/if}</th>
+						<th class="text-center">{if $visi}
+							{if $user.type==1}
+							<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputmisi">Tambah Misi</button></a>{/if}{/if}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -136,9 +146,13 @@
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
+
 						<td class="text-center">
+							{if $user.type==1}
+
 							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="editmisi" data-id="{$val.id}"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2&id_parent={$parent_id}&menu=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+							{/if}
 						</td>
 					</tr>
 					{/foreach}
@@ -158,7 +172,11 @@
 					<tr>
 						<th class="text-center">&nbsp;</th>
 						<th class="text-center">Tujuan</th>
-						<th class="text-center">{if $visi}<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputtujuan">Tambah Tujuan</button></a>{/if}</th>
+						<th class="text-center">{if $visi}
+							{if $user.type==1}
+							<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputtujuan">Tambah Tujuan</button></a>{/if}
+							{/if}
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -167,9 +185,13 @@
 					<tr>
 						<td>{$k+1}</td>
 						<td>{$val.desc}</td>
+
 						<td class="text-center">
+							{if $user.type==1}
+
 							<a href="javascript:void(0)"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil" id="edittujuan" data-id="{$val.id}"></button></a>
 							<a href="{$basedomain}renstra/delete/?id={$val.id}&req=2&id_parent={$parent_id}&menu=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+							{/if}
 						</td>
 					</tr>
 					{/foreach}

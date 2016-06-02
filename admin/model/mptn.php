@@ -64,7 +64,7 @@ class mptn extends Database {
 
 	function edit_pk($data)
 	{
-		$sql = "UPDATE th_pk SET th = '{$data['th']}', no_sasaran = '{$data['no_sasaran']}', no_pk = '{$data['no_pk']}', nm_pk = '{$data['nm_pk']}', target = '{$data['target']}' WHERE id = '{$data['id']}'";
+		$sql = "UPDATE th_pk SET th = '{$data['th']}', no_sasaran = '{$data['no_sasaran']}', no_pk = '{$data['no_pk']}', nm_pk = '{$data['nm_pk']}', target = '{$data['target']}', satuan = '{$data['satuan']}', perspektif = '{$data['perspektif']}' WHERE id = '{$data['id']}'";
 		$res = $this->query($sql);
 
 		return true;
@@ -151,6 +151,14 @@ class mptn extends Database {
 		$result = $this->fetch($query,1);
 		
 		return $result;
+	}
+
+	function checkSS($idss)
+	{
+		$query = "SELECT COUNT(*) as total FROM th_pk WHERE no_sasaran = {$idss}";
+		$res = $this->fetch($query);
+
+		return $res['total'];
 	}
 	
 	function nama_pejabat($kd_satker){
