@@ -1475,11 +1475,98 @@ class monev_trwln extends Controller {
 			// $data['ygmembantu'] = '';
 		}
 		
-		
 		$this->view->assign('dataselected',$dataselected);
 		$this->view->assign('info',$info);
 		$this->view->assign('list',$list);
 		$this->view->assign('data',$data);
+		
+		//validator
+		if($this->admin['type'] == 1){
+			$acces = "";
+			$sub = "";
+			$valid = 1;
+		}else{
+			$acces = "disabled";
+			$ceck_month = date('m');
+			$ceck_date = date('d');
+			$limit_date = 15;
+			// pr($ceck_month);
+			// pr($ceck_date);
+			if($trwulan == 1){
+				// pr("TW I");
+				if($ceck_month < '03' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 2){
+				// pr("TW II");
+				if($ceck_month < '06' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 3){
+				// pr("TW III");
+				if($ceck_month < '09' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 4){
+				// pr("TW IV");
+				if($ceck_month < '12' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}
+		}
+		
+		$this->view->assign('acces',$acces);
+		$this->view->assign('sub',$sub);
+		$this->view->assign('valid',$valid);
+		
 		return $this->loadView('monev_trwln/editBobotmonev');
 	}
 	

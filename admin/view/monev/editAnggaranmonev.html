@@ -76,6 +76,7 @@ function isNumber(evt) {
 					<input type="hidden" name="kdgiat" id="kdgiat" class="form-control" value="{$info.kd_giat}">
 					<input type="hidden" name="kdoutput" id="kdoutput" class="form-control" value="{$info.kd_output}">
 					<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
+					<input type="hidden" name="valid" id= "valid" class="valid" value= "{$valid}">
 					<!--<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
 					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
 					<div class="panel-body">
@@ -160,7 +161,7 @@ function isNumber(evt) {
 						</div>
 						<div class="form-group">
 						<label class="col-sm-2 control-label boldGrey">Bulan</label>
-							<select name="bulan" id="bulan" class="selectpicker" width="100%" onchange="return checkMonth(this);">
+							<select name="bulan" id="bulan" class="selectpicker" width="100%" {$acces}>
 								{foreach $bulan as $key=> $valbln}
 									{if $keybln == $key}
 										{$select_list = 'selected'}
@@ -207,6 +208,8 @@ function isNumber(evt) {
 										{foreach $list as $val}
 										<tr>
 											<input type="hidden" name="kd_komponen" class="kd_komponen" value= "{$val.KDKMPNEN}">
+											
+												
 											<td  class="text-center">{$val.KDKMPNEN}</td>
 											<td>{$val.nama_komponen}</td>
 											<td class="text-right">
@@ -256,7 +259,7 @@ function isNumber(evt) {
 					</div>
 					<div class="panel-footer text-right">
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
+						<input type="button" id="submit" name="submit" value="save" class="btn btn-info" {$sub}>
 					</div>
 				</form>
 				<!--===================================================-->
@@ -272,10 +275,15 @@ function isNumber(evt) {
 {literal}
 <script>
 $(document).ready(function() {
-/*var status_hidden = $('#status_hidden').val();
-if(status_hidden){
-document.getElementById(status_hidden).selected = "true";
-}*/
+var ceck = $('#valid').val();	
+if(ceck == 1){
+	//nothing
+}else{
+	bootbox.alert("Pengisian Sudah Melewati Batas yang Di Tentukan, Hubungi Administrator", function(){
+							//EMPTY
+		});
+}
+
 //print doc rpk
 $('#print').on('click', function(){
 	var th = $('#th').val();
@@ -380,14 +388,17 @@ $('#bulan').on('change', function(){
 });	
 
 $('#submit').on('click', function(){
+
+	var kendala = $('#kendala').code();
+	var tindaklanjut = $('#tindaklanjut').code();
+	var ygmembantu = $('#ygmembantu').code();
+	
+	if(kendala != '' && kendala != '<p><br></p>' && tindaklanjut != '' && tindaklanjut != '<p><br></p>' && ygmembantu != '' && ygmembantu != '<p><br></p>'){
+	
 	var kdunitkerja = $('#kdunitkerja').val();
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
 	var kd_komponen = $('#kd_komponen').val();
-	
-	/*var kendala = $('#kendala').val();
-	var tindaklanjut = $('#tindaklanjut').val();
-	var ygmembantu = $('#ygmembantu').val();*/
 	
 	var kendala = $('#kendala').code();
 	var tindaklanjut = $('#tindaklanjut').code();
@@ -396,19 +407,15 @@ $('#submit').on('click', function(){
 	var th = $('#th').val();
 	var bulan = $('#bulan').val();
 	
-	//var realisasi = $('#realisasi_blnini').val();
 	var realisasi = []; 
 	$.each($('.realisasi_blnini'), function (index, value) { 
 		realisasi.push(this.value);	
 	 });
-	//console.log(realisasi);
-
-	//kd_komponen
+	
 	var kd_komponen = []; 
 	$.each($('.kd_komponen'), function (index, value) { 
 		kd_komponen.push(this.value);	
 	 });
-	//console.log(kd_komponen);	
 	
 	  bootbox.confirm("Simpan Data?", function(result) {
 			if (result) {
@@ -435,13 +442,15 @@ $('#submit').on('click', function(){
 					timer : 2000
 				});
 			}
-
-
+		}); 
+	}else{
+		bootbox.alert("Isian Bobot Kinerja Harus Di Isi", function(){
+							//EMPTY
 		});
-	  
-	  
-	});	
-//});
+	}	
+		
+});	
+
 });
 
 function checkMonth(item)

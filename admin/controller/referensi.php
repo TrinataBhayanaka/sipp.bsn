@@ -32,29 +32,42 @@ class referensi extends Controller {
 		// $ref_kegiatan = $this->model->getRefKegiatan($thn_renstra);
 		$ref_kegiatan = $this->model->getRefKegiatan();
 		
-		// db($data_fix);
+		// db($ref_kegiatan);
 		$this->view->assign('data',$ref_kegiatan);
 
-		return $this->loadView('referensi/ref_kegiatan');
+		return $this->loadView('referensi/ref_keg');
 
 	}
 	
 	public function ajax_edit_kegiatan(){
 		// $thn_aktif = $this->m_penetapanAngaran->thn_aktif();
 		// $thn_renstra =$thn_aktif['data'];
-		$kd_giat = $_POST['idKdgiat'];
+		$kdunitkerja = $_POST['kdunitkerja'];
+		$kdgiat = $_POST['kdgiat'];
 		// $ref_nama_kegiatan = $this->model->getNamaKegiatan($kd_giat,$thn_renstra);
-		$ref_nama_kegiatan = $this->model->getNamaKegiatan($kd_giat,$thn_renstra);
+		$ref_nama_kegiatan = $this->model->getNamaKegiatan($kdunitkerja,$kdgiat);
+		echo json_encode($ref_nama_kegiatan);
+		exit;
+		
+	}
+	public function ajax_ceck_kegiatan(){
+		$kdunitkerja = $_POST['kdunitkerja'];
+		$kdgiat = $_POST['kdgiat'];
+		// $ref_nama_kegiatan = $this->model->getNamaKegiatan($kd_giat,$thn_renstra);
+		$ref_nama_kegiatan = $this->model->ceckKegiatan($kdunitkerja,$kdgiat);
 		echo json_encode($ref_nama_kegiatan);
 		exit;
 		
 	}
 	
 	public function ajax_update_kegiatan(){
+	// pr($_POST);
 		$kdunitkerja = $_POST['kdunitkerja'];
+		$kdunitkerjaold = $_POST['kdunitkerjaold'];
 		$kdgiat = $_POST['kdgiat'];
+		$kdgiatold = $_POST['kdgiatold'];
 		$nmgiat = $_POST['nmgiat'];
-		$ref_nama_kegiatan = $this->model->updateNamaKegiatan($kdunitkerja,$kdgiat,$nmgiat);
+		$ref_nama_kegiatan = $this->model->updateNamaKegiatan($kdunitkerja,$kdgiat,$nmgiat,$kdunitkerjaold,$kdgiatold);
 		exit;
 		
 	}
@@ -69,7 +82,7 @@ class referensi extends Controller {
 		// db($data_fix);
 		$this->view->assign('data',$ref_kegiatan);
 
-		return $this->loadView('referensi/ref_output');
+		return $this->loadView('referensi/ref_out');
 
 	}
 	
@@ -86,10 +99,13 @@ class referensi extends Controller {
 	}
 	
 	public function ajax_update_output(){
+		// pr($_POST);
 		$kdgiat = $_POST['kdgiat'];
+		$kdgiatold = $_POST['kdgiatold'];
 		$kdoutput = $_POST['kdoutput'];
+		$kdoutputold = $_POST['kdoutputold'];
 		$nmoutput = $_POST['nmoutput'];
-		$ref_nama_kegiatan = $this->model->updateNamaOutput($kdgiat,$kdoutput,$nmoutput);
+		$ref_nama_kegiatan = $this->model->updateNamaOutput($kdgiat,$kdoutput,$nmoutput,$kdgiatold,$kdoutputold);
 		exit;
 		
 	}
@@ -140,8 +156,9 @@ class referensi extends Controller {
 	
 	public function ajax_update_akun(){
 		$kdakun = $_POST['kdakun'];
+		$kdakunold = $_POST['kdakunold'];
 		$nmakun = $_POST['nmakun'];
-		$ref_nama_akun = $this->model->updateNamaAkun($kdakun,$nmakun);
+		$ref_nama_akun = $this->model->updateNamaAkun($kdakun,$kdakunold,$nmakun);
 		exit;
 		
 	}

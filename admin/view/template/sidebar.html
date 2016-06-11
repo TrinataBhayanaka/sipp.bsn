@@ -366,7 +366,7 @@
 						</li>
 
 						<li class="list-divider"></li>
-						
+						{if $admin.type eq 1}
 						<li class="list-header">Pengaturan Sistem</li>
 
 						<!--Menu list item-->
@@ -381,7 +381,7 @@
 						<li class="{if $page.page eq 'sistem' && $page.function eq 'pengguna'}active-link{/if}">
 							<a href="{$basedomain}sistem/pengguna">
 								<i class="fa fa-users"></i>
-								<span class="menu-title"><strong>Pengaturan Pengguna</strong> </span>
+								<span class="menu-title"><strong>Pengaturan Pengguna </strong> </span>
 							</a>
 			
 						</li>
@@ -397,7 +397,7 @@
 								<li class="{if $page.function eq 'ref_akun'}active{/if}"><a href="{$basedomain}referensi/ref_akun">Referensi Akun</a></li>
 							</ul>
 						</li>
-						
+						{/if}
 						
 						
 						

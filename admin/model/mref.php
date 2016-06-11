@@ -55,16 +55,24 @@ class mref extends Database {
 		return $result;
 	}*/
 	
-	function getNamaKegiatan($kd_giat){
-		$query = "SELECT kdunitkerja,kdgiat,nmgiat FROM m_kegiatan WHERE kdgiat = '{$kd_giat}'";
+	function getNamaKegiatan($kdunitkerja,$kdgiat){
+		$query = "SELECT kdunitkerja,kdgiat,nmgiat FROM m_kegiatan WHERE kdgiat = '{$kdgiat}' and kdunitkerja = '{$kdunitkerja}'";
 		// pr($query);
 		$result = $this->fetch($query);
 		
 		return $result;
 	}
 	
-	function updateNamaKegiatan($kdunitkerja,$kdgiat,$nmgiat){
-		$query = "UPDATE m_kegiatan SET  nmgiat = '{$nmgiat}' where kdunitkerja = '{$kdunitkerja}' and kdgiat = '{$kdgiat}'";
+	function ceckKegiatan($kdunitkerja,$kdgiat){
+		$query = "SELECT count(1) as jml FROM m_kegiatan  WHERE kdgiat = '{$kdgiat}' and kdunitkerja = '{$kdunitkerja}'";
+		// pr($query);
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+	
+	function updateNamaKegiatan($kdunitkerja,$kdgiat,$nmgiat,$kdunitkerjaold,$kdgiatold){
+		$query = "UPDATE m_kegiatan SET  nmgiat = '{$nmgiat}', kdunitkerja = '{$kdunitkerja}', kdgiat = '{$kdgiat}'  where kdunitkerja = '{$kdunitkerjaold}' and kdgiat = '{$kdgiatold}'";
 		// pr($query);
 		$result = $this->query($query);
 		
@@ -86,8 +94,8 @@ class mref extends Database {
 		return $result;
 	}
 	
-	function updateNamaOutput($kdgiat,$kdoutput,$nmoutput){
-		$query = "UPDATE t_output SET  nmoutput = '{$nmoutput}' where kdoutput = '{$kdoutput}' and kdgiat = '{$kdgiat}'";
+	function updateNamaOutput($kdgiat,$kdoutput,$nmoutput,$kdgiatold,$kdoutputold){
+		$query = "UPDATE t_output SET  nmoutput = '{$nmoutput}', kdgiat = '{$kdgiat}', kdoutput = '{$kdoutput}'  where kdoutput = '{$kdoutputold}' and kdgiat = '{$kdgiatold}'";
 		// pr($query);
 		$result = $this->query($query);
 		
@@ -115,8 +123,8 @@ class mref extends Database {
 		return $result;
 	}
 	
-	function updateNamaAkun($kdakun,$nmakun){
-		$query = "UPDATE t_akun SET  NMAKUN = '{$nmakun}' where KDAKUN = '{$kdakun}'";
+	function updateNamaAkun($kdakun,$kdakunold,$nmakun){
+		$query = "UPDATE t_akun SET  NMAKUN = '{$nmakun}', KDAKUN = '{$kdakun}' where KDAKUN = '{$kdakunold}'";
 		// pr($query);
 		$result = $this->query($query);
 		

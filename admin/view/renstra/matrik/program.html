@@ -77,7 +77,7 @@
 					</tr>
 					<tr>
 						<th class="text-center">Sasaran Program (Outcome)<br>Indikator Kinerja Program (IKP)</th>
-						<th class="text-center">Eselon 1 Pelaksana Program</th>
+						<th class="text-center">Eselon I Pelaksana Program</th>
 						
 					</tr>
 				</thead>
@@ -129,7 +129,7 @@
 											{foreach $tahuntarget as $thn}
 											<td class="text-center">{$thn}</td>
 											{/foreach}
-											<td>Satuan Target</td>
+											<td>Satuan</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -145,7 +145,7 @@
 										</tr>
 										<tr>
 
-											<td class="text-center" colspan="6">
+											<td class="text-center" colspan="7">
 												{if $user.type==1}
 												<a href="{$basedomain}renstra/editProgram/?req=3&parent_id={$value.id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit Kinerja</button></a>
 											
