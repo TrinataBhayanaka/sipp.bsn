@@ -17,7 +17,7 @@
 
 	$(document).on('change', '.eselonid', function(){
 		var id = $(this).val();
-		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+		redirect(basedomain+"struktur/eselon2/?parent_id="+id);
 	})
 
 
@@ -52,16 +52,32 @@
 			<h3 class="panel-title">Eselon II</h3>
 		</div>
 		{/*}
+		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
 			<a href="{$basedomain}struktur/editEselon2"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Tugas Pokok</button></a>
-		</div><br>{*}
+		</div><br>
+		{/if}
+		{*}
 		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
 		
 		<div id="delete-toolbar" class="table-toolbar-left">
 			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
 		</div>
 		{/*}
-		
+		<div class="row">
+		<div class="col-md-12 table-toolbar-right">
+			<div class="form-group">
+              <!-- <label for="text-input">Eselon 1</label> -->
+                  <select class="form-control eselonid" name="parent_id">
+                    {if $struktur}
+                    {foreach $struktur as $val}
+                    <option value="{$val.id}" {if $val.id==$eselon_id}selected{/if}>{$val.singkatan}</option>
+                    {/foreach}
+                    {/if}
+                  </select>
+          	</div>
+		</div>
+		</div>
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
@@ -77,12 +93,17 @@
 					<tbody>
 						{if $tugas}
 						{foreach $tugas as $k => $val}	
+						{if $val.title == $eselon_id}
 						<tr>
 							<td>{$val.nama_satker}</td>
 							<td colspan="2">{$val.desc}</td>
 							<td colspan="2" class="text-center">
 
+								{if $user.type==1}
 								<a href="{$basedomain}struktur/editEselon2/?id={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+
+								<a href="{$basedomain}struktur/delete/?id={$val.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+								{/if}
 							</td>
 						</tr>
 						
@@ -90,7 +111,11 @@
 							<td>&nbsp;</td>
 							<td class="text-center" colspan="2"><b>Fungsi</b></td>
 							<td colspan="2" class="text-center">
+
+								{if $user.type==1}
 								<a href="{$basedomain}struktur/editEselon2/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">tambah</button></a>
+								{/if}
+
 							</td>
 						</tr>
 						{if $tugas}
@@ -100,13 +125,18 @@
 							<td class="text-center">{$k+1}</td>
 							<td >{$v.desc}</td>
 							<td class="text-center">	
+								{if $user.type==1}
 								<a href="{$basedomain}struktur/editEselon2/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								{/if}
 							</td>
 							<td class="text-center">	
+								{if $user.type==1}
 								<a href="{$basedomain}struktur/delete/?id={$v.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+								{/if}
 							</td>
 						</tr>
 						{/foreach}
+						{/if}
 						{/if}
 						{/foreach}
 						{/if}

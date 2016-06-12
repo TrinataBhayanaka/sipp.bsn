@@ -156,8 +156,11 @@ class Database
         $field = implode(',', $tmpfield);
         $value = implode(',', $tmpvalue);
 
+        $sql = "SET SQL_MODE = 'NO_ENGINE_SUBSTITUTION'";
+    	$res = $this->query($sql);
+    	
         $query = "INSERT INTO {$table} ({$field}) VALUES ($value)";
-
+        // pr($query);
         $result = $this->query($query,$dbuse);
 
         return true;

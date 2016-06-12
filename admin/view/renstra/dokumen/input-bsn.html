@@ -60,12 +60,21 @@
 								<input type="file" name="file" class="form-control" value="{$text3value}" required>
 							</div>
 						</div>
+
 						<div class="form-group">
 							<label class="col-sm-3 control-label">{$text4}</label>
 							<div class="col-sm-4">
 								<input type="text" name="tags" class="form-control" value="{$text4value}" required>
 							</div>
 						</div>
+						{if !$cover}
+						<div class="form-group">
+							<label class="col-sm-3 control-label">{$text5}</label>
+							<div class="col-sm-4">
+								<input type="file" name="cover" class="form-control" value="{$text5value}" required>
+							</div>
+						</div>
+						{/if}
 					</div>
 					<div class="panel-footer text-right">
 						<input type="hidden" name="pid" value="{$pid}">

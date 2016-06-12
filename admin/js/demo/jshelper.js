@@ -8,6 +8,9 @@ function isNumber(evt) {
     return true;
 	}
 
+	function tes(){
+		console.log();
+	}
  $(document).ready(function() {
 	
 	// BOOTBOX - CUSTOM HTML FORM
@@ -15,6 +18,8 @@ function isNumber(evt) {
 	// Require Bootbox
 	// http://bootboxjs.com/
 	// =================================================================
+	
+	
 	//insert ajax glosarium
 	$('#tahapan').on('click', function(){
 		bootbox.dialog({

@@ -6,20 +6,48 @@
 		inputsasaran(1);
 	})
 
-	
-
 	$(document).on('click', '#editvisi', function(){
 		var iddata = $(this).attr('data-id');
 		inputsasaran(1, iddata);
 	})
-
-	
 
 	$(document).on('change', '.eselonid', function(){
 		var id = $(this).val();
 		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
 	})
 
+	$(document).on('change', '.choose_kinerja', function(){
+		var id = $(this).attr('data-kinerja-id');
+		var parentid = $(this).attr('data-parent');
+		$('.kinerja_'+parentid).attr('data-kinerja', id);
+		$('.hapuskinerja_'+parentid).attr('data-kinerja', id);
+	})
+
+	function editKinerja(data)
+	{
+		var url = $('.kinerja_'+data).attr('data-link'); 
+		var id = $('.kinerja_'+data).attr('data-kinerja');
+		if (!id){
+			alert('Pilih data terlebih dahulu');
+			return false;
+		}else{
+			redirect(url+id);
+		}
+		
+	}
+
+	function hapusKinerja(data)
+	{
+		var url = $('.hapuskinerja_'+data).attr('data-link'); 
+		var id = $('.hapuskinerja_'+data).attr('data-kinerja');
+		if (!id){
+			alert('Pilih data terlebih dahulu');
+			return false;
+		}else{
+			redirect(url+id);
+		}
+		
+	}
 
 {/literal}
 
@@ -89,37 +117,44 @@
 									<thead>
 										<tr>
 											{if $tahuntarget}
+											<td>&nbsp;</td>
 											{foreach $tahuntarget as $a}
 											<td class="text-center">{$a}</td>
 											{/foreach}
 											{/if}
+											<td class="text-center">Satuan</td>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
+											<td>Target</td>
 											{foreach $value.target as $v}
-											<td>{$v}</td>
+											<td class="text-center">{$v}</td>
 											{/foreach}
+											<td class="text-center">{$value.satuan_target}</td>
 										</tr>
 									</tbody>
 								</table>
-							
+								<div class="well well-sm" align="center"><input type="radio" name="radio" class="choose_kinerja" data-kinerja-id="{$value.id}" data-parent="{$val.id}"> Pilih data ini</div>
 							{/foreach}
 							{/if}
 						</td>
 						<td>
+							{if $user.type==1}
 							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input IKSS</button></a>
 							
 							{if $val.target}	
 							<br/>		
 							<br/>		
-							<a href="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}&id={$val.target.0.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="editvisi" data-id="{$val.id}">Edit IKSS</button></a>
+							<a href="javascript:void(0)" data-link="{$basedomain}renstra/editKinerja/?parent_id={$parent_id}&child={$val.id}&id=" data-kinerja="" class="kinerja_{$val.id}" onclick="editKinerja({$val.id})"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" id="" data-id="{$val.id}">Edit IKSS</button></a>
 							<br/>
 							<br/>
-							<a href="{$basedomain}renstra/delete/?id={$val.target.0.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
+							<a href="javascript:void(0)" data-link="{$basedomain}renstra/delete/?req=4&id=" data-kinerja="" class="hapuskinerja_{$val.id}" onclick="hapusKinerja({$val.id})"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Hapus IKKSS</button></a>
+							{/if}
 							{/if}
 						</td>
 					</tr>
+
 					{/foreach}
 					{else}
 					<tr>

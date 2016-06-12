@@ -64,34 +64,91 @@
 				                  	</select>
 				          	</div>
 						</div>
-						
-						{/if}
-						{if $req == 1}
 						<div class="form-group">
-							<label class="col-sm-3 control-label">&nbsp;</label>
+							<label class="col-sm-3 control-label">Target</label>
 							<div class="col-sm-6">
 								<table>
 									<thead>
 										<tr>
 											{if $tahuntarget}
-											<td class="text-center">Alokasi Anggaran</td>
+											<td class="text-center"></td>
 											{foreach $tahuntarget as $a}
 											<td class="text-center">{$a}</td>
 											{/foreach}
 											{/if}
+											<td class="text-center">Satuan</td>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>Ribuan Rp.</td>
+											<td></td>
 											{foreach $tahuntarget as $k => $a}
 											<td><input type="text" class="form-control money" name="input[]" value="{$output.0.target.$k}"></td>
 											{/foreach}
+											<td><input name="satuan_target" type="text" value="{$satuan_target}" class="form-control"></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						{/if}
+						{if $req == 1}
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Alokasi Anggaran (Ribuan Rp.)</label>
+							<div class="col-sm-6">
+								<table>
+									<thead>
+										<tr>
+											{if $tahuntarget}
+											<td class="text-center"></td>
+											{foreach $tahuntarget as $a}
+											<td class="text-center">{$a}</td>
+											{/foreach}
+											{/if}
+											<td class="text-center">Satuan </td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td></td>
+											{foreach $tahuntarget as $k => $a}
+											<td><input type="text" class="form-control money" name="input_anggaran[]" value="{$output.0.target_anggaran.$k}"></td>
+											{/foreach}
+											<td><input name="satuan_target_anggaran" type="text" value="{$satuan_target_anggaran}" class="form-control"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Target</label>
+							<div class="col-sm-6">
+								<table>
+									<thead>
+										<tr>
+											{if $tahuntarget}
+											<td class="text-center"></td>
+											{foreach $tahuntarget as $a}
+											<td class="text-center">{$a}</td>
+											{/foreach}
+											{/if}
+											<td class="text-center">Satuan </td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td></td>
+											{foreach $tahuntarget as $k => $a}
+											<td><input type="text" class="form-control money" name="input[]" value="{$output.0.target.$k}"></td>
+											{/foreach}
+											<td><input name="satuan_target" type="text" value="{$satuan_target}" class="form-control"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
 						{*}
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Eselon 1</label>

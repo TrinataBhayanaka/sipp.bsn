@@ -48,11 +48,13 @@ class renaksi extends Controller {
 	public function edit_eselon1()
 	{
 		$id = $_GET['id'];
+		$kd = $_GET['kd'];
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpkid($id,$thn['kode']);
 
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
+		$this->view->assign('kode',$kd);
 
 		return $this->loadView('renaksi/edit_eselon1');
 	}
@@ -60,11 +62,13 @@ class renaksi extends Controller {
 	public function edit_eselon2()
 	{
 		$id = $_GET['id'];
+		$kd = $_GET['kd'];
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpkid($id,$thn['kode']);
 
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
+		$this->view->assign('kode',$kd);
 
 		return $this->loadView('renaksi/edit_eselon2');
 	}
@@ -82,20 +86,22 @@ class renaksi extends Controller {
 	public function edt_renaksi_es1()
 	{
 		global $basedomain;
-
+		$kode = $_POST['kd'];
+		unset($_POST['kd']);
 		$this->model->upd_renaksi($_POST);
 
-		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."renaksi/eselon1'</script>";
+		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."renaksi/eselon1/?kd={$kode}'</script>";
 		exit;
 	}
 
 	public function edt_renaksi_es2()
 	{
 		global $basedomain;
-
+		$kode = $_POST['kd'];
+		unset($_POST['kd']);
 		$this->model->upd_renaksi($_POST);
 
-		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."renaksi/eselon2'</script>";
+		echo "<script>alert('Data berhasil masuk');window.location.href='".$basedomain."renaksi/eselon2/?kd={$kode}'</script>";
 		exit;
 	}
 
@@ -104,10 +110,18 @@ class renaksi extends Controller {
 		$struktur = $this->model->getStruktur(2);
 
 		if(!$_POST) {
-			$idpk = $struktur[0]['kode'];
-			$parent = $struktur[0]['id'];
-			$this->view->assign('label',$struktur[0]['nama_satker']);
-			$this->view->assign('id',$struktur[0]['id']);
+			if(isset($_GET['kd'])){
+				$idpk = $_GET['kd'];
+			} else {
+				$idpk = $struktur[0]['kode'];
+			}
+			foreach ($struktur as $key => $value) {
+				if($value['kode'] == $idpk) {
+					$parent = $value['id'];
+					$this->view->assign('label',$value['nama_satker']);
+					$this->view->assign('id',$value['id']);
+				}
+			}
 			$this->view->assign('idpk',$idpk);
 		} else {
 			$exp = explode("_", $_POST['struktur']);
@@ -132,10 +146,18 @@ class renaksi extends Controller {
 		$struktur = $this->model->getStruktur(3);
 
 		if(!$_POST) {
-			$idpk = $struktur[0]['kode'];
-			$parent = $struktur[0]['id'];
-			$this->view->assign('label',$struktur[0]['nama_satker']);
-			$this->view->assign('id',$struktur[0]['id']);
+			if(isset($_GET['kd'])){
+				$idpk = $_GET['kd'];
+			} else {
+				$idpk = $struktur[0]['kode'];
+			}
+			foreach ($struktur as $key => $value) {
+				if($value['kode'] == $idpk) {
+					$parent = $value['id'];
+					$this->view->assign('label',$value['nama_satker']);
+					$this->view->assign('id',$value['id']);
+				}
+			}
 			$this->view->assign('idpk',$idpk);
 		} else {
 			$exp = explode("_", $_POST['struktur']);

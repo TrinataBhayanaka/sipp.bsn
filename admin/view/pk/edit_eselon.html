@@ -27,34 +27,76 @@
 		<form class="form-horizontal form-padding" method="post" action="{$basedomain}perjanjiankinerja/edt_pk_eselon">
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-lg-8">
+				<div class="col-lg-12">
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-text-input">Tahun</label>
-							<div class="col-md-2">
-								<input type="text" name="th" class="form-control" value="{$data.th}" readonly>
+							<label class="col-md-2 control-label" for="demo-text-input">Tahun</label>
+							<div class="col-md-1">
+								<input type="text" name="th" class="form-control" value="{$tahun}" readonly>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-text-input">Sasaran Strategis</label>
-							<div class="col-md-9">
+							<label class="col-md-2 control-label" for="demo-text-input">Sasaran Strategis</label>
+							<div class="col-md-10">
 								<select class="selectpicker" name="no_sasaran" title="-- Pilih Sasaran Strategis --">
 									<option data-hidden="true"></option>
 									{foreach $ss as $val}
-										<option value="{$val.id}" {if $val.id eq $data.no_sasaran}selected{/if}>{$val.desc}</option>
+										<option value="{$val.id}" {if $val.id eq $data.no_sasaran}selected{else}disabled{/if}>{$val.desc}</option>
 									{/foreach}
 								</select>
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-md-2 control-label">Perspektif</label>
+							<div class="col-md-10">
+							<select class="selectpicker" name="perspektif" title="-- Pilih Perspektif --" required>
+								<option data-hidden="true"></option>
+								<option value="Stakeholder" {if $data.perspektif eq 'Stakeholder'}selected{/if}>Stakeholder Perspektif</option>
+								<option value="Customer" {if $data.perspektif eq 'Customer'}selected{/if}>Customer Perspektif</option>
+								<option value="Internal" {if $data.perspektif eq 'Internal'}selected{/if}>Internal Perspektif</option>
+								<option value="Learning and Growth" {if $data.perspektif eq 'Learning and Growth'}selected{/if}>learning and Growth Perspektif</option>
+							</select>
+							</div>
+						</div>
+						<div class="row">
+
+							<div class="col-md-offset-2">
+
+								<div class="col-md-8">
+									<label><strong>Indikator Kinerja</strong></label>
+								</div>
+								<div class="col-md-2">
+									<label><strong>Target</strong></label>
+								</div>
+								<div class="col-md-2">
+									<label><strong>Satuan</strong></label>
+								</div>
+								<div id="ik">
+									<input type="hidden" name="id" value="{$data.id}">
+									<input type="hidden" name="no_pk" value="{$data.no_pk}">
+									<div class='col-md-8'>
+										<input type="text" name="nm_pk" value="{$data.nm_pk}" class='form-control'>
+									</div>
+									<div class='col-md-2'>
+										<input type="text" name="target" value="{$data.target}" class='form-control'>
+									</div>
+									<div class='col-md-2'>
+										<input type="text" name="satuan" value="{$data.satuan}" class='form-control'>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<!-- <div class="form-group">
 							<label class="col-md-3 control-label" for="demo-text-input">No. Urut Indikator</label>
 							<div class="col-md-2">
-								<input type="text" name="no_pk" class="form-control" value="{$data.no_pk}">
+								<input type="text" name="no_pk" class="form-control" value="{$data.no_pk}" readonly>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-textarea-input">Indikator Kinerja</label>
 							<div class="col-md-9">
-								<textarea id="demo-textarea-input" name="nm_pk" rows="9" class="form-control">{$data.nm_pk}</textarea>
+								<textarea id="demo-textarea-input" name="nm_pk" rows="9" class="form-control" readonly>{$data.nm_pk}</textarea>
 							</div>
 						</div>
 						<div class="form-group">
@@ -62,11 +104,11 @@
 							<div class="col-md-4">
 								<input type="text" name="target" class="form-control" value="{$data.target}">
 							</div>
-						</div>
+						</div> -->
 						
 						<!-- HIDDEN -->
 						<input type="hidden" name="kdunitkerja" value="{$kode}">
-						<input type="hidden" name="id" value="{$data.id}">
+						<!-- <input type="hidden" name="id" value="{$data.id}"> -->
 				</div>
 			</div>
 		</div>

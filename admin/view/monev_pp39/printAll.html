@@ -1,0 +1,244 @@
+<div class="row">
+	<div class="col-md-12">
+		<h3 align="center" style="text-transform: uppercase;">LAPORAN BULAN {$ketBulan} {$info.thn}</h3>
+	</div>
+</div>
+<div>
+	<table cellspacing="0" style="text-align: left; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 100%;">
+		<tr>
+			<!--<td style="width:10px">&nbsp;</td>-->
+			<td style="width:200px">Output(Kode)</td>
+			<td>: {$info.nama_output|cat:' ('|cat:$info.kd_giat|cat:'.'|cat:$info.kd_output|cat:')'}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<!--<td style="width:10px">&nbsp;</td>-->
+			<td style="width:200px">Nama Kegiatan</td>
+			<td>: {$info.nama_kegiatan|cat:' ('|cat:$info.kd_giat|cat:')'} </td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<!--<td style="width:10px">&nbsp;</td>-->
+			<td style="width:200px">Jumlah Anggaran</td>
+			<td>: {number_format($info.pagu_output,"0",",",".")}</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<!--<td style="width:10px">&nbsp;</td>-->
+			<td style="width:200px">Unit Eselon II</td>
+			<td>: {$info.unit_eselon}</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+</div>
+<br/>
+<div>
+	<label class="control-label"><strong>a. Bobot Kinerja</strong></label>
+</div>
+<br/>
+<div>
+	<table border = "1"  cellspacing="0" width="100%" style=" font-size:11pt; text-align: left; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 100%;">
+	<thead>
+	<tr>
+		<th style="text-align:center;" rowspan="2">Sub Output <br>/ Kode</th>
+		<th style="text-align:center;" rowspan="2">Komponen</th>
+		<th style="text-align:center;" rowspan="2">Total Bobot</th>
+		<th style="text-align:center;" colspan="3">Bobot Kinerja</th>
+		<th style="text-align:center;" rowspan="2">Sisa Capaian <br/>Bobot Kinerja <br/>(3 - 6)</th>
+		<th style="text-align:center;" rowspan="2">Keterangan</th>
+	</tr>
+	<tr>
+		<th  style="text-align:center;" >Rencana sd <br/> bulan ini</th>
+		<th  style="text-align:center;" >Realisasi <br/> bulan ini </th>
+		<th  style="text-align:center;" >Realisasi sd <br/> bulan ini </th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+			<td style="text-align:center; font-weight:bold;">1</td>
+			<td style="text-align:center; font-weight:bold;">2</td>
+			<td style="text-align:center; font-weight:bold;">3</td>
+			<td style="text-align:center; font-weight:bold;">4</td>
+			<td style="text-align:center; font-weight:bold;">5</td>
+			<td style="text-align:center; font-weight:bold;">6</td>
+			<td style="text-align:center; font-weight:bold;">7</td>
+			<td style="text-align:center; font-weight:bold;">8</td>
+	</tr>
+	{foreach $list as $val}
+	<tr>
+			<td  style="text-align:center;">{$val.KDKMPNEN}</td>
+			<td>{$val.nama_komponen}</td>
+			<td style="text-align:center;"> {number_format($val.totalbobot,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center;">{number_format($val.rencana_sd_bulan,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center;">{number_format($val.realisasi_bulan_ini,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center;">{number_format($val.realisasi_sd_bulan,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center;"> {number_format($val.sisacapaian,'2',',','.')|cat:'%'}</td>
+			<td>{$val.keterangan}</td>
+	</tr>
+	{/foreach}
+	<tr>
+			<td style="text-align:center;" colspan = "2">Jumlah</td>
+			<td style="text-align:center; ">{number_format($jml_tot_bobot,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center; ">{number_format($jml_renc_sd_bln,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center; ">{number_format($jml_reals_bln,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center; ">{number_format($jml_reals_sd_bln,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center; ">{number_format($sisacapaian,'2',',','.')|cat:'%'}</td>
+			<td style="text-align:center; ">&nbsp;</td>
+	</tr>
+	</tbody>	
+</table>
+</div>
+<!--<div>
+	<label class="control-label"><strong>Kendala yang dihadapi (terkait pencapaian kinerja)</strong></label>
+</div>-->
+<dl>
+  <dt><strong><u>Kendala yang dihadapi (terkait pencapaian kinerja) :</u></strong></dt>
+  <!--{foreach $kendala as $dt_kendala}
+	<dd>- {$dt_kendala}</dd>
+  {/foreach}-->
+  {$kendala}
+</dl>
+<dl>
+  <dt><strong><u>Tindak lanjut yang diperlukan (terkait pencapaian kinerja) :</u></strong></dt>
+  <!--{foreach $tdklanjut as $dt_tdklnjt}
+	<dd>- {$dt_tdklnjt}</dd>
+  {/foreach}-->
+  {$tdklanjut}
+</dl>
+<dl>
+  <dt><strong><u>Pihak yang dapat mengatasi masalah (terkait pencapaian kinerja) :</u></strong></dt>
+  <!--{foreach $ygmembantu as $dt_ygmembantu}
+	<dd>- {$dt_ygmembantu}</dd>
+  {/foreach}-->
+  {$ygmembantu}
+</dl>
+
+<!--Anggaran-->
+<br/>
+<div>
+	<label class="control-label"><strong>b. Anggaran</strong></label>
+</div>
+<br/>
+<div>
+	<table border = "1"  cellspacing="0" width="100%" style=" font-size:11pt; text-align: left; border-collapse: collapse; margin-left: auto; margin-right: auto; width: 100%;">
+	<thead>
+		<tr>
+			<th style="text-align:center;"  rowspan="2">Sub Output <br>/ Kode</th>
+			<th rowspan="2">Komponen</th>
+			<th style="text-align:center;"  colspan="2">Anggaran</th>
+			<th style="text-align:center;"  colspan="4" class="text-center">Realisasi</th>
+			<th style="text-align:center;"  rowspan="2">Sisa Anggaran</th>
+		</tr>
+		<tr>
+			<th  style="text-align:center;"  >Pagu</th>
+			<th  style="text-align:center;"  >Rencana sd <br/> bulan ini</th>
+			<th  style="text-align:center;"  >Bulan ini</th>
+			<th  style="text-align:center;"  >sd Bulan ini</th>
+			<th  style="text-align:center;"  >% thd rencana penarikan</th>
+			<th  style="text-align:center;"  >% thd pagu</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="text-align:center;" >1</td>
+			<td style="text-align:center;" >2</td>
+			<td style="text-align:center;" >3</td>
+			<td style="text-align:center;" >4</td>
+			<td style="text-align:center;" >5</td>
+			<td style="text-align:center;" >6</td>
+			<td style="text-align:center;" >7</td>
+			<td style="text-align:center;" >8</td>
+			<td style="text-align:center;" >9</td>
+		</tr>
+		{foreach $list2 as $val2}
+		<tr>
+			<td  style="text-align:center;" >{$val2.KDKMPNEN}</td>
+			<td>{$val2.nama_komponen}</td>
+			<td style="text-align:right;">{number_format($val2.pagu_kmpnen,'0',',','.')}</td>
+			<td style="text-align:right;">{number_format($val2.rencanasdbulan,'0',',','.')}</td>
+			<td style="text-align:right;">{number_format($val2.realisasi_blnini,'0',',','.')}</td>
+			<td style="text-align:right;">{number_format($val2.realisasi_sdbulan,'0',',','.')}</td>
+			<td style="text-align:center;">{number_format($val2.persentase_rencana,'2',',','.')}</td>
+			<td style="text-align:center;">{number_format($val2.persentase_pagu,'2',',','.')}</td>
+			<td style="text-align:right;">{number_format($val2.sisa_anggaran,'0',',','.')}</td>
+		</tr>
+		{/foreach}
+		<tr>
+			<td  style="text-align:center;" colspan = "2" >Jumlah</td>
+			<td style="text-align:right;">{number_format($jml_tot_pagu,'0',',','.')}</td>
+			<td style="text-align:right;">{number_format($jml_renc_sd_bln_anggaran,'0',',','.')}</td>
+			<td style="text-align:right;">{number_format($jml_reals_bln_anggaran,'0',',','.')}</td>
+			<td style="text-align:right;">{number_format($jml_reals_sd_bln_anggaran,'0',',','.')}</td>
+			<td style="text-align:center;">{number_format($jml_persentase_rencana,'2',',','.')}</td>
+			<td style="text-align:center;">{number_format($jml_persentase_pagu,'2',',','.')}</td>
+			<td style="text-align:center;">{number_format($sisa_anggaran,'0',',','.')}</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<br/>
+<dl>
+  <dt><strong><u>Kendala yang dihadapi (terkait pencapaian kinerja) :</u></strong></dt>
+  <!--{foreach $kendala as $dt_kendala}
+	<dd>- {$dt_kendala}</dd>
+  {/foreach}-->
+  {$kendala2}
+</dl>
+<dl>
+  <dt><strong><u>Tindak lanjut yang diperlukan (terkait pencapaian kinerja) :</u></strong></dt>
+  <!--{foreach $tdklanjut as $dt_tdklnjt}
+	<dd>- {$dt_tdklnjt}</dd>
+  {/foreach}-->
+  {$tdklanjut2}
+</dl>
+<dl>
+  <dt><strong><u>Pihak yang dapat mengatasi masalah (terkait pencapaian kinerja) :</u></strong></dt>
+  <!--{foreach $ygmembantu as $dt_ygmembantu}
+	<dd>- {$dt_ygmembantu}</dd>
+  {/foreach}-->
+  {$ygmembantu2}
+</dl>
+<br/>
+<div>
+<table style="text-align: left; border-collapse: collapse; width: 100%; height: 90px; font-size:" border="0" >
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Jakarta, &nbsp; &nbsp; {$tgl_format}</td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">Mengetahui:</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">&nbsp;</td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">{$ttd_nama}</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">Plh.Kepala {$info.unit_eselon}</td>
+	</tr>
+	<tr>
+	   <td colspan="11" style="height: 100px"></td>
+	</tr>
+	<tr>
+	   <td style="text-align: center;" colspan="3" width="400px">({$nama_pejabat_eselon_I})</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td>&nbsp;</td>
+	   <td style="text-align: center;" colspan="3" width="400px">({$nama_pejabat_eselon_II})</td>
+	</tr>
+</table>
+</div>	
