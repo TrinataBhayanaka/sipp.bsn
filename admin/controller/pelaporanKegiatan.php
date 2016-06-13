@@ -276,12 +276,11 @@ class pelaporanKegiatan extends Controller {
 		// //pr($bsnid);
 		
 		$this->view->assign('bsnid', $bsnid);
-
-		$getVisiBsn = $this->model->getVisi(false, $type, 1,$parent_id);
+				$getVisiBsn = $this->contentHelper->getVisi($id, 15, 1);
 		$getMisiBsn = $this->model->getVisi(false, $type, 2,$parent_id);
 		$getTujuanBsn = $this->model->getVisi(false, $type, 3,$parent_id);
 		
-		$getDokumen = $this->model->getVisi(false, 16, 1, $parent_id);
+		$getDokumen = $this->model->getVisi(false, 15, 1, $parent_id);
 		// //pr($getDokumen);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {

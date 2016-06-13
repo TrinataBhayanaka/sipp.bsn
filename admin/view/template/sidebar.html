@@ -279,16 +279,16 @@
 							</ul>
 						</li>
 						
-						<li class="{if $page.page eq 'pelaporanKegiatan' && $page.function eq 'dokumenLakip'}active-link{/if}">
+						<li class="{if $page.page eq 'lakip' && $page.function eq 'dokumenLakip'}active-link{/if}">
 							<a href="#">
 								<i class="fa fa-plus-square"></i>
 								<span class="menu-title"><strong>Dokumen LAKIP</strong></span>
 								<i class="arrow"></i>
 							</a>
-							<ul class="collapse {if $page.page eq 'pelaporanKegiatan' && $page.function eq 'dokumenLakip'}in{/if}">
-								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=1">Tingkat BSN</a></li>
-								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=2">Tingkat ESELON 1</a></li>
-								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=3">Tingkat ESELON 2</a></li>
+							<ul class="collapse {if $page.page eq 'lakip' && $page.function eq 'dokumenLakip'}in{/if}">
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=1'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=1">Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=2'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=2">Tingkat ESELON 1</a></li>
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=3'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=3">Tingkat ESELON 2</a></li>
 							</ul>
 						</li>
 						<!-- <li>
