@@ -24,7 +24,7 @@ class pelaporanKegiatan extends Controller {
 		
 		$this->contentHelper = $this->loadModel('contentHelper');
 		$this->modelMptn = $this->loadModel('mptn');
-		$this->model = $this->loadModel('mcapaian');
+		$this->model = $this->loadModel('mcapaian2');
 	}
 	
 	public function index(){

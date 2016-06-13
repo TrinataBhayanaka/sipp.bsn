@@ -7,111 +7,58 @@ class mcapaian extends Database {
 	{
 		parent::__construct();
 	}
-	function getStrukturAll($type)
+
+	function getStruktur($type)
 	{
 		$sql = "SELECT * FROM bsn_struktur WHERE type='{$type}' AND n_status='1'";
 		$res = $this->fetch($sql,1);
 		if ($res) return $res;
 		return false;
 	}
-	function getStruktur($kode)
+
+	function getpk($kode,$thn)
 	{
-		if($kode){
-			$kode=$kode;
-		}else{
-			$kode="840000";
-		}
-		$sql = "SELECT * FROM bsn_Struktur WHERE kode='{$kode}'";
-		// db($sql);
-		$res = $this->fetch($sql);
-
-		if ($res) return $res;
-		return false;
-	}
-	function getcapaian($id,$parent=0)
-	{
-		$sql = "SELECT cp.*,b.desc,pk.nm_pk, pk.target FROM bsn_capaian as cp, bsn_news_content as b ,th_pk as pk WHERE cp.parent_id='{$parent}' AND cp.sasaran = b.id AND cp.indikator = pk.id AND b.type='7' AND b.category = '1' AND cp.categoryType='{$id}' ORDER BY cp.sasaran, cp.indikator";
-		// db($sql);
-		$res = $this->fetch($sql,1);
-
-		foreach ($res as $key => $value) {
-			if($value['desc'] == $res[$key-1]['desc'] || $value['desc'] == $tmp)
-			{
-				$res[$key]['desc'] = "";
-				$tmp = $value['desc'];
-			} else {
-				$tmp = "";
-			}
-		}
-		if ($res) return $res;
-		return false;
-	}
-
-	function getcapaianID($id)
-	{
-		$sql = "SELECT * FROM bsn_capaian WHERE id='{$id}'";
-		// db($sql);
-		$res = $this->fetch($sql);
-
-		if ($res) return $res;
-		return false;
-	}
-	function getAllpk($idSsr){
-		$sql = "SELECT * FROM th_pk WHERE no_sasaran='{$idSsr}'";
+		$sql = "SELECT * FROM th_pk WHERE kdunitkerja = '{$kode}' AND th = '{$thn}'";
 		$res = $this->fetch($sql,1);
 		if ($res) return $res;
 		return false;
 	}
-	function getIDpk($idSsr){
-		$sql = "SELECT * FROM th_pk WHERE id='{$idSsr}'";
-		$res = $this->fetch($sql);
+
+	function getpkid($id,$thn)
+	{
+		$sql = "SELECT a.*,b.desc FROM th_pk as a, bsn_news_content as b WHERE a.id = '{$id}' AND a.th = '{$thn}' AND b.type = '7' AND b.category = '1'";
+		$res = $this->fetch($sql,0);
+
+		$sql = "SELECT * FROM bsn_news_content WHERE type='7' AND category='1' AND id='{$res['no_sasaran']}' AND n_status='1'";
+		$ss = $this->fetch($sql,0);
+
+		$res['ss'] = $ss['desc'];
+
 		if ($res) return $res;
 		return false;
 	}
-	function saveData($data=array(), $table="bsn_news_content", $debug=0)
+
+	function upd_capaian($data)
 	{
-		// //pr($data);
-		if ($table == "bsn_news_content"){
-			$getSetting = $this->getSetting();
-			$data['year'] = $getSetting[0]['kode'];
+		$sql = "UPDATE th_pk SET formula = '{$data['formula']}', real_1 = '{$data['real_1']}', hasil_1 = '{$data['hasil_1']}', capaian_1 = '{$data['capaian_1']}', real_2 = '{$data['real_2']}', hasil_2 = '{$data['hasil_2']}', capaian_2 = '{$data['capaian_2']}', real_3 = '{$data['real_3']}', hasil_3 = '{$data['hasil_3']}', capaian_3 = '{$data['capaian_3']}', real_4 = '{$data['real_4']}', hasil_4 = '{$data['hasil_4']}', capaian_4 = '{$data['capaian_4']}', permasalahan = '{$data['permasalahan']}', perbaikan = '{$data['perbaikan']}' WHERE id = '{$data['id']}'";
+		$res = $this->query($sql);
+		return true;
+	}
 
-		}
-		
-		$id = $data['id'];
-
-		if ($id){
-
-			$run = $this->save("update", "{$table}", $data, "id = {$id}", $debug);
-
-		}else{
-			$data['createDate'] = date('Y-m-d H:i;s');
-			$run = $this->save("insert", "{$table}", $data, false, $debug);
-	
-		}
-		// //pr($data);
-		// //pr($run);
-		// exit;
-		if ($run) return true;
+	function selectSS($id)
+	{
+		$sql = "SELECT * FROM bsn_news_content WHERE type='7' AND category='1' AND parent_id='{$id}' AND n_status='1'";
+		$res = $this->fetch($sql,1);
+		if ($res) return $res;
 		return false;
 	}
-	function getVisi($id=false, $type=5, $cat=0, $parent=0, $debug=false)
+
+	function getTahun()
 	{
-		$filter = "";
-		if ($id) $filter .= " AND id = {$id}";
-		if ($type) $filter .= " AND type = {$type}";
-		if ($cat) $filter .= " AND category = {$cat}";
-		if($parent==1) $parent=0; 
-		if ($parent) $filter .= " AND parent_id = {$parent}";
+		$query = "SELECT kode FROM bsn_sistem_setting WHERE `desc` = 'tahun_sistem' AND n_status = 1 ";
+		$res = $this->fetch($query);
 
-		$sql = array(
-                'table'=>"{$this->prefix}_news_content",
-                'field'=>"*",
-                'condition' => "n_status = 1 {$filter}"
-                );
-
-        $res = $this->lazyQuery($sql,$debug);
-        if ($res)return $res;
-        return false;
+		return $res;
 	}
 	
 }
