@@ -8,6 +8,31 @@ class mref extends Database {
 		parent::__construct();
 	}
 	
+	//add for home
+	function select_data(){
+		$query = "SELECT title,filename FROM bsn_news_content WHERE type = '50' and n_status = '1' ";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function ceck($dataArr){
+		$query = "SELECT count(1) as jml,id FROM bsn_news_content WHERE type = '{$dataArr[type]}' and n_status =  '{$dataArr[n_status]}' ";
+		// pr($query);
+		$result = $this->fetch($query);
+		if($result['jml'] != 0){
+			//update
+			$query = "UPDATE bsn_news_content SET title = '{$dataArr[title]}' , filename =  '{$dataArr[filename]}' where id = '{$result[id]}'";
+			// pr($query);
+			$exe = $this->query($query);
+		}else{
+			//insert
+			$query = "insert into bsn_news_content (title,filename,type,create_date,publish_date,n_status) 
+						VALUES ('{$dataArr[title]}','{$dataArr[filename]}','{$dataArr[type]}','{$dataArr[create_date]}','{$dataArr[publish_date]}','{$dataArr[n_status]}')";
+			// pr($query);
+			$exe = $this->query($query);
+		}
+	}
 	/*function getRefKegiatan($tahun){
 		$query = "SELECT kdunitkerja,kdgiat,nmgiat FROM m_kegiatan WHERE ta = '{$tahun}' order by kdunitkerja asc";
 		// pr($query);
