@@ -1,3 +1,73 @@
+<script>
+$(document).ready(function() {
+	$('#formula-1').summernote({
+		height: 200,
+	});
+	$('#formula-2').summernote({
+		height: 200,
+	});
+	$('#formula-3').summernote({
+		height: 200,
+	});
+	$('#formula-4').summernote({
+		height: 200,
+	});
+	$('#proses-1').summernote({
+		height: 200,
+	});
+	$('#proses-2').summernote({
+		height: 200,
+	});
+	$('#proses-3').summernote({
+		height: 200,
+	});
+	$('#proses-4').summernote({
+		height: 200,
+	});
+	$('#permasalahan').summernote({
+		height: 200,
+	});
+	$('#perbaikan').summernote({
+		height: 200,
+	});
+	$('#contentEdit-1 .note-editable').attr('contenteditable',false);
+	$('#contentEdit-2 .note-editable').attr('contenteditable',false);
+	$('#contentEdit-3 .note-editable').attr('contenteditable',false);
+	$('#contentEdit-4 .note-editable').attr('contenteditable',false);
+	$( "#real-1" ).change(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-1').val();
+
+	  var percent = (real/target)*100;
+
+	  $('#percent-1').val(percent+' %');
+	});
+	$( "#real-2" ).change(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-2').val();
+
+	  var percent = (real/target)*100;
+
+	  $('#percent-2').val(percent+' %');
+	});
+	$( "#real-3" ).change(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-3').val();
+
+	  var percent = (real/target)*100;
+
+	  $('#percent-3').val(percent+' %');
+	});
+	$( "#real-4" ).change(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-4').val();
+
+	  var percent = (real/target)*100;
+
+	  $('#percent-4').val(percent+' %');
+	});
+})
+</script>
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
@@ -43,7 +113,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 						<div class="col-md-2">
-							<input type="text" name="target" readonly class="form-control" value="{$data.target}">
+							<input type="text" name="target" readonly class="form-control" id="target"  value="{$data.target}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -82,7 +152,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
 										<div class="col-md-2">
-											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_1/($data.rencana_1+$data.rencana_2+$data.rencana_3+$data.rencana_4))*100,2) } %">
+											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_1/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -93,14 +163,20 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
-										<div class="col-md-9">
-											<textarea id="demo-textarea-input" readonly  name="aksi_1" rows="4" class="form-control">{$data.aksi_1}</textarea>
+										<div class="col-md-9" id="contentEdit-1">
+											<textarea id="formula-1" readonly name="aksi_1" rows="4" class="form-control">{$data.aksi_1}s</textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_1" class="form-control" value="{$data.capaian_1}">
+											<input type="text" name="capaian_1" id="real-1" class="form-control" value="{$data.capaian_1}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
+										<div class="col-md-2">
+											<input type="text" readonly class="form-control" id="percent-1" value="{number_format(($data.capaian_1/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -110,9 +186,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Summernote</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/tahapan</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="real_1" rows="4" class="form-control">{$data.real_1}</textarea>
+											<textarea  id="proses-1"  name="real_1" rows="4" class="form-control">{$data.real_1}</textarea>
 										</div>
 									</div>
 								</div>
@@ -126,7 +202,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
 										<div class="col-md-2">
-											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_2/($data.rencana_1+$data.rencana_2+$data.rencana_3+$data.rencana_4))*100,2)} %">
+											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_2/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -137,14 +213,20 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
-										<div class="col-md-9">
-											<textarea id="demo-textarea-input" readonly  name="aksi_2" rows="4" class="form-control">{$data.aksi_2}</textarea>
+										<div class="col-md-9" id="contentEdit-2">
+											<textarea  id="formula-2"  readonly  name="aksi_2" rows="4" class="form-control">{$data.aksi_2}</textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_2" class="form-control" value="{$data.capaian_2}">
+											<input type="text" name="capaian_2" id="real-2" class="form-control" value="{$data.capaian_2}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
+										<div class="col-md-2">
+											<input type="text" readonly class="form-control" id="percent-2" value="{number_format(($data.capaian_2/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -154,9 +236,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Summernote</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/tahapan</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="real_2" rows="4" class="form-control">{$data.real_2}</textarea>
+											<textarea id="proses-2" name="real_2" rows="4" class="form-control">{$data.real_2}</textarea>
 										</div>
 									</div>
 								</div>
@@ -170,7 +252,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
 										<div class="col-md-2">
-											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_3/($data.rencana_1+$data.rencana_2+$data.rencana_3+$data.rencana_4))*100,2)} %">
+											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_3/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -181,14 +263,20 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
-										<div class="col-md-9">
-											<textarea id="demo-textarea-input" readonly  name="aksi_3" rows="4" class="form-control">{$data.aksi_3}</textarea>
+										<div class="col-md-9" id="contentEdit-3">
+											<textarea  id="formula-3"  readonly  name="aksi_3" rows="4" class="form-control">{$data.aksi_3}</textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_3" class="form-control" value="{$data.capaian_3}">
+											<input type="text" name="capaian_3" id="real-3" class="form-control" value="{$data.capaian_3}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
+										<div class="col-md-2">
+											<input type="text" readonly class="form-control" id="percent-3" value="{number_format(($data.capaian_3/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -198,9 +286,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Summernote</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/tahapan</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="real_3" rows="4" class="form-control">{$data.real_3}</textarea>
+											<textarea id="proses-3" name="real_3" rows="4" class="form-control">{$data.real_3}</textarea>
 										</div>
 									</div>
 								</div>
@@ -214,7 +302,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
 										<div class="col-md-2">
-											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_4/($data.rencana_1+$data.rencana_2+$data.rencana_3+$data.rencana_4))*100,2)} %">
+											<input type="text" readonly class="form-control" value="{number_format(($data.rencana_4/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -225,14 +313,20 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
-										<div class="col-md-9">
-											<textarea id="demo-textarea-input" readonly  name="aksi_4" rows="4" class="form-control">{$data.aksi_4}</textarea>
+										<div class="col-md-9"  id="contentEdit-4">
+											<textarea id="formula-4" readonly  name="aksi_4" rows="4" class="form-control">{$data.aksi_4}</textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_4" class="form-control" value="{$data.capaian_4}">
+											<input type="text" name="capaian_4" id="real-4" class="form-control" value="{$data.capaian_4}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Percentase</label>
+										<div class="col-md-2">
+											<input type="text" readonly class="form-control" id="percent-4" value="{number_format(($data.capaian_4/$data.target)*100,2)} %">
 										</div>
 									</div>
 									<div class="form-group">
@@ -242,9 +336,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Summernote</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/tahapan</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="real_4" rows="4" class="form-control">{$data.real_4}</textarea>
+											<textarea id="proses-4" name="real_4" rows="4" class="form-control">{$data.real_4}</textarea>
 										</div>
 									</div>
 								</div>
@@ -253,15 +347,15 @@
 					</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Permasalahan / Kinerja</label>
-							<div class="col-sm-4">
-								<input type="text" name="permasalahan" class="form-control" value="{$data.permasalahan}" required>
+							<div class="col-sm-9">
+								<textarea id="permasalahan" name="permasalahan" rows="4" class="form-control">{$data.permasalahan}</textarea>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label">SummerNote</label>
-							<div class="col-sm-4">
-								<input type="text" name="perbaikan" class="form-control" value="{$data.perbaikan}" required>
+							<label class="col-sm-3 control-label">Perbaikan /Tindak lanjut</label>
+							<div class="col-sm-9">
+								<textarea id="perbaikan" name="perbaikan" rows="4" class="form-control">{$data.perbaikan}</textarea>
 							</div>
 						</div>
 
