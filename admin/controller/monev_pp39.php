@@ -2215,6 +2215,89 @@ class monev_pp39 extends Controller {
 		$dataselected[]=$IV;
 		$dataselected[]=$ket;
 		
+		//validator
+		if($this->admin['type'] == 1){
+			$acces = "";
+			$sub = "";
+			$valid = 1;
+		}else{
+			$acces = "disabled";
+			$ceck_month = date('m');
+			$ceck_date = date('d');
+			$limit_date = 15;
+			// pr($ceck_month);
+			// pr($ceck_date);
+			if($trwulan == 1){
+				// pr("TW I");
+				if($ceck_month < '03' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 2){
+				// pr("TW II");
+				if($ceck_month < '06' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 3){
+				// pr("TW III");
+				if($ceck_month < '09' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 4){
+				// pr("TW IV");
+				if($ceck_month < '12' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}
+		}
+		
 		//$thp kegiatan
 			$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan_condotion_monev_rev($thn,$kd_giat,$kd_output);
 			// pr($thp_kegiatan);
@@ -2225,7 +2308,7 @@ class monev_pp39 extends Controller {
 				$komponen = $this->m_penetapanAngaran->komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$val['KDSOUTPUT']);
 				// pr($komponen);
 				$list[$key]['nama_komponen'] = $komponen['URKMPNEN'];
-				
+				/*
 				//TARGET
 				//rencana sd triwulan anggaran
 				$rencana_sd_tw = $this->m_penetapanAngaran->monev_ren_sd_bulan_anggaran_pp39($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$trwulan);
@@ -2266,10 +2349,29 @@ class monev_pp39 extends Controller {
 				
 				//output fisik PP39
 				$output_fisik_pp39 =  $this->m_penetapanAngaran->get_output_fisik_pp39($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$trwulan);
-				$list[$key]['output_fisik'] = $output_fisik_pp39['output_fisik'];
+				$list[$key]['output_fisik'] = $output_fisik_pp39['output_fisik'];*/
 			
 			}
-			$count = $this->m_penetapanAngaran->ceck_id_output($th,$kd_giat,$kd_output,3);
+			// pr($list);
+			//new
+			$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat);
+			$parent_id_kegiatan = $get_id_kegiatan['id'];
+			$get_id_output = $this->m_penetapanAngaran->get_id_output($thn,$parent_id_kegiatan,$kd_output);
+			$parent_id_output = $get_id_output['id'];
+			$get_data_ikk = $this->m_penetapanAngaran->get_data_ikk($thn,$parent_id_output,$kd_output);
+			// pr($get_data_ikk);
+			foreach ($get_data_ikk as $key=>$val){
+				// pr($key);
+				// pr($val);
+				$data_list[] = $val;
+				$get_detail_ikk = $this->m_penetapanAngaran->get_detail_ikk($val['id'],$trwulan);
+				// pr($get_detail_ikk);
+				
+				$data_list[$key]['detail'] = $get_detail_ikk;
+				
+			}
+			// pr($data_list);
+			$count = $this->m_penetapanAngaran->ceck_id_output($thn,$kd_giat,$kd_output,3);
 		if($count['hit'] == 1){
 			// echo "masukk";
 			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id'],$trwulan);
@@ -2322,9 +2424,13 @@ class monev_pp39 extends Controller {
 		// exit;	
 		$this->view->assign('dataselected',$dataselected);
 		$this->view->assign('info',$info);
-		$this->view->assign('list',$list);
+		$this->view->assign('list2',$list);
+		// pr($get_data_ikk);
+		$this->view->assign('list',$data_list);
 		$this->view->assign('data',$data);
 		
+		$this->view->assign('sub',$sub);
+		$this->view->assign('valid',$valid);
 		
 		$var_target = 'target';  
 		$this->view->assign('target',$var_target);
@@ -2341,7 +2447,7 @@ class monev_pp39 extends Controller {
 		//echo "field".$_POST['data'][0]['name'];
 		//$unserialize = unserialize($_POST['data']);
 		//pr($unserialize);
-		$th = $_POST['th'];
+		/*$th = $_POST['th'];
 		$kdtriwulan = $_POST['kdtriwulan'];
 		$kdunitkerja = $_POST['kdunitkerja'];
 		$kd_giat = $_POST['kdgiat'];
@@ -2372,7 +2478,79 @@ class monev_pp39 extends Controller {
 			}
 			
 		}
-		exit;
+		exit;*/
+		// pr($_POST);
+		$th = $_POST['th'];
+		$kdtriwulan = $_POST['kdtriwulan'];
+		$kdunitkerja = $_POST['kdunitkerja'];
+		$kd_giat = $_POST['kdgiat'];
+		$kd_output = $_POST['kdoutput'];
+		
+		// $parent_id = count($_POST['parent_id']);
+		$bad_symbols = array(",", ".");
+		
+			
+		for($i = 0 ; $i< count($_POST['parent_id']); $i++){
+			//pr($bad_symbols);
+			
+			$parent_id = $_POST['parent_id'][$i];
+			
+			$target = $_POST['target'][$i];
+			$target_fix = str_replace($bad_symbols, "",$target);
+			
+			$satuan = $_POST['satuan'][$i];
+			
+			$pagu_kmpnen = $_POST['pagu_kmpnen'][$i];
+			// pr($pagu_kmpnen);
+			$pagu_kmpnen_fix = str_replace($bad_symbols, "",$pagu_kmpnen); 
+			// pr($pagu_kmpnen_fix);
+			
+			$rencana_anggaran_sd_tw = $_POST['rencana_anggaran_sd_tw'][$i];
+			$rencana_anggaran_sd_tw_fix = str_replace($bad_symbols, "",$rencana_anggaran_sd_tw);
+			// pr($rencana_anggaran_sd_tw_fix);
+			
+			$persentase_rencana_anggaran = $_POST['persentase_rencana_anggaran'][$i];
+			$persentase_rencana_anggaran_fix = str_replace($bad_symbols, ".",$persentase_rencana_anggaran);
+			// pr($persentase_rencana_anggaran_fix);
+			
+			$rencana_target_sd_tw = $_POST['rencana_target_sd_tw'][$i];
+			$rencana_target_sd_tw_fix = str_replace($bad_symbols, ".",$rencana_target_sd_tw);
+			// pr($rencana_target_sd_tw_fix);
+			
+			$realisasi_anggaran_sd_tw = $_POST['realisasi_anggaran_sd_tw'][$i];
+			$realisasi_anggaran_sd_tw_fix = str_replace($bad_symbols, "",$realisasi_anggaran_sd_tw);
+			// pr($realisasi_anggaran_sd_tw_fix);
+			
+			$persentase_realisasi_anggaran = $_POST['persentase_realisasi_anggaran'][$i];
+			$persentase_realisasi_anggaran_fix = str_replace($bad_symbols, ".",$persentase_realisasi_anggaran);
+			// pr($persentase_realisasi_anggaran_fix);
+			
+			$realisasi_target_sd_tw = $_POST['realisasi_target_sd_tw'][$i];
+			$realisasi_target_sd_tw_fix = str_replace($bad_symbols, ".",$realisasi_target_sd_tw);
+			// pr($realisasi_target_sd_tw_fix);
+			
+			$outikk = $_POST['outikk'][$i];
+			$outikk_fix = str_replace($bad_symbols, "",$outikk);
+			// pr($outikk_fix);
+			// exit;
+			//cek id 
+			$ceck_id_komponen = $this->m_penetapanAngaran->ceck_id_komponen($th,$kd_giat,$kd_output,$parent_id,4);
+			// pr($ceck_id_komponen);
+			// exit;
+			// pr($ceck_id_komponen);
+			if($ceck_id_komponen['hit'] == 1){
+				//update
+				$id_kmpn = $ceck_id_komponen['id'];
+				$update_komponen = $this->m_penetapanAngaran->update_monev_output_komponen_pp39($id_kmpn,$th,$kdtriwulan,$target_fix,$satuan,$pagu_kmpnen_fix,$rencana_anggaran_sd_tw_fix,$persentase_rencana_anggaran_fix,
+																								$rencana_target_sd_tw_fix,$realisasi_anggaran_sd_tw_fix,$persentase_realisasi_anggaran_fix,$realisasi_target_sd_tw_fix,$outikk_fix);
+			}else{
+				//insert
+				$insert_komponen = $this->m_penetapanAngaran->insert_monev_ouput_komponen_pp39($th,$kdtriwulan,$kdunitkerja,$kd_giat,$kd_output,$parent_id,$target_fix,$satuan,$pagu_kmpnen_fix,$rencana_anggaran_sd_tw_fix,$persentase_rencana_anggaran_fix,
+																								$rencana_target_sd_tw_fix,$realisasi_anggaran_sd_tw_fix,$persentase_realisasi_anggaran_fix,$realisasi_target_sd_tw_fix,$outikk_fix);
+			}
+			
+		}
+		
 	}	
 	
 	
