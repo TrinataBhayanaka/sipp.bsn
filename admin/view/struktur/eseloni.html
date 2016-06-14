@@ -111,7 +111,7 @@
 							<td class="text-center" colspan="2"><b>Fungsi</b></td>
 							<td colspan="2" class="text-center">
 								{if $user.type==1}
-								<a href="{$basedomain}struktur/editEselon1/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">tambah</button></a>
+								<a href="{$basedomain}struktur/editEselon1/?req=1&parent_id={$val.id}&eselon_id={$eselon_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">tambah</button></a>
 								{/if}
 							</td>
 						</tr>
@@ -125,12 +125,12 @@
 							<td >{$v.desc}</td>
 							<td class="text-center">	
 								{if $user.type==1}
-								<a href="{$basedomain}struktur/editEselon1/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								<a href="{$basedomain}struktur/editEselon1/?req=1&parent_id={$v.parent_id}&id={$v.id}&eselon_id={$eselon_id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
 								{/if}
 							</td>
 							<td class="text-center">	
 								{if $user.type==1}
-								<a href="{$basedomain}struktur/delete/?id={$v.id}&req=3"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+								<a href="{$basedomain}struktur/delete/?id={$v.id}&req=3&parent_id={$eselon_id}"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
 								{/if}
 							</td>
 						</tr>

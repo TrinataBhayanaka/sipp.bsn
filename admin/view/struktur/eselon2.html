@@ -54,7 +54,7 @@
 		{/*}
 		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
-			<a href="{$basedomain}struktur/editEselon2"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Tugas Pokok</button></a>
+			<a href="{$basedomain}struktur/editEselon2/?parent_id={$eselon_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Tugas Pokok</button></a>
 		</div><br>
 		{/if}
 		{*}
@@ -100,9 +100,9 @@
 							<td colspan="2" class="text-center">
 
 								{if $user.type==1}
-								<a href="{$basedomain}struktur/editEselon2/?id={$val.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								<a href="{$basedomain}struktur/editEselon2/?id={$val.id}&parent_id={$eselon_id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
 
-								<a href="{$basedomain}struktur/delete/?id={$val.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+								<a href="{$basedomain}struktur/delete/?id={$val.id}&req=4&parent_id={$eselon_id}"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
 								{/if}
 							</td>
 						</tr>
@@ -113,7 +113,7 @@
 							<td colspan="2" class="text-center">
 
 								{if $user.type==1}
-								<a href="{$basedomain}struktur/editEselon2/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">tambah</button></a>
+								<a href="{$basedomain}struktur/editEselon2/?req=1&parent_id={$val.id}&eselon_id={$eselon_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">tambah</button></a>
 								{/if}
 
 							</td>
@@ -126,12 +126,12 @@
 							<td >{$v.desc}</td>
 							<td class="text-center">	
 								{if $user.type==1}
-								<a href="{$basedomain}struktur/editEselon2/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
+								<a href="{$basedomain}struktur/editEselon2/?req=1&parent_id={$v.parent_id}&id={$v.id}&eselon_id={$eselon_id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">edit</button></a>
 								{/if}
 							</td>
 							<td class="text-center">	
 								{if $user.type==1}
-								<a href="{$basedomain}struktur/delete/?id={$v.id}&req=4"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
+								<a href="{$basedomain}struktur/delete/?id={$v.id}&req=4&parent_id={$eselon_id}"><button class="btn btn-danger btn-labeled fa fa-pencil-square-o">Delete</button></a>
 								{/if}
 							</td>
 						</tr>

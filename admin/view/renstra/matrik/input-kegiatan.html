@@ -65,13 +65,14 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Jenis Kegiatan</label>
 				    		<div class="col-sm-4">
-				    			
+				    			<input type="text" class="form-control" name="tags" value="{$kegiatan.0.tags}">
+				    			{*}
 			              		<select class="form-control eselonid" name="tags">
 			                    	<option value="K/L" {if $kegiatan.0.tags == "K/L"}selected{/if}>K/L</option>
 			                    	<option value="N" {if $kegiatan.0.tags == "N"}selected{/if}>N</option>
 			                    	<option value="B" {if $kegiatan.0.tags == "B"}selected{/if}>B</option>
 			                    	<option value="NS" {if $kegiatan.0.tags == "NS"}selected{/if}>NS</option>
-			                    </select>
+			                    </select>{/*}
 				          	</div>
 						</div>
 						{/if}

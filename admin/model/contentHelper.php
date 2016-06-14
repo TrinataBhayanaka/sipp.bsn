@@ -1,7 +1,7 @@
 <?php
 class contentHelper extends Database {
 	
-	var $prefix = "lelang";
+	var $prefix = "bsn";
 
 	function __construct()
 	{
@@ -87,6 +87,10 @@ class contentHelper extends Database {
 		if ($cat) $filter .= " AND category = {$cat}";
 		if ($parent) $filter .= " AND parent_id = {$parent}";
 		if ($other) $filter .= " AND {$parent}";
+
+		$getSetting = $this->getSetting();
+		$year = $getSetting[0]['kode'];
+		if ($year) $filter .= " AND year = '{$year}'";
 
 		$sql = array(
                 'table'=>"{$this->prefix}_news_content",
@@ -195,6 +199,11 @@ class contentHelper extends Database {
   	function fetchData($data=array(),$debug=false)
     {
 
+    	$getSetting = $this->getSetting();
+		$year = $getSetting[0]['kode'];
+
+		if ($data['table'] == "{$this->prefix}_news_content") $data['condition']['year'] = $year;
+		
         $table = $data['table'];
         $condition = $data['condition'];
         $oderby = $data['oderby'];
