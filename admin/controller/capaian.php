@@ -23,10 +23,26 @@ class capaian extends Controller {
 	}
 	
 	public function bsn(){
+		// pr($this->admin);exit;
 		$thn = $this->model->getTahun();
 		$struktur = $this->model->getStruktur(1);
 		$data = $this->model->getpk($struktur[0]['kode'],$thn['kode']);
 
+		$Struktur=$this->model->getStrukturId($this->admin[type]);
+		// pr($Struktur);
+		foreach ($data as $key => $value) {
+			$data[$key]=$value;
+			if($Struktur[type]==1){
+
+				$data[$key]['linkEdit']=true;
+
+			}elseif($Struktur[type]==3 && $value['kodeUser']==$this->admin[kode]){
+
+				$data[$key]['linkEdit']=true;
+
+			}
+		}
+		
 		$this->view->assign('data',$data);
 
 		return $this->loadView('capaian/bsn');
@@ -133,7 +149,20 @@ class capaian extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);
+		$Struktur=$this->model->getStrukturId($this->admin[type]);
+		// pr($Struktur);
+		foreach ($data as $key => $value) {
+			$data[$key]=$value;
+			if($Struktur[type]==1){
 
+				$data[$key]['linkEdit']=true;
+
+			}elseif($Struktur[type]==3 && $value['kodeUser']==$this->admin[kode]){
+
+				$data[$key]['linkEdit']=true;
+
+			}
+		}
 		
 		$this->view->assign('data',$data);
 		$this->view->assign('struktur',$struktur);
@@ -169,7 +198,16 @@ class capaian extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);
+		$Struktur=$this->model->getStrukturId($this->admin[type]);
+		// pr($Struktur);
+		foreach ($data as $key => $value) {
+			$data[$key]=$value;
+			if($Struktur[type]==1 || $Struktur[type]==3 ){
 
+				$data[$key]['linkEdit']=true;
+
+			}
+		}
 		
 		$this->view->assign('data',$data);
 		$this->view->assign('struktur',$struktur);

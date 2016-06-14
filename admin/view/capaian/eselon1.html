@@ -132,7 +132,12 @@
 							<td>{$val.permasalahan}</td>
 							<td>{$val.perbaikan}</td>
 							<td>
+							{if $val.linkEdit}
+							
 								<a href="{$basedomain}capaian/edit_eselon1/?id={$val.id}&kd={$val.kdunitkerja}"><button class="btn btn-warning btn-md fa fa-pencil"></button></a>
+							{else}
+								&nbsp;
+							{/if}
 							</td>
 						</tr>
 					{/foreach}

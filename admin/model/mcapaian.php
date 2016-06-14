@@ -15,7 +15,27 @@ class mcapaian extends Database {
 		if ($res) return $res;
 		return false;
 	}
+	function getStrukturId($type)
+	{
+		$sql = "SELECT * FROM bsn_struktur WHERE type='{$type}' AND n_status='1'";
+		$res = $this->fetch($sql);
+		if ($res) return $res;
+		return false;
+	}
+	function getStrukturUser($kode)
+	{
+		if($kode){
+			$kode=$kode;
+		}else{
+			$kode="840000";
+		}
+		$sql = "SELECT * FROM bsn_Struktur WHERE kode='{$kode}'";
+		// db($sql);
+		$res = $this->fetch($sql);
 
+		if ($res) return $res;
+		return false;
+	}
 	function getpk($kode,$thn)
 	{
 		$sql = "SELECT * FROM th_pk WHERE kdunitkerja = '{$kode}' AND th = '{$thn}'";
