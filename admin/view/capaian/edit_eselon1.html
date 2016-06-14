@@ -38,7 +38,7 @@ $(document).ready(function() {
 	  var target = $('#target').val();
 	  var real = $('#real-1').val();
 
-	  var percent = (real/target)*100;
+	  var percent = parseFloat((real/target)*100).toFixed(2);
 
 	  $('#percent-1').val(percent+' %');
 	});
@@ -46,7 +46,7 @@ $(document).ready(function() {
 	  var target = $('#target').val();
 	  var real = $('#real-2').val();
 
-	  var percent = (real/target)*100;
+	  var percent = parseFloat((real/target)*100).toFixed(2);
 
 	  $('#percent-2').val(percent+' %');
 	});
@@ -54,7 +54,7 @@ $(document).ready(function() {
 	  var target = $('#target').val();
 	  var real = $('#real-3').val();
 
-	  var percent = (real/target)*100;
+	  var percent = parseFloat((real/target)*100).toFixed(2);
 
 	  $('#percent-3').val(percent+' %');
 	});
@@ -62,7 +62,7 @@ $(document).ready(function() {
 	  var target = $('#target').val();
 	  var real = $('#real-4').val();
 
-	  var percent = (real/target)*100;
+	  var percent = parseFloat((real/target)*100).toFixed(2);
 
 	  $('#percent-4').val(percent+' %');
 	});

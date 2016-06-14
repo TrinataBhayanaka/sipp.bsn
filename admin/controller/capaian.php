@@ -28,15 +28,11 @@ class capaian extends Controller {
 		$struktur = $this->model->getStruktur(1);
 		$data = $this->model->getpk($struktur[0]['kode'],$thn['kode']);
 
-		$Struktur=$this->model->getStrukturId($this->admin[type]);
+		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
 		// pr($Struktur);
 		foreach ($data as $key => $value) {
 			$data[$key]=$value;
 			if($Struktur[type]==1){
-
-				$data[$key]['linkEdit']=true;
-
-			}elseif($Struktur[type]==3 && $value['kodeUser']==$this->admin[kode]){
 
 				$data[$key]['linkEdit']=true;
 
@@ -149,7 +145,8 @@ class capaian extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);
-		$Struktur=$this->model->getStrukturId($this->admin[type]);
+
+		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
 		// pr($Struktur);
 		foreach ($data as $key => $value) {
 			$data[$key]=$value;
@@ -198,7 +195,8 @@ class capaian extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);
-		$Struktur=$this->model->getStrukturId($this->admin[type]);
+
+		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
 		// pr($Struktur);
 		foreach ($data as $key => $value) {
 			$data[$key]=$value;
