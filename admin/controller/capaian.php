@@ -3,7 +3,7 @@
 
 class capaian extends Controller {
 	
-	var $models = FALSE;
+	var $models = FALSE; 
 	
 	public function __construct()
 	{
