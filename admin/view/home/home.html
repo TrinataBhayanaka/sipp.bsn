@@ -43,17 +43,62 @@ $(window).on('load', function() {
 <!--===================================================-->
 <div id="page-content">
 	
+	<div id="myModal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Update Cover</h4>
+					</div>
+					<div class="modal-body">
+						<!--<form class="form-horizontal" enctype="multipart/form-data" id="myForm" method="post">-->
+						<form class="form-horizontal" id="notesmodal" enctype="multipart/form-data">
+						<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Nama Sistem</label> 
+									<div class="col-md-9"> 
+										<input id="judul" name="judul" type="text" class="form-control input-md" required="required" > 
+									</div>
+							</div>
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Cover Sistem</label> 
+									<div class="col-md-9"> 
+										<input type="file" id="file" name="file" class="form-control" value="" required="required" > 
+									</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+								<input type="submit" name="submit" class="btn btn-default" id="submitnote" value="Update" />
+							</div>
+						</form>	
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	
 	<!-- Row selection and deletion (multiple rows) -->
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Sistem Informasi Perencanaan, Monitoring dan Evaluasi Kinerja </h3>
+			<h3 class="panel-title">{$data.title}</h3>
 		</div>
 		
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-lg-12">
-					<img src="{$basedomain}images/bg-img/cheer-welcome-still.jpg" width="100%">	
+						{if $data.filename}
+							<img src="{$app_domain}public_assets/{$data.filename}" width="100%">
+						{else}
+							<img src="{$basedomain}images/bg-img/cheer-welcome-still.jpg" width="100%">	
+						{/if}
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-lg-12">
+					<button id="Add" class="btn btn-purple btn-labeled fa fa-plus">Update Cover</button></a>
+					
+						
 				</div>
 			</div>
 		</div>
@@ -65,4 +110,47 @@ $(window).on('load', function() {
 </div>
 <!--===================================================-->
 <!--End page content-->
-
+{literal}
+<script>
+$(document).ready(function(){
+	$.clearInput = function () {
+        $('form').find('input[type=text],input[type=file], input[type=password], input[type=number], input[type=email], textarea').val('');
+	};
+	
+	$('#Add').on('click', function(){
+		$("#myModal").modal('show');
+		$.clearInput();
+		
+	});
+	
+	   $("#notesmodal").submit(function () {
+	   //disable the default form submission
+			//event.preventDefault();
+		 
+		  //grab all form data  
+		  var formData = new FormData($(this)[0]);
+		 
+		  $.ajax({
+			url: 'home/proc',
+			type: 'POST',
+			data: formData,
+			async: false,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (returndata) {
+			  //alert(returndata);
+			}
+		  });
+			/*setTimeout(
+			   function() 
+			   {
+				location.reload();
+				}, 2000);*/
+		  return false;
+    });
+	
+	
+});
+</script>
+{/literal}

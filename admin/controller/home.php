@@ -20,15 +20,38 @@ class home extends Controller {
 	public function loadmodule()
 	{
 		
-		$this->contentHelper = $this->loadModel('contentHelper');
-		$this->marticle = $this->loadModel('marticle');
-		$this->mquiz = $this->loadModel('mquiz');
-		$this->mcourse = $this->loadModel('mcourse');
+		// $this->contentHelper = $this->loadModel('contentHelper');
+		// $this->marticle = $this->loadModel('marticle');
+		// $this->mquiz = $this->loadModel('mquiz');
+		$this->model = $this->loadModel('mref');
 	}
 	
 	public function index(){
-
+		
+		$kegiatan = $this->model->select_data();
+		// pr($kegiatan);
+		$this->view->assign('data',$kegiatan);
 		return $this->loadView('home/home');
+
+	}
+	
+	public function proc(){
+		if($_FILES['file']['name'] != ''){
+			$image = uploadFile('file',null,'all');
+			if ($image['status']){
+				$dataArr['title'] = $_POST['judul'];
+				$dataArr['filename'] = $image['full_name'];
+				$dataArr['type'] = 50;
+				$dataArr['n_status'] =  1;
+				$dataArr['create_date'] = date('Y-m-d H:i:s');;
+				$dataArr['publish_date'] = date('Y-m-d H:i:s');;
+				
+				$ref_nama_kegiatan = $this->model->ceck($dataArr);
+			}
+		}else{
+			
+		}
+		exit;
 
 	}
 
