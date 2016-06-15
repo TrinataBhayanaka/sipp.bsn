@@ -49,7 +49,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 						<div class="col-md-2">
-							<input type="text" name="target" readonly class="form-control" value="{$data.target}">
+							<input type="text" id="target" name="target" readonly class="form-control" value="{$data.target}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -81,7 +81,16 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_1" class="form-control" value="{$data.rencana_1}">
+											<input type="text" name="rencana_1" id="rencana_1" class="form-control" value="{$data.rencana_1}" onkeyup="return persentase(this);">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Persentase</label>
+										<div class="col-md-2">
+											<div class="input-group">
+												<input type="text" class="form-control" id="tri_1" value="{$data.rencana_1/$data.target*100}" disabled>
+												<span class="input-group-addon">%</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
@@ -93,7 +102,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_1" rows="4" class="form-control">{$data.aksi_1}</textarea>
+											<textarea id="demo-textarea-input" name="aksi_1" rows="4" class="form-control triwulan">{$data.aksi_1}</textarea>
 										</div>
 									</div>
 								</div>
@@ -101,7 +110,16 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_2" class="form-control" value="{$data.rencana_2}">
+											<input type="text" name="rencana_2" id="rencana_2" class="form-control" value="{$data.rencana_2}" onkeyup="return persentase(this);">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Persentase</label>
+										<div class="col-md-2">
+											<div class="input-group">
+												<input type="text" class="form-control" id="tri_2" value="{$data.rencana_2/$data.target*100}" disabled>
+												<span class="input-group-addon">%</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
@@ -113,7 +131,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_2" rows="4" class="form-control">{$data.aksi_2}</textarea>
+											<textarea id="demo-textarea-input" name="aksi_2" rows="4" class="form-control triwulan">{$data.aksi_2}</textarea>
 										</div>
 									</div>
 								</div>
@@ -121,7 +139,16 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_3" class="form-control" value="{$data.rencana_3}">
+											<input type="text" name="rencana_3" id="rencana_3" class="form-control" value="{$data.rencana_3}" onkeyup="return persentase(this);">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Persentase</label>
+										<div class="col-md-2">
+											<div class="input-group">
+												<input type="text" class="form-control" id="tri_3" value="{$data.rencana_3/$data.target*100}" disabled>
+												<span class="input-group-addon">%</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
@@ -133,7 +160,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_3" rows="4" class="form-control">{$data.aksi_3}</textarea>
+											<textarea id="demo-textarea-input" name="aksi_3" rows="4" class="form-control triwulan">{$data.aksi_3}</textarea>
 										</div>
 									</div>
 								</div>
@@ -141,7 +168,16 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_4" class="form-control" value="{$data.rencana_4}">
+											<input type="text" name="rencana_4" id="rencana_4" class="form-control" value="{$data.rencana_4}" onkeyup="return persentase(this);">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 control-label" for="demo-text-input">Persentase</label>
+										<div class="col-md-2">
+											<div class="input-group">
+												<input type="text" class="form-control" id="tri_4" value="{$data.rencana_4/$data.target*100}" disabled>
+												<span class="input-group-addon">%</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
@@ -153,7 +189,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_4" rows="4" class="form-control">{$data.aksi_4}</textarea>
+											<textarea id="demo-textarea-input" name="aksi_4" rows="4" class="form-control triwulan">{$data.aksi_4}</textarea>
 										</div>
 									</div>
 								</div>
@@ -179,4 +215,21 @@
 </div>
 <!--===================================================-->
 <!--End page content-->
+{literal}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.triwulan').summernote({height: 150});
+	})
 
+	function persentase(item)
+	{
+		var target = $(item).val();
+		var id = item.id.split("_");
+		var total = $("#target").val();
+		var nilai = target/total*100;
+		
+		$("#tri_"+id[1]).val(nilai);
+
+	}
+</script>
+{/literal}

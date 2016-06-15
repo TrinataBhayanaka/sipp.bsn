@@ -160,6 +160,18 @@ class mptn extends Database {
 
 		return $res['total'];
 	}
+
+	function getEselon($data)
+	{
+		$query = "SELECT type FROM bsn_struktur WHERE kode = '{$data['kode']}'";
+		$res = $this->fetch($query);
+
+		if($res['type'] == ""){
+			$res['type'] = 1;
+		}
+
+		return $res['type'];
+	}
 	
 	
 }

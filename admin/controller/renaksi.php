@@ -23,6 +23,10 @@ class renaksi extends Controller {
 	}
 	
 	public function bsn(){
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+		$this->view->assign('eselon',$eselon);
+
 		$thn = $this->model->getTahun();
 		$struktur = $this->model->getStruktur(1);
 		$data = $this->model->getpk($struktur[0]['kode'],$thn['kode']);
@@ -109,6 +113,10 @@ class renaksi extends Controller {
 	{
 		$struktur = $this->model->getStruktur(2);
 
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+		$this->view->assign('eselon',$eselon);
+
 		if(!$_POST) {
 			if(isset($_GET['kd'])){
 				$idpk = $_GET['kd'];
@@ -144,6 +152,10 @@ class renaksi extends Controller {
 	public function eselon2()
 	{
 		$struktur = $this->model->getStruktur(3);
+
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+		$this->view->assign('eselon',$eselon);
 
 		if(!$_POST) {
 			if(isset($_GET['kd'])){
