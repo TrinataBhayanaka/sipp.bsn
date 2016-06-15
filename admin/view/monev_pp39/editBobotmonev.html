@@ -1,0 +1,602 @@
+<script>
+$(document).ready(function() {
+	$('#kendala,#tindaklanjut,#ygmembantu').summernote({
+		toolbar: [
+    // [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']]
+				  ],
+		height: 200
+	});
+	$('.note-editable').attr('contenteditable',false)
+})
+//for ceck number
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+	}	
+</script>
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Edit PP.39</h1>
+
+	<!--Searchbox-->
+	<!-- <div class="searchbox">
+		<div class="input-group custom-search-form">
+			<input type="text" class="form-control" placeholder="Search..">
+			<span class="input-group-btn">
+				<button class="text-muted" type="button"><i class="fa fa-search"></i></button>
+			</span>
+		</div>
+	</div> -->
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}monev_pp39/monev_pp39">Monev PP.39</a></li>
+	<li class="active">PP.39</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">Edit PP.39</h3>
+				</div>
+				<!--{pr($data_list)}-->
+				<!--{pr($data)}-->
+				<!--{$data_list[0].idKursus}
+				{$data_list[0].namakursus}-->
+				<!--Horizontal Form-->
+				<!--===================================================-->
+				<!--<form class="form-horizontal" method="POST" action="{$basedomain}rpk/edit">-->
+				
+				<form class="form-horizontal" id="testForm" method="POST" action="">
+					<input type="hidden" name="th" id="th" class="form-control" value="{$info.thn}">
+					<input type="hidden" name="kdunitkerja" id="kdunitkerja" class="form-control" value="{$info.kd_unit}">
+					<input type="hidden" name="kdgiat" id="kdgiat" class="form-control" value="{$info.kd_giat}">
+					<input type="hidden" name="kdoutput" id="kdoutput" class="form-control" value="{$info.kd_output}">
+					<!--<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
+					<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
+					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
+					<input type="hidden" name="valid" id= "valid" class="valid" value= "{$valid}">
+					<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12">
+							<h3 align="center" class="text-uppercase">LAPORAN {$dataselected.4} {$info.thn}</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group  pull-left">
+								<label class="control-label "><strong>A. Deskripsi Kegiatan</strong></label>
+								&nbsp;
+							</div>
+						</div>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">1. Output</label>
+							<div class="col-sm-7">						
+								<label class=" control-label">{$info.nama_output}</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
+							<div class="col-sm-7">						
+								<label class=" control-label">{$info.nama_kegiatan}</label>
+							 
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
+							<div class="col-sm-7">						
+								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
+							
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
+							<div class="col-sm-7">						
+								<label class=" control-label">{$info.unit_eselon}</label>
+							
+							</div>
+						</div>
+					<div class="row">
+						<div class="col-sm-6">	
+							<div class="form-group pull-left">
+								<label class="control-label"><strong>B. Bobot Kinerja</strong></label>
+								
+							</div>
+						</div>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
+							<div class="col-sm-7 pull-left">	
+								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
+									{foreach $list2 as $val}
+									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
+									{/foreach}
+								</ul>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">2. Kendala yang dihadapi</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control month" name="kendala" id="kendala" readonly>{$data.kendala}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">3. Tindak Lanjut yang diperlukan</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control month" name="tindaklanjut" id="tindaklanjut" readonly>{$data.tindaklanjut}</textarea>
+							</div>
+						</div>
+						
+						<!--<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">4. Pihak yang dapat mengatasi masalah</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control month" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
+							</div>
+						</div>-->
+						<div class="form-group">
+						<label class="col-sm-2 control-label boldGrey">Sampe Triwulan</label>
+							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
+								<option value="1" {$dataselected.0}>Triwulan I</option>
+								<option value="2" {$dataselected.1}>Triwulan II</option>
+								<option value="3" {$dataselected.2}>Triwulan III</option>
+								<option value="4" {$dataselected.3}>Triwulan IV</option>
+							</select>
+						</div>
+						
+						<!--<div class="row">
+							<div class="col-md-12 table-responsive" style="overflow:scroll;max-height:600px">
+								<table id="" class="table table-bordered" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th class="text-center" rowspan="2">Sub Output <br>/ Kode</th>
+											<th rowspan="2" width="10%">Komponen</th>
+											<th class="text-center" rowspan="2">Target</th>
+											<th class="text-center" rowspan="2">Pagu Anggaran</th>
+											<th class="text-center" colspan="3" class="text-center">Target</th>
+											<th class="text-center" colspan="3" class="text-center">Realisasi</th>
+											<th class="text-center" rowspan="2">Realisasi Fisik(Output dan IKK)</th>
+										</tr>
+										<tr>
+											<th  class="text-center" >Anggaran</th>
+											<th  class="text-center" >% Anggaran</th>
+											<th  class="text-center" >% Kinerja</th>
+											<th  class="text-center" >Anggaran</th>
+											<th  class="text-center" >% Anggaran</th>
+											<th  class="text-center" >% Kinerja</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="text-center boldGrey">1</td>
+											<td class="text-center boldGrey">2</td>
+											<td class="text-center boldGrey">3</td>
+											<td class="text-center boldGrey">4</td>
+											<td class="text-center boldGrey">5</td>
+											<td class="text-center boldGrey">6</td>
+											<td class="text-center boldGrey">7</td>
+											<td class="text-center boldGrey">8</td>
+											<td class="text-center boldGrey">9</td>
+											<td class="text-center boldGrey">10</td>
+											<td class="text-center boldGrey">11</td>
+										</tr>
+										{foreach $list as $val}
+										<tr>
+											<input type="hidden" name="kd_komponen" class="kd_komponen" value= "{$val.KDKMPNEN}">
+											<td  class="text-center">{$val.KDKMPNEN}</td>
+											<td>{$val.nama_komponen}</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="target" id="{$target|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 money month target" value="{number_format($val.target,'0',',','.')}">
+												</div>
+											</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="pagu_kmpnen" id="pagu_kmpnen" class="form-control span col-sm-2 " value="{number_format($val.pagu_kmpnen,'0',',','.')}"  readonly>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="rencana_anggaran_sd_tw" id="rencana_anggaran_sd_tw" class="form-control span col-sm-2" value="{number_format($val.rencana_anggaran_sd_tw,'0',',','.')}"  readonly>
+												</div>
+											</td>
+											<td class="text-center">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_rencana_anggaran" id="persentase_rencana_anggaran" class="form-control span col-sm-2" value="{number_format($val.persentase_rencana_anggaran,'2',',','.')}"  readonly>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td >
+												<div class="input-group" style="width:110px">
+													<input type="text" name="rencana_target_sd_tw" id="rencana_target_sd_tw" class="form-control span col-sm-2" value="{number_format($val.rencana_target_sd_tw,'2',',','.')}"  readonly>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="realisasi_anggaran_sd_tw" id="realisasi_anggaran_sd_tw" class="form-control span col-sm-2" value="{number_format($val.realisasi_anggaran_sd_tw,'0',',','.')}"  readonly>
+												</div>
+											</td>
+											<td class="text-center">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_realisasi_anggaran" id="persentase_realisasi_anggaran" class="form-control span col-sm-2" value="{number_format($val.persentase_realisasi_anggaran,'2',',','.')}"  readonly>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td >
+												<div class="input-group" style="width:110px">
+													<input type="text" name="realisasi_target_sd_tw" id="realisasi_target_sd_tw" class="form-control span col-sm-2" value="{number_format($val.realisasi_target_sd_tw,'2',',','.')}"  readonly>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="realisasi_blnini" id="{$realisasifisik|cat:'_'|cat:$val.KDKMPNEN}" class="form-control span col-sm-2 money month realisasifisik" value="{number_format($val.output_fisik,'0',',','.')}">
+												</div>
+											</td>
+										</tr>
+										{/foreach}
+									</tbody>
+								</table>
+							</div>
+						</div>-->
+						<div class="row">
+							<div class="col-md-12 table-responsive" style="overflow:scroll;max-height:600px">
+								<table id="" class="table table-bordered" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th rowspan="2" width="50%">IKK</th>
+											<th class="text-center" rowspan="2">Target</th>
+											<th class="text-center" rowspan="2">Satuan</th>
+											<th class="text-center" rowspan="2">Pagu Anggaran</th>
+											<th class="text-center" colspan="3" class="text-center">Target</th>
+											<th class="text-center" colspan="3" class="text-center">Realisasi</th>
+											<th class="text-center" rowspan="2">Realisasi Fisik(Output dan IKK)</th>
+										</tr>
+										<tr>
+											<th  class="text-center" >Anggaran</th>
+											<th  class="text-center" >% Anggaran</th>
+											<th  class="text-center" >% Kinerja</th>
+											<th  class="text-center" >Anggaran</th>
+											<th  class="text-center" >% Anggaran</th>
+											<th  class="text-center" >% Kinerja</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="text-center boldGrey">1</td>
+											<td class="text-center boldGrey">2</td>
+											<td class="text-center boldGrey">3</td>
+											<td class="text-center boldGrey">4</td>
+											<td class="text-center boldGrey">5</td>
+											<td class="text-center boldGrey">6</td>
+											<td class="text-center boldGrey">7</td>
+											<td class="text-center boldGrey">8</td>
+											<td class="text-center boldGrey">9</td>
+											<td class="text-center boldGrey">10</td>
+											<td class="text-center boldGrey">11</td>
+										</tr>
+										{foreach $list as $val}
+										<tr>
+											<input type="hidden" name="parent_id" class="parent_id" value= "{$val.id}">
+											<td  class="text-center"  width="10%">{$val.desc}</td>
+											<td>
+												<div class="input-group" style="width:80px">
+													{if $val.detail.target}
+														<input type="text" name="target" id="target" class="form-control span col-sm-2 money  target" value="{number_format($val.detail.target,'0',',','.')} " {$sub}>
+													{else if}
+														<input type="text" name="target" id="target" class="form-control span col-sm-2 money  target" value="{number_format(0,'0',',','.')} " {$sub}>
+													{/if}
+												</div>
+											</td>
+											<td class="text-right">
+												
+												<div class="input-group" style="width:80px">
+													<input type="text" name="satuan" id="satuan" class="form-control span col-sm-2  satuan" value="{$val.detail.satuan}" {$sub}>
+												</div>
+											</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="pagu_kmpnen" id="pagu_kmpnen" class="form-control span col-sm-2 pagu_kmpnen money " value="{number_format($val.detail.pagu_kmpnen,'0',',','.')}"  {$sub}>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="rencana_anggaran_sd_tw" id="rencana_anggaran_sd_tw" class="form-control span col-sm-2 rencana_anggaran_sd_tw money" value="{number_format($val.detail.rencana_anggaran_sd_tw,'0',',','.')}" {$sub} >
+												</div>
+											</td>
+											<td class="text-center">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_rencana_anggaran" id="persentase_rencana_anggaran" class="form-control span col-sm-2 persentase_rencana_anggaran percent" value="{number_format($val.detail.persentase_rencana_anggaran,'2',',','.')}"  {$sub}>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td >
+												<div class="input-group" style="width:110px">
+													<input type="text" name="rencana_target_sd_tw" id="rencana_target_sd_tw" class="form-control span col-sm-2 rencana_target_sd_tw percent percent" value="{number_format($val.detail.rencana_target_sd_tw,'2',',','.')}" {$sub} >
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="realisasi_anggaran_sd_tw" id="realisasi_anggaran_sd_tw" class="form-control span col-sm-2 realisasi_anggaran_sd_tw money" value="{number_format($val.detail.realisasi_anggaran_sd_tw,'0',',','.')}" {$sub} >
+												</div>
+											</td>
+											<td class="text-center">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_realisasi_anggaran" id="persentase_realisasi_anggaran" class="form-control span col-sm-2 persentase_realisasi_anggaran percent" value="{number_format($val.detail.persentase_realisasi_anggaran,'2',',','.')}"  {$sub}>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td >
+												<div class="input-group" style="width:110px">
+													{if $val.detail.realisasi_target_sd_tw}
+														<input type="text" name="realisasi_target_sd_tw" id="realisasi_target_sd_tw" class="form-control span col-sm-2 realisasi_target_sd_tw percent" value="{number_format($val.detail.realisasi_target_sd_tw,'2',',','.')}"  {$sub}>
+													{else if}
+														<input type="text" name="realisasi_target_sd_tw" id="realisasi_target_sd_tw" class="form-control span col-sm-2 realisasi_target_sd_tw percent" value="{number_format(0,'2',',','.')}"  {$sub}>
+													{/if}
+													<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													{if $val.detail.outikk}
+														<input type="text" name="outikk" id="outikk" class="form-control span col-sm-2 outikk money" value="{number_format($val.detail.outikk,'0',',','.')}" {$sub}>
+													{else if}
+														<input type="text" name="outikk" id="outikk" class="form-control span col-sm-2 outikk money" value="{number_format(0,'0',',','.')}" {$sub}>
+													{/if}
+												</div>
+											</td>
+										</tr>
+										{/foreach}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer text-right">
+						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
+						<input type="button"  name="save" id="save" value="save" class="btn btn-info">
+					</div>
+				</form>
+				<!--===================================================-->
+				<!--End Horizontal Form-->
+			
+				<!-- HIDDEN -->
+				<input type="hidden" id="typemember" value="{$usertype}">
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--===================================================-->
+{literal}
+<script>
+$(document).ready(function() {
+
+var ceck = $('#valid').val();	
+	if(ceck == 1){
+		//nothing
+	}else{
+		bootbox.alert("Pengisian Sudah Melewati Batas yang Di Tentukan, Hubungi Administrator", function(){
+								//EMPTY
+			});
+	}
+/*var status_hidden = $('#status_hidden').val();
+if(status_hidden){
+document.getElementById(status_hidden).selected = "true";
+}*/
+//print doc rpk
+$('#print').on('click', function(){
+	var th = $('#th').val();
+	var bulan = $('#bulan').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	var kd_komponen = $('#kd_komponen').val();
+
+	window.location.href=basedomain+"monev/print_monev_bobot/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&kd_komponen="+kd_komponen;
+});	
+
+
+$('#kdtriwulan').on('change', function(){
+	var th = $('#th').val();
+	var kdtriwulan = $('#kdtriwulan').val();
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	setTimeout(
+	   function() 
+	   {
+		window.location.replace(basedomain+"monev_pp39/edit_pp39/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kdtriwulan="+kdtriwulan);
+	   }, 500);
+});	
+
+
+$('#save').on('click', function(){
+	/*//alert("masukk");
+	var target = []; 
+	$.each($('.target'), function (index, value) { 
+	  //console.log(index + ':' + $(value).val());
+	  //vals[] = $(value).val();
+	 target.push(this.value);	
+	 });
+	//console.log(target);
+
+	//kd_komponen
+	var kd_komponen = []; 
+	$.each($('.kd_komponen'), function (index, value) { 
+	  //console.log(index + ':' + $(value).val());
+	  //vals[] = $(value).val();
+	 kd_komponen.push(this.value);	
+	 });
+	//console.log(kd_komponen);
+	
+	//kd_komponen
+	var realisasifisik = []; 
+	$.each($('.realisasifisik'), function (index, value) { 
+	  //console.log(index + ':' + $(value).val());
+	  //vals[] = $(value).val();
+	 realisasifisik.push(this.value);	
+	 });
+	//console.log(keterangan);*/
+	
+	//revisi
+	var target = []; 
+	$.each($('.target'), function (index, value) { 
+		target.push(this.value);	
+	 });
+	 
+	var satuan = []; 
+	$.each($('.satuan'), function (index, value) { 
+		satuan.push(this.value);	
+	 });
+	
+	var pagu_kmpnen = []; 
+	$.each($('.pagu_kmpnen'), function (index, value) { 
+		pagu_kmpnen.push(this.value);	
+	 });
+	 
+	var rencana_anggaran_sd_tw = []; 
+	$.each($('.rencana_anggaran_sd_tw'), function (index, value) { 
+		rencana_anggaran_sd_tw.push(this.value);	
+	 });
+	 
+	var persentase_rencana_anggaran = []; 
+	$.each($('.persentase_rencana_anggaran'), function (index, value) { 
+		persentase_rencana_anggaran.push(this.value);	
+	 });
+	 
+	var rencana_target_sd_tw = []; 
+	$.each($('.rencana_target_sd_tw'), function (index, value) { 
+		rencana_target_sd_tw.push(this.value);	
+	 });
+	
+	var realisasi_anggaran_sd_tw = []; 
+	$.each($('.realisasi_anggaran_sd_tw'), function (index, value) { 
+		realisasi_anggaran_sd_tw.push(this.value);	
+	 });
+	
+	var persentase_realisasi_anggaran = []; 
+	$.each($('.persentase_realisasi_anggaran'), function (index, value) { 
+		persentase_realisasi_anggaran.push(this.value);	
+	 });
+	 
+	var realisasi_target_sd_tw = []; 
+	$.each($('.realisasi_target_sd_tw'), function (index, value) { 
+		realisasi_target_sd_tw.push(this.value);	
+	 });
+	
+	var outikk = []; 
+	$.each($('.outikk'), function (index, value) { 
+		outikk.push(this.value);	
+	 });
+	 
+	 var parent_id = []; 
+	$.each($('.parent_id'), function (index, value) { 
+		parent_id.push(this.value);	
+	 });
+	 
+	var kdunitkerja = $('#kdunitkerja').val();
+	var kdgiat = $('#kdgiat').val();
+	var kdoutput = $('#kdoutput').val();
+	
+	var th = $('#th').val();
+	var kdtriwulan = $('#kdtriwulan').val();
+	
+	//var x = $("form").serializeArray();
+	 //exit;
+	 bootbox.confirm("Simpan Data?", function(result) {
+			if (result) {
+				$.post( basedomain+"monev_pp39/post_monev_pp39", {th: th, kdtriwulan: kdtriwulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,parent_id : parent_id, target : target, satuan : satuan,  pagu_kmpnen: pagu_kmpnen, rencana_anggaran_sd_tw : rencana_anggaran_sd_tw, persentase_rencana_anggaran : persentase_rencana_anggaran, rencana_target_sd_tw : rencana_target_sd_tw, realisasi_anggaran_sd_tw : realisasi_anggaran_sd_tw, persentase_realisasi_anggaran : persentase_realisasi_anggaran, realisasi_target_sd_tw : realisasi_target_sd_tw, outikk : outikk });										
+				$.niftyNoty({
+					type: 'success',
+					icon : 'fa fa-check',
+					message : 'Simpan Data Berhasil.',
+					container : 'floating',
+					timer : 2000
+				});
+				setTimeout(
+			   function() 
+			   {
+				window.location.replace(basedomain+"monev_pp39/edit_pp39/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kdtriwulan="+kdtriwulan);
+			   }, 2000);
+			}else{
+				$.niftyNoty({
+					type: 'danger',
+					icon : 'fa fa-minus',
+					message : 'Simpan Data Gagal!',
+					container : 'floating',
+					timer : 2000
+				});
+			}
+
+
+		});
+	  
+	  
+	});
+	
+});
+
+
+function checkMonth(item)
+{
+	var selmonth = $(item).val();
+	var d = new Date();
+	var month = new Array();
+	month[0] = "01";
+	month[1] = "02";
+	month[2] = "03";
+	month[3] = "04";
+	month[4] = "05";
+	month[5] = "06";
+	month[6] = "07";
+	month[7] = "08";
+	month[8] = "09";
+	month[9] = "10";
+	month[10] = "11";
+	month[11] = "12";
+	var n = month[d.getMonth()];
+	var type = $("#typemember").val();  
+	if(n != selmonth && type != 1){
+		$(".month").attr('disabled','disabled');
+	} else {
+		$(".month").removeAttr('disabled');
+	}
+}
+</script>
+{/literal}
+<!--End page content-->

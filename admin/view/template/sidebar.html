@@ -112,12 +112,12 @@
 								<span class="menu-title"><strong>Dokumen Renstra</strong></span>
 								<i class="arrow"></i>
 							</a>
-			
+							
 							<!--Submenu-->
 							<ul class="collapse {if $page.page eq 'renstra' && ($page.function eq 'dokumenBsn')}in{/if}">
-								<li class="{if $page.function eq 'dokumenBsn'}active{/if}"><a href="{$basedomain}renstra/dokumenBsn/?pid=1">Renstra Tk BSN</a></li>
-								<li class="{if $page.function eq 'dokumenBSN'}active{/if}"><a href="{$basedomain}renstra/dokumenBSN/?pid=2">Renstra Tk Eselon I</a></li>
-								<li class="{if $page.function eq 'dokumenBSN'}active{/if}"><a href="{$basedomain}renstra/dokumenBSN/?pid=3">Renstra Tk Eselon II</a></li>
+								<li class="{if $page.function eq 'dokumenBsn' && $page.param[1] eq 'pid=1'}active{/if}"><a href="{$basedomain}renstra/dokumenBsn/?pid=1">Renstra Tk BSN</a></li>
+								<li class="{if $page.function eq 'dokumenBsn' && $page.param[1] eq 'pid=2'}active{/if}"><a href="{$basedomain}renstra/dokumenBSN/?pid=2">Renstra Tk Eselon I</a></li>
+								<li class="{if $page.function eq 'dokumenBsn' && $page.param[1] eq 'pid=3'}active{/if}"><a href="{$basedomain}renstra/dokumenBSN/?pid=3">Renstra Tk Eselon II</a></li>
 							</ul>
 						</li>
 
@@ -266,29 +266,29 @@
 						<li class="list-header">Pelaporan Kegiatan</li>
 
 						<!--Menu list item-->
-						<li class="{if $page.page eq 'pelaporanKegiatan' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}active-link{/if}">
+						<li class="{if $page.page eq 'capaian' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}active-link{/if}">
 							<a href="#">
 								<i class="fa fa-plus-square"></i>
 								<span class="menu-title"><strong>Capaian</strong></span>
 								<i class="arrow"></i>
 							</a>
-							<ul class="collapse {if $page.page eq 'pelaporanKegiatan' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}in{/if}">
-								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/bsn">Tingkat BSN</a></li>
-								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/eselon1">Tingkat ESELON 1</a></li>
-								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/eselon2">Tingkat ESELON 2</a></li>
+							<ul class="collapse {if $page.page eq 'capaian' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}capaian/bsn">Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}capaian/eselon1">Tingkat ESELON 1</a></li>
+								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}capaian/eselon2">Tingkat ESELON 2</a></li>
 							</ul>
 						</li>
 						
-						<li class="{if $page.page eq 'pelaporanKegiatan' && $page.function eq 'dokumenLakip'}active-link{/if}">
+						<li class="{if $page.page eq 'lakip' && $page.function eq 'dokumenLakip'}active-link{/if}">
 							<a href="#">
 								<i class="fa fa-plus-square"></i>
 								<span class="menu-title"><strong>Dokumen LAKIP</strong></span>
 								<i class="arrow"></i>
 							</a>
-							<ul class="collapse {if $page.page eq 'pelaporanKegiatan' && $page.function eq 'dokumenLakip'}in{/if}">
-								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=1">Tingkat BSN</a></li>
-								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=2">Tingkat ESELON 1</a></li>
-								<li class="{if $page.function eq 'dokumenLakip'}active{/if}"><a href="{$basedomain}pelaporanKegiatan/dokumenLakip/?pid=3">Tingkat ESELON 2</a></li>
+							<ul class="collapse {if $page.page eq 'lakip' && $page.function eq 'dokumenLakip'}in{/if}">
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=1'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=1">Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=2'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=2">Tingkat ESELON 1</a></li>
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=3'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=3">Tingkat ESELON 2</a></li>
 							</ul>
 						</li>
 						<!-- <li>
@@ -326,39 +326,39 @@
 						<li class="list-header">Monitoring Evaluasi</li>
 
 						<!--Menu list item-->
-						<li class="{if $page.page eq 'monev'}active-link{/if}">
+						<!--<li class="{if $page.page eq 'monev'}active-link{/if}">
 							<a href="{$basedomain}monev/">
 								<i class="fa fa-minus-square"></i>
 								<span class="menu-title"><strong>Monev Bulanan</strong> </span>
 							</a>
-						</li>
+						</li>-->
 
 						<li class="{if $page.page eq 'monev'}active-link{/if}">
 							<a href="{$basedomain}monev/monev_bulan">
 								<i class="fa fa-minus-square"></i>
-								<span class="menu-title"><strong>Monev Bulanan edit</strong> </span>
+								<span class="menu-title"><strong>Monev Bulanan </strong> </span>
 							</a>
 						</li>
 
 						
-						<li class="{if $page.page eq 'monev_trwln'}active-link{/if}">
+						<!--<li class="{if $page.page eq 'monev_trwln'}active-link{/if}">
 							<a href="{$basedomain}monev_trwln/">
 								<i class="fa fa-minus-square"></i>
 								<span class="menu-title"><strong>Monev Triwulan</strong> </span>
 							</a>
 			
-						</li>
+						</li>-->
 						
 						<li class="{if $page.page eq 'monev_trwln'}active-link{/if}">
 							<a href="{$basedomain}monev_trwln/monev_trwln">
 								<i class="fa fa-minus-square"></i>
-								<span class="menu-title"><strong>Monev Triwulan edit</strong> </span>
+								<span class="menu-title"><strong>Monev Triwulan </strong> </span>
 							</a>
 			
 						</li>
 
-						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
-							<a href="{$basedomain}course/viewvisitor">
+						<li class="{if $page.page eq 'monev_pp39' && $page.function eq 'monev_pp39'}active-link{/if}">
+							<a href="{$basedomain}monev_pp39/monev_pp39">
 								<i class="fa fa-minus-square"></i>
 								<span class="menu-title"><strong>Monev Format PP.39</strong> </span>
 							</a>
@@ -366,7 +366,7 @@
 						</li>
 
 						<li class="list-divider"></li>
-						
+						{if $admin.type eq 1}
 						<li class="list-header">Pengaturan Sistem</li>
 
 						<!--Menu list item-->
@@ -378,6 +378,30 @@
 			
 						</li>
 						
+						<li class="{if $page.page eq 'sistem' && $page.function eq 'pengguna'}active-link{/if}">
+							<a href="{$basedomain}sistem/pengguna">
+								<i class="fa fa-users"></i>
+								<span class="menu-title"><strong>Pengaturan Pengguna </strong> </span>
+							</a>
+			
+						</li>
+						<li class="{if $page.page eq 'referensi' && ($page.function eq 'ref_kegiatan' || $page.function eq 'ref_output' || $page.function eq 'ref_akun')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Referensi</strong></span>
+								<i class="arrow"></i>
+							</a>
+							<ul class="collapse {if $page.page eq 'referensi' && ($page.function eq 'ref_kegiatan' || $page.function eq 'ref_output' )}in{/if}">
+								<li class="{if $page.function eq 'ref_kegiatan'}active{/if}"><a href="{$basedomain}referensi/ref_kegiatan">Referensi Kegiatan</a></li>
+								<li class="{if $page.function eq 'ref_output'}active{/if}"><a href="{$basedomain}referensi/ref_output">Referensi Output</a></li>
+								<li class="{if $page.function eq 'ref_akun'}active{/if}"><a href="{$basedomain}referensi/ref_akun">Referensi Akun</a></li>
+							</ul>
+						</li>
+						{/if}
+						
+						
+						
+						
 						{*}<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
 							<a href="{$basedomain}course/viewvisitor">
 								<i class="fa fa-cog"></i>
@@ -386,13 +410,7 @@
 			
 						</li>{/*}
 
-						<li class="{if $page.page eq 'sistem' && $page.function eq 'pengguna'}active-link{/if}">
-							<a href="{$basedomain}sistem/pengguna">
-								<i class="fa fa-users"></i>
-								<span class="menu-title"><strong>Pengaturan Pengguna</strong> </span>
-							</a>
-			
-						</li>
+						
 
 						{*}<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
 							<a href="{$basedomain}course/viewvisitor">

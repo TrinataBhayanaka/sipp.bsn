@@ -86,10 +86,10 @@ function inputdokumenLakip(pid, req, iddata)
   // clog(id);
   // return false;
   if (iddata){
-    redirect(basedomain+"pelaporanKegiatan/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id+"&id="+iddata);
+    redirect(basedomain+"lakip/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id+"&id="+iddata);
 
   }else{
-    redirect(basedomain+"pelaporanKegiatan/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id);
+    redirect(basedomain+"lakip/editDokumen/?pid="+ pid +"&req=" + req + "&parent_id="+id);
   }
   
 }

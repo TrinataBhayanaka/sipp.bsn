@@ -1322,7 +1322,8 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function kd_kegiatan($thn_temp,$kd_satker){
-		$query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE ta = '{$thn_temp}' and kdunitkerja = '{$kd_satker}' order by kdgiat asc";
+		// $query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE ta = '{$thn_temp}' and kdunitkerja = '{$kd_satker}' order by kdgiat asc";
+		$query = "SELECT kdgiat,nmgiat FROM m_kegiatan WHERE  kdunitkerja = '{$kd_satker}' order by kdgiat asc";
 		// pr($query);
 		$result = $this->fetch($query,1);
 		
@@ -1567,23 +1568,23 @@ class m_penetapanAngaran extends Database {
 			$kat = " and kategori = 1";
 		}
 		switch ($param){
-			case 01:
+			case 1:
 					$ext_sql = "sum(target_1) as total";break;
-			case 02:
+			case 2:
 					$ext_sql = "(sum(target_1) + sum(target_2)) as total"; break;
-			case 03:
+			case 3:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3)) as total"; break;
-			case 04:
+			case 4:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4)) as total"; break;
-			case 05:
+			case 5:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5)) as total"; break;
-			case 06:
+			case 6:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6)) as total"; break;
-			case 07:
+			case 7:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7)) as total"; break;
-			case 08:
+			case 8:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7) + sum(target_8)) as total"; break;
-			case 09:
+			case 9:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7) + sum(target_8) + sum(target_9)) as total"; break;
 			case 10:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7) + sum(target_8) + sum(target_9) + sum(target_10)) as total"; break;
@@ -1601,26 +1602,53 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
+	function monev_ren_sd_bulan_pp39($thn_temp,$kd_giat,$kd_output,$kd_komponen,$param,$ext){
+		if($ext == 1){
+			$table = "thbp_kak_output_tahapan"; 
+			$kat = '';
+		}elseif($ext == 2){
+			$table = "monev_bulanan"; 
+			$kat = " and kategori = 1";
+		}
+		switch ($param){
+			case 01:
+					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3)) as total"; break;
+			case 02:
+					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6)) as total"; break;
+			case 03:
+					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7) + sum(target_8) + sum(target_9)) as total"; break;
+			case 04:
+					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7) + sum(target_8) + sum(target_9) + sum(target_10) + sum(target_11) + sum(target_12)) as total"; break;
+			}
+		
+		$query = "SELECT {$ext_sql} FROM {$table}  
+				WHERE th LIKE '{$thn_temp}' AND kdgiat LIKE '{$kd_giat}' AND kdoutput LIKE '{$kd_output}' 
+				and kdkmpnen like '{$kd_komponen}%' {$kat} ORDER BY id";
+		// pr($query);		
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
 	function monev_ren_sd_bulan_anggaran($thn_temp,$kd_giat,$kd_output,$kd_komponen,$param){
 		
 		switch ($param){
-			case 01:
+			case 1:
 					$ext_sql = "sum(anggaran_1) as total";break;
-			case 02:
+			case 2:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2)) as total"; break;
-			case 03:
+			case 3:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as total"; break;
-			case 04:
+			case 4:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4)) as total"; break;
-			case 05:
+			case 5:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5)) as total"; break;
-			case 06:
+			case 6:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) as total"; break;
-			case 07:
+			case 7:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7)) as total"; break;
-			case 08:
+			case 8:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8)) as total"; break;
-			case 09:
+			case 9:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9)) as total"; break;
 			case 10:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10) ) as total"; break;
@@ -1637,6 +1665,28 @@ class m_penetapanAngaran extends Database {
 		$result = $this->fetch($query);
 		return $result;
 	}
+	
+	function monev_ren_sd_bulan_anggaran_pp39($thn_temp,$kd_giat,$kd_output,$kd_komponen,$param){
+		
+		switch ($param){
+			case 1:
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as total"; break;
+			case 2:
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) as total"; break;
+			case 3:
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9)) as total"; break;
+			case 4:
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10) + sum(anggaran_11) + sum(anggaran_12)) as total"; break;
+			}
+		
+		$query = "SELECT {$ext_sql} FROM thbp_kak_output_tahapan  
+				WHERE th LIKE '{$thn_temp}' AND kdgiat LIKE '{$kd_giat}' AND kdoutput LIKE '{$kd_output}' 
+				and kdkmpnen like '{$kd_komponen}%' ORDER BY id";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
 	
 	function monev_realisasi_sd_bulan_anggaran($id,$param){
 		
@@ -1850,6 +1900,7 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function get_data_monev_bln($id,$param){
+		// echo "param =".$param;
 		switch ($param){
 				case 1:	
 						$ext_kendala = "kendala";
@@ -2672,6 +2723,8 @@ class m_penetapanAngaran extends Database {
 			$kategori = "and kategori = 1";
 		}elseif($param == 2){
 			$kategori = "and kategori = 2";
+		}elseif($param == 4){
+			$kategori = "and kategori = 4";
 		}
 		$query = "select count(id) as hit,id from monev_bulanan WHERE th LIKE '{$thn_temp}%' 
 				  AND kdgiat LIKE '{$kd_giat}%' AND kdoutput LIKE '{$kd_output}%' AND kdkmpnen like '{$kd_komponen}%' {$kategori}";
@@ -2684,34 +2737,59 @@ class m_penetapanAngaran extends Database {
 						 $target,$keterangan){
 		switch ($bulan){
 				case 01:
-						$ext_clm = "target_1";break; 
+						$ext_clm = "target_1";
+						$ext_clm_2 = "keterangan";
+						break; 
 				case 02:
-						$ext_clm = "target_2";break;
+						$ext_clm = "target_2";
+						$ext_clm_2 = "keterangan_2";
+						
+						break;
 				case 03:
-						$ext_clm = "target_3";break;
+						$ext_clm = "target_3";
+						$ext_clm_2 = "keterangan_3";
+						break;
 				case 04:
-						$ext_clm = "target_4";break;
+						$ext_clm = "target_4";
+						$ext_clm_2 = "keterangan_4";
+						break;
 				case 05:
-						$ext_clm = "target_5";break;
+						$ext_clm = "target_5";
+						$ext_clm_2 = "keterangan_5";
+						break;
 				case 06:
-						$ext_clm = "target_6";break;
+						$ext_clm = "target_6";
+						$ext_clm_2 = "keterangan_6";
+						break;
 				case 07:
-						$ext_clm = "target_7";break;
+						$ext_clm = "target_7";
+						$ext_clm_2 = "keterangan_7";
+						break;
 				case 08:
-						$ext_clm = "target_8";break;
+						$ext_clm = "target_8";
+						$ext_clm_2 = "keterangan_8";
+						break;
 				case 09:
-						$ext_clm = "target_9";break;
+						$ext_clm = "target_9";
+						$ext_clm_2 = "keterangan_9";
+						break;
 				case 10:
-						$ext_clm = "target_10";break;
+						$ext_clm = "target_10";
+						$ext_clm_2 = "keterangan_10";
+						break;
 				case 11:
-						$ext_clm = "target_11";break;
+						$ext_clm = "target_11";
+						$ext_clm_2 = "keterangan_11";
+						break;
 				case 12:
-						$ext_clm = "target_12";break;
+						$ext_clm = "target_12";
+						$ext_clm_2 = "keterangan_12";
+						break;
 			}	
 		$kategori = '1';
 		
 		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
-						keterangan,kategori,{$ext_clm})
+						{$ext_clm_2},kategori,{$ext_clm})
 						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$kdkmpnen}' ,
 						'".addslashes(html_entity_decode($keterangan))."' , 
 						'{$kategori}' ,
@@ -2725,32 +2803,57 @@ class m_penetapanAngaran extends Database {
 		// pr($sasaran_1);
 		switch ($bulan){
 				case 01:
-						$ext_clm = "target_1";break; 
+						$ext_clm = "target_1";
+						$ext_clm_2 = "keterangan";
+						break; 
 				case 02:
-						$ext_clm = "target_2";break;
+						$ext_clm = "target_2";
+						$ext_clm_2 = "keterangan_2";
+						
+						break;
 				case 03:
-						$ext_clm = "target_3";break;
+						$ext_clm = "target_3";
+						$ext_clm_2 = "keterangan_3";
+						break;
 				case 04:
-						$ext_clm = "target_4";break;
+						$ext_clm = "target_4";
+						$ext_clm_2 = "keterangan_4";
+						break;
 				case 05:
-						$ext_clm = "target_5";break;
+						$ext_clm = "target_5";
+						$ext_clm_2 = "keterangan_5";
+						break;
 				case 06:
-						$ext_clm = "target_6";break;
+						$ext_clm = "target_6";
+						$ext_clm_2 = "keterangan_6";
+						break;
 				case 07:
-						$ext_clm = "target_7";break;
+						$ext_clm = "target_7";
+						$ext_clm_2 = "keterangan_7";
+						break;
 				case 08:
-						$ext_clm = "target_8";break;
+						$ext_clm = "target_8";
+						$ext_clm_2 = "keterangan_8";
+						break;
 				case 09:
-						$ext_clm = "target_9";break;
+						$ext_clm = "target_9";
+						$ext_clm_2 = "keterangan_9";
+						break;
 				case 10:
-						$ext_clm = "target_10";break;
+						$ext_clm = "target_10";
+						$ext_clm_2 = "keterangan_10";
+						break;
 				case 11:
-						$ext_clm = "target_11";break;
+						$ext_clm = "target_11";
+						$ext_clm_2 = "keterangan_11";
+						break;
 				case 12:
-						$ext_clm = "target_12";break;
-			}	
+						$ext_clm = "target_12";
+						$ext_clm_2 = "keterangan_12";
+						break;
+			}		
 		$query = "UPDATE monev_bulanan SET  
-								keterangan = '".addslashes(html_entity_decode($keterangan))."' ,
+								{$ext_clm_2} = '".addslashes(html_entity_decode($keterangan))."' ,
 								{$ext_clm} = '{$target}'
 								WHERE id = '{$id}' ";
 		// pr($query);	
@@ -2759,8 +2862,42 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function get_keterangan($th,$kd_giat,$kd_output,$kd_komponen,$bln){
-	
+		
 		$query = "select keterangan from monev_bulanan where kdgiat = {$kd_giat} and kdoutput = {$kd_output} and kdkmpnen = {$kd_komponen} and th = {$th} and kategori = 1";
+		$result = $this->fetch($query);
+		return $result;
+	}
+
+	function get_keterangan_rev($th,$kd_giat,$kd_output,$kd_komponen,$param){
+		switch ($param){
+			case 1:
+					$ext_sql = "keterangan as keterangan"; break;
+			case 2:
+					$ext_sql = "keterangan_2 as keterangan"; break;
+			case 3:
+					$ext_sql = "keterangan_3 as keterangan"; break;
+			case 4:
+					$ext_sql = "keterangan_4 as keterangan"; break;
+			case 5:
+					$ext_sql = "keterangan_5 as keterangan"; break;
+			case 6:
+					$ext_sql = "keterangan_6 as keterangan"; break;
+			case 7:
+					$ext_sql = "keterangan_7 as keterangan"; break;
+			case 8:
+					$ext_sql = "keterangan_8 as keterangan"; break;
+			case 9:
+					$ext_sql = "keterangan_9 as keterangan"; break;
+			case 10:
+					$ext_sql = "keterangan_10 as keterangan"; break;
+			case 11:
+					$ext_sql = "keterangan_11 as keterangan"; break;
+			case 12:
+					$ext_sql = "keterangan_12 as keterangan"; break;
+		}
+		
+		$query = "select {$ext_sql} from monev_bulanan where kdgiat = {$kd_giat} and kdoutput = {$kd_output} and kdkmpnen = {$kd_komponen} and th = {$th} and kategori = 1";
+		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
 	}
@@ -2768,23 +2905,23 @@ class m_penetapanAngaran extends Database {
 	function monev_ren_bulan_ini($thn_temp,$kd_giat,$kd_output,$kd_komponen,$param){
 		$table = "monev_bulanan"; 
 		switch ($param){
-			case 01:
+			case 1:
 					$ext_sql = "target_1 as total"; break;
-			case 02:
+			case 2:
 					$ext_sql = "target_2 as total"; break;
-			case 03:
+			case 3:
 					$ext_sql = "target_3 as total"; break;
-			case 04:
+			case 4:
 					$ext_sql = "target_4 as total"; break;
-			case 05:
+			case 5:
 					$ext_sql = "target_5 as total"; break;
-			case 06:
+			case 6:
 					$ext_sql = "target_6 as total"; break;
-			case 07:
+			case 7:
 					$ext_sql = "target_7 as total"; break;
-			case 08:
+			case 8:
 					$ext_sql = "target_8 as total"; break;
-			case 09:
+			case 9:
 					$ext_sql = "target_9 as total"; break;
 			case 10:
 					$ext_sql = "target_10 as total"; break;
@@ -2840,23 +2977,23 @@ class m_penetapanAngaran extends Database {
 	function monev_realisasi_sd_bulan_anggaran_rev($thn_temp,$kd_giat,$kd_output,$kd_komponen,$param){
 		
 		switch ($param){
-			case 01:                                                                                                
+			case 1:                                                                                                
 					$ext_sql = "sum(anggaran_1) as realisasi";break;
-			case 02:
+			case 2:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2)) as realisasi"; break;
-			case 03:
+			case 3:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as realisasi"; break;
-			case 04:
+			case 4:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4)) as realisasi"; break;
-			case 05:
+			case 5:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5)) as realisasi"; break;
-			case 06:
+			case 6:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) as realisasi"; break;
-			case 07:
+			case 7:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7)) as realisasi"; break;
-			case 08:
+			case 8:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8)) as realisasi"; break;
-			case 09:
+			case 9:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9)) as realisasi"; break;
 			case 10:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10)) as realisasi"; break;
@@ -2864,6 +3001,31 @@ class m_penetapanAngaran extends Database {
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10) + sum(anggaran_11)) as realisasi"; break;
 			case 12:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10) + sum(anggaran_11) + sum(anggaran_12)) as realisasi"; break;
+		}
+		
+		$query = "SELECT {$ext_sql} FROM monev_bulanan  
+				WHERE th LIKE '{$thn_temp}' AND kdgiat LIKE '{$kd_giat}' AND kdoutput LIKE '{$kd_output}' 
+				  and kdkmpnen like '{$kd_komponen}%' and kategori = 2 ORDER BY id ";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function monev_realisasi_sd_bulan_anggaran_rev_pp39($thn_temp,$kd_giat,$kd_output,$kd_komponen,$param){
+		
+		switch ($param){
+			case 1:                                                                                                
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as realisasi"; break;
+			
+			case 2:
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) as realisasi"; break;
+			
+			case 3:
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9)) as realisasi"; break;
+			
+			case 4:
+					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10) + sum(anggaran_11) + sum(anggaran_12)) as realisasi"; break;
+		
 		}
 		
 		$query = "SELECT {$ext_sql} FROM monev_bulanan  
@@ -2968,7 +3130,307 @@ class m_penetapanAngaran extends Database {
 			$ext_ygmembantu = "ygmembantu_4";
 		}
 		$query = "select {$ext_keterangan},{$ext_kendala},{$ext_tindaklanjut},{$ext_ygmembantu} from monev_bulanan 
-				WHERE kdunitkerja= '{$kdunitkerja}' and kdgiat = '{$kd_giat}' and kdoutput = '{$kd_output}' and kategori = 3";
+				WHERE th = '{$thn_temp}' and kdunitkerja= '{$kdunitkerja}' and kdgiat = '{$kd_giat}' and kdoutput = '{$kd_output}' and kategori = 3";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function get_target_pp39($th,$kd_giat,$kd_output,$kd_komponen,$kdtriwulan){
+		if($kdtriwulan == 1){
+			$ext_sql ="anggaran_1 as target";
+		}elseif($kdtriwulan == 2){
+			$ext_sql ="anggaran_2 as target";
+		}elseif($kdtriwulan == 3){
+			$ext_sql ="anggaran_3 as target";
+		}elseif($kdtriwulan == 4){
+			$ext_sql ="anggaran_4 as target";
+		}
+		$query = "select {$ext_sql} from monev_bulanan where th = '{$th}' and kdgiat = '{$kd_giat}' and kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' and kategori = '4'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	
+	}
+	
+	function get_output_fisik_pp39($th,$kd_giat,$kd_output,$kd_komponen,$kdtriwulan){
+		if($kdtriwulan == 1){
+			$ext_sql ="anggaran_5 as output_fisik";
+		}elseif($kdtriwulan == 2){
+			$ext_sql ="anggaran_6 as output_fisik";
+		}elseif($kdtriwulan == 3){
+			$ext_sql ="anggaran_7 as output_fisik";
+		}elseif($kdtriwulan == 4){
+			$ext_sql ="anggaran_8 as output_fisik";
+		}
+		$query = "select {$ext_sql} from monev_bulanan where th = '{$th}' and kdgiat = '{$kd_giat}' and kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' and kategori = '4'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	
+	}
+	
+	function update_monev_output_komponen_pp39($id_kmpn,$th,$kdtriwulan,$target_fix,$satuan_fix,$pagu_kmpnen_fix,$rencana_anggaran_sd_tw_fix,$persentase_rencana_anggaran_fix,
+																								$rencana_target_sd_tw_fix,$realisasi_anggaran_sd_tw_fix,$persentase_realisasi_anggaran_fix,$realisasi_target_sd_tw_fix,$outikk_fix){
+		// pr($sasaran_1);
+		/*switch ($triwulan){
+				case 1:
+						$ext_clm = "anggaran_1";
+						$ext_clm_2 = "anggaran_5";break; 
+				case 2:
+						$ext_clm = "anggaran_2";
+						$ext_clm_2 = "anggaran_6";break;
+				case 3:
+						$ext_clm = "anggaran_3";
+						$ext_clm_2 = "anggaran_7";break;
+				case 4:
+						$ext_clm = "anggaran_4";
+						$ext_clm_2 = "anggaran_8";break;
+			}	
+		$query = "UPDATE monev_bulanan SET  
+								{$ext_clm} = '{$target}',
+								{$ext_clm_2} = '{$realisasi_fisik}'
+								WHERE id = '{$id}' ";*/
+								
+		// pr($query);	
+		// exit;		
+		switch ($kdtriwulan){
+				case 1:
+						$target = "kendala";
+						$satuan = "tindaklanjut";
+						$pagu_kmpnen = "anggaran_1";
+						$rencana_anggaran_sd_tw = "anggaran_5";
+						$persentase_rencana_anggaran ="target_1";
+						$rencana_target_sd_tw = "target_5";
+						$realisasi_anggaran_sd_tw = "anggaran_9";
+						$persentase_realisasi_anggaran = "target_9";
+						$realisasi_target_sd_tw ="kendala_5";
+						$outikk = "kendala_9";
+						break; 
+				case 2:
+						$target = "kendala_2";
+						$satuan = "tindaklanjut_2";	
+						$pagu_kmpnen = "anggaran_2";
+						$rencana_anggaran_sd_tw = "anggaran_6";
+						$persentase_rencana_anggaran ="target_2";
+						$rencana_target_sd_tw = "target_6";
+						$realisasi_anggaran_sd_tw = "anggaran_10";
+						$persentase_realisasi_anggaran = "target_10";
+						$realisasi_target_sd_tw ="kendala_6";
+						$outikk = "kendala_10";
+					break; 
+				case 3:
+						$target = "kendala_3";
+						$satuan = "tindaklanjut_3";	
+						$pagu_kmpnen = "anggaran_3";
+						$rencana_anggaran_sd_tw = "anggaran_7";	
+						$persentase_rencana_anggaran ="target_3";
+						$rencana_target_sd_tw = "target_7";
+						$realisasi_anggaran_sd_tw = "anggaran_11";
+						$persentase_realisasi_anggaran = "target_11";
+						$realisasi_target_sd_tw ="kendala_7";
+						$outikk = "kendala_11";
+					break;
+				case 4:
+						$target = "kendala_4";
+						$satuan = "tindaklanjut_4";	
+						$pagu_kmpnen = "anggaran_4";
+						$rencana_anggaran_sd_tw = "anggaran_8";	
+						$persentase_rencana_anggaran ="target_4";
+						$rencana_target_sd_tw = "target_8";
+						$realisasi_anggaran_sd_tw = "anggaran_12";
+						$persentase_realisasi_anggaran = "target_12";
+						$realisasi_target_sd_tw ="kendala_8";
+						$outikk = "kendala_12";
+					
+					break;
+			}
+		$query = "UPDATE monev_bulanan SET  
+								{$target} = '{$target_fix}',
+								{$satuan} = '{$satuan_fix}',
+								{$pagu_kmpnen} = '{$pagu_kmpnen_fix}',
+								{$rencana_anggaran_sd_tw} = '{$rencana_anggaran_sd_tw_fix}',
+								{$persentase_rencana_anggaran} = '{$persentase_rencana_anggaran_fix}',
+								{$rencana_target_sd_tw} = '{$rencana_target_sd_tw_fix}',
+								{$realisasi_anggaran_sd_tw} = '{$realisasi_anggaran_sd_tw_fix}',
+								{$persentase_realisasi_anggaran} = '{$persentase_realisasi_anggaran_fix}',
+								{$realisasi_target_sd_tw} = '{$realisasi_target_sd_tw_fix}',
+								{$outikk} = '{$outikk_fix}'
+								
+								WHERE id = '{$id_kmpn}' ";
+		// pr($query);
+		$result = $this->query($query);
+	}
+	
+	function insert_monev_ouput_komponen_pp39($th,$kdtriwulan,$kdunitkerja,$kdgiat,$kdoutput,$parent_id,$target_fix,$satuan_fix,$pagu_kmpnen_fix,$rencana_anggaran_sd_tw_fix,$persentase_rencana_anggaran_fix,
+											$rencana_target_sd_tw_fix,$realisasi_anggaran_sd_tw_fix,$persentase_realisasi_anggaran_fix,$realisasi_target_sd_tw_fix,$outikk_fix){
+		/*switch ($triwulan){
+				case 1:
+						$ext_clm = "anggaran_1";
+						$ext_clm_2 = "anggaran_5";break; 
+				case 2:
+						$ext_clm = "anggaran_2";
+						$ext_clm_2 = "anggaran_6";break;
+				case 3:
+						$ext_clm = "anggaran_3";
+						$ext_clm_2 = "anggaran_7";break;
+				case 4:
+						$ext_clm = "anggaran_4";
+						$ext_clm_2 = "anggaran_8";break;
+			}	
+		$kategori = '4';
+		
+		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
+						kategori,{$ext_clm},{$ext_clm_2})
+						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$kdkmpnen}' ,
+						'{$kategori}' ,
+						'{$target}',
+						'{$realisasi_fisik}')";	*/
+
+		switch ($kdtriwulan){
+				case 1:
+						$target = "kendala";
+						$satuan = "tindaklanjut";
+						$pagu_kmpnen = "anggaran_1";
+						$rencana_anggaran_sd_tw = "anggaran_5";
+						$persentase_rencana_anggaran ="target_1";
+						$rencana_target_sd_tw = "target_5";
+						$realisasi_anggaran_sd_tw = "anggaran_9";
+						$persentase_realisasi_anggaran = "target_9";
+						$realisasi_target_sd_tw ="kendala_5";
+						$outikk = "kendala_9";
+						break; 
+				case 2:
+						$target = "kendala_2";
+						$satuan = "tindaklanjut_2";	
+						$pagu_kmpnen = "anggaran_2";
+						$rencana_anggaran_sd_tw = "anggaran_6";
+						$persentase_rencana_anggaran ="target_2";
+						$rencana_target_sd_tw = "target_6";
+						$realisasi_anggaran_sd_tw = "anggaran_10";
+						$persentase_realisasi_anggaran = "target_10";
+						$realisasi_target_sd_tw ="kendala_6";
+						$outikk = "kendala_10";
+					break; 
+				case 3:
+						$target = "kendala_3";
+						$satuan = "tindaklanjut_3";	
+						$pagu_kmpnen = "anggaran_3";
+						$rencana_anggaran_sd_tw = "anggaran_7";	
+						$persentase_rencana_anggaran ="target_3";
+						$rencana_target_sd_tw = "target_7";
+						$realisasi_anggaran_sd_tw = "anggaran_11";
+						$persentase_realisasi_anggaran = "target_11";
+						$realisasi_target_sd_tw ="kendala_7";
+						$outikk = "kendala_11";
+					break;
+				case 4:
+						$target = "kendala_4";
+						$satuan = "tindaklanjut_4";	
+						$pagu_kmpnen = "anggaran_4";
+						$rencana_anggaran_sd_tw = "anggaran_8";	
+						$persentase_rencana_anggaran ="target_4";
+						$rencana_target_sd_tw = "target_8";
+						$realisasi_anggaran_sd_tw = "anggaran_12";
+						$persentase_realisasi_anggaran = "target_12";
+						$realisasi_target_sd_tw ="kendala_8";
+						$outikk = "kendala_12";
+					
+					break;
+			}
+		$kategori = '4';
+		
+		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
+						kategori,{$target},{$satuan},{$pagu_kmpnen},{$rencana_anggaran_sd_tw},{$persentase_rencana_anggaran},
+						{$rencana_target_sd_tw},{$realisasi_anggaran_sd_tw},{$persentase_realisasi_anggaran},{$realisasi_target_sd_tw},{$outikk})
+						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$parent_id}' ,
+						'{$kategori}' ,
+						'{$target_fix}','{$satuan_fix}','{$pagu_kmpnen_fix}','{$rencana_anggaran_sd_tw_fix}','{$persentase_rencana_anggaran_fix}',
+						'{$rencana_target_sd_tw_fix}','{$realisasi_anggaran_sd_tw_fix}','{$persentase_realisasi_anggaran_fix}','{$realisasi_target_sd_tw_fix}','{$outikk_fix}')";	
+			
+		// pr($query);
+		// exit;
+		$result = $this->query($query);
+	}
+	
+	//monev pp39 add
+	function get_id_kegiatan($th,$kd_giat){
+		$query = "select id,title from bsn_news_content where year = '{$th}' and title = '{$kd_giat}' and type = '10' and category = '1' and n_status = '1'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function get_id_output($th,$parent_id,$kd_output){
+		$query = "select id,parent_id,title from bsn_news_content where parent_id = '{$parent_id}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '1' and n_status = '1'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function get_data_ikk($th,$parent_id_output,$kd_output){
+		$query = "select * from bsn_news_content where parent_id = '{$parent_id_output}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '2' and n_status = '1'";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		return $result;
+	}
+	
+	function get_detail_ikk($id,$trwulan){
+		
+		switch ($trwulan){
+				case 1:
+						$target = "kendala as target";
+						$satuan = "tindaklanjut as satuan";
+						$pagu_kmpnen = "anggaran_1 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_5 as rencana_anggaran_sd_tw";
+						$persentase_rencana_anggaran ="target_1 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_5 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_9 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_9 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_5 as realisasi_target_sd_tw";
+						$outikk = "kendala_9 as outikk";
+						break; 
+				case 2:
+						$target = "kendala_2 as target";
+						$satuan = "tindaklanjut_2 as satuan";	
+						$pagu_kmpnen = "anggaran_2 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_6 as rencana_anggaran_sd_tw";
+						$persentase_rencana_anggaran ="target_2 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_6 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_10 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_10 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_6 as realisasi_target_sd_tw";
+						$outikk = "kendala_10 as outikk";
+					break; 
+				case 3:
+						$target = "kendala_3 as target";
+						$satuan = "tindaklanjut_3 as satuan";	
+						$pagu_kmpnen = "anggaran_3 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_7 as rencana_anggaran_sd_tw";	
+						$persentase_rencana_anggaran ="target_3 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_7 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_11 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_11 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_7 as realisasi_target_sd_tw";
+						$outikk = "kendala_11 as outikk";
+					break;
+				case 4:
+						$target = "kendala_4 as target";
+						$satuan = "tindaklanjut_4 as satuan";	
+						$pagu_kmpnen = "anggaran_4 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_8 as rencana_anggaran_sd_tw";	
+						$persentase_rencana_anggaran ="target_4 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_8 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_12 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_12 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_8 as realisasi_target_sd_tw";
+						$outikk = "kendala_12 as outikk";
+					
+					break;
+			}
+		$query = "select {$target},{$satuan},{$pagu_kmpnen},{$rencana_anggaran_sd_tw},{$persentase_rencana_anggaran},
+						{$rencana_target_sd_tw},{$realisasi_anggaran_sd_tw},{$persentase_realisasi_anggaran},{$realisasi_target_sd_tw},{$outikk} 
+						from monev_bulanan where kdkmpnen = '{$id}'";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;

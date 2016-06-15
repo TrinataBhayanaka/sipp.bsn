@@ -15,48 +15,6 @@ $(document).ready(function() {
 		height: 200
 	});
 })
-
-/*function getChart() {
-		
-		alert("masuk");
-		
-		getdatachart();
-		
-		function getdatachart(){
-			var svg = $("#demo-morris-line-realisasi").html();        
-				canvg(document.getElementById('canvas'), svg.split("<div")[0]);
-					html2canvas($("#canvas"), {
-					onrendered: function(canvas) {         
-						var imgData = canvas.toDataURL('image/png');
-						document.getElementById('scrn_anggaran').value = imgData;
-				//console.log(imgData);
-				}
-			});
-			var svg2 = $("#demo-morris-line-kinerja").html();        
-				canvg(document.getElementById('canvas2'), svg2.split("<div")[0]);
-				html2canvas($("#canvas2"), {
-				onrendered: function(canvas) {         
-			var imgData2 = canvas.toDataURL('image/png');
-			document.getElementById('scrn_kinerja').value = imgData2;
-			//$("#scrn_kinerja").val(imgData2);
-			//console.log(imgData2);
-				}
-			});
-			
-		}
-		//get char relisasi anggaran
-		
-		
-		setTimeout(
-	   function() 
-	   {
-	
-		console.log(imgData);
-		console.log(imgData2);
-	   }, 
-     3000);
-	
-	}*/
 </script>
 
 <!--Page Title-->
@@ -104,12 +62,6 @@ $(document).ready(function() {
 				{$data_list[0].namakursus}-->
 				<!--Horizontal Form-->
 				<!--===================================================-->
-				<!--<form class="form-horizontal" method="POST" action="{$basedomain}rpk/edit">-->
-				
-				<!--<form class="form-horizontal" id="testForm" name = "myForm" class = "myForm" method="POST" action="{$basedomain}monev_trwln/print_triwulan_rev" onsubmit="return getChart()">-->
-				<!--<form class="form-horizontal" id="myForm" name = "myForm" class = "myForm" method="POST" action="{$basedomain}monev_trwln/print_triwulan_rev" >-->
-				<!--<form class="form-horizontal" id="testForm" name = "myForm" method="POST" action="{$basedomain}monev_trwln/print_triwulan_rev" >-->
-				<!--<form class="form-horizontal" name="myForm" id="myForm" target="_myFrame" action="test.php" method="POST">-->
 				
 				<form class="form-horizontal" name="myForm" id="myForm" action="{$basedomain}monev_trwln/print_triwulan_rev" method="POST">
 					<input type="hidden" name="th" id="th" name="th" class="form-control" value="{$info.thn}">
@@ -120,13 +72,13 @@ $(document).ready(function() {
 					
 					<input type="hidden" name="scrn_anggaran" id="scrn_anggaran" class="form-control" value="">
 					<input type="hidden" name="scrn_kinerja" id="scrn_kinerja" class="form-control" value="">
-					
+					<input type="hidden" name="valid" id= "valid" class="valid" value= "{$valid}">
 					<!--<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
 					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
 					<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h3 align="center" class="text-uppercase">LAPORAN TRIWULAN {$info.thn}</h3>
+							<h3 align="center" class="text-uppercase">LAPORAN {$dataselected.4}  {$info.thn}</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -220,7 +172,7 @@ $(document).ready(function() {
 									<option value="{$key}" {$select_list}>{$valbln}</option>
 								{/foreach}
 							</select>-->
-							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
+							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%" {$acces}>
 								<option value="1" {$dataselected.0}>Triwulan I</option>
 								<option value="2" {$dataselected.1}>Triwulan II</option>
 								<option value="3" {$dataselected.2}>Triwulan III</option>
@@ -309,7 +261,7 @@ $(document).ready(function() {
 						<!--download-->
 						<button type="submit" id="download" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button" id="btnSubmit" name="btnSubmit" value="save" class="btn btn-info">
+						<input type="button" id="btnSubmit" name="btnSubmit" value="save" class="btn btn-info" {$sub}>
 					</div>
 				</form>
 				<!--===================================================-->
@@ -327,6 +279,14 @@ $(document).ready(function() {
   $('#canvas').hide();
   $('#canvas2').hide();
   
+  var ceck = $('#valid').val();	
+	if(ceck == 1){
+		//nothing
+	}else{
+		bootbox.alert("Pengisian Sudah Melewati Batas yang Di Tentukan, Hubungi Administrator", function(){
+								//EMPTY
+			});
+	}
   //var markupStr = $('#keterangan').summernote('code');
   //console.log(markupStr);
  // $('#keterangan').summernote('editor.insertText', 'hello world'));
@@ -671,57 +631,63 @@ $('#print').on('click', function(){
 	});
 
 	$('#btnSubmit').on('click', function(){
-	var kdunitkerja = $('#kdunitkerja').val();
-	var kdgiat = $('#kdgiat').val();
-	var kdoutput = $('#kdoutput').val();
-	//var kd_komponen = $('#kd_komponen').val();
-	var kdtriwulan = $('#kdtriwulan').val();
-	
-	/*var textareaValue = $("#keterangan").code();
-	var keterangan = $('#keterangan').val();
-	var kendala = $('#kendala').val();
-	var tindaklanjut = $('#tindaklanjut').val();
-	var ygmembantu = $('#ygmembantu').val();*/
-	//alert(textareaValue);
 	
 	var keterangan = $('#keterangan').code();
 	var kendala = $('#kendala').code();
 	var tindaklanjut = $('#tindaklanjut').code();
 	var ygmembantu = $('#ygmembantu').code();
-	//alert(keterangan);
 	
-	var th = $('#th').val();
+	if(kendala != '' && kendala != '<p><br></p>' && tindaklanjut != '' && tindaklanjut != '<p><br></p>' && ygmembantu != '' && ygmembantu != '<p><br></p>' && keterangan != '' && keterangan != '<p><br></p>'){
+	
+		var kdunitkerja = $('#kdunitkerja').val();
+		var kdgiat = $('#kdgiat').val();
+		var kdoutput = $('#kdoutput').val();
+		//var kd_komponen = $('#kd_komponen').val();
+		var kdtriwulan = $('#kdtriwulan').val();
 		
-		bootbox.confirm("Simpan Data?", function(result) {
-			if (result) {
-				$.post( basedomain+"monev_trwln/postmonev", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu,keterangan:keterangan,kdtriwulan: kdtriwulan});										
-				$.niftyNoty({
-					type: 'success',
-					icon : 'fa fa-check',
-					message : 'Simpan Data Berhasil.',
-					container : 'floating',
-					timer : 2000
-				});
-				setTimeout(
-			   function() 
-			   {
-				//location.reload();
-				window.location.replace(basedomain+"monev_trwln/editBobotmonev/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&trwln="+kdtriwulan);
-			   
-			   }, 2000);
-			}else{
-				$.niftyNoty({
-					type: 'danger',
-					icon : 'fa fa-minus',
-					message : 'Simpan Data Gagal!',
-					container : 'floating',
-					timer : 2000
-				});
-			}
+		var keterangan = $('#keterangan').code();
+		var kendala = $('#kendala').code();
+		var tindaklanjut = $('#tindaklanjut').code();
+		var ygmembantu = $('#ygmembantu').code();
+
+		//alert(keterangan);
+		
+		var th = $('#th').val();
+			
+			bootbox.confirm("Simpan Data?", function(result) {
+				if (result) {
+					$.post( basedomain+"monev_trwln/postmonev", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu,keterangan:keterangan,kdtriwulan: kdtriwulan});										
+					$.niftyNoty({
+						type: 'success',
+						icon : 'fa fa-check',
+						message : 'Simpan Data Berhasil.',
+						container : 'floating',
+						timer : 2000
+					});
+					setTimeout(
+				   function() 
+				   {
+					//location.reload();
+					window.location.replace(basedomain+"monev_trwln/editBobotmonev/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&trwln="+kdtriwulan);
+				   
+				   }, 2000);
+				}else{
+					$.niftyNoty({
+						type: 'danger',
+						icon : 'fa fa-minus',
+						message : 'Simpan Data Gagal!',
+						container : 'floating',
+						timer : 2000
+					});
+				}
 
 
+			});
+	  }else{
+		bootbox.alert("Isian Bobot Kinerja Harus Di Isi", function(){
+							//EMPTY
 		});
-	  
+	  }
 	  
 	});	
 	

@@ -21,7 +21,7 @@ class monev_trwln extends Controller {
 	public function loadmodule()
 	{
 		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
-	
+		$this->model = $this->loadModel('mptn');
 	}
 	public function rencana(){
 		$trwln = $_POST['kdtriwulan'];
@@ -1475,11 +1475,98 @@ class monev_trwln extends Controller {
 			// $data['ygmembantu'] = '';
 		}
 		
-		
 		$this->view->assign('dataselected',$dataselected);
 		$this->view->assign('info',$info);
 		$this->view->assign('list',$list);
 		$this->view->assign('data',$data);
+		
+		//validator
+		if($this->admin['type'] == 1){
+			$acces = "";
+			$sub = "";
+			$valid = 1;
+		}else{
+			$acces = "disabled";
+			$ceck_month = date('m');
+			$ceck_date = date('d');
+			$limit_date = 15;
+			// pr($ceck_month);
+			// pr($ceck_date);
+			if($trwulan == 1){
+				// pr("TW I");
+				if($ceck_month < '03' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 2){
+				// pr("TW II");
+				if($ceck_month < '06' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 3){
+				// pr("TW III");
+				if($ceck_month < '09' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}elseif($trwulan == 4){
+				// pr("TW IV");
+				if($ceck_month < '12' ){
+					$sub = "";
+					$valid = 1;
+					// pr("SUCCESS");
+				}else{
+					if($ceck_date <= $limit_date){
+						$sub = "";
+						$valid = 1;
+						// pr("SUCCESS");
+					}else{
+						$sub = "disabled";
+						$valid = 0;
+						// pr("DENIED");
+					}
+				}
+			}
+		}
+		
+		$this->view->assign('acces',$acces);
+		$this->view->assign('sub',$sub);
+		$this->view->assign('valid',$valid);
+		
 		return $this->loadView('monev_trwln/editBobotmonev');
 	}
 	
@@ -1827,6 +1914,20 @@ class monev_trwln extends Controller {
 		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
 		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
 		
+		$kd_eselon_I = $join;
+		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
+		// pr($nama_pejabat_eselon_I);
+		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+		// $this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		$nama_pejabat_eselon_I = $pejabat_eselon_I['pejabat'];
+		
+		$kd_eselon_II = $kd_unit;
+		$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
+		// pr($nama_pejabat_eselon_I);
+		$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+		// $this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
+		$nama_pejabat_eselon_II = $pejabat_eselon_II['pejabat'];
+		
 		//code_for_view_chart_anggaran
 		$scrn_anggaran = $_POST['scrn_anggaran'];
 		$this->view->assign('chart_anggaran',$scrn_anggaran);
@@ -1979,13 +2080,13 @@ class monev_trwln extends Controller {
 					   <td colspan=\"11\" style=\"height: 100px\"></td>
 					</tr>
 					<tr>
-					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">(-----------------------------------)</td>
+					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">($nama_pejabat_eselon_I)</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
-					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">(-----------------------------------)</td>
+					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">($nama_pejabat_eselon_II)</td>
 					</tr>
 				</table>
 				</div>";				

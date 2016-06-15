@@ -24,7 +24,7 @@ class pelaporanKegiatan extends Controller {
 		
 		$this->contentHelper = $this->loadModel('contentHelper');
 		$this->modelMptn = $this->loadModel('mptn');
-		$this->model = $this->loadModel('mcapaian');
+		$this->model = $this->loadModel('mcapaian2');
 	}
 	
 	public function index(){
@@ -159,9 +159,9 @@ class pelaporanKegiatan extends Controller {
 			if($_POST['categoryType']==1){
 				$url="bsn";
 			}elseif($_POST['categoryType']==2){
-				$url="eselon1";
+				$url="eselon1/?kd=".$_GET['kd'];
 			}elseif($_POST['categoryType']==3){
-				$url="eselon2";
+				$url="eselon2/?kd=".$_GET['kd'];
 			}
 		// //pr($_POST);
 			$save = $this->contentHelper->saveData($_POST,"_capaian");
@@ -276,12 +276,11 @@ class pelaporanKegiatan extends Controller {
 		// //pr($bsnid);
 		
 		$this->view->assign('bsnid', $bsnid);
-
-		$getVisiBsn = $this->model->getVisi(false, $type, 1,$parent_id);
+				$getVisiBsn = $this->contentHelper->getVisi($id, 15, 1);
 		$getMisiBsn = $this->model->getVisi(false, $type, 2,$parent_id);
 		$getTujuanBsn = $this->model->getVisi(false, $type, 3,$parent_id);
 		
-		$getDokumen = $this->model->getVisi(false, 16, 1, $parent_id);
+		$getDokumen = $this->model->getVisi(false, 15, 1, $parent_id);
 		// //pr($getDokumen);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {
@@ -560,6 +559,7 @@ function delete()
 			$this->view->assign('dataSasaran',$dataSasaran);
 			$this->view->assign('type',$type);
 			$this->view->assign('parent',$_GET['parent']);
+			$this->view->assign('kd',$kd);
 
 			// //pr($dataSasaran);exit;
 			return $this->loadView('pelaporanKegiatan/capaian/form');
@@ -613,6 +613,7 @@ function delete()
 		// pr($dataSasaran);
 		$this->view->assign('dataIndikator',$dataIndikator);
 		$this->view->assign('data',$data);
+		$this->view->assign('kd',$kd);
 
 		// //pr($dataSasaran);exit;
 		return $this->loadView('pelaporanKegiatan/capaian/editform');

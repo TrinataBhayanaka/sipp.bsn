@@ -12,6 +12,9 @@ $(document).ready(function() {
 				  ],
 		height: 200
 	});
+	//alert("masukk");
+	
+	
 })
 //for ceck number
 function isNumber(evt) {
@@ -75,6 +78,8 @@ function isNumber(evt) {
 					<input type="hidden" name="kdunitkerja" id="kdunitkerja" class="form-control" value="{$info.kd_unit}">
 					<input type="hidden" name="kdgiat" id="kdgiat" class="form-control" value="{$info.kd_giat}">
 					<input type="hidden" name="kdoutput" id="kdoutput" class="form-control" value="{$info.kd_output}">
+					<input type="hidden" name="valid" id= "valid" class="valid" value= "{$valid}">
+												
 					<!--<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
 					<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
 					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
@@ -160,7 +165,8 @@ function isNumber(evt) {
 						</div>
 						<div class="form-group">
 						<label class="col-sm-2 control-label boldGrey">Bulan</label>
-							<select name="bulan" id="bulan" class="selectpicker" width="100%" onchange="return checkMonth(this);">
+							<!--<select name="bulan" id="bulan" class="selectpicker" width="100%" onchange="return checkMonth(this);" >-->
+							<select name="bulan" id="bulan" class="selectpicker" width="100%" {$acces} >
 								{foreach $bulan as $key=> $valbln}
 									{if $keybln == $key}
 										{$select_list = 'selected'}
@@ -248,7 +254,8 @@ function isNumber(evt) {
 					</div>
 					<div class="panel-footer text-right">
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button"  name="submit" id="submit" value="save" class="btn btn-info">
+						<input type="button"  name="submit" id="submit" value="save" class="btn btn-info" {$sub}>
+						<p id="demo"></p>
 					</div>
 				</form>
 				<!--===================================================-->
@@ -265,11 +272,16 @@ function isNumber(evt) {
 {literal}
 <script>
 $(document).ready(function() {
-/*var status_hidden = $('#status_hidden').val();
-if(status_hidden){
-document.getElementById(status_hidden).selected = "true";
-}*/
-//print doc rpk
+
+var ceck = $('#valid').val();	
+if(ceck == 1){
+	//nothing
+}else{
+	bootbox.alert("Pengisian Sudah Melewati Batas yang Di Tentukan, Hubungi Administrator", function(){
+							//EMPTY
+		});
+}
+	//print doc rpk
 $('#print').on('click', function(){
 	var th = $('#th').val();
 	var bulan = $('#bulan').val();
@@ -281,37 +293,8 @@ $('#print').on('click', function(){
 	window.location.href=basedomain+"monev/print_monev_bobot/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&kd_komponen="+kd_komponen;
 });	
 
-//cek bobot
-/*var total = $('#total').val();
-var tot_split = total.split(",");
-if(tot_split[0] == 0){
-	//alert("Isi Rencana Bobot Terlebih Dahulu");
-	$("#submit").attr('disabled','disabled');
-}else{
-	$("#submit").removeAttr('disabled');
-}*/
-//var total1 = $('#target_011').val();
-//alert(typeof total1);		        
-//alert( total1);		        
-
-//var x = document.getElementsByName("total");	
-//console.log(x);
-
-//var firstname = $("#testForm input[name='total[]']").val();
-//console.log(firstname);
-
-/*var vals = []; 
-//$('input:text[name="total[]"]').each(function() {
-$('input[name="total[]"]').each(function() {
-	//if (this.checked) {
-		// push the element into array
-		vals.push(this.value);
-	//}
-});
-var str = vals.join(",");
-//console.log(str);*/
-
 $('#bulan').on('change', function(){
+	
 	var th = $('#th').val();
 	var bulan = $('#bulan').val();
 	var kdunitkerja = $('#kdunitkerja').val();
@@ -370,84 +353,69 @@ $('.target').on('keyup', function(){
 });
 
 $('#submit').on('click', function(){
-	//alert("masukk");
-	var target = []; 
-	$.each($('.target'), function (index, value) { 
-	  //console.log(index + ':' + $(value).val());
-	  //vals[] = $(value).val();
-	 target.push(this.value);	
-	 });
-	//console.log(target);
-
-	//kd_komponen
-	var kd_komponen = []; 
-	$.each($('.kd_komponen'), function (index, value) { 
-	  //console.log(index + ':' + $(value).val());
-	  //vals[] = $(value).val();
-	 kd_komponen.push(this.value);	
-	 });
-	//console.log(kd_komponen);
-	
-	//kd_komponen
-	var keterangan = []; 
-	$.each($('.keterangan'), function (index, value) { 
-	  //console.log(index + ':' + $(value).val());
-	  //vals[] = $(value).val();
-	 keterangan.push(this.value);	
-	 });
-	//console.log(keterangan);
-	
-	
-	var kdunitkerja = $('#kdunitkerja').val();
-	var kdgiat = $('#kdgiat').val();
-	var kdoutput = $('#kdoutput').val();
-	
-	/*var kendala = $('#kendala').val();
-	var tindaklanjut = $('#tindaklanjut').val();
-	var ygmembantu = $('#ygmembantu').val();*/
 	
 	var kendala = $('#kendala').code();
 	var tindaklanjut = $('#tindaklanjut').code();
 	var ygmembantu = $('#ygmembantu').code();
-	//console.log(kendala);
-	//console.log(tindaklanjut);
-	//console.log(ygmembantu);
 	
-	var th = $('#th').val();
-	var bulan = $('#bulan').val();
-	
-	//var x = $("form").serializeArray();
-	 
-	 //exit;
-	 bootbox.confirm("Simpan Data?", function(result) {
-			if (result) {
-				$.post( basedomain+"monev/post_monev", {th: th, bulan: bulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu, target : target, keterangan : keterangan});										
-				$.niftyNoty({
-					type: 'success',
-					icon : 'fa fa-check',
-					message : 'Simpan Data Berhasil.',
-					container : 'floating',
-					timer : 2000
-				});
-				/*setTimeout(
-			   function() 
-			   {
-				window.location.replace(basedomain+"monev/editBobot_bulan/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&bln="+bulan);
-			   }, 2000);*/
-			}else{
-				$.niftyNoty({
-					type: 'danger',
-					icon : 'fa fa-minus',
-					message : 'Simpan Data Gagal!',
-					container : 'floating',
-					timer : 2000
-				});
-			}
+	if(kendala != '' && kendala != '<p><br></p>' && tindaklanjut != '' && tindaklanjut != '<p><br></p>' && ygmembantu != '' && ygmembantu != '<p><br></p>'){
+		var target = []; 
+		$.each($('.target'), function (index, value) { 
+			target.push(this.value);	
+		 });
 
-
+		var kd_komponen = []; 
+		$.each($('.kd_komponen'), function (index, value) { 
+			kd_komponen.push(this.value);	
+		 });
+		
+		var keterangan = []; 
+		$.each($('.keterangan'), function (index, value) { 
+			keterangan.push(this.value);	
+		 });
+		
+		var kdunitkerja = $('#kdunitkerja').val();
+		var kdgiat = $('#kdgiat').val();
+		var kdoutput = $('#kdoutput').val();
+		
+		
+		var kendala = $('#kendala').code();
+		var tindaklanjut = $('#tindaklanjut').code();
+		var ygmembantu = $('#ygmembantu').code();
+		
+		var th = $('#th').val();
+		var bulan = $('#bulan').val();
+		
+		 bootbox.confirm("Simpan Data?", function(result) {
+				if (result) {
+					$.post( basedomain+"monev/post_monev", {th: th, bulan: bulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, kendala: kendala, tindaklanjut : tindaklanjut, ygmembantu: ygmembantu, target : target, keterangan : keterangan});										
+					$.niftyNoty({
+						type: 'success',
+						icon : 'fa fa-check',
+						message : 'Simpan Data Berhasil.',
+						container : 'floating',
+						timer : 2000
+					});
+					setTimeout(
+				   function() 
+				   {
+					window.location.replace(basedomain+"monev/editBobot_bulan/?thn="+th+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&bln="+bulan);
+				   }, 2000);
+				}else{
+					$.niftyNoty({
+						type: 'danger',
+						icon : 'fa fa-minus',
+						message : 'Simpan Data Gagal!',
+						container : 'floating',
+						timer : 2000
+					});
+				}
+			});
+	}else{
+		bootbox.alert("Isian Bobot Kinerja Harus Di Isi", function(){
+							//EMPTY
 		});
-	  
-	  
+	}
 	});
 	
 });
@@ -471,12 +439,14 @@ function checkMonth(item)
 	month[10] = "11";
 	month[11] = "12";
 	var n = month[d.getMonth()];
+	document.getElementById("demo").innerHTML = n;
 	var type = $("#typemember").val();  
-	if(n != selmonth && type != 1){
+	/*if(n != selmonth && type != 1){
 		$(".month").attr('disabled','disabled');
 	} else {
 		$(".month").removeAttr('disabled');
-	}
+	}*/
+	
 }
 </script>
 {/literal}

@@ -14,6 +14,7 @@ class struktur extends Controller {
 		$sessionAdmin = new Session;
 		$this->admin = $sessionAdmin->get_session();
 		$this->view->assign('app_domain',$app_domain);
+		$this->view->assign('user',$this->admin);
 	}
 	public function loadmodule()
 	{
@@ -251,6 +252,7 @@ class struktur extends Controller {
 
 		$id = _g('id');
 		$req = _g('req');
+		$eselon_id = _g('parent_id');
 		
 		$tupoksiData['type'] = 2;
 		$tupoksiData['category'] = 1;
@@ -319,26 +321,30 @@ class struktur extends Controller {
 			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>2);
 			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>2);
 			$this->view->assign('req', 1);
+			$this->view->assign('eselon_id', _g('eselon_id'));
 		}else{
 			$dataForm[] = array('textarea'=>true, 'title'=>'Tugas Pokok', 'name'=>'desc', 'value'=>$nama_satker);
 			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
 			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>1);
 			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>2);
+			$this->view->assign('eselon_id', $eselon_id);
 		}
 		
 		$this->view->assign('struktur', $getStrukturOrg);
 		$this->view->assign('submit', "submit");
+		
 
 		$generataField = $this->generateField($dataForm);
 		$this->view->assign('form', $generataField);
 		if ($_POST['submit']){
-			
+			$eselon_id = $_POST['eselon_id'];
+			unset($_POST['eselon_id']);
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 			
 			$save = $this->contentHelper->saveData($_POST);
-			if ($save) redirect($basedomain . 'struktur/eselon1');
+			if ($save) redirect($basedomain . 'struktur/eselon1/?parent_id='.$eselon_id);
 		}
 
 		return $this->loadView('struktur/input-eselon1');
@@ -351,7 +357,8 @@ class struktur extends Controller {
 
 		$id = _g('id');
 		$req = _g('req');
-		
+		$eselon_id = _g('parent_id');
+
 		$dataStruktur['type'] = 3;
 		$getStrukturOrg = $this->contentHelper->getStruktur($dataStruktur);
 
@@ -401,11 +408,13 @@ class struktur extends Controller {
 			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>2);
 			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>3);
 			$this->view->assign('req', 1);
+			$this->view->assign('eselon_id', _g('eselon_id'));
 		}else{
 			$dataForm[] = array('textarea'=>true, 'title'=>'Tugas Pokok', 'name'=>'desc', 'value'=>$nama_satker);
 			$dataForm[] = array('hidden'=>1, 'name'=>'id', 'value'=> $id);
 			$dataForm[] = array('hidden'=>1, 'name'=>'category', 'value'=>1);
 			$dataForm[] = array('hidden'=>1, 'name'=>'type', 'value'=>3);
+			$this->view->assign('eselon_id', $eselon_id);
 		}
 		
 		$this->view->assign('struktur', $getStrukturOrg);
@@ -414,13 +423,14 @@ class struktur extends Controller {
 		$generataField = $this->generateField($dataForm);
 		$this->view->assign('form', $generataField);
 		if ($_POST['submit']){
-			
+			$eselon_id = $_POST['eselon_id'];
+			unset($_POST['eselon_id']);
 			$_POST['create_date'] = date('Y-m-d H:i:s');
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 			
 			$save = $this->contentHelper->saveData($_POST);
-			if ($save) redirect($basedomain . 'struktur/eselon2');
+			if ($save) redirect($basedomain . 'struktur/eselon2/?parent_id='.$eselon_id);
 		}
 
 		return $this->loadView('struktur/input-eselon2');
@@ -437,8 +447,8 @@ class struktur extends Controller {
 		
 		if ($req == 1) $link = 'struktur';
 		if ($req == 2) $link = 'struktur/bsn';
-		if ($req == 3) $link = 'struktur/eselon1';
-		if ($req == 4) $link = 'struktur/eselon2';
+		if ($req == 3) $link = 'struktur/eselon1/?parent_id='._g('parent_id');
+		if ($req == 4) $link = 'struktur/eselon2/?parent_id='._g('parent_id');
 		
 		if ($param ==1) $table = "_struktur";
 		else $table = "_news_content";

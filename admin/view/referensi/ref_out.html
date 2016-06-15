@@ -1,0 +1,386 @@
+<script>
+{literal}
+	$(window).on('load', function() {
+
+		// Datatables
+		// Row selection and deletion (multiple rows)
+		// -----------------------------------------------------------------
+		var rowDeletion = $('#strOrg').DataTable({
+			"responsive": true,
+			"language": {
+				"paginate": {
+				  "previous": '<i class="fa fa-angle-left"></i>',
+				  "next": '<i class="fa fa-angle-right"></i>'
+				}
+			},
+			"dom": '<"toolbar">frtip'
+		});
+
+		$('#create-toolbar').appendTo($("div.toolbar"));
+
+	})
+	
+	
+	function isNumber(evt) {
+		evt = (evt) ? evt : window.event;
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+		if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+			return false;
+		}
+		return true;
+	}
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Referensi Output</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li class="active">Referensi Output</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Referensi Output </h3>
+		</div>
+		<div id="create-toolbar" class="table-toolbar-left">
+			<!--<button id="output-tambah" class="btn btn-info btn-labeled fa fa-plus">Create</button-->
+			<button id="Add" class="btn btn-info btn-labeled fa fa-plus">Tambah Output</button>
+		</div>
+		<!--example-->
+		<!--insert-->
+		<div id="myModal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Tambah Output</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Kode Kegiatan</label> 
+									<div class="col-md-3"> 
+										<input id="kdgiat" name="kdgiat" type="text" class="form-control input-md" maxlength="4" required="required" onkeypress="return isNumber(event)"> 
+									</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Kode Output</label> 
+									<div class="col-md-3"> 
+										<input id="kdoutput" name="kdoutput" type="text" class="form-control input-md" maxlength="3" required="required" onkeypress="return isNumber(event)"> 
+									</div>
+							</div>
+							
+							<div class="form-group" id="message"> 
+								<div class="col-md-3"></div>
+								<div class="col-md-9"> 
+										<label class="text-danger" id="help-text">Kode Kegiatan dengan Kode Output ini telah tersedia</label>
+								</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Nama Output</label> 
+									<div class="col-md-9"> 
+										<input id="nmoutput" name="nmoutput" type="text" class="form-control input-md"  required="required"> 
+									</div>
+							</div>
+							
+						</form>	
+					</div>
+					<div class="modal-footer">
+						<button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" id = "save" class="btn btn-primary" data-dismiss="modal">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="myModal2" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Edit Output</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Kode Kegiatan</label> 
+									<div class="col-md-3"> 
+										<input id="kdgiat2" name="kdgiat" type="text" class="form-control input-md" maxlength="4" required="required" onkeypress="return isNumber(event)"> 
+										<input id="kdgiat2old" name="kdgiat" type="hidden" class="form-control input-md"> 
+									</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Kode Output</label> 
+									<div class="col-md-3"> 
+										<input id="kdoutput2" name="kdoutput" type="text" class="form-control input-md" maxlength="3" required="required" onkeypress="return isNumber(event)"> 
+										<input id="kdoutput2old" name="kdoutput" type="hidden" class="form-control input-md"> 
+									</div>
+							</div>
+							
+							<div class="form-group" id="message2"> 
+								<div class="col-md-3"></div>
+								<div class="col-md-9"> 
+										<label class="text-danger" id="help-text2">Kode Kegiatan dengan Kode Output ini telah tersedia</label>
+								</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Nama Output</label> 
+									<div class="col-md-9"> 
+										<input id="nmoutput2" name="nmoutput" type="text" class="form-control input-md"  required="required"> 
+									</div>
+							</div>
+							
+						</form>	
+					</div>
+					<div class="modal-footer">
+						<button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" id = "save2" class="btn btn-primary" data-dismiss="modal">Update</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table id="strOrg" class="table table-striped table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th class="text-center">No.</th>
+							<th class="text-center">Kode Kegiatan</th>
+							<th class="text-center">Kode Output</th>
+							<th class="text-center">Nama Output</th>
+							<th class="text-center" width="10%">Aksi</th>
+						</tr>
+					</thead>
+					<tbody>
+						{if $data}
+						{foreach $data as $k => $val}	
+						<tr>
+							<td class="text-center">{$k+1}</td>
+							<td class="text-center">{$val.kdgiat}</td>
+							<td class="text-center">{$val.kdoutput}</td>
+							<td>{$val.nmoutput}</td>
+							<td class="text-center">	
+								<!--<button class="output-edit btn btn-warning btn-icon icon-lg fa fa-pencil" value="{$val.kdgiat|cat:'_'|cat:$val.kdoutput}" href="#" ></button></a>-->	
+								<button class="output-edit btn btn-warning btn-icon icon-lg fa fa-pencil" value="{$val.kdgiat|cat:'_'|cat:$val.kdoutput}" href="#" ></button></a>	
+								<button class="output-delete btn btn-danger btn-icon icon-lg fa fa-times" value="{$val.kdgiat|cat:'_'|cat:$val.kdoutput}" href="#"></button></a>
+							</td>
+						</tr>
+						{/foreach}
+						{/if}
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+{literal}
+<script>
+$(document).ready(function(){
+	$.clearInput = function () {
+        $('form').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+	};
+	
+	$("#help-text").hide();
+	$("#help-text2").hide();
+	
+	$('#Add').on('click', function(){
+		$("#myModal").modal('show');
+		$("#message").hide();
+		$.clearInput();
+		
+	});
+	
+	$('.output-edit').on('click', function(){
+		var id = $(this).attr("value");
+		var val_split = id.split("_");
+		var kdunitkerja = val_split[0];
+		var kdoutput = val_split[1];
+		// alert(idGrup_kursus);
+		$.post(basedomain+"referensi/ajax_edit_output", {kdunitkerja:kdunitkerja,kdoutput:kdoutput}, function(data){
+							// alert(data.kdgiat);
+							//console.log (data);
+							$("#kdgiat2").val(data.kdgiat);
+							$("#kdgiat2old").val(data.kdgiat);
+							$("#kdoutput2").val(data.kdoutput);
+							$("#kdoutput2old").val(data.kdoutput);
+							$("#nmoutput2").val(data.nmoutput);
+							
+					   },"JSON");
+		$("#myModal2").modal('show');
+		$("#message2").hide();				   
+	});
+		
+	
+	$('.output-delete').on('click', function(){
+		var id = $(this).attr("value");
+		var val_split = id.split("_");
+		var kdgiat = val_split[0];
+		var kdoutput = val_split[1];
+		
+	  bootbox.confirm("Hapus Data?", function(result) {
+			if (result) {
+				$.post( basedomain+"referensi/ajax_del_output", { kdgiat: kdgiat, kdoutput: kdoutput});										
+				$.niftyNoty({
+					type: 'success',
+					icon : 'fa fa-check',
+					message : 'Hapus Data Berhasil.',
+					container : 'floating',
+					timer : 2000
+				});
+				setTimeout(
+			   function() 
+			   {
+				location.reload();
+				}, 2000);
+			}else{
+				$.niftyNoty({
+					type: 'danger',
+					icon : 'fa fa-minus',
+					message : 'Hapus Data Gagal!',
+					container : 'floating',
+					timer : 2000
+				});
+			}
+
+
+		});
+		
+	});
+	
+	$('#save').on('click', function(){
+		var kdgiat = $('#kdgiat').val();
+		var kdoutput = $('#kdoutput').val();
+		var nmoutput = $('#nmoutput').val();
+		if(kdgiat != '' && kdoutput !='' && nmoutput!=''){
+						
+		$.post( basedomain+"referensi/ajax_insert_output", { kdgiat: kdgiat, kdoutput: kdoutput, nmoutput: nmoutput});										
+					$.niftyNoty({
+						type: 'success',
+						icon : 'fa fa-check',
+						message : 'Simpan Data Berhasil.',
+						container : 'floating',
+						timer : 2000
+					});
+					setTimeout(
+				   function() 
+				   {
+					location.reload();
+					}, 2000);
+
+		}else{
+			bootbox.alert("Data Cannot Empty!", function(){
+							//EMPTY
+			});
+		}
+	});
+	
+	$('#save2').on('click', function(){
+		var kdgiat = $('#kdgiat2').val();
+		var kdgiatold = $('#kdgiat2old').val();
+		var kdoutput = $('#kdoutput2').val();
+		var kdoutputold = $('#kdoutput2old').val();
+		var nmoutput = $('#nmoutput2').val();
+		/*console.log(kdgiat);
+		console.log(kdoutput);
+		console.log(nmoutput);*/
+		if(kdgiat != '' && kdoutput !='' && nmoutput!=''){
+						
+		$.post( basedomain+"referensi/ajax_update_output", { kdgiat: kdgiat, kdoutput: kdoutput, nmoutput: nmoutput,  kdgiatold: kdgiatold, kdoutputold: kdoutputold});										
+					$.niftyNoty({
+						type: 'success',
+						icon : 'fa fa-check',
+						message : 'Simpan Data Berhasil.',
+						container : 'floating',
+						timer : 2000
+					});
+					setTimeout(
+				   function() 
+				   {
+					location.reload();
+					}, 2000);
+
+		}else{
+			bootbox.alert("Data Cannot Empty!", function(){
+							//EMPTY
+			});
+		}
+	});
+	
+	
+	
+	$('#kdgiat2,#kdoutput2').on('keyup', function(){
+		var kdgiat = $('#kdgiat2').val();
+		var kdoutput = $('#kdoutput2').val();
+		var nmoutput = $('#nmoutput').val();
+		if(kdgiat != '' && kdoutput !=''){
+			$.post(basedomain+"referensi/ajax_ceck_output", {kdgiat:kdgiat,kdoutput:kdoutput}, function(data){
+							if(data.jml > 0){
+								$("#save2").attr('disabled','disabled');
+								$("#message2").show();
+								$("#help-text2").show();
+							}else{
+								$("#message2").hide();
+								$("#help-text2").hide();
+								$("#save2").removeAttr('disabled');
+							}
+			},"JSON");
+		}else{
+			//nothing
+		}
+	});
+	
+	$('#kdoutput').on('keyup', function(){
+		var kdgiat = $('#kdgiat').val();
+		var kdoutput = $('#kdoutput').val();
+		var nmoutput = $('#nmoutput').val();
+		if(kdgiat != '' && kdoutput !=''){
+			$.post(basedomain+"referensi/ajax_ceck_output", {kdgiat:kdgiat,kdoutput:kdoutput}, function(data){
+							if(data.jml > 0){
+								$("#save").attr('disabled','disabled');
+								$("#message").show();
+								$("#help-text").show();
+							}else{
+								$("#message").hide();
+								$("#help-text").hide();
+								$("#save").removeAttr('disabled');
+							}
+			},"JSON");
+		}else{
+			//nothing
+		}
+	});
+});
+</script>	
+{/literal}

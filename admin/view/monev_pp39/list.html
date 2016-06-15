@@ -1,0 +1,145 @@
+<script>
+$(window).on('load', function() {
+
+	// Datatables
+	// Row selection and deletion (multiple rows)
+	// -----------------------------------------------------------------
+	var rowDeletion = $('#newslist1').DataTable({
+		"responsive": true,
+		"language": {
+			"paginate": {
+			  "previous": '<i class="fa fa-angle-left"></i>',
+			  "next": '<i class="fa fa-angle-right"></i>'
+			}
+		},
+		"dom": '<"toolbar">frtip'
+	});
+
+	$('#create-toolbar').appendTo($("div.toolbar"));
+	$('#separator-toolbar').appendTo($("div.toolbar"));
+	$('#delete-toolbar').appendTo($("div.toolbar"));
+
+})
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Monev Bulanan</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<!--<div class="panel-heading">
+			<h3 class="panel-title">Monev Bulanan</h3>
+		</div>-->
+		
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+<!-- 
+		<div id="create-toolbar" class="table-toolbar-right">
+			<a href="{$basedomain}renstra/edit/?req=1"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">List RPK</button></a>
+		</div>
+		<div id="separator-toolbar" class="table-toolbar-right">&nbsp;</div> -->
+		
+		<div id="delete-toolbar" class="table-toolbar-right">
+			<form method="POST" action ="{$basedomain}monev/">
+			<div class="form-horizontal">
+				<div class="form-group">
+				<select name="unit"  class="selectpicker" width="100%">
+					<option value="" selected>--Pilih Unit Kerja--</option>
+					{foreach $list_dropdown as $value}
+						{if $value.kdunit == $kd_unit}
+							{$select ="selected"}
+						{else}
+							{$select =""}
+						{/if}
+					<option value="{$value.kdunit}" {$select}>{$value.nmunit}</option>
+					{/foreach}
+				</select> 
+					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
+				</div>
+			</div>
+			</form>
+		</div>
+			<table id="newslist" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th class="text-center">Kode APBN</th>
+						<th class="text-center">Kegiatan / Output</th>
+						<th class="text-center">Total Anggaran</th>
+						<!--<th class="text-center">Status</th>-->
+						<th class="text-center" colspan="2">Aksi</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach $data as $val}
+					<tr style="color:blue">
+						<td class="text-center">{$val.kdgiat}</td>
+						<td>{$val.nmgiat}</td>
+						<td class="text-right">{number_format($val.pagu_giat,"0",",",".")}</td>
+						<!--<td>&nbsp;</td>-->
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+						{foreach $val.output as $out}
+							<tr style="color:green">
+								<td class="text-center">{$val.kdgiat|cat:'.'|cat:$out.KDOUTPUT}</td>
+								<td>{$out.nama_output}</td>
+								<td class="text-right">{number_format($out.pagu_output,"0",",",".")}</td>
+								<!--<td>&nbsp;</td>-->
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							{foreach $out.tahapan as $kav}
+								<tr>
+									<!--<td class="text-right">{$out.KDOUTPUT|cat:'.'|cat:$kav.KDKMPNEN}</td>-->
+									<td class="text-right">{$kav.KDKMPNEN}</td>
+									<td>{$kav.nama_komponen}</td>
+									<td class="text-right">{number_format($kav.pagu_kmpnen,"0",",",".")}</td>
+									<!--<td>&nbsp;</td>-->
+									{if $akses == 1}
+									<td><a href="{$basedomain}monev/editBobot/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Bobot Kinerja</button></a></td>
+									<td><a href="{$basedomain}monev/editAnggaran/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}&kd_komponen={$kav.KDKMPNEN}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit Anggaran</button></a></td>
+									{else if $akses == 0}
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									{/if}
+								</tr>
+							{/foreach}	
+						{/foreach}
+					{/foreach}	
+				</tbody>
+			</table>
+			
+			
+
+		
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+
