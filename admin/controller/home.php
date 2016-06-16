@@ -314,6 +314,14 @@ class home extends Controller {
 
 		db($done);
 	}
+
+	function getDescTableLala()
+	{
+		$table = $_GET['tbl'];
+		$data = $this->contentHelper->getDesc($table);
+
+		db($data);
+	}
 	
 }
 

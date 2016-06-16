@@ -3170,9 +3170,10 @@ class m_penetapanAngaran extends Database {
 	
 	}
 	
-	function update_monev_output_komponen_pp39($th,$triwulan,$target,$realisasi_fisik,$id){
+	function update_monev_output_komponen_pp39($id_kmpn,$th,$kdtriwulan,$target_fix,$satuan_fix,$pagu_kmpnen_fix,$rencana_anggaran_sd_tw_fix,$persentase_rencana_anggaran_fix,
+																								$rencana_target_sd_tw_fix,$realisasi_anggaran_sd_tw_fix,$persentase_realisasi_anggaran_fix,$realisasi_target_sd_tw_fix,$outikk_fix){
 		// pr($sasaran_1);
-		switch ($triwulan){
+		/*switch ($triwulan){
 				case 1:
 						$ext_clm = "anggaran_1";
 						$ext_clm_2 = "anggaran_5";break; 
@@ -3189,15 +3190,81 @@ class m_penetapanAngaran extends Database {
 		$query = "UPDATE monev_bulanan SET  
 								{$ext_clm} = '{$target}',
 								{$ext_clm_2} = '{$realisasi_fisik}'
-								WHERE id = '{$id}' ";
+								WHERE id = '{$id}' ";*/
+								
 		// pr($query);	
 		// exit;		
+		switch ($kdtriwulan){
+				case 1:
+						$target = "kendala";
+						$satuan = "tindaklanjut";
+						$pagu_kmpnen = "anggaran_1";
+						$rencana_anggaran_sd_tw = "anggaran_5";
+						$persentase_rencana_anggaran ="target_1";
+						$rencana_target_sd_tw = "target_5";
+						$realisasi_anggaran_sd_tw = "anggaran_9";
+						$persentase_realisasi_anggaran = "target_9";
+						$realisasi_target_sd_tw ="kendala_5";
+						$outikk = "kendala_9";
+						break; 
+				case 2:
+						$target = "kendala_2";
+						$satuan = "tindaklanjut_2";	
+						$pagu_kmpnen = "anggaran_2";
+						$rencana_anggaran_sd_tw = "anggaran_6";
+						$persentase_rencana_anggaran ="target_2";
+						$rencana_target_sd_tw = "target_6";
+						$realisasi_anggaran_sd_tw = "anggaran_10";
+						$persentase_realisasi_anggaran = "target_10";
+						$realisasi_target_sd_tw ="kendala_6";
+						$outikk = "kendala_10";
+					break; 
+				case 3:
+						$target = "kendala_3";
+						$satuan = "tindaklanjut_3";	
+						$pagu_kmpnen = "anggaran_3";
+						$rencana_anggaran_sd_tw = "anggaran_7";	
+						$persentase_rencana_anggaran ="target_3";
+						$rencana_target_sd_tw = "target_7";
+						$realisasi_anggaran_sd_tw = "anggaran_11";
+						$persentase_realisasi_anggaran = "target_11";
+						$realisasi_target_sd_tw ="kendala_7";
+						$outikk = "kendala_11";
+					break;
+				case 4:
+						$target = "kendala_4";
+						$satuan = "tindaklanjut_4";	
+						$pagu_kmpnen = "anggaran_4";
+						$rencana_anggaran_sd_tw = "anggaran_8";	
+						$persentase_rencana_anggaran ="target_4";
+						$rencana_target_sd_tw = "target_8";
+						$realisasi_anggaran_sd_tw = "anggaran_12";
+						$persentase_realisasi_anggaran = "target_12";
+						$realisasi_target_sd_tw ="kendala_8";
+						$outikk = "kendala_12";
+					
+					break;
+			}
+		$query = "UPDATE monev_bulanan SET  
+								{$target} = '{$target_fix}',
+								{$satuan} = '{$satuan_fix}',
+								{$pagu_kmpnen} = '{$pagu_kmpnen_fix}',
+								{$rencana_anggaran_sd_tw} = '{$rencana_anggaran_sd_tw_fix}',
+								{$persentase_rencana_anggaran} = '{$persentase_rencana_anggaran_fix}',
+								{$rencana_target_sd_tw} = '{$rencana_target_sd_tw_fix}',
+								{$realisasi_anggaran_sd_tw} = '{$realisasi_anggaran_sd_tw_fix}',
+								{$persentase_realisasi_anggaran} = '{$persentase_realisasi_anggaran_fix}',
+								{$realisasi_target_sd_tw} = '{$realisasi_target_sd_tw_fix}',
+								{$outikk} = '{$outikk_fix}'
+								
+								WHERE id = '{$id_kmpn}' ";
+		// pr($query);
 		$result = $this->query($query);
 	}
 	
-	function insert_monev_ouput_komponen_pp39($th,$triwulan,$kdunitkerja,$kdgiat,$kdoutput,$kdkmpnen,
-						 $target,$realisasi_fisik){
-		switch ($triwulan){
+	function insert_monev_ouput_komponen_pp39($th,$kdtriwulan,$kdunitkerja,$kdgiat,$kdoutput,$parent_id,$target_fix,$satuan_fix,$pagu_kmpnen_fix,$rencana_anggaran_sd_tw_fix,$persentase_rencana_anggaran_fix,
+											$rencana_target_sd_tw_fix,$realisasi_anggaran_sd_tw_fix,$persentase_realisasi_anggaran_fix,$realisasi_target_sd_tw_fix,$outikk_fix){
+		/*switch ($triwulan){
 				case 1:
 						$ext_clm = "anggaran_1";
 						$ext_clm_2 = "anggaran_5";break; 
@@ -3218,10 +3285,156 @@ class m_penetapanAngaran extends Database {
 						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$kdkmpnen}' ,
 						'{$kategori}' ,
 						'{$target}',
-						'{$realisasi_fisik}')";			
+						'{$realisasi_fisik}')";	*/
+
+		switch ($kdtriwulan){
+				case 1:
+						$target = "kendala";
+						$satuan = "tindaklanjut";
+						$pagu_kmpnen = "anggaran_1";
+						$rencana_anggaran_sd_tw = "anggaran_5";
+						$persentase_rencana_anggaran ="target_1";
+						$rencana_target_sd_tw = "target_5";
+						$realisasi_anggaran_sd_tw = "anggaran_9";
+						$persentase_realisasi_anggaran = "target_9";
+						$realisasi_target_sd_tw ="kendala_5";
+						$outikk = "kendala_9";
+						break; 
+				case 2:
+						$target = "kendala_2";
+						$satuan = "tindaklanjut_2";	
+						$pagu_kmpnen = "anggaran_2";
+						$rencana_anggaran_sd_tw = "anggaran_6";
+						$persentase_rencana_anggaran ="target_2";
+						$rencana_target_sd_tw = "target_6";
+						$realisasi_anggaran_sd_tw = "anggaran_10";
+						$persentase_realisasi_anggaran = "target_10";
+						$realisasi_target_sd_tw ="kendala_6";
+						$outikk = "kendala_10";
+					break; 
+				case 3:
+						$target = "kendala_3";
+						$satuan = "tindaklanjut_3";	
+						$pagu_kmpnen = "anggaran_3";
+						$rencana_anggaran_sd_tw = "anggaran_7";	
+						$persentase_rencana_anggaran ="target_3";
+						$rencana_target_sd_tw = "target_7";
+						$realisasi_anggaran_sd_tw = "anggaran_11";
+						$persentase_realisasi_anggaran = "target_11";
+						$realisasi_target_sd_tw ="kendala_7";
+						$outikk = "kendala_11";
+					break;
+				case 4:
+						$target = "kendala_4";
+						$satuan = "tindaklanjut_4";	
+						$pagu_kmpnen = "anggaran_4";
+						$rencana_anggaran_sd_tw = "anggaran_8";	
+						$persentase_rencana_anggaran ="target_4";
+						$rencana_target_sd_tw = "target_8";
+						$realisasi_anggaran_sd_tw = "anggaran_12";
+						$persentase_realisasi_anggaran = "target_12";
+						$realisasi_target_sd_tw ="kendala_8";
+						$outikk = "kendala_12";
+					
+					break;
+			}
+		$kategori = '4';
+		
+		$query = "INSERT INTO monev_bulanan (th,kdunitkerja,kdgiat,kdoutput,kdkmpnen,
+						kategori,{$target},{$satuan},{$pagu_kmpnen},{$rencana_anggaran_sd_tw},{$persentase_rencana_anggaran},
+						{$rencana_target_sd_tw},{$realisasi_anggaran_sd_tw},{$persentase_realisasi_anggaran},{$realisasi_target_sd_tw},{$outikk})
+						VALUES ('{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$parent_id}' ,
+						'{$kategori}' ,
+						'{$target_fix}','{$satuan_fix}','{$pagu_kmpnen_fix}','{$rencana_anggaran_sd_tw_fix}','{$persentase_rencana_anggaran_fix}',
+						'{$rencana_target_sd_tw_fix}','{$realisasi_anggaran_sd_tw_fix}','{$persentase_realisasi_anggaran_fix}','{$realisasi_target_sd_tw_fix}','{$outikk_fix}')";	
+			
 		// pr($query);
 		// exit;
 		$result = $this->query($query);
 	}
+	
+	//monev pp39 add
+	function get_id_kegiatan($th,$kd_giat){
+		$query = "select id,title from bsn_news_content where year = '{$th}' and title = '{$kd_giat}' and type = '10' and category = '1' and n_status = '1'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function get_id_output($th,$parent_id,$kd_output){
+		$query = "select id,parent_id,title from bsn_news_content where parent_id = '{$parent_id}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '1' and n_status = '1'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function get_data_ikk($th,$parent_id_output,$kd_output){
+		$query = "select * from bsn_news_content where parent_id = '{$parent_id_output}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '2' and n_status = '1'";
+		// pr($query);
+		$result = $this->fetch($query,1);
+		return $result;
+	}
+	
+	function get_detail_ikk($id,$trwulan){
+		
+		switch ($trwulan){
+				case 1:
+						$target = "kendala as target";
+						$satuan = "tindaklanjut as satuan";
+						$pagu_kmpnen = "anggaran_1 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_5 as rencana_anggaran_sd_tw";
+						$persentase_rencana_anggaran ="target_1 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_5 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_9 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_9 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_5 as realisasi_target_sd_tw";
+						$outikk = "kendala_9 as outikk";
+						break; 
+				case 2:
+						$target = "kendala_2 as target";
+						$satuan = "tindaklanjut_2 as satuan";	
+						$pagu_kmpnen = "anggaran_2 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_6 as rencana_anggaran_sd_tw";
+						$persentase_rencana_anggaran ="target_2 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_6 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_10 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_10 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_6 as realisasi_target_sd_tw";
+						$outikk = "kendala_10 as outikk";
+					break; 
+				case 3:
+						$target = "kendala_3 as target";
+						$satuan = "tindaklanjut_3 as satuan";	
+						$pagu_kmpnen = "anggaran_3 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_7 as rencana_anggaran_sd_tw";	
+						$persentase_rencana_anggaran ="target_3 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_7 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_11 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_11 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_7 as realisasi_target_sd_tw";
+						$outikk = "kendala_11 as outikk";
+					break;
+				case 4:
+						$target = "kendala_4 as target";
+						$satuan = "tindaklanjut_4 as satuan";	
+						$pagu_kmpnen = "anggaran_4 as pagu_kmpnen";
+						$rencana_anggaran_sd_tw = "anggaran_8 as rencana_anggaran_sd_tw";	
+						$persentase_rencana_anggaran ="target_4 as persentase_rencana_anggaran";
+						$rencana_target_sd_tw = "target_8 as rencana_target_sd_tw";
+						$realisasi_anggaran_sd_tw = "anggaran_12 as realisasi_anggaran_sd_tw";
+						$persentase_realisasi_anggaran = "target_12 as persentase_realisasi_anggaran";
+						$realisasi_target_sd_tw ="kendala_8 as realisasi_target_sd_tw";
+						$outikk = "kendala_12 as outikk";
+					
+					break;
+			}
+		$query = "select {$target},{$satuan},{$pagu_kmpnen},{$rencana_anggaran_sd_tw},{$persentase_rencana_anggaran},
+						{$rencana_target_sd_tw},{$realisasi_anggaran_sd_tw},{$persentase_realisasi_anggaran},{$realisasi_target_sd_tw},{$outikk} 
+						from monev_bulanan where kdkmpnen = '{$id}'";
+		// pr($query);
+		$result = $this->fetch($query);
+		return $result;
+	}
+	
 }
 ?>

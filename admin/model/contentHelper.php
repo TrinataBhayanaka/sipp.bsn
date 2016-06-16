@@ -1,7 +1,7 @@
 <?php
 class contentHelper extends Database {
 	
-	var $prefix = "lelang";
+	var $prefix = "bsn";
 
 	function __construct()
 	{
@@ -87,6 +87,10 @@ class contentHelper extends Database {
 		if ($cat) $filter .= " AND category = {$cat}";
 		if ($parent) $filter .= " AND parent_id = {$parent}";
 		if ($other) $filter .= " AND {$parent}";
+
+		$getSetting = $this->getSetting();
+		$year = $getSetting[0]['kode'];
+		if ($year) $filter .= " AND year = '{$year}'";
 
 		$sql = array(
                 'table'=>"{$this->prefix}_news_content",
@@ -195,6 +199,11 @@ class contentHelper extends Database {
   	function fetchData($data=array(),$debug=false)
     {
 
+    	$getSetting = $this->getSetting();
+		$year = $getSetting[0]['kode'];
+
+		if ($data['table'] == "{$this->prefix}_news_content") $data['condition']['year'] = $year;
+		
         $table = $data['table'];
         $condition = $data['condition'];
         $oderby = $data['oderby'];
@@ -215,11 +224,12 @@ class contentHelper extends Database {
 
     function gantiTabel()
     {
-    	$sql = "ALTER TABLE d_akun MODIFY JUMLAH decimal(50,0)";
+    	$sql = "ALTER TABLE dt_fileupload_keu MODIFY tgl_upload datetime";
     	$result = $this->query($sql);
-
-    	$sql = "ALTER TABLE d_item MODIFY JUMLAH decimal(50,0)";
+    	$sql = "INSERT INTO dt_fileupload_keu (kdfile,nama_file,user_upload,type,keterangan,KDSATKER,tgl_upload) VALUES ('M_SPMIND','m_spmind.dbf','1','sakpa','File Realisasi Total','840000','2016-04-26 12:30:59')";
     	$result = $this->query($sql);
+    	// $sql = "ALTER TABLE m_spmmak MODIFY NOSP2D varchar(100)";
+    	// $result = $this->query($sql);
 
     	// $sql = "SET SQL_MODE = 'NO_ENGINE_SUBSTITUTION'";
     	// $res = $this->query($sql);
@@ -228,6 +238,14 @@ class contentHelper extends Database {
     	$result = $this->fetch($sql,1);
     	db($result);
     	return 1;
+    }
+
+    function getDesc($table)
+    {
+    	$sql = "desc {$table}";
+    	$result = $this->fetch($sql,1);
+    	db($result);
+    	return 1;	
     }
 }
 ?>

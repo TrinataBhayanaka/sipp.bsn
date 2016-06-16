@@ -26,6 +26,9 @@ class perjanjiankinerja extends Controller {
 	}
 	
 	public function bsn(){
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk('840000',1,false,$thn['kode']);
 		if($data){
@@ -44,6 +47,7 @@ class perjanjiankinerja extends Controller {
 		}
 		// db($data_fix);
 		$this->view->assign('data',$data_fix);
+		$this->view->assign('eselon',$eselon);
 
 		return $this->loadView('pk/bsn');
 
@@ -164,6 +168,10 @@ class perjanjiankinerja extends Controller {
 		$this->view->assign('labelEs',$labelEs);
 		$this->view->assign('es',$es);
 
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+		$this->view->assign('eselon',$eselon);
+
 		if(!$_POST) {
 			if(isset($_GET['kd'])){
 				$idpk = $_GET['kd'];
@@ -217,6 +225,10 @@ class perjanjiankinerja extends Controller {
 		if($es == '2')$labelEs="I";else $labelEs="II";
 		$this->view->assign('labelEs',$labelEs);
 		$this->view->assign('es',$es);
+
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+		$this->view->assign('eselon',$eselon);
 
 		if(!$_POST) {
 			if(isset($_GET['kd'])){

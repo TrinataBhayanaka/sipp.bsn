@@ -79,6 +79,7 @@ function isNumber(evt) {
 					<!--<input type="hidden" name="kd_komponen" id="kd_komponen" class="form-control" value="{$info.kd_komponen}">
 					<input type="hidden" name="id" id="id" class="form-control" value="{$rinc.id}">
 					<input type="hidden" name="status_hidden" id="status_hidden" class="form-control" value="{$rinc.status}">-->
+					<input type="hidden" name="valid" id= "valid" class="valid" value= "{$valid}">
 					<div class="panel-body">
 					<div class="row">
 						<div class="col-md-12">
@@ -95,27 +96,27 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Output</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-7">						
 								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-5">						
+							<div class="col-sm-7">						
 								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-7">						
 								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-7">						
 								<label class=" control-label">{$info.unit_eselon}</label>
 							
 							</div>
@@ -130,9 +131,9 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
-							<div class="col-sm-4 pull-left">	
+							<div class="col-sm-7 pull-left">	
 								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
-									{foreach $list as $val}
+									{foreach $list2 as $val}
 									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
 									{/foreach}
 								</ul>
@@ -169,7 +170,7 @@ function isNumber(evt) {
 							</select>
 						</div>
 						
-						<div class="row">
+						<!--<div class="row">
 							<div class="col-md-12 table-responsive" style="overflow:scroll;max-height:600px">
 								<table id="" class="table table-bordered" cellspacing="0" width="100%">
 									<thead>
@@ -220,7 +221,7 @@ function isNumber(evt) {
 													<input type="text" name="pagu_kmpnen" id="pagu_kmpnen" class="form-control span col-sm-2 " value="{number_format($val.pagu_kmpnen,'0',',','.')}"  readonly>
 												</div>
 											</td>
-											<!--target-->
+											
 											<td class="text-right">
 												<div class="input-group" style="width:110px">
 													<input type="text" name="rencana_anggaran_sd_tw" id="rencana_anggaran_sd_tw" class="form-control span col-sm-2" value="{number_format($val.rencana_anggaran_sd_tw,'0',',','.')}"  readonly>
@@ -239,7 +240,6 @@ function isNumber(evt) {
 												</div>
 											</td>
 											
-											<!--realisasi-->
 											<td class="text-right">
 												<div class="input-group" style="width:110px">
 													<input type="text" name="realisasi_anggaran_sd_tw" id="realisasi_anggaran_sd_tw" class="form-control span col-sm-2" value="{number_format($val.realisasi_anggaran_sd_tw,'0',',','.')}"  readonly>
@@ -268,12 +268,127 @@ function isNumber(evt) {
 									</tbody>
 								</table>
 							</div>
+						</div>-->
+						<div class="row">
+							<div class="col-md-12 table-responsive" style="overflow:scroll;max-height:600px">
+								<table id="" class="table table-bordered" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th rowspan="2" width="50%">IKK</th>
+											<th class="text-center" rowspan="2">Target</th>
+											<th class="text-center" rowspan="2">Satuan</th>
+											<th class="text-center" rowspan="2">Pagu Anggaran</th>
+											<th class="text-center" colspan="3" class="text-center">Target</th>
+											<th class="text-center" colspan="3" class="text-center">Realisasi</th>
+											<th class="text-center" rowspan="2">Realisasi Fisik(Output dan IKK)</th>
+										</tr>
+										<tr>
+											<th  class="text-center" >Anggaran</th>
+											<th  class="text-center" >% Anggaran</th>
+											<th  class="text-center" >% Kinerja</th>
+											<th  class="text-center" >Anggaran</th>
+											<th  class="text-center" >% Anggaran</th>
+											<th  class="text-center" >% Kinerja</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="text-center boldGrey">1</td>
+											<td class="text-center boldGrey">2</td>
+											<td class="text-center boldGrey">3</td>
+											<td class="text-center boldGrey">4</td>
+											<td class="text-center boldGrey">5</td>
+											<td class="text-center boldGrey">6</td>
+											<td class="text-center boldGrey">7</td>
+											<td class="text-center boldGrey">8</td>
+											<td class="text-center boldGrey">9</td>
+											<td class="text-center boldGrey">10</td>
+											<td class="text-center boldGrey">11</td>
+										</tr>
+										{foreach $list as $val}
+										<tr>
+											<input type="hidden" name="parent_id" class="parent_id" value= "{$val.id}">
+											<td  class="text-center"  width="10%">{$val.desc}</td>
+											<td>
+												<div class="input-group" style="width:80px">
+													{if $val.detail.target}
+														<input type="text" name="target" id="target" class="form-control span col-sm-2 money  target" value="{number_format($val.detail.target,'0',',','.')} " {$sub}>
+													{else if}
+														<input type="text" name="target" id="target" class="form-control span col-sm-2 money  target" value="{number_format(0,'0',',','.')} " {$sub}>
+													{/if}
+												</div>
+											</td>
+											<td class="text-right">
+												
+												<div class="input-group" style="width:80px">
+													<input type="text" name="satuan" id="satuan" class="form-control span col-sm-2  satuan" value="{$val.detail.satuan}" {$sub}>
+												</div>
+											</td>
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="pagu_kmpnen" id="pagu_kmpnen" class="form-control span col-sm-2 pagu_kmpnen money " value="{number_format($val.detail.pagu_kmpnen,'0',',','.')}"  {$sub}>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="rencana_anggaran_sd_tw" id="rencana_anggaran_sd_tw" class="form-control span col-sm-2 rencana_anggaran_sd_tw money" value="{number_format($val.detail.rencana_anggaran_sd_tw,'0',',','.')}" {$sub} >
+												</div>
+											</td>
+											<td class="text-center">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_rencana_anggaran" id="persentase_rencana_anggaran" class="form-control span col-sm-2 persentase_rencana_anggaran percent" value="{number_format($val.detail.persentase_rencana_anggaran,'2',',','.')}"  {$sub}>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td >
+												<div class="input-group" style="width:110px">
+													<input type="text" name="rencana_target_sd_tw" id="rencana_target_sd_tw" class="form-control span col-sm-2 rencana_target_sd_tw percent percent" value="{number_format($val.detail.rencana_target_sd_tw,'2',',','.')}" {$sub} >
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="realisasi_anggaran_sd_tw" id="realisasi_anggaran_sd_tw" class="form-control span col-sm-2 realisasi_anggaran_sd_tw money" value="{number_format($val.detail.realisasi_anggaran_sd_tw,'0',',','.')}" {$sub} >
+												</div>
+											</td>
+											<td class="text-center">
+												<div class="input-group" style="width:110px">
+													<input type="text" name="persentase_realisasi_anggaran" id="persentase_realisasi_anggaran" class="form-control span col-sm-2 persentase_realisasi_anggaran percent" value="{number_format($val.detail.persentase_realisasi_anggaran,'2',',','.')}"  {$sub}>
+														<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											<td >
+												<div class="input-group" style="width:110px">
+													{if $val.detail.realisasi_target_sd_tw}
+														<input type="text" name="realisasi_target_sd_tw" id="realisasi_target_sd_tw" class="form-control span col-sm-2 realisasi_target_sd_tw percent" value="{number_format($val.detail.realisasi_target_sd_tw,'2',',','.')}"  {$sub}>
+													{else if}
+														<input type="text" name="realisasi_target_sd_tw" id="realisasi_target_sd_tw" class="form-control span col-sm-2 realisasi_target_sd_tw percent" value="{number_format(0,'2',',','.')}"  {$sub}>
+													{/if}
+													<span class="input-group-addon">(%)</span>
+												</div>
+											</td>
+											
+											<td class="text-right">
+												<div class="input-group" style="width:110px">
+													{if $val.detail.outikk}
+														<input type="text" name="outikk" id="outikk" class="form-control span col-sm-2 outikk money" value="{number_format($val.detail.outikk,'0',',','.')}" {$sub}>
+													{else if}
+														<input type="text" name="outikk" id="outikk" class="form-control span col-sm-2 outikk money" value="{number_format(0,'0',',','.')}" {$sub}>
+													{/if}
+												</div>
+											</td>
+										</tr>
+										{/foreach}
+									</tbody>
+								</table>
+							</div>
 						</div>
-						
 					</div>
 					<div class="panel-footer text-right">
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button"  name="submit" id="submit" value="save" class="btn btn-info">
+						<input type="button"  name="save" id="save" value="save" class="btn btn-info">
 					</div>
 				</form>
 				<!--===================================================-->
@@ -290,6 +405,15 @@ function isNumber(evt) {
 {literal}
 <script>
 $(document).ready(function() {
+
+var ceck = $('#valid').val();	
+	if(ceck == 1){
+		//nothing
+	}else{
+		bootbox.alert("Pengisian Sudah Melewati Batas yang Di Tentukan, Hubungi Administrator", function(){
+								//EMPTY
+			});
+	}
 /*var status_hidden = $('#status_hidden').val();
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
@@ -321,8 +445,8 @@ $('#kdtriwulan').on('change', function(){
 });	
 
 
-$('#submit').on('click', function(){
-	//alert("masukk");
+$('#save').on('click', function(){
+	/*//alert("masukk");
 	var target = []; 
 	$.each($('.target'), function (index, value) { 
 	  //console.log(index + ':' + $(value).val());
@@ -347,9 +471,64 @@ $('#submit').on('click', function(){
 	  //vals[] = $(value).val();
 	 realisasifisik.push(this.value);	
 	 });
-	//console.log(keterangan);
+	//console.log(keterangan);*/
 	
+	//revisi
+	var target = []; 
+	$.each($('.target'), function (index, value) { 
+		target.push(this.value);	
+	 });
+	 
+	var satuan = []; 
+	$.each($('.satuan'), function (index, value) { 
+		satuan.push(this.value);	
+	 });
 	
+	var pagu_kmpnen = []; 
+	$.each($('.pagu_kmpnen'), function (index, value) { 
+		pagu_kmpnen.push(this.value);	
+	 });
+	 
+	var rencana_anggaran_sd_tw = []; 
+	$.each($('.rencana_anggaran_sd_tw'), function (index, value) { 
+		rencana_anggaran_sd_tw.push(this.value);	
+	 });
+	 
+	var persentase_rencana_anggaran = []; 
+	$.each($('.persentase_rencana_anggaran'), function (index, value) { 
+		persentase_rencana_anggaran.push(this.value);	
+	 });
+	 
+	var rencana_target_sd_tw = []; 
+	$.each($('.rencana_target_sd_tw'), function (index, value) { 
+		rencana_target_sd_tw.push(this.value);	
+	 });
+	
+	var realisasi_anggaran_sd_tw = []; 
+	$.each($('.realisasi_anggaran_sd_tw'), function (index, value) { 
+		realisasi_anggaran_sd_tw.push(this.value);	
+	 });
+	
+	var persentase_realisasi_anggaran = []; 
+	$.each($('.persentase_realisasi_anggaran'), function (index, value) { 
+		persentase_realisasi_anggaran.push(this.value);	
+	 });
+	 
+	var realisasi_target_sd_tw = []; 
+	$.each($('.realisasi_target_sd_tw'), function (index, value) { 
+		realisasi_target_sd_tw.push(this.value);	
+	 });
+	
+	var outikk = []; 
+	$.each($('.outikk'), function (index, value) { 
+		outikk.push(this.value);	
+	 });
+	 
+	 var parent_id = []; 
+	$.each($('.parent_id'), function (index, value) { 
+		parent_id.push(this.value);	
+	 });
+	 
 	var kdunitkerja = $('#kdunitkerja').val();
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
@@ -358,11 +537,10 @@ $('#submit').on('click', function(){
 	var kdtriwulan = $('#kdtriwulan').val();
 	
 	//var x = $("form").serializeArray();
-	 
 	 //exit;
 	 bootbox.confirm("Simpan Data?", function(result) {
 			if (result) {
-				$.post( basedomain+"monev_pp39/post_monev_pp39", {th: th, kdtriwulan: kdtriwulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kd_komponen : kd_komponen, target: target, realisasifisik : realisasifisik});										
+				$.post( basedomain+"monev_pp39/post_monev_pp39", {th: th, kdtriwulan: kdtriwulan, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,parent_id : parent_id, target : target, satuan : satuan,  pagu_kmpnen: pagu_kmpnen, rencana_anggaran_sd_tw : rencana_anggaran_sd_tw, persentase_rencana_anggaran : persentase_rencana_anggaran, rencana_target_sd_tw : rencana_target_sd_tw, realisasi_anggaran_sd_tw : realisasi_anggaran_sd_tw, persentase_realisasi_anggaran : persentase_realisasi_anggaran, realisasi_target_sd_tw : realisasi_target_sd_tw, outikk : outikk });										
 				$.niftyNoty({
 					type: 'success',
 					icon : 'fa fa-check',

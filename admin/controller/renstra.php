@@ -104,6 +104,8 @@ class renstra extends Controller {
 		global $basedomain;
 		$parent_id = _g('parent_id');
 
+		$tahun = $this->activeYear();
+
 		$dataStruktur['table'] = 'bsn_struktur';
 		$dataStruktur['condition'] = array('type'=>'1,2,3', 'n_status'=>1);
 		$dataStruktur['in'] = array('type');
@@ -1389,6 +1391,15 @@ class renstra extends Controller {
 		
 	}
 	
+	function activeYear()
+	{
+		$dataSetting['table'] = 'bsn_sistem_setting';
+		$dataSetting['condition'] = array('n_status'=>1, 'desc'=>'tahun_sistem');
+		$getSetting = $this->contentHelper->fetchData($dataSetting);
+		
+		return $getSetting[0]['kode'];
+	}
+
 	function tahunRenstra($getSetting)
 	{
 		
