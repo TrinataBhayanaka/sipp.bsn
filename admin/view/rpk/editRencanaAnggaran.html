@@ -385,8 +385,11 @@ function isNumber(evt) {
 		month[10] = "November";
 		month[11] = "December";
 		var n = month[d.getMonth()];
-
-		$("."+n).removeAttr('disabled'); 
+		var d = new Date();
+		var tgl = d.getDate();
+		if(tgl <= 15){
+			$("."+n).removeAttr('disabled');
+		} 
 	}
 
 	function unlockAll()

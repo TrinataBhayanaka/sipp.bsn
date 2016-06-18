@@ -203,7 +203,11 @@ class capaian extends Controller {
 		if($data){
 		foreach ($data as $key => $value) {
 			$data[$key]=$value;
-			if($Struktur[type]==1 || $Struktur[type]==3 ){
+			if($Struktur[type]==1){
+
+				$data[$key]['linkEdit']=true;
+
+			}elseif($Struktur[type]==3 && $value['kodeUser']==$this->admin[kode]){
 
 				$data[$key]['linkEdit']=true;
 
