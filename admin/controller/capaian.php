@@ -30,6 +30,7 @@ class capaian extends Controller {
 
 		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
 		// pr($Struktur);
+		if($data){
 		foreach ($data as $key => $value) {
 			$data[$key]=$value;
 			if($Struktur[type]==1){
@@ -38,7 +39,7 @@ class capaian extends Controller {
 
 			}
 		}
-		
+		}
 		$this->view->assign('data',$data);
 
 		return $this->loadView('capaian/bsn');
@@ -148,6 +149,7 @@ class capaian extends Controller {
 
 		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
 		// pr($Struktur);
+		if($data){
 		foreach ($data as $key => $value) {
 			$data[$key]=$value;
 			if($Struktur[type]==1){
@@ -160,7 +162,7 @@ class capaian extends Controller {
 
 			}
 		}
-		
+		}
 		$this->view->assign('data',$data);
 		$this->view->assign('struktur',$struktur);
 
@@ -198,6 +200,7 @@ class capaian extends Controller {
 
 		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
 		// pr($Struktur);
+		if($data){
 		foreach ($data as $key => $value) {
 			$data[$key]=$value;
 			if($Struktur[type]==1 || $Struktur[type]==3 ){
@@ -206,7 +209,7 @@ class capaian extends Controller {
 
 			}
 		}
-		
+		}
 		$this->view->assign('data',$data);
 		$this->view->assign('struktur',$struktur);
 
