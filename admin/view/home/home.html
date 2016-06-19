@@ -80,10 +80,11 @@ $(window).on('load', function() {
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			if({$data.title})
+			{if $data.title}
 				<h3 class="panel-title">{$data.title}</h3>
 			{else}
 				<h3 class="panel-title">Sistem Informasi Perencanaan, Monitoring dan Evaluasi Kinerja</h3>
+			{/if}	
 		</div>
 		
 		<div class="panel-body">
