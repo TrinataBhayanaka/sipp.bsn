@@ -62,25 +62,25 @@
 							<td>{$val.formula}</td>
 							<td>{$val.target}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_1} / {$val.rencana_1}<br>
+								Output:<br>{$val.rencana_1} {$val.ren_hasil_1}<br>
 								Proses/Tahapan:<br>{$val.aksi_1}
 							</td>
-							<td>{$val.rencana_1/$val.target*100}</td>
+							<td>{number_format(($val.rencana_1/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_2} / {$val.rencana_2}<br>
+								Output:<br>{$val.rencana_2} {$val.ren_hasil_2}<br>
 								Proses/Tahapan:<br>{$val.aksi_2}
 							</td>
-							<td>{$val.rencana_2/$val.target*100}</td>
+							<td>{number_format(($val.rencana_2/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_3} / {$val.rencana_3}<br>
+								Output:<br>{$val.rencana_3} {$val.ren_hasil_3}<br>
 								Proses/Tahapan:<br>{$val.aksi_3}
 							</td>
-							<td>{$val.rencana_3/$val.target*100}</td>
+							<td>{number_format(($val.rencana_3/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_4} / {$val.rencana_4}<br>
+								Output:<br>{$val.rencana_4} {$val.ren_hasil_4}<br>
 								Proses/Tahapan:<br>{$val.aksi_4}
 							</td>
-							<td>{$val.rencana_4/$val.target*100}</td>
+							<td>{number_format(($val.rencana_4/$val.target*100),2)}</td>
 							{if $eselon.type eq 1}<td>
 								<a href="{$basedomain}renaksi/edit/?id={$val.id}"><button class="btn btn-warning btn-md fa fa-pencil"></button></a>
 							</td>{/if}

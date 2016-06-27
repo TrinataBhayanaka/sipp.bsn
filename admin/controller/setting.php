@@ -74,6 +74,13 @@ class setting extends Controller {
 		return $this->loadView('setting/tahun');
 	}
     
+	function deltable(){
+		echo "masukk";
+		$table = 'bsn_news_content';
+		$where = "where type = '7' and category = '1'";
+		// pr($where);
+		$data = $this->contentHelper->deltable($table,$where);
+	}
 }
 
 ?>

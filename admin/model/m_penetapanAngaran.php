@@ -2468,7 +2468,7 @@ class m_penetapanAngaran extends Database {
 		}
 		
 		$query = "SELECT {$ext_sql} FROM monev_bulanan  
-				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' ";
+				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' and kategori = 2";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
@@ -2506,7 +2506,7 @@ class m_penetapanAngaran extends Database {
 		}
 		
 		$query = "SELECT {$ext_sql} FROM monev_bulanan  
-				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' ";
+				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' and kategori = 1";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
@@ -2544,7 +2544,7 @@ class m_penetapanAngaran extends Database {
 		}
 		
 		$query = "SELECT {$ext_sql} FROM thbp_kak_output_tahapan  
-				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' ";
+				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}'";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
@@ -3365,6 +3365,13 @@ class m_penetapanAngaran extends Database {
 		$query = "select id,parent_id,title from bsn_news_content where parent_id = '{$parent_id}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '1' and n_status = '1'";
 		// pr($query);
 		$result = $this->fetch($query);
+		return $result;
+	}
+	
+	function get_all_output($th,$parent_id,$kd_output){
+		$query = "select * from bsn_news_content where parent_id = '{$parent_id}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '1' and n_status = '1'";
+		// pr($query);
+		$result = $this->fetch($query,1);
 		return $result;
 	}
 	

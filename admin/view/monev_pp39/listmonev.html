@@ -74,6 +74,14 @@ $(window).on('load', function() {
 						<option value="{$key}" {$select_list}>{$valbln}</option>
 					{/foreach}
 				</select>-->
+				<input type="hidden" name="param" id="param-tw" value="{$dataselected.5}">
+				<label class="control-label boldGrey"></label>
+					<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
+						<option value="1" {$dataselected.0}>Triwulan I</option>
+						<option value="2" {$dataselected.1}>Triwulan II</option>
+						<option value="3" {$dataselected.2}>Triwulan III</option>
+						<option value="4" {$dataselected.3}>Triwulan IV</option>
+					</select>
 				<select name="unit"  class="selectpicker" width="100%">
 					<option value="" selected>--Pilih Unit Kerja--</option>
 					{foreach $list_dropdown as $value}
@@ -122,7 +130,7 @@ $(window).on('load', function() {
 								{if $akses == 1}
 									<td class="text-center"><a href="{$basedomain}monev_pp39/edit_pp39/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit PP.39</button></a></td>
 									<td class="text-center"><!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger btn-labeled fa fa-file-pdf-o">-->
-										<button type="button" id="print"  name="print" value="" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+										<button type="button" id="print"  name="print" value="{}" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
 										<input type="hidden" name="kdgiat" id="kdgiat" value="{$val.kdgiat}">
 										<input type="hidden" name="kdoutput" id="kdoutput" value="{$out.KDOUTPUT}">
 									</td>
@@ -151,12 +159,14 @@ $(window).on('load', function() {
 <script>
 $('#print').on('click', function(){
 	var th = $('#th').val();
-	var bulan = $('#bulan').val();
+	var kdtriwulan = $('#kdtriwulan').val();
 	var kdunitkerja = $('#kdunitkerja').val();
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
+	var param = $('#param-tw').val();
 	
-	window.location.href=basedomain+"monev/print_monev_all/?th="+th+"&bulan="+bulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput;
+	window.location.href=basedomain+"monev_pp39/print_pp39/?th="+th+"&kdtriwulan="+kdtriwulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&param="+param;
+	
 });	
 </script>
 {/literal}

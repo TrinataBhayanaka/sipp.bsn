@@ -1417,7 +1417,8 @@ class monev_trwln extends Controller {
 		
 		// pr($trwulan);
 		//cek id
-		$count = $this->m_penetapanAngaran->ceck_id_output($th,$kd_giat,$kd_output,3);
+		$count = $this->m_penetapanAngaran->ceck_id_output($thn,$kd_giat,$kd_output,3);
+		// pr($count);
 		if($count['hit'] == 1){
 			// echo "masukk";
 			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id'],$trwulan);
