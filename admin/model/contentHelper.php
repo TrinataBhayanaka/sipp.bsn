@@ -247,5 +247,22 @@ class contentHelper extends Database {
     	db($result);
     	return 1;	
     }
+	
+	
+	function getdatadebug($table,$where){
+		$sql = "select * from {$table} {$where}";
+		pr($sql);
+    	$result = $this->fetch($sql,1);
+		return $result;	
+	}
+	
+	function deltable($table,$where){
+		$sql = "DELETE FROM {$table} {$where}";
+		pr($sql);
+		// exit;
+		$result = $this->query($sql);
+		// return $result;	
+	}
+	
 }
 ?>
