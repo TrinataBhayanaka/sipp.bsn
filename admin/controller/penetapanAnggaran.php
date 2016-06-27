@@ -677,14 +677,14 @@ class penetapanAnggaran extends Controller {
 			$i=0;
 			$Test = new Prodigy_DBF($_FILES['output']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['thang'];
-		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
-		        $data[$i]['KDDEPT'] = $Record['kddept'];
-		        $data[$i]['KDUNIT'] = $Record['kdunit'];
-		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
-		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
-		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
-		        $data[$i]['VOL'] = $Record['vol'];
+		        $data[$i]['THANG'] = addslashes($Record['thang']);
+		        $data[$i]['KDSATKER'] = addslashes($Record['kdsatker']);
+		        $data[$i]['KDDEPT'] = addslashes($Record['kddept']);
+		        $data[$i]['KDUNIT'] = addslashes($Record['kdunit']);
+		        $data[$i]['KDPROGRAM'] = addslashes($Record['kdprogram']);
+		        $data[$i]['KDGIAT'] = addslashes($Record['kdgiat']);
+		        $data[$i]['KDOUTPUT'] = addslashes($Record['kdoutput']);
+		        $data[$i]['VOL'] = addslashes($Record['vol']);
 
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -703,16 +703,16 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['suboutput']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['thang'];
-		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
-		        $data[$i]['KDDEPT'] = $Record['kddept'];
-		        $data[$i]['KDUNIT'] = $Record['kdunit'];
-		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
-		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
-		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
-		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
-		        $data[$i]['URSOUTPUT'] = $Record['ursoutput'];
-		        $data[$i]['VOLSOUT'] = $Record['volsout'];
+		        $data[$i]['THANG'] = addslashes($Record['thang']);
+		        $data[$i]['KDSATKER'] = addslashes($Record['kdsatker']);
+		        $data[$i]['KDDEPT'] = addslashes($Record['kddept']);
+		        $data[$i]['KDUNIT'] = addslashes($Record['kdunit']);
+		        $data[$i]['KDPROGRAM'] = addslashes($Record['kdprogram']);
+		        $data[$i]['KDGIAT'] = addslashes($Record['kdgiat']);
+		        $data[$i]['KDOUTPUT'] = addslashes($Record['kdoutput']);
+		        $data[$i]['KDSOUTPUT'] = addslashes($Record['kdsoutput']);
+		        $data[$i]['URSOUTPUT'] = addslashes($Record['ursoutput']);
+		        $data[$i]['VOLSOUT'] = addslashes($Record['volsout']);
 		        
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -731,16 +731,16 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['komponen']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['thang'];
-		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
-		        $data[$i]['KDDEPT'] = $Record['kddept'];
-		        $data[$i]['KDUNIT'] = $Record['kdunit'];
-		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
-		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
-		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
-		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
-		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
-		        $data[$i]['URKMPNEN'] = $Record['urkmpnen'];
+		        $data[$i]['THANG'] = addslashes($Record['thang']);
+		        $data[$i]['KDSATKER'] = addslashes($Record['kdsatker']);
+		        $data[$i]['KDDEPT'] = addslashes($Record['kddept']);
+		        $data[$i]['KDUNIT'] = addslashes($Record['kdunit']);
+		        $data[$i]['KDPROGRAM'] = addslashes($Record['kdprogram']);
+		        $data[$i]['KDGIAT'] = addslashes($Record['kdgiat']);
+		        $data[$i]['KDOUTPUT'] = addslashes($Record['kdoutput']);
+		        $data[$i]['KDSOUTPUT'] = addslashes($Record['kdsoutput']);
+		        $data[$i]['KDKMPNEN'] = addslashes($Record['kdkmpnen']);
+		        $data[$i]['URKMPNEN'] = addslashes($Record['urkmpnen']);
 		       
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -759,17 +759,17 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['subkomponen']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['thang'];
-		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
-		        $data[$i]['KDDEPT'] = $Record['kddept'];
-		        $data[$i]['KDUNIT'] = $Record['kdunit'];
-		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
-		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
-		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
-		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
-		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
-		        $data[$i]['KDSKMPNEN'] = $Record['kdskmpnen'];
-		        $data[$i]['URSKMPNEN'] = $Record['urskmpnen'];
+		        $data[$i]['THANG'] = addslashes($Record['thang']);
+		        $data[$i]['KDSATKER'] = addslashes($Record['kdsatker']);
+		        $data[$i]['KDDEPT'] = addslashes($Record['kddept']);
+		        $data[$i]['KDUNIT'] = addslashes($Record['kdunit']);
+		        $data[$i]['KDPROGRAM'] = addslashes($Record['kdprogram']);
+		        $data[$i]['KDGIAT'] = addslashes($Record['kdgiat']);
+		        $data[$i]['KDOUTPUT'] = addslashes($Record['kdoutput']);
+		        $data[$i]['KDSOUTPUT'] = addslashes($Record['kdsoutput']);
+		        $data[$i]['KDKMPNEN'] = addslashes($Record['kdkmpnen']);
+		        $data[$i]['KDSKMPNEN'] = addslashes($Record['kdskmpnen']);
+		        $data[$i]['URSKMPNEN'] = addslashes($Record['urskmpnen']);
 		       
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
@@ -788,19 +788,19 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['akun']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['thang'];
-		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
-		        $data[$i]['KDDEPT'] = $Record['kddept'];
-		        $data[$i]['KDUNIT'] = $Record['kdunit'];
-		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
-		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
-		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
-		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
-		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
-		        $data[$i]['KDSKMPNEN'] = $Record['kdskmpnen'];
-		        $data[$i]['KDAKUN'] = $Record['kdakun'];
+		        $data[$i]['THANG'] = addslashes($Record['thang']);
+		        $data[$i]['KDSATKER'] = addslashes($Record['kdsatker']);
+		        $data[$i]['KDDEPT'] = addslashes($Record['kddept']);
+		        $data[$i]['KDUNIT'] = addslashes($Record['kdunit']);
+		        $data[$i]['KDPROGRAM'] = addslashes($Record['kdprogram']);
+		        $data[$i]['KDGIAT'] = addslashes($Record['kdgiat']);
+		        $data[$i]['KDOUTPUT'] = addslashes($Record['kdoutput']);
+		        $data[$i]['KDSOUTPUT'] = addslashes($Record['kdsoutput']);
+		        $data[$i]['KDKMPNEN'] = addslashes($Record['kdkmpnen']);
+		        $data[$i]['KDSKMPNEN'] = addslashes($Record['kdskmpnen']);
+		        $data[$i]['KDAKUN'] = addslashes($Record['kdakun']);
 		        if($Record['jumlah'] != '')
-		        	$data[$i]['JUMLAH'] = $Record['jumlah'];
+		        	$data[$i]['JUMLAH'] = addslashes($Record['jumlah']);
 		       else
 		       		$data[$i]['JUMLAH'] = 0;
 		        //insert data
@@ -820,45 +820,45 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['pok']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['thang'];
-		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
-		        $data[$i]['KDDEPT'] = $Record['kddept'];
-		        $data[$i]['KDUNIT'] = $Record['kdunit'];
-		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
-		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
-		        $data[$i]['KDOUTPUT'] = $Record['kdoutput'];
-		        $data[$i]['KDSOUTPUT'] = $Record['kdsoutput'];
-		        $data[$i]['KDKMPNEN'] = $Record['kdkmpnen'];
-		        $data[$i]['KDSKMPNEN'] = $Record['kdskmpnen'];
-		        $data[$i]['KDAKUN'] = $Record['kdakun'];
-		        $data[$i]['HEADER1'] = $Record['header1'];
-		        $data[$i]['HEADER2'] = $Record['header2'];
-		        $data[$i]['KDHEADER'] = $Record['kdheader'];
-		        $data[$i]['NOITEM'] = $Record['noitem'];
-		        $data[$i]['NMITEM'] = $Record['nmitem'];
-		        $data[$i]['VOL1'] = $Record['vol1'];
-		        $data[$i]['SAT1'] = $Record['sat1'];
-		        $data[$i]['VOL2'] = $Record['vol2'];
-		        $data[$i]['SAT2'] = $Record['sat2'];
-		        $data[$i]['VOL3'] = $Record['vol3'];
-		        $data[$i]['SAT3'] = $Record['sat3'];
-		        $data[$i]['VOL4'] = $Record['vol4'];
-		        $data[$i]['SAT4'] = $Record['sat4'];
-		        $data[$i]['VOLKEG'] = $Record['volkeg'];
-		        $data[$i]['SATKEG'] = $Record['satkeg'];
-		        $data[$i]['HARGASAT'] = $Record['hargasat'];
-		        $data[$i]['JUMLAH'] = $Record['jumlah'];
-		        $data[$i]['JANUARI'] = $Record['januari'];
-		        $data[$i]['PEBRUARI'] = $Record['pebruari'];
-		        $data[$i]['MARET'] = $Record['maret'];
-		        $data[$i]['APRIL'] = $Record['april'];
-		        $data[$i]['MEI'] = $Record['mei'];
-		        $data[$i]['JUNI'] = $Record['juli'];
-		        $data[$i]['AGUSTUS'] = $Record['agustus'];
-		        $data[$i]['SEPTEMBER'] = $Record['september'];
-		        $data[$i]['OKTOBER'] = $Record['oktober'];
-		        $data[$i]['NOPEMBER'] = $Record['nopember'];
-		        $data[$i]['DESEMBER'] = $Record['desember'];
+		        $data[$i]['THANG'] = addslashes($Record['thang']);
+		        $data[$i]['KDSATKER'] = addslashes($Record['kdsatker']);
+		        $data[$i]['KDDEPT'] = addslashes($Record['kddept']);
+		        $data[$i]['KDUNIT'] = addslashes($Record['kdunit']);
+		        $data[$i]['KDPROGRAM'] = addslashes($Record['kdprogram']);
+		        $data[$i]['KDGIAT'] = addslashes($Record['kdgiat']);
+		        $data[$i]['KDOUTPUT'] = addslashes($Record['kdoutput']);
+		        $data[$i]['KDSOUTPUT'] = addslashes($Record['kdsoutput']);
+		        $data[$i]['KDKMPNEN'] = addslashes($Record['kdkmpnen']);
+		        $data[$i]['KDSKMPNEN'] = addslashes($Record['kdskmpnen']);
+		        $data[$i]['KDAKUN'] = addslashes($Record['kdakun']);
+		        $data[$i]['HEADER1'] = addslashes($Record['header1']);
+		        $data[$i]['HEADER2'] = addslashes($Record['header2']);
+		        $data[$i]['KDHEADER'] = addslashes($Record['kdheader']);
+		        $data[$i]['NOITEM'] = addslashes($Record['noitem']);
+		        $data[$i]['NMITEM'] = addslashes($Record['nmitem']);
+		        $data[$i]['VOL1'] = addslashes($Record['vol1']);
+		        $data[$i]['SAT1'] = addslashes($Record['sat1']);
+		        $data[$i]['VOL2'] = addslashes($Record['vol2']);
+		        $data[$i]['SAT2'] = addslashes($Record['sat2']);
+		        $data[$i]['VOL3'] = addslashes($Record['vol3']);
+		        $data[$i]['SAT3'] = addslashes($Record['sat3']);
+		        $data[$i]['VOL4'] = addslashes($Record['vol4']);
+		        $data[$i]['SAT4'] = addslashes($Record['sat4']);
+		        $data[$i]['VOLKEG'] = addslashes($Record['volkeg']);
+		        $data[$i]['SATKEG'] = addslashes($Record['satkeg']);
+		        $data[$i]['HARGASAT'] = addslashes($Record['hargasat']);
+		        $data[$i]['JUMLAH'] = addslashes($Record['jumlah']);
+		        $data[$i]['JANUARI'] = addslashes($Record['januari']);
+		        $data[$i]['PEBRUARI'] = addslashes($Record['pebruari']);
+		        $data[$i]['MARET'] = addslashes($Record['maret']);
+		        $data[$i]['APRIL'] = addslashes($Record['april']);
+		        $data[$i]['MEI'] = addslashes($Record['mei']);
+		        $data[$i]['JUNI'] = addslashes($Record['juli']);
+		        $data[$i]['AGUSTUS'] = addslashes($Record['agustus']);
+		        $data[$i]['SEPTEMBER'] = addslashes($Record['september']);
+		        $data[$i]['OKTOBER'] = addslashes($Record['oktober']);
+		        $data[$i]['NOPEMBER'] = addslashes($Record['nopember']);
+		        $data[$i]['DESEMBER'] = addslashes($Record['desember']);
 
 		       
 		        //insert data
@@ -878,27 +878,27 @@ class penetapanAnggaran extends Controller {
 			
 			$Test = new Prodigy_DBF($_FILES['trktrm']['tmp_name']);
 		    while(($Record = $Test->GetNextRecord(true)) and !empty($Record)) {
-		        $data[$i]['THANG'] = $Record['thang'];
-		        $data[$i]['KDSATKER'] = $Record['kdsatker'];
-		        $data[$i]['KDDEPT'] = $Record['kddept'];
-		        $data[$i]['KDUNIT'] = $Record['kdunit'];
-		        $data[$i]['KDPROGRAM'] = $Record['kdprogram'];
-		        $data[$i]['KDGIAT'] = $Record['kdgiat'];
-		        $data[$i]['RPHPAGU'] = $Record['rphpagu'];
-		        $data[$i]['KDTRKTRM'] = $Record['kdtrktrm'];
-		        $data[$i]['JNSBELANJA'] = $Record['jnsbelanja'];
-		        $data[$i]['JML01'] = $Record['jml01'];
-		        $data[$i]['JML02'] = $Record['jml02'];
-		        $data[$i]['JML03'] = $Record['jml03'];
-		        $data[$i]['JML04'] = $Record['jml04'];
-		        $data[$i]['JML05'] = $Record['jml05'];
-		        $data[$i]['JML06'] = $Record['jml06'];
-		        $data[$i]['JML07'] = $Record['jml07'];
-		        $data[$i]['JML08'] = $Record['jml08'];
-		        $data[$i]['JML09'] = $Record['jml09'];
-		        $data[$i]['JML10'] = $Record['jml10'];
-		        $data[$i]['JML11'] = $Record['jml11'];
-		        $data[$i]['JML12'] = $Record['jml12'];
+		        $data[$i]['THANG'] = addslashes($Record['thang']);
+		        $data[$i]['KDSATKER'] = addslashes($Record['kdsatker']);
+		        $data[$i]['KDDEPT'] = addslashes($Record['kddept']);
+		        $data[$i]['KDUNIT'] = addslashes($Record['kdunit']);
+		        $data[$i]['KDPROGRAM'] = addslashes($Record['kdprogram']);
+		        $data[$i]['KDGIAT'] = addslashes($Record['kdgiat']);
+		        $data[$i]['RPHPAGU'] = addslashes($Record['rphpagu']);
+		        $data[$i]['KDTRKTRM'] = addslashes($Record['kdtrktrm']);
+		        $data[$i]['JNSBELANJA'] = addslashes($Record['jnsbelanja']);
+		        $data[$i]['JML01'] = addslashes($Record['jml01']);
+		        $data[$i]['JML02'] = addslashes($Record['jml02']);
+		        $data[$i]['JML03'] = addslashes($Record['jml03']);
+		        $data[$i]['JML04'] = addslashes($Record['jml04']);
+		        $data[$i]['JML05'] = addslashes($Record['jml05']);
+		        $data[$i]['JML06'] = addslashes($Record['jml06']);
+		        $data[$i]['JML07'] = addslashes($Record['jml07']);
+		        $data[$i]['JML08'] = addslashes($Record['jml08']);
+		        $data[$i]['JML09'] = addslashes($Record['jml09']);
+		        $data[$i]['JML10'] = addslashes($Record['jml10']);
+		        $data[$i]['JML11'] = addslashes($Record['jml11']);
+		        $data[$i]['JML12'] = addslashes($Record['jml12']);
 		       
 		        //insert data
 		        if($data[$i]['THANG'] != ''){
