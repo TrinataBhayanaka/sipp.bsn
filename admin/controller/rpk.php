@@ -52,6 +52,7 @@ class rpk extends Controller {
 		}*/	
 		$list_dropdown = $this->m_penetapanAngaran->list_dropdown();
 		//===============================
+		// pr($this->admin);
 		if($_POST['unit'] !=''){
 			// pr($_POST['unit']);
 			// echo "masukk";

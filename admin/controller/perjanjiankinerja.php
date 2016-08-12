@@ -167,9 +167,12 @@ class perjanjiankinerja extends Controller {
 		if($es == '2')$labelEs="I";else $labelEs="II";
 		$this->view->assign('labelEs',$labelEs);
 		$this->view->assign('es',$es);
-
+		// pr($this->admin);
+	
 		$eselon['type'] = $this->model->getEselon($this->admin);
-		$eselon['level'] = $this->admin['type'];
+		// $eselon['level'] = $this->admin['type'];
+		//add new
+		$eselon['kode'] = $this->admin['kode'];
 		$this->view->assign('eselon',$eselon);
 
 		if(!$_POST) {
@@ -183,6 +186,8 @@ class perjanjiankinerja extends Controller {
 					$parent = $value['id'];
 					$this->view->assign('label',$value['nama_satker']);
 					$this->view->assign('id',$value['id']);
+					//add new
+					$this->view->assign('kode',$value['kode']);
 				}
 			}
 			$this->view->assign('idpk',$idpk);
@@ -193,6 +198,8 @@ class perjanjiankinerja extends Controller {
 			$this->view->assign('label',$exp[1]);
 			$this->view->assign('id',$exp[0]);
 			$this->view->assign('idpk',$idpk);
+			//add new
+			$this->view->assign('kode',$exp[2]);
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);

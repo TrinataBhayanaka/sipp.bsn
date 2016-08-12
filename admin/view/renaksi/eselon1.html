@@ -51,7 +51,8 @@
 						<th rowspan="3" class="min-tablet text-center" style="vertical-align: middle">Formula Indikator Kinerja</th>
 						<th rowspan="3" class="min-tablet text-center" style="vertical-align: middle">Target</th>
 						<th colspan="8" class="min-desktop text-center" style="vertical-align: middle">Rencana Aksi Pencapaian Target</th>
-						{if $eselon.type eq 1}<th rowspan="3" class="text-center" style="vertical-align: middle">Aksi</th>{/if}
+						{if $eselon.type eq 1 || $eselon.type eq 2 && $eselon.kode eq $kode}
+						<th rowspan="3" class="text-center" style="vertical-align: middle">Aksi</th>{/if}
 					</tr>
 					<tr>
 						<th colspan="2" class="text-center" style="vertical-align: middle">Triwulan I</th>
@@ -98,7 +99,8 @@
 								Proses/Tahapan:<br>{$val.aksi_4}
 							</td>
 							<td>{number_format(($val.rencana_4/$val.target*100),2)}</td>
-							{if $eselon.type eq 1}<td>
+							{if $eselon.type eq 1 || $eselon.type eq 2 && $eselon.kode eq $kode}
+							<td>
 								<a href="{$basedomain}renaksi/edit_eselon1/?id={$val.id}&kd={$val.kdunitkerja}"><button class="btn btn-warning btn-md fa fa-pencil"></button></a>
 							</td>{/if}
 						</tr>

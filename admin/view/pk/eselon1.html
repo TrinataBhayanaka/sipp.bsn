@@ -29,7 +29,7 @@
 			<div class="pad-btm form-inline">
 				<div class="row">
 					<div class="col-sm-6 table-toolbar-left">
-						{if $eselon.type eq 1}
+						{if $eselon.type eq 1 || $eselon.type eq 2 && $eselon.kode eq $kode}
 						<a href="{$basedomain}perjanjiankinerja/add_eselon/?id={$id}&kd={$idpk}&tp={$tipe}" id="addData">
 						<button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
 						<button type="button" id="print" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
@@ -53,7 +53,7 @@
 						<th width="40%">Sasaran Strategis</th>
 						<th width="40%" class="min-tablet">Indikator Kinerja</th>
 						<th width="5%" class="min-tablet" colspan="2">Target</th>
-						{if $eselon.type eq 1}<th width="10%" class="min-desktop">Aksi</th>{/if}
+						{if $eselon.type eq 1 || $eselon.type eq 2 && $eselon.kode eq $kode}<th width="10%" class="min-desktop">Aksi</th>{/if}
 					</tr>
 				</thead>
 				<tbody>
@@ -68,7 +68,7 @@
 								<td>{$value.nm_pk}</td>
 								<td>{$value.target}</td>
 								<td>{$value.satuan}</td>
-								{if $eselon.type eq 1}<td align="center">
+								{if $eselon.type eq 1 || $eselon.type eq 2 && $eselon.kode eq $kode}<td align="center">
 									<a href="{$basedomain}perjanjiankinerja/edit_eselon/?id={$value.id}&kd={$idpk}&pr={$id}">
 										<button class="btn btn-sm btn-warning fa fa-pencil"></button>
 									</a>

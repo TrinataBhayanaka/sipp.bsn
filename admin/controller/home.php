@@ -28,7 +28,7 @@ class home extends Controller {
 	}
 	
 	public function index(){
-		
+		// pr($this->admin);
 		$kegiatan = $this->model->select_data();
 		// pr($kegiatan);
 		$this->view->assign('data',$kegiatan);

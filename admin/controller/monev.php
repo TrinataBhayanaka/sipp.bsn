@@ -2524,8 +2524,8 @@ class monev extends Controller {
 			case 05:$param = 5;break;
 			case 06:$param = 6;break;
 			case 07:$param = 7;break;
-			case 08:$param = 8;break;
-			case 09:$param = 9;break;
+			case 8:$param = 8;break;
+			case 9:$param = 9;break;
 			case 10:$param = 10;break;
 			case 11:$param = 11;break;
 			case 12:$param = 12;break;
