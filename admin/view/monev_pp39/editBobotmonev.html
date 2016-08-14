@@ -24,6 +24,14 @@ function isNumber(evt) {
     return true;
 	}	
 </script>
+<style>
+table td .asd {
+    width: 100px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+}
+</style>
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
@@ -96,27 +104,27 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Output</label>
-							<div class="col-sm-7">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-7">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
-							<div class="col-sm-7">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
-							<div class="col-sm-7">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{$info.unit_eselon}</label>
 							
 							</div>
@@ -131,7 +139,7 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
-							<div class="col-sm-7 pull-left">	
+							<div class="col-sm-8 pull-left">	
 								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
 									{foreach $list2 as $val}
 									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
@@ -161,7 +169,7 @@ function isNumber(evt) {
 							</div>
 						</div>-->
 						<div class="form-group">
-						<label class="col-sm-2 control-label boldGrey">Sampe Triwulan</label>
+						<label class="col-sm-2 control-label boldGrey">Sampe</label>
 							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
 								<option value="1" {$dataselected.0}>Triwulan I</option>
 								<option value="2" {$dataselected.1}>Triwulan II</option>
@@ -274,7 +282,7 @@ function isNumber(evt) {
 								<table id="" class="table table-bordered" cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th rowspan="2" width="50%">IKK</th>
+											<th rowspan="2">IKK</th>
 											<th class="text-center" rowspan="2">Target</th>
 											<th class="text-center" rowspan="2">Satuan</th>
 											<th class="text-center" rowspan="2">Pagu Anggaran</th>
@@ -293,7 +301,7 @@ function isNumber(evt) {
 									</thead>
 									<tbody>
 										<tr>
-											<td class="text-center boldGrey">1</td>
+											<td class="text-center boldGrey first" style="width: 200px;display: inline-block;">1</td>
 											<td class="text-center boldGrey">2</td>
 											<td class="text-center boldGrey">3</td>
 											<td class="text-center boldGrey">4</td>
@@ -308,7 +316,7 @@ function isNumber(evt) {
 										{foreach $list as $val}
 										<tr>
 											<input type="hidden" name="parent_id" class="parent_id" value= "{$val.id}">
-											<td  class="text-center"  width="10%">{$val.desc}</td>
+											<td  class=""  width="10%">{$val.desc}</td>
 											<td>
 												<div class="input-group" style="width:80px">
 													{if $val.detail.target}

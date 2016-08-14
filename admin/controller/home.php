@@ -24,6 +24,7 @@ class home extends Controller {
 		// $this->marticle = $this->loadModel('marticle');
 		// $this->mquiz = $this->loadModel('mquiz');
 		$this->model = $this->loadModel('mref');
+		$this->contentHelper = $this->loadModel('contentHelper');
 	}
 	
 	public function index(){
@@ -314,7 +315,36 @@ class home extends Controller {
 
 		db($done);
 	}
+
+	function getDescTableLala()
+	{
+		$table = $_GET['tbl'];
+		$data = $this->contentHelper->getDesc($table);
+
+		db($data);
+	}
+	function getDataDebug(){
+		// echo "masuk";
+		// exit;
+		// if($_GET['tbl'] == 1){
+			$table  ="bsn_news_content";
+			$where = "where type = 7 and category = 1 and n_status =1 order by id asc";
+		// }elseif($_GET['tbl'] == 2){
+			// $table  ="bsn_sistem_setting";
+		// }
+		// $table = $_GET['tbl'];
+		$data = $this->contentHelper->getdatadebug($table,$where);
+
+		db($data);
 	
+	}
+	function deltable(){
+		// echo "masukk";
+		$table = 'bsn_news_content';
+		$where = "where type = 7 and category = 1";
+		// pr($where);
+		$data = $this->contentHelper->deltable($table,$where);
+	}
 }
 
 ?>

@@ -703,7 +703,7 @@ class renstra extends Controller {
 		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
 		
 		$dataStruktur['id'] = _g('parent_id');
-
+		
 		if ($req==1){
 
 			if ($id){
@@ -718,10 +718,16 @@ class renstra extends Controller {
 				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
 				
 			}
-			
+			$str = rtrim($getStruktur[0]['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$inf_eselon = "Eselon I";
+			}elseif($length == 4){
+				$inf_eselon = "Eselon II";
+			}
 			$this->view->assign('parent_id', $dataStruktur['id']);
 			$this->view->assign('text1', "Kode");
-			$this->view->assign('text2', "Eselon I");
+			$this->view->assign('text2', $inf_eselon);
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', $type);
@@ -742,10 +748,16 @@ class renstra extends Controller {
 				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
 				
 			}
-			
+			$str = rtrim($getStruktur[0]['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$inf_eselon = "Eselon I";
+			}elseif($length == 4){
+				$inf_eselon = "Eselon II";
+			}
 			$this->view->assign('parent_id', $dataStruktur['id']);
 			$this->view->assign('text1', "Kode");
-			$this->view->assign('text2', "Eselon I");
+			$this->view->assign('text2', $inf_eselon);
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', $type);
@@ -766,10 +778,16 @@ class renstra extends Controller {
 				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
 				
 			}
-			
+			$str = rtrim($getStruktur[0]['kode'], '0');
+			$length = strlen($str);
+			if($length == 3){
+				$inf_eselon = "Eselon I";
+			}elseif($length == 4){
+				$inf_eselon = "Eselon II";
+			}
 			$this->view->assign('parent_id', $dataStruktur['id']);
 			$this->view->assign('text1', "Kode");
-			$this->view->assign('text2', "Eselon I");
+			$this->view->assign('text2', $inf_eselon);
 			$this->view->assign('text3', "Visi");
 			$this->view->assign('submit', "submit");
 			$this->view->assign('type', $type);

@@ -23,6 +23,10 @@ class renaksi extends Controller {
 	}
 	
 	public function bsn(){
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+		$this->view->assign('eselon',$eselon);
+
 		$thn = $this->model->getTahun();
 		$struktur = $this->model->getStruktur(1);
 		$data = $this->model->getpk($struktur[0]['kode'],$thn['kode']);
@@ -109,6 +113,10 @@ class renaksi extends Controller {
 	{
 		$struktur = $this->model->getStruktur(2);
 
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['level'] = $this->admin['type'];
+		$this->view->assign('eselon',$eselon);
+
 		if(!$_POST) {
 			if(isset($_GET['kd'])){
 				$idpk = $_GET['kd'];
@@ -145,6 +153,10 @@ class renaksi extends Controller {
 	{
 		$struktur = $this->model->getStruktur(3);
 
+		$eselon['type'] = $this->model->getEselon($this->admin);
+		$eselon['kode'] = $this->admin['kode'];
+		$this->view->assign('eselon',$eselon);
+
 		if(!$_POST) {
 			if(isset($_GET['kd'])){
 				$idpk = $_GET['kd'];
@@ -156,6 +168,7 @@ class renaksi extends Controller {
 					$parent = $value['id'];
 					$this->view->assign('label',$value['nama_satker']);
 					$this->view->assign('id',$value['id']);
+					$this->view->assign('kode',$value['kode']);
 				}
 			}
 			$this->view->assign('idpk',$idpk);
@@ -166,6 +179,7 @@ class renaksi extends Controller {
 			$this->view->assign('label',$exp[1]);
 			$this->view->assign('id',$exp[0]);
 			$this->view->assign('idpk',$idpk);
+			$this->view->assign('kode',$exp[2]);
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);

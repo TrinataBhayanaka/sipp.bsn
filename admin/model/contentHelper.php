@@ -224,11 +224,12 @@ class contentHelper extends Database {
 
     function gantiTabel()
     {
-    	$sql = "ALTER TABLE d_akun MODIFY JUMLAH decimal(50,0)";
+    	$sql = "ALTER TABLE dt_fileupload_keu MODIFY tgl_upload datetime";
     	$result = $this->query($sql);
-
-    	$sql = "ALTER TABLE d_item MODIFY JUMLAH decimal(50,0)";
+    	$sql = "INSERT INTO dt_fileupload_keu (kdfile,nama_file,user_upload,type,keterangan,KDSATKER,tgl_upload) VALUES ('M_SPMIND','m_spmind.dbf','1','sakpa','File Realisasi Total','840000','2016-04-26 12:30:59')";
     	$result = $this->query($sql);
+    	// $sql = "ALTER TABLE m_spmmak MODIFY NOSP2D varchar(100)";
+    	// $result = $this->query($sql);
 
     	// $sql = "SET SQL_MODE = 'NO_ENGINE_SUBSTITUTION'";
     	// $res = $this->query($sql);
@@ -238,5 +239,30 @@ class contentHelper extends Database {
     	db($result);
     	return 1;
     }
+
+    function getDesc($table)
+    {
+    	$sql = "desc {$table}";
+    	$result = $this->fetch($sql,1);
+    	db($result);
+    	return 1;	
+    }
+	
+	
+	function getdatadebug($table,$where){
+		$sql = "select * from {$table} {$where}";
+		pr($sql);
+    	$result = $this->fetch($sql,1);
+		return $result;	
+	}
+	
+	function deltable($table,$where){
+		$sql = "DELETE FROM {$table} {$where}";
+		pr($sql);
+		// exit;
+		$result = $this->query($sql);
+		// return $result;	
+	}
+	
 }
 ?>

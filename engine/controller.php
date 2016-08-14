@@ -45,7 +45,7 @@ class Controller extends Application{
 		
 
 		if ($this->configkey=='admin'){
-			// $this->view->assign('menu',$this->menuDinamis());
+			$this->view->assign('TahunAktif',$this->TahunAktif());
 		}
 
 		
@@ -350,6 +350,17 @@ class Controller extends Application{
 		$onlineUser=$online[0]['total'];
 
 		return $onlineUser;
+	}
+
+	function TahunAktif(){
+		$this->loadModel('mrenaksi');
+
+		$helperTahun = new mrenaksi;
+
+		$thn = $helperTahun->getTahun();
+
+		return $thn['kode'];
+
 	}
 	
 	

@@ -52,13 +52,13 @@
 						{if $req ==2}
 						
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Lembaga/Eselon I/Eselon II </label>
+							<label class="col-sm-3 control-label">Lembaga/Eselon I/Eselon II</label>
 				    		<div class="col-sm-4">
 				    			
 				              		<select class="form-control eselonid" name="tags">
 				                    {if $struktur}
 				                    {foreach $struktur as $val}
-				                    <option value="{$val.id}" {if $val.id == $outcome.0.tags}selected{/if}>{$val.singkatan}</option>
+				                    <option value="{$val.id}" {if $val.id == $output.0.tags}selected{/if}>{$val.singkatan}</option>
 				                    {/foreach}
 				                    {/if}
 				                  	</select>

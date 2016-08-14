@@ -95,27 +95,27 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Output</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-5">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-8">						
 								<label class=" control-label">{$info.unit_eselon}</label>
 							
 							</div>
@@ -130,7 +130,7 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
-							<div class="col-sm-4 pull-left">	
+							<div class="col-sm-8 pull-left">	
 								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
 									{foreach $list as $val}
 									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>

@@ -51,7 +51,7 @@
 						<th rowspan="3" class="min-tablet text-center" style="vertical-align: middle">Formula Indikator Kinerja</th>
 						<th rowspan="3" class="min-tablet text-center" style="vertical-align: middle">Target</th>
 						<th colspan="8" class="min-desktop text-center" style="vertical-align: middle">Rencana Aksi Pencapaian Target</th>
-						<th rowspan="3" class="text-center" style="vertical-align: middle">Aksi</th>
+						{if $eselon.type eq 1}<th rowspan="3" class="text-center" style="vertical-align: middle">Aksi</th>{/if}
 					</tr>
 					<tr>
 						<th colspan="2" class="text-center" style="vertical-align: middle">Triwulan I</th>
@@ -79,28 +79,28 @@
 							<td>{$val.formula}</td>
 							<td>{$val.target}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_1}<br>
+								Output:<br>{$val.rencana_1} {$val.ren_hasil_1}<br>
 								Proses/Tahapan:<br>{$val.aksi_1}
 							</td>
-							<td>{$val.rencana_1}</td>
+							<td>{number_format(($val.rencana_1/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_2}<br>
+								Output:<br>{$val.rencana_2} {$val.ren_hasil_2}<br>
 								Proses/Tahapan:<br>{$val.aksi_2}
 							</td>
-							<td>{$val.rencana_2}</td>
+							<td>{number_format(($val.rencana_2/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_3}<br>
+								Output:<br>{$val.rencana_3} {$val.ren_hasil_3}<br>
 								Proses/Tahapan:<br>{$val.aksi_3}
 							</td>
-							<td>{$val.rencana_3}</td>
+							<td>{number_format(($val.rencana_3/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.ren_hasil_4}<br>
+								Output:<br>{$val.rencana_4} {$val.ren_hasil_4}<br>
 								Proses/Tahapan:<br>{$val.aksi_4}
 							</td>
-							<td>{$val.rencana_4}</td>
-							<td>
+							<td>{number_format(($val.rencana_4/$val.target*100),2)}</td>
+							{if $eselon.type eq 1}<td>
 								<a href="{$basedomain}renaksi/edit_eselon1/?id={$val.id}&kd={$val.kdunitkerja}"><button class="btn btn-warning btn-md fa fa-pencil"></button></a>
-							</td>
+							</td>{/if}
 						</tr>
 					{/foreach}
 					{else}

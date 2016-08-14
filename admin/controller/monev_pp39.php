@@ -22,6 +22,7 @@ class monev_pp39 extends Controller {
 	{
 		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
 		$this->model = $this->loadModel('mptn');
+		
 	}
 	
 	public function index(){
@@ -1973,33 +1974,60 @@ class monev_pp39 extends Controller {
 		$thn_renstra =$thn_aktif['data'];
 		
 		$bl = date('m');
-		
-		$ex = explode ('0',$bl);
-		if($ex[0] == ''){
-			$arrBln = $ex[1] - 1; 
-		}else{
-			if($bl == 10){
-				$arrBln = $bl - 1;
-			}else{
-				$arrBln = $ex[0] - 1;
+			switch ($bl){
+				case 1:$trwulan = 1;break;
+				case 2:$trwulan = 1;break;
+				case 3:$trwulan = 1;break;
+				case 4:$trwulan = 2;break;
+				case 5:$trwulan = 2;break;
+				case 6:$trwulan = 2;break;
+				case 7:$trwulan = 3;break;
+				case 8:$trwulan = 3;break;
+				case 9:$trwulan = 3;break;
+				case 10:$trwulan = 4;break;
+				case 11:$trwulan = 4;break;
+				case 12:$trwulan = 4;break;
 			}
-		}
-		
-		$monthArray = array("01"=>"Januari", "02"=>"Februari", "03"=>"Maret","04"=>"April","05"=>"Mei","06"=>"Juni",
-							"07"=>"Juli","08"=>"Agustus","09"=>"September","10"=>"Oktober","11"=>"November","12"=>"Desember");
-		foreach ($monthArray as $key=> $valbln){
-			if ($bl == $key){
-				$ket[]= $valbln;
-			}else{
-				$ket[]= '';
-			}	
-		}
+		if($trwulan == 1){
+			$I = "selected";
+			$II = "";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan I";
+			//add 
+			$param_trw = '3';
 			
-		$ketBulan = $ket[$arrBln]; 
+		}elseif($trwulan == 2){
+			$I = "";
+			$II = "selected";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan II";
+			$param_trw = '6';
+		}elseif($trwulan == 3){
+			$I = "";
+			$II = "";
+			$III = "selected";
+			$IV = "";
+			$ket = "Triwulan III";
+			$param_trw = '9';
+		}elseif($trwulan == 4){
+			$I = "";
+			$II = "";
+			$III = "";
+			$IV = "selected";
+			$ket = "Triwulan IV";
+			$param_trw = '12';
+		}
 		
-		$this->view->assign('bulan',$monthArray);
-		$this->view->assign('keybln',$bl);
-		$this->view->assign('ketBulan',$ketBulan);
+		
+		$dataselected[]=$I;
+		$dataselected[]=$II;
+		$dataselected[]=$III;
+		$dataselected[]=$IV;
+		$dataselected[]=$ket;
+		$dataselected[]=$param_trw;
+		$this->view->assign('dataselected',$dataselected);
 		
 		if($_POST['unit'] !=''){
 			// pr($_POST['unit']);
@@ -2422,6 +2450,7 @@ class monev_pp39 extends Controller {
 		}
 			// pr($list);
 		// exit;	
+		
 		$this->view->assign('dataselected',$dataselected);
 		$this->view->assign('info',$info);
 		$this->view->assign('list2',$list);
@@ -2553,7 +2582,263 @@ class monev_pp39 extends Controller {
 		
 	}	
 	
-	
+	public function print_pp39(){
+		// pr($_GET);
+		$trwulan = $_GET['kdtriwulan']; 
+		if($trwulan == 1){
+			$I = "selected";
+			$II = "";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan I";
+			//add 
+			$param = '3';
+			
+		}elseif($trwulan == 2){
+			$I = "";
+			$II = "selected";
+			$III = "";
+			$IV = "";
+			$ket = "Triwulan II";
+			$param = '6';
+		}elseif($trwulan == 3){
+			$I = "";
+			$II = "";
+			$III = "selected";
+			$IV = "";
+			$ket = "Triwulan III";
+			$param = '9';
+		}elseif($trwulan == 4){
+			$I = "";
+			$II = "";
+			$III = "";
+			$IV = "selected";
+			$ket = "Triwulan IV";
+			$param = '12';
+		}
+		
+		$dataselected[]=$I;
+		$dataselected[]=$II;
+		$dataselected[]=$III;
+		$dataselected[]=$IV;
+		$dataselected[]=$ket;
+		
+		$kd_unit = $_GET['kdunitkerja'];
+		$kd_giat = $_GET['kdgiat'];
+		$kd_output = $_GET['kdoutput'];
+		$thn = $_GET['th'];
+		$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan_condotion_monev_rev($thn,$kd_giat,$kd_output);
+		// pr($thp_kegiatan);
+		foreach ($thp_kegiatan as $key=>$val){
+				// pr($val);
+				$list[] = $val;
+				$komponen = $this->m_penetapanAngaran->komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$val['KDSOUTPUT']);
+				// pr($komponen);
+				$list[$key]['nama_komponen'] = $komponen['URKMPNEN'];
+				$tot_pagu += $val['pagu_kmpnen'];
+				//TARGET
+				//rencana sd triwulan anggaran
+				$rencana_sd_tw = $this->m_penetapanAngaran->monev_ren_sd_bulan_anggaran_pp39($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$trwulan);
+				$list[$key]['rencana_anggaran_sd_tw'] = $rencana_sd_tw['total'];
+				
+				$tot_rencana_sd_tw += $rencana_sd_tw['total'];
+				
+				// $tmp_rencana_sd_tw = explode('.',$rencana_sd_tw['total']);
+				
+				if($rencana_sd_tw['total'] != 0 && $rencana_sd_tw['total'] != ''){
+					$list[$key]['persentase_rencana_anggaran'] = round(($rencana_sd_tw['total'] / $val['pagu_kmpnen']) * 100 ,2);
+					$tmp_persentase_renc = round(($rencana_sd_tw['total'] / $val['pagu_kmpnen']) * 100 ,2);
+					
+				}else{
+					$list[$key]['persentase_rencana_anggaran'] = 0;
+					$tmp_persentase_renc = 0;
+				}
+				
+				$tot_persentase_rencana_anggaran += $tmp_persentase_renc;
+				
+				//rencana sd tw target
+				$rencana_sd_tw_target = $this->m_penetapanAngaran->monev_ren_sd_bulan_pp39($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$trwulan,1);
+				$list[$key]['rencana_target_sd_tw'] = $rencana_sd_tw_target['total'];
+				
+				$tot_rencana_sd_tw_target += $rencana_sd_tw_target['total'];
+				
+				//REALISASI
+				//realisasi sd bulan ini (triwulan)
+ 				$get_realisasi = $this->m_penetapanAngaran->monev_realisasi_sd_bulan_anggaran_rev_pp39($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$trwulan);
+				$list[$key]['realisasi_anggaran_sd_tw']= $get_realisasi['realisasi'] ;
+				$tot_get_realisasi += $get_realisasi['realisasi'] ;
+				
+				if($get_realisasi['realisasi'] != 0 && $get_realisasi['realisasi'] != ''){
+					$list[$key]['persentase_realisasi_anggaran'] = round(($get_realisasi['realisasi'] / $val['pagu_kmpnen']) * 100 ,2);
+					$tmp_persentase_real += round(($get_realisasi['realisasi'] / $val['pagu_kmpnen']) * 100 ,2);
+				}else{
+					$list[$key]['persentase_realisasi_anggaran'] = 0;
+					$tmp_persentase_real += 0;
+				}
+				
+				$tot_persentase_reals_anggaran += $tmp_persentase_real;
+				
+				$realisasi_sd_tw_target = $this->m_penetapanAngaran->monev_ren_sd_bulan_pp39($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$trwulan,2);
+				$list[$key]['realisasi_target_sd_tw'] = $realisasi_sd_tw_target['total'];
+				$tot_realisasi_sd_tw_target +=$realisasi_sd_tw_target['total'];
+				
+			}
+			
+			$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat);
+			// pr($get_id_kegiatan);
+			$parent_id_kegiatan = $get_id_kegiatan['id'];
+			$get_all_output = $this->m_penetapanAngaran->get_all_output($thn,$parent_id_kegiatan,$kd_output);
+			// pr($get_all_output);
+			foreach ($get_all_output as $k => $val) {
+						if ($val['data']){
+							$target = unserialize($val['data']);
+							$getData[$k]['target'] = $target['target'];
+							$getData[$k]['satuan_target'] = $target['satuan_target'];
+
+							$getData[$k]['target_anggaran'] = $target['target_anggaran'];
+							$getData[$k]['satuan_target_anggaran'] = $target['satuan_target_anggaran'];
+						} 
+			}
+			// pr($getData);
+			//start tahun renstra = 2015 - 2019
+			$thn_aktif = $this->m_penetapanAngaran->thn_aktif();
+			$thn_temp = $thn_aktif['kode'];
+			$thn_renstra =$thn_aktif['data'];
+			$limit =explode('-',$thn_renstra);
+			$limit_min_tahun = $limit[0];
+			$limit_max_tahun = $limit[1];
+			if($thn_temp <= $limit_max_tahun){
+				if($limit_min_tahun <= $thn_temp){
+					$indx  = $thn_temp - $limit_min_tahun;
+				}
+			}
+			//data header
+			//Deskripsi Kegiatan
+			//nama output
+			$nama_output = $this->m_penetapanAngaran->nama_output($kd_giat,$kd_output);
+			$pagu_output = $this->m_penetapanAngaran->output_cndtn($thn,$kd_giat,$kd_output);
+			//nama kegiatan
+			$nama_kegiatan = $this->m_penetapanAngaran->nama_kegiatan($kd_giat);
+			//unit eselon 
+			$unit_eselon = $this->m_penetapanAngaran->nama_unit($kd_unit);
+			
+			$target = $getData['0']['target'][$indx];
+			$target_satuan = $getData['0']['satuan_target'];
+			$info['nama_output'] = $get_all_output['0']['desc'];
+			$info['nama_kegiatan'] = $nama_kegiatan['nmgiat'];
+			$info['pagu_output'] = $pagu_output['pagu_output'];
+			$info['unit_eselon'] = $unit_eselon['nmunit'];
+			
+			$info['trwulan'] = $ket;
+			$info['thn'] = $thn_temp;
+			$info['kd_giat'] = $kd_giat;
+			$info['kd_output'] = $kd_output;
+			
+			$info['target'] = $target;
+			$info['target_satuan'] = $target_satuan;
+			$info['tot_pagu'] = $tot_pagu;
+			$info['tot_rencana_sd_tw'] = $tot_rencana_sd_tw;
+			$info['tot_persentase_rencana_anggaran'] = $tot_persentase_rencana_anggaran;
+			$info['tot_rencana_sd_tw_target'] = $tot_rencana_sd_tw_target;
+			$info['tot_get_realisasi'] = $tot_get_realisasi;
+			$info['tot_persentase_reals_anggaran'] = $tot_persentase_reals_anggaran;
+			$info['tot_realisasi_sd_tw_target'] = $tot_realisasi_sd_tw_target;
+			
+			$count = $this->m_penetapanAngaran->ceck_id_output($thn,$kd_giat,$kd_output,3);
+		if($count['hit'] == 1){
+			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id'],$trwulan);
+			if($trwulan == 1){
+				$data['kendala'] = $get_data ['kendala'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu'];
+				$data['keterangan'] = $get_data['keterangan'] ;
+			}elseif($trwulan == 2){
+				$data['kendala'] = $get_data ['kendala_2'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_2'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_2'];
+				$data['keterangan'] = $get_data['keterangan_2'] ;
+			}elseif($trwulan == 3){
+				$data['kendala'] = $get_data ['kendala_3'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_3'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_3'];
+				$data['keterangan'] = $get_data['keterangan_3'] ;
+			}elseif($trwulan == 4){
+				$data['kendala'] = $get_data ['kendala_4'];
+				$data['tindaklanjut'] = $get_data['tindaklanjut_4'] ;
+				$data['ygmembantu'] = $get_data['ygmembantu_4'];
+				$data['keterangan'] = $get_data['keterangan_4'] ;
+			}
+			
+		}else{
+			if($trwulan == 1){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 2){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 3){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}elseif($trwulan == 4){
+				$data['keterangan'] = '';
+				$data['kendala'] = '';
+				$data['tindaklanjut'] = '';
+				$data['ygmembantu'] = '';
+			}
+		}
+		
+		//data child
+			$parent_id_output = $get_all_output['0']['id'];
+			$get_data_ikk = $this->m_penetapanAngaran->get_data_ikk($thn,$parent_id_output,$kd_output);
+			foreach ($get_data_ikk as $key=>$val){
+				$data_list[] = $val;
+				$get_detail_ikk = $this->m_penetapanAngaran->get_detail_ikk($val['id'],$trwulan);
+				$data_list[$key]['detail'] = $get_detail_ikk;
+				
+			}
+			$this->view->assign('info',$info);
+			$this->view->assign('list',$data_list);
+			$this->view->assign('kendala',$data['kendala']);
+			$this->view->assign('tdklanjut',$data['tindaklanjut']);
+			
+			//new add		
+			$tgl = date("Y-m-d");
+			$tgl_format = $this->DateToIndo($tgl);
+			$this->view->assign('tgl_format',$tgl_format);
+			
+			//ttd nama
+			$split = substr($kd_unit,0,3);
+			$join = $split.'000';
+			$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
+			$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
+			
+			//eselon I
+			$kd_eselon_I = $join;
+			$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
+			// pr($nama_pejabat_eselon_I);
+			$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+			$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+			
+			$kd_eselon_II = $kd_unit;
+			$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
+			// pr($nama_pejabat_eselon_I);
+			$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+			$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
+			
+			// return $this->loadView('monev/printAll');
+			$this->reportHelper =$this->loadModel('reportHelper');
+			$html = $this->loadView('monev_pp39/printAll');
+			// echo $html;
+			// exit;
+			$generate = $this->reportHelper->loadMpdf($html, 'monev-pp39',1);
+		
+	}
 		
 }
 

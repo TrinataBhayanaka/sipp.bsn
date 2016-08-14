@@ -29,8 +29,10 @@
 			<div class="pad-btm form-inline">
 				<div class="row">
 					<div class="col-sm-6 table-toolbar-left">
+						{if $eselon.type eq 1}
 						<a href="{$basedomain}perjanjiankinerja/add"><button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
 						<button type="button" id="print" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+						{/if}
 					</div>
 				</div>
 			</div>
@@ -40,7 +42,7 @@
 						<th width="40%">Sasaran Strategis</th>
 						<th width="40%" class="min-tablet">Indikator Kinerja</th>
 						<th width="5%" class="min-tablet" colspan="2">Target</th>
-						<th width="10%" class="min-desktop">Aksi</th>
+						{if $eselon.type eq 1}<th width="10%" class="min-desktop">Aksi</th>{/if}
 					</tr>
 				</thead>
 				<tbody>
@@ -55,14 +57,14 @@
 								<td>{$value.nm_pk}</td>
 								<td>{$value.target}</td>
 								<td>{$value.satuan}</td>
-								<td align="center">
+								{if $eselon.type eq 1}<td align="center">
 									<a href="{$basedomain}perjanjiankinerja/edit/?id={$value.no_sasaran}">
 										<button class="btn btn-sm btn-warning fa fa-pencil"></button>
 									</a>
 									<a href="{$basedomain}perjanjiankinerja/del_pk/?id={$value.no_sasaran}" onclick="return confirm('Seluruh indikator sasaran strategis ini akan di hapus. Yakin Hapus?')">
 										<button class="btn btn-sm btn-danger fa fa-times"></button>
 									</a>
-								</td>
+								</td>{/if}
 							</tr>
 						{/foreach}
 					{/foreach}
