@@ -84,9 +84,9 @@ class renstra extends Controller {
 			exit;
 		}
 
-		$getVisiBsn = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
-		$getMisiBsn = $this->contentHelper->getVisi(false, 7, 2, $parent_id);
-		$getTujuanBsn = $this->contentHelper->getVisi(false, 7, 3, $parent_id);
+		$getVisiBsn = $this->contentHelper->getVisi(false, 12, 1, $parent_id);
+		$getMisiBsn = $this->contentHelper->getVisi(false, 12, 2, $parent_id);
+		$getTujuanBsn = $this->contentHelper->getVisi(false, 12, 3, $parent_id);
 		
 		$this->view->assign('parent_id', $parent_id);
 		$this->view->assign('visi', $getVisiBsn);
@@ -416,7 +416,7 @@ class renstra extends Controller {
 		} 
 		if ($pid ==3){
 			$dataStruktur['type'] = 3;
-			$type = 7;
+			$type = 12;
 			$parentid = $parent_id;
 		} 
 
@@ -581,6 +581,115 @@ class renstra extends Controller {
 
 
 		
+		$id = _g('id');
+		$req = _g('req');
+		$menu = _g('menu');
+
+		if ($menu == 1) $type = 6;
+		else $type = 12;
+		
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		
+		$dataStruktur['id'] = _g('parent_id');
+
+		if ($req==1){
+
+			if ($id){
+				$getVisiBsn = $this->contentHelper->getVisi($id, $type, 1);
+				$this->view->assign('text1value', $getStruktur[0]['kode']);
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				$this->view->assign('text3value', $getVisiBsn[0]['desc']);
+				$this->view->assign('valueid', $id);
+				
+			}else{
+				$this->view->assign('text1value', $getStruktur[0]['kode']);
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				
+			}
+			
+			$this->view->assign('parent_id', $dataStruktur['id']);
+			$this->view->assign('text1', "Kode");
+			$this->view->assign('text2', "Eselon I");
+			$this->view->assign('text3', "Visi");
+			$this->view->assign('submit', "submit");
+			$this->view->assign('type', $type);
+			$this->view->assign('category', 1);
+		}
+
+		if ($req==2){
+
+			if ($id){
+				$getVisiBsn = $this->contentHelper->getVisi($id, $type, 2);
+				$this->view->assign('text1value', $getStruktur[0]['kode']);
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				$this->view->assign('text3value', $getVisiBsn[0]['desc']);
+				$this->view->assign('valueid', $id);
+				
+			}else{
+				$this->view->assign('text1value', $getStruktur[0]['kode']);
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				
+			}
+			
+			$this->view->assign('parent_id', $dataStruktur['id']);
+			$this->view->assign('text1', "Kode");
+			$this->view->assign('text2', "Eselon I");
+			$this->view->assign('text3', "Visi");
+			$this->view->assign('submit', "submit");
+			$this->view->assign('type', $type);
+			$this->view->assign('category', 2);
+		}
+
+		if ($req==3){
+
+			if ($id){
+				$getVisiBsn = $this->contentHelper->getVisi($id, $type, 3);
+				$this->view->assign('text1value', $getStruktur[0]['kode']);
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				$this->view->assign('text3value', $getVisiBsn[0]['desc']);
+				$this->view->assign('valueid', $id);
+				
+			}else{
+				$this->view->assign('text1value', $getStruktur[0]['kode']);
+				$this->view->assign('text2value', $getStruktur[0]['nama_satker']);
+				
+			}
+			
+			$this->view->assign('parent_id', $dataStruktur['id']);
+			$this->view->assign('text1', "Kode");
+			$this->view->assign('text2', "Eselon I");
+			$this->view->assign('text3', "Visi");
+			$this->view->assign('submit', "submit");
+			$this->view->assign('type', $type);
+			$this->view->assign('category', 3);
+		}
+
+		if ($_POST['submit']){
+			
+			$_POST['create_date'] = date('Y-m-d H:i:s');
+			$_POST['publish_date'] = date('Y-m-d H:i:s');
+			$_POST['n_status'] = 1;
+
+
+			$save = $this->contentHelper->saveData($_POST);
+			if ($_POST['menu']==1) $function = "visi_eselon";
+			else $function = "visi_eselon2";
+			if ($save) redirect($basedomain . "renstra/{$function}/?parent_id=". $_POST['parent_id']);
+		}
+
+		$this->view->assign('menu', _g('menu'));
+		$this->view->assign('button', ucfirst(_g('button') ? _g('button') : 'Visi'));
+		return $this->loadView('renstra/visi/input-eselon');
+	}
+
+	function editEselon2()
+	{
+		global $basedomain;
+		
+
 		$id = _g('id');
 		$req = _g('req');
 		$menu = _g('menu');
