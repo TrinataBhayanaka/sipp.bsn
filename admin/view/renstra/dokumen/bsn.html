@@ -43,7 +43,15 @@ var pid = {$pid}
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Renstra Tk {if !$isbsn}Eselon{else}BSN{/if}</h3>
+			<h3 class="panel-title">
+			{if $isbsn == 1}
+			{$ket = 'BSN'}
+			{else if $isbsn == 2}
+			{$ket = 'Eselon I'}
+			{else if $isbsn == 3}
+			{$ket = 'Eselon II'}{/if}
+			Renstra Tk {$ket}
+			</h3>
 		</div>
 		{if $user.type==1}
 		<div id="create-toolbar" class="table-toolbar-left">
@@ -82,8 +90,8 @@ var pid = {$pid}
 			        
 		            <div class="col-md-12">
 		              	<div class="form-group">
-							{if $dokumen[0].tags}
-		              			<img src="{$app_domain}public_assets/{$dokumen[0].tags}" width="80%">
+							{if $cover}
+		              			<img src="{$app_domain}public_assets/{$cover}" width="80%">
 		              		{else}
 		              			<img src="{$app_domain}assets/images/no-image.jpeg" width="80%">
 		              		{/if}

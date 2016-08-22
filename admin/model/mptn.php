@@ -24,7 +24,7 @@ class mptn extends Database {
 	function getpk($kd,$fkd,$id=false,$thn)
 	{
 		if($id)$cond="AND a.id='{$id}'";else $cond="";
-		$sql = "SELECT id FROM bsn_struktur WHERE kode = '{$kd}'";
+		$sql = "SELECT id FROM bsn_struktur WHERE kode = '{$kd}' AND n_status='1'";
 		$res = $this->fetch($sql);
 		// pr($res);
 		$fkd=$res['id'];

@@ -40,11 +40,13 @@ class lakip extends Controller {
 			$dataStruktur['type'] = 2;
 			$type = 6;
 			$parentid = $parent_id;
+			$this->view->assign('isbsn', 2);
 		} 
 		if ($pid ==3){
 			$dataStruktur['type'] = 3;
-			$type = 7;
+			$type = 12;
 			$parentid = $parent_id;
+			$this->view->assign('isbsn', 3);
 		} 
 
 
@@ -77,14 +79,20 @@ class lakip extends Controller {
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3, $parentid);
 		
 		$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parentid);
-		
+		$this->view->assign('cover', $getDokumen[0]['tags']);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {
 				$tags[$value['id']] = $value['tags'];
 			}
-
+	
 			if (is_array($tags)){
-				asort($tags);
+				//add by iman
+				$count  = count($tags);
+				if($count == 1){
+				
+				}else{
+					asort($tags);
+				}
 				foreach ($tags as $key => $val) {
 					foreach ($getDokumen as $k => $value) {
 						if ($key == $value['id']) $newData[] = $value;
@@ -146,7 +154,7 @@ class lakip extends Controller {
 			if ($pid ==1) $parentid = 0;
 			if ($pid ==2 or $pid == 3) $parentid = $parent_id;
 			
-			$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
+			$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parent_id);
 			if ($getDokumen){
 				foreach ($getDokumen as $key => $value) {
 					if ($value['tags']) $isCover = true;
@@ -176,7 +184,7 @@ class lakip extends Controller {
 			$save = $this->contentHelper->saveData($_POST);
 			if ($save){
 
-				$getLastData = $this->contentHelper->getDocument(false, 15);
+				$getLastData = $this->contentHelper->getDocument(false, 16);
 				if ($getLastData){
 					if(!empty($_FILES)){
 						if($_FILES['file']['name'] != ''){

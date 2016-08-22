@@ -413,11 +413,13 @@ class renstra extends Controller {
 			$dataStruktur['type'] = 2;
 			$type = 6;
 			$parentid = $parent_id;
+			$this->view->assign('isbsn', 2);
 		} 
 		if ($pid ==3){
 			$dataStruktur['type'] = 3;
 			$type = 12;
 			$parentid = $parent_id;
+			$this->view->assign('isbsn', 3);
 		} 
 
 
@@ -450,14 +452,20 @@ class renstra extends Controller {
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3, $parentid);
 		
 		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parentid);
-		
+		$this->view->assign('cover', $getDokumen[0]['tags']);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {
 				$tags[$value['id']] = $value['tags'];
 			}
 
 			if (is_array($tags)){
-				asort($tags);
+				//add by iman
+				$count  = count($tags);
+				if($count == 1){
+				
+				}else{
+					asort($tags);
+				}
 				foreach ($tags as $key => $val) {
 					foreach ($getDokumen as $k => $value) {
 						if ($key == $value['id']) $newData[] = $value;
