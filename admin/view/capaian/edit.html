@@ -1,73 +1,4 @@
-<script> 
-$(document).ready(function() {
-	$('#formula-1').summernote({
-		height: 200,
-	});
-	$('#formula-2').summernote({
-		height: 200,
-	});
-	$('#formula-3').summernote({
-		height: 200,
-	});
-	$('#formula-4').summernote({
-		height: 200,
-	});
-	$('#proses-1').summernote({
-		height: 200,
-	});
-	$('#proses-2').summernote({
-		height: 200,
-	});
-	$('#proses-3').summernote({
-		height: 200,
-	});
-	$('#proses-4').summernote({
-		height: 200,
-	});
-	$('#permasalahan').summernote({
-		height: 200,
-	});
-	$('#perbaikan').summernote({
-		height: 200,
-	});
-	$('#contentEdit-1 .note-editable').attr('contenteditable',false);
-	$('#contentEdit-2 .note-editable').attr('contenteditable',false);
-	$('#contentEdit-3 .note-editable').attr('contenteditable',false);
-	$('#contentEdit-4 .note-editable').attr('contenteditable',false);
-	$( "#real-1" ).change(function() {
-	  var target = $('#target').val();
-	  var real = $('#real-1').val();
 
-	  var percent = parseFloat((real/target)*100).toFixed(2);
-
-	  $('#percent-1').val(percent+' %');
-	});
-	$( "#real-2" ).change(function() {
-	  var target = $('#target').val();
-	  var real = $('#real-2').val();
-
-	  var percent = parseFloat((real/target)*100).toFixed(2);
-
-	  $('#percent-2').val(percent+' %');
-	});
-	$( "#real-3" ).change(function() {
-	  var target = $('#target').val();
-	  var real = $('#real-3').val();
-
-	  var percent = parseFloat((real/target)*100).toFixed(2);
-
-	  $('#percent-3').val(percent+' %');
-	});
-	$( "#real-4" ).change(function() {
-	  var target = $('#target').val();
-	  var real = $('#real-4').val();
-
-	  var percent = parseFloat((real/target)*100).toFixed(2);
-
-	  $('#percent-4').val(percent+' %');
-	});
-})
-</script>
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <div id="page-title">
@@ -92,7 +23,7 @@ $(document).ready(function() {
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Form Pencapaian Target </h3>
+			<h3 class="panel-title">Form Pencapaian Target</h3>
 		</div>
 		<form class="form-horizontal form-padding" method="post" action="{$basedomain}capaian/edt_capaian">
 		<div class="panel-body">
@@ -124,8 +55,8 @@ $(document).ready(function() {
 					</div>
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
-						<div class="col-md-9">
-							<textarea id="demo-textarea-input" name="formula" rows="4" class="form-control" readonly>{$data.formula}</textarea>
+						<div class="col-md-9" id="contentEdit">
+							<textarea id="formula" name="formula" rows="4" class="form-control" readonly>{$data.formula}</textarea>
 						</div>
 					</div>
 
@@ -175,7 +106,7 @@ $(document).ready(function() {
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_1" id="real-1" class="form-control" value="{$data.capaian_1}">
+											<input type="text" name="capaian_1" id="real-1" class="form-control numeric" value="{$data.capaian_1}">
 										</div>
 									</div>
 									<div class="form-group">
@@ -225,7 +156,7 @@ $(document).ready(function() {
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_2" id="real-2" class="form-control" value="{$data.capaian_2}">
+											<input type="text" name="capaian_2" id="real-2" class="form-control numeric" value="{$data.capaian_2}">
 										</div>
 									</div>
 									<div class="form-group">
@@ -275,7 +206,7 @@ $(document).ready(function() {
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_3" id="real-3" class="form-control" value="{$data.capaian_3}">
+											<input type="text" name="capaian_3" id="real-3" class="form-control numeric" value="{$data.capaian_3}">
 										</div>
 									</div>
 									<div class="form-group">
@@ -325,7 +256,7 @@ $(document).ready(function() {
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Realisasi</label>
 										<div class="col-md-2">
-											<input type="text" name="capaian_4" id="real-4" class="form-control" value="{$data.capaian_4}">
+											<input type="text" name="capaian_4" id="real-4" class="form-control numeric" value="{$data.capaian_4}">
 										</div>
 									</div>
 									<div class="form-group">
@@ -371,7 +302,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 		<div class="panel-footer text-left">
-			<button class="btn btn-info" type="submit">Submit</button>
+			<button class="btn btn-info" type="submit" id="submit">Submit</button>
 		</div>
 		</form>
 	</div>
@@ -382,4 +313,111 @@ $(document).ready(function() {
 </div>
 <!--===================================================-->
 <!--End page content-->
+{literal}
+<script> 
+$(document).ready(function() {
+	$('#formula,#formula-1,#formula-2,#formula-3,#formula-4,#proses-1,#proses-2,#proses-3,#proses-4,#permasalahan,#perbaikan').summernote({
+		toolbar: [
+    // [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']]
+				  ],
+		height: 200
+	});
+	$('#contentEdit .note-editable').attr('contenteditable',false);
+	$('#contentEdit-1 .note-editable').attr('contenteditable',false);
+	$('#contentEdit-2 .note-editable').attr('contenteditable',false);
+	$('#contentEdit-3 .note-editable').attr('contenteditable',false);
+	$('#contentEdit-4 .note-editable').attr('contenteditable',false);
+	
+	$(document).ready(function(){
+			$('.numeric').keypress(isNumber);
+		});
+	
+	$( "#real-1" ).keyup(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-1').val();
 
+	  var percent = parseFloat((real/target)*100).toFixed(2);
+
+	  $('#percent-1').val(percent+' %');
+	  
+	  if( parseInt(real) > parseInt(target)){
+			alert("Target Melebihi");
+			//console.log('target melebihi');
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//console.log('target tidak melebihi');
+			$("#submit").removeAttr('disabled');
+		
+		}
+	});
+	$( "#real-2" ).keyup(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-2').val();
+
+	  var percent = parseFloat((real/target)*100).toFixed(2);
+
+	  $('#percent-2').val(percent+' %');
+	  
+	  if( parseInt(real) > parseInt(target)){
+			alert("Target Melebihi");
+			//console.log('target melebihi');
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//console.log('target tidak melebihi');
+			$("#submit").removeAttr('disabled');
+		
+		}
+	});
+	$( "#real-3" ).keyup(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-3').val();
+
+	  var percent = parseFloat((real/target)*100).toFixed(2);
+
+	  $('#percent-3').val(percent+' %');
+	  
+	  if( parseInt(real) > parseInt(target)){
+			alert("Target Melebihi");
+			//console.log('target melebihi');
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//console.log('target tidak melebihi');
+			$("#submit").removeAttr('disabled');
+		
+		}
+	});
+	$( "#real-4" ).keyup(function() {
+	  var target = $('#target').val();
+	  var real = $('#real-4').val();
+
+	  var percent = parseFloat((real/target)*100).toFixed(2);
+
+	  $('#percent-4').val(percent+' %');
+	  
+	  if( parseInt(real) > parseInt(target)){
+			alert("Target Melebihi");
+			//console.log('target melebihi');
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//console.log('target tidak melebihi');
+			$("#submit").removeAttr('disabled');
+		
+		}
+	});
+})
+function isNumber(evt) {
+	evt = (evt) ? evt : window.event;
+   var charCode = (evt.which) ? evt.which : evt.keyCode;
+		if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+			return false;
+		}
+		return true;
+	}
+</script>
+{/literal}

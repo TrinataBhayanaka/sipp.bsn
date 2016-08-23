@@ -47,9 +47,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+						<label class="col-md-3 control-label" for="demo-textarea-input-formula">Formula</label>
 						<div class="col-md-9">
-							<textarea id="demo-textarea-input" name="formula" rows="4" class="form-control">{$data.formula}</textarea>
+							<textarea id="demo-textarea-input-formula" name="formula" rows="4" class="form-control triwulan">{$data.formula}</textarea>
 						</div>
 					</div>
 
@@ -75,7 +75,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_1" class="form-control" value="{$data.rencana_1}" id="rencana_1" onkeyup="return persentase(this);">
+											<input type="text" name="rencana_1" class="form-control numeric" value="{$data.rencana_1}" id="rencana_1" onkeyup="return persentase(this);">
 										</div>
 									</div>
 									<div class="form-group">
@@ -94,9 +94,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input-formula">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_1" rows="4" class="form-control triwulan">{$data.aksi_1}</textarea>
+											<textarea id="demo-textarea-input-formula" name="aksi_1" rows="4" class="form-control triwulan">{$data.aksi_1}</textarea>
 										</div>
 									</div>
 								</div>
@@ -104,7 +104,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_2" class="form-control" value="{$data.rencana_2}" id="rencana_2" onkeyup="return persentase(this);">
+											<input type="text" name="rencana_2" class="form-control numeric" value="{$data.rencana_2}" id="rencana_2" onkeyup="return persentase(this);">
 										</div>
 									</div>
 									<div class="form-group">
@@ -123,9 +123,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input-formula">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_2" rows="4" class="form-control triwulan">{$data.aksi_2}</textarea>
+											<textarea id="demo-textarea-input-formula" name="aksi_2" rows="4" class="form-control triwulan">{$data.aksi_2}</textarea>
 										</div>
 									</div>
 								</div>
@@ -133,7 +133,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_3" class="form-control" value="{$data.rencana_3}" id="rencana_3" onkeyup="return persentase(this);">
+											<input type="text" name="rencana_3" class="form-control numeric" value="{$data.rencana_3}" id="rencana_3" onkeyup="return persentase(this);">
 										</div>
 									</div>
 									<div class="form-group">
@@ -152,9 +152,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input-formula">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_3" rows="4" class="form-control triwulan">{$data.aksi_3}</textarea>
+											<textarea id="demo-textarea-input-formula" name="aksi_3" rows="4" class="form-control triwulan">{$data.aksi_3}</textarea>
 										</div>
 									</div>
 								</div>
@@ -162,7 +162,7 @@
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Target</label>
 										<div class="col-md-2">
-											<input type="text" name="rencana_4" class="form-control" value="{$data.rencana_4}" id="rencana_4" onkeyup="return persentase(this);">
+											<input type="text" name="rencana_4" class="form-control numeric" value="{$data.rencana_4}" id="rencana_4" onkeyup="return persentase(this);">
 										</div>
 									</div>
 									<div class="form-group">
@@ -181,9 +181,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input-formula">Formula</label>
 										<div class="col-md-9">
-											<textarea id="demo-textarea-input" name="aksi_4" rows="4" class="form-control triwulan">{$data.aksi_4}</textarea>
+											<textarea id="demo-textarea-input-formula" name="aksi_4" rows="4" class="form-control triwulan">{$data.aksi_4}</textarea>
 										</div>
 									</div>
 								</div>
@@ -199,7 +199,7 @@
 			</div>
 		</div>
 		<div class="panel-footer text-left">
-			<button class="btn btn-info" type="submit">Submit</button>
+			<button class="btn btn-info" type="submit" id="submit">Submit</button>
 		</div>
 		</form>
 	</div>
@@ -213,18 +213,55 @@
 {literal}
 <script type="text/javascript">
 	$(document).ready(function(){
-		$(".triwulan").summernote({height:150});
+		$('.triwulan').summernote({
+		toolbar: [
+    // [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']]
+				  ],
+		height: 200
+	});
+		//$(".triwulan").summernote({height:150});
+		 $(document).ready(function(){
+			$('.numeric').keypress(isNumber);
+		});   
 	})
-
+	
 	function persentase(item)
 	{
+	
 		var target = $(item).val();
 		var id = item.id.split("_");
 		var total = $("#target").val();
 		var nilai = target/total*100;
 		
 		$("#tri_"+id[1]).val(nilai);
+		if( parseInt(target) > parseInt(total)){
+			alert("Target Melebihi");
+			//console.log('target melebihi');
+			$("#submit").attr('disabled','disabled');
+		}else{
+			//console.log('target tidak melebihi');
+			$("#submit").removeAttr('disabled');
+		
+		}
 
 	}
+	
+	function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+		if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 </script>
 {/literal}

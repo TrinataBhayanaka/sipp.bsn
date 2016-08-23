@@ -40,7 +40,15 @@ class mrenaksi extends Database {
 
 	function upd_renaksi($data)
 	{
-		$sql = "UPDATE th_pk SET formula = '{$data['formula']}', rencana_1 = '{$data['rencana_1']}', ren_hasil_1 = '{$data['ren_hasil_1']}', aksi_1 = '{$data['aksi_1']}', rencana_2 = '{$data['rencana_2']}', ren_hasil_2 = '{$data['ren_hasil_2']}', aksi_2 = '{$data['aksi_2']}', rencana_3 = '{$data['rencana_3']}', ren_hasil_3 = '{$data['ren_hasil_3']}', aksi_3 = '{$data['aksi_3']}', rencana_4 = '{$data['rencana_4']}', ren_hasil_4 = '{$data['ren_hasil_4']}', aksi_4 = '{$data['aksi_4']}' WHERE id = '{$data['id']}'";
+		/*$sql = "UPDATE th_pk SET formula = '{$data['formula']}', rencana_1 = '{$data['rencana_1']}', ren_hasil_1 = '{$data['ren_hasil_1']}', aksi_1 = '{$data['aksi_1']}', 
+							  rencana_2 = '{$data['rencana_2']}', ren_hasil_2 = '{$data['ren_hasil_2']}', aksi_2 = '{$data['aksi_2']}', 
+							  rencana_3 = '{$data['rencana_3']}', ren_hasil_3 = '{$data['ren_hasil_3']}', aksi_3 = '{$data['aksi_3']}', 
+							  rencana_4 = '{$data['rencana_4']}', ren_hasil_4 = '{$data['ren_hasil_4']}', aksi_4 = '{$data['aksi_4']}' WHERE id = '{$data['id']}'";*/
+		
+		$sql = "UPDATE th_pk SET formula ='".addslashes(html_entity_decode($data['formula']))."', rencana_1 = '{$data['rencana_1']}', ren_hasil_1 = '{$data['ren_hasil_1']}', aksi_1 = '".addslashes(html_entity_decode($data['aksi_1']))."', 
+							  rencana_2 = '{$data['rencana_2']}', ren_hasil_2 = '{$data['ren_hasil_2']}', aksi_2 =  '".addslashes(html_entity_decode($data['aksi_2']))."', 
+							  rencana_3 = '{$data['rencana_3']}', ren_hasil_3 = '{$data['ren_hasil_3']}', aksi_3 =  '".addslashes(html_entity_decode($data['aksi_3']))."', 
+							  rencana_4 = '{$data['rencana_4']}', ren_hasil_4 = '{$data['ren_hasil_4']}', aksi_4 =  '".addslashes(html_entity_decode($data['aksi_4']))."' WHERE id = '{$data['id']}'";					  
 		$res = $this->query($sql);
 		return true;
 	}
