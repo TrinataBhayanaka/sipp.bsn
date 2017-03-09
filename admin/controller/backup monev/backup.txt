@@ -1,0 +1,83 @@
+function print_bsn(){
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpk('840000',1,false,$thn['kode']);
+		if($data){
+			foreach ($data as $key => $value) {
+				$perspektif[] = $value['perspektif'];
+			}
+			$fix_per = array_unique($perspektif);
+			foreach ($fix_per as $val) {
+				$i=1;
+				$k =1;
+				foreach ($data as $keys=>$value) {
+					$temp[] = $value['no_sasaran'];
+					$hit = count($temp);
+					if($val == $value['perspektif']){
+						$data_fix[$val][]= $value;
+						$count = count($data_fix[$val]);
+						$index = $count - 1; 
+						
+						$data_fix[$val][$index]['no'] = $i;
+						if($hit == 1){
+							$data_fix[$val][$index]['no_urut'] = $k;	
+						}else{
+							$get_val_array = $hit - 2;
+							if($temp[$get_val_array] == $value['no_sasaran']){
+								// nothing
+								$data_fix[$val][$index]['no_urut'] = '';	
+							}else{
+								$k++;
+								$data_fix[$val][$index]['no_urut'] = $k;	
+							}
+						}
+					}
+					$i++;
+				}
+			} 
+		}
+		$data_program = $this->model->getProgram($thn['kode']);
+		$j=1;
+		foreach ($data_program as $keyval=>$values){
+			$data_program_fix[] =  $values;
+			if($values['brief'] == "084.01"){
+				$param = '1';
+			}elseif($values['brief'] == "084.02"){
+				$param = '2';
+			}elseif($values['brief'] == "084.06"){
+				$param = '3';
+			}
+			$data_anggaran= $this->model->getAnggaran($param,$thn['kode']);
+			foreach ($data_anggaran as $anggaran){
+				$anggaran_fix += $anggaran['JML'];
+			}
+			$tot_angaran += $anggaran_fix;
+			$data_program_fix[$keyval]['anggaran'] =  $anggaran_fix;
+			$data_program_fix[$keyval]['no'] =  $j;
+			$anggaran_fix = 0;
+			$j++;
+			
+		}
+		
+		//new add		
+		$tgl = date("Y-m-d");
+		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);
+		
+		//ttd nama
+		$split = substr('840000',0,3);
+		$join = $split.'000';
+		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
+		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
+		
+		// exit;
+		$this->view->assign('data',$data_fix);
+		$this->view->assign('program',$data_program_fix);
+		$this->view->assign('all_anggaran',$tot_angaran);
+
+		$html = $this->loadView('pk/print_bsn');
+		// echo $html;
+		// exit;
+		$this->reportHelper =$this->loadModel('reportHelper');
+		$generate = $this->reportHelper->loadMpdf($html, 'pk-bsn',2);
+	}
+	

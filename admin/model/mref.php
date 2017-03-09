@@ -176,5 +176,54 @@ class mref extends Database {
 		$result = $this->query($query);
 		
 	}
+
+	function insertPejabat($data){
+		$type = '1';
+		$category = '33';
+		$n_status = '1';
+		$date = date('Y-m-d H:i:s');
+		$query = "INSERT INTO bsn_news_content(`parent_id`, `title`, `brief`,`desc`,
+				`type`, category,`year`,`n_status`,`create_date`,`publish_date`) VALUES ('{$data[id]}','{$data[nm_satker]}','{$data[jabatan]}','{$data[nama_pejabat]}','{$type}','{$category}','{$data[tahun]}','{$n_status}','{$date}','{$date}')";
+		//pr($query);
+		$result = $this->query($query);
+
+
+	}
+
+	function ajax_edit($id){
+
+		$query = "SELECT * from bsn_news_content where id= '{$id}'";
+		//echo $query;
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+
+	function updatePejabat($data){
+
+		$query = "UPDATE bsn_news_content SET  `brief` = '{$data[jabatan]}', `desc` = '{$data[nama_pejabat]}' where `id` = '{$data[id]}'";
+		$result = $this->query($query);
+
+	}
+
+	function delPejabat($data){
+
+		$query = "UPDATE bsn_news_content SET  `n_status` = '0' where 
+		         `id` = '{$data}'";
+		$result = $this->query($query);
+
+	}
+
+	function countPejabat($data){
+
+		$query = "SELECT count(id) as jml from bsn_news_content where type= '1' and category = '33' and n_status = '1' and parent_id= '{$data[parent_id]}' 
+			and year = '{$data[year]}'";
+		//echo $query;
+		$result = $this->fetch($query);
+		
+		return $result;
+	}
+
+
 }
 ?>

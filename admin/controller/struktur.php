@@ -20,13 +20,11 @@ class struktur extends Controller {
 	{
 		
 		$this->contentHelper = $this->loadModel('contentHelper');
-		$this->marticle = $this->loadModel('marticle');
-		$this->mquiz = $this->loadModel('mquiz');
-		$this->mcourse = $this->loadModel('mcourse');
+		$this->model = $this->loadModel('mref');
+		
 	}
 	
 	public function index(){
-
 		$getStruktur = $this->contentHelper->getContent(false, '_struktur');
 		if ($getStruktur){
 			$this->view->assign('struktur', $getStruktur);
@@ -38,13 +36,15 @@ class struktur extends Controller {
 
 		$data['type'] = 1;
 		$data['category'] = 1;
+		$getSetting = $this->contentHelper->getSetting();
+		$data['year'] = $getSetting['0']['kode']; 
 		$getStruktur = $this->contentHelper->getContent($data);
-		
 		if ($getStruktur){
 			foreach ($getStruktur as $key => $value) {
 				$fungsi['type'] = 1;
 				$fungsi['category'] = 2;
 				$fungsi['parent_id'] = $value['id'];
+				$data['year'] = $getSetting['0']['kode'];
 				$getFungsi = $this->contentHelper->getContent($fungsi);
 				if ($getFungsi){
 					$getStruktur[$key]['fungsi'] = $getFungsi;
@@ -62,7 +62,8 @@ class struktur extends Controller {
 
 		$data['type'] = 2;
 		$data['category'] = 1;
-		
+		$getSetting = $this->contentHelper->getSetting();
+		$data['year'] = $getSetting['0']['kode']; 
 		$parent_id = _g('parent_id');
 		$dataStruktur['type'] = 2;
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
@@ -83,6 +84,8 @@ class struktur extends Controller {
 				$fungsi['type'] = 2;
 				$fungsi['category'] = 2;
 				$fungsi['parent_id'] = $value['id'];
+				$fungsi['year'] = $getSetting['0']['kode']; 
+					
 				$getFungsi = $this->contentHelper->getContent($fungsi);
 				if ($getFungsi){
 					$getTugas[$key]['fungsi'] = $getFungsi;
@@ -103,6 +106,8 @@ class struktur extends Controller {
 
 		$data['type'] = 3;
 		$data['category'] = 1;
+		$getSetting = $this->contentHelper->getSetting();
+		$data['year'] = $getSetting['0']['kode']; 
 		
 		$parent_id = _g('parent_id');
 		$dataStruktur['type'] = 3;
@@ -124,6 +129,7 @@ class struktur extends Controller {
 				$fungsi['type'] = 3;
 				$fungsi['category'] = 2;
 				$fungsi['parent_id'] = $value['id'];
+				$fungsi['year'] = $getSetting['0']['kode']; 
 				$getFungsi = $this->contentHelper->getContent($fungsi);
 				if ($getFungsi){
 					$getTugas[$key]['fungsi'] = $getFungsi;
@@ -491,6 +497,97 @@ class struktur extends Controller {
 		if ($arrayHtml) return $arrayHtml;
 		else return false;
 	}
+
+
+	function detailStruktur (){
+		$data['parent_id'] = $_GET['id'];
+		$data['category'] = '33';
+		$data['type'] = '1';
+		$tahun = $this->contentHelper->getContent(false,"_sistem_setting");
+		$data['year'] = $tahun['0']['kode'];
+	    $getData = $this->contentHelper->getContent($data);
+	    //pr($getData);
+	    $param['id'] = $_GET['id'];
+	    $dataStruktur = $this->contentHelper->getContent($param,"_struktur");
+	    
+	    $count = $this->model->countPejabat($data);
+	    //pr($count);
+	    $this->view->assign('getData', $getData);
+		$this->view->assign('param', $data);
+		$this->view->assign('param2', $dataStruktur[0]);
+		$this->view->assign('count', $count['jml']);
+
+		//return $this->loadView('struktur/detailstruktur');
+		return $this->loadView('struktur/detailstruktur');
+	}
+	
+	function insertdetailStruktur(){
+		$data['parent_id'] = $_GET['id'];
+		$tahun = $this->contentHelper->getContent(false,"_sistem_setting");
+		$data['year'] = $tahun['0']['kode'];
+	    
+	    $param['id'] = $_GET['id'];
+	    $dataStruktur = $this->contentHelper->getContent($param,"_struktur");
+	    $this->view->assign('param', $data);
+		$this->view->assign('param2', $dataStruktur[0]);
+		
+
+		return $this->loadView('struktur/inputdetailstruktur');
+	}
+	
+	function ajax_insert(){
+		global $basedomain;
+		//pr($_POST);
+		$data = $_POST;
+		//pr($data);
+		//exit;
+		$ajax_insert = $this->model->insertPejabat($data);
+		//exit;
+		redirect($basedomain."struktur/detailStruktur/?id=".$data['id']);
+		exit;
+	}
+
+	function editdetailStruktur(){
+		$data = $_GET['id'];
+		$prev = $_GET['prev'];
+		$ajax_edit = $this->model->ajax_edit($data);
+		//pr($ajax_edit);
+		$this->view->assign('data', $ajax_edit);
+		$this->view->assign('prev', $prev);
+		return $this->loadView('struktur/editdetailstruktur');
+	}
+
+	/*function ajax_edit(){
+		$data = $_POST['id'];
+		$ajax_edit = $this->model->ajax_edit($data);
+		echo json_encode($ajax_edit);
+		exit;
+	}*/
+
+	function ajax_update(){
+		global $basedomain;
+		//pr($_POST);
+		$data = $_POST;
+		$prev = $_POST['prev'];
+		//pr($data);
+		//exit;
+		$ajax_insert = $this->model->updatePejabat($data);
+		//exit;
+		redirect($basedomain."struktur/detailStruktur/?id=".$prev);
+		exit;
+	}
+
+	function deldetailStruktur(){
+		global $basedomain;
+		$id = $_GET['id'];
+		$prev = $_GET['prev'];
+		$ajax_insert = $this->model->delPejabat($id);
+		//exit;
+		redirect($basedomain."struktur/detailStruktur/?id=".$prev);
+		exit;
+
+	}
+
 }
 
 ?>

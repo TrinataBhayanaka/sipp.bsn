@@ -26,8 +26,24 @@
 		</div>
 		
 		<div class="panel-body">
-			<div class="pad-btm form-inline">
-				<div class="row">
+			<div id="" class="table-toolbar-right">
+			<!--<div class="pad-btm form-inline">
+				<div class="row">-->
+					<div class="form-horizontal">
+					{if $eselon.type eq 1}
+					<div class="form-group ">
+						<div class="col-sm-8 "><label class="boldGrey">Tanggal Cetak</label></div>
+						<div class="col-sm-4">
+							<div id="demo-dp-component">						
+							<div class="input-group date">
+								<input type="text" class="form-control" id="date">
+								<span class="input-group-addon "><i class="fa fa-calendar fa-lg"></i></span>
+							</div>
+							</div>
+						</div>
+					</div>
+					{/if}
+					<div class="form-group ">
 					<div class="col-sm-6 table-toolbar-left">
 						{if $eselon.type eq 1 || $eselon.type eq 2 && $eselon.kode eq $kode}
 						<a href="{$basedomain}perjanjiankinerja/add_eselon/?id={$id}&kd={$idpk}&tp={$tipe}" id="addData">
@@ -44,8 +60,11 @@
 							</select>
 							<button type="submit" class="btn btn-primary"> Cari</button>
 						</form>
+					<!--</div>
+				</div>-->
 					</div>
 				</div>
+			</div>
 			</div>
 			<table id="newslist" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
@@ -118,14 +137,25 @@
 {literal}
 <script>
 	$(document).ready(function() {
-	
+		
+		$('#demo-dp-component .input-group.date').datepicker({
+	//format: "MM dd, yyyy",
+	format: "d/m/yyyy",
+	autoclose: true,
+	todayHighlight: true
+	});
+
 		$('#print').on('click', function(){
 		var kd_unit = $('#struktur').val();
-		//console.log(kd_unit);
-		//var split_kode = kd_unit.split("_");
-		//console.log(split_kode[2]);
-		
-			window.location.href=basedomain+"perjanjiankinerja/print_eselon1/?kd_unit="+kd_unit;
+		//var tglcetak = $('#date').val();
+		var tgl;
+		var tglcetak = $('#date').val();
+		if(tglcetak){
+			tgl = tglcetak;
+		}else{
+			tgl = '';
+		}
+			window.location.href=basedomain+"perjanjiankinerja/print_eselon1/?kd_unit="+kd_unit+"&tglcetak="+tgl;
 		});	
 
 });

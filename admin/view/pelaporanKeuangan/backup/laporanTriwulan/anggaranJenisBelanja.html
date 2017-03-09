@@ -1,0 +1,253 @@
+<script>
+{literal}
+	
+	$(document).on('click', '#inputvisi', function(){
+
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Anggaran Jenis Belanja</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<div id="delete-toolbar" class="table-toolbar-right">
+			<form action="{$basedomain}pelaporanKeuanganTrwln/anggaranJenisBelanja" method="post">
+			<div class="form-horizontal">
+				<div class="form-group">
+				Sampai dengan Triwulan : 
+				<select name="kdtriwulan" class="selectpicker" width="100%">
+					<option value="1" {$dataselected.0}>Triwulan I</option>
+					<option value="2" {$dataselected.1}>Triwulan II</option>
+					<option value="3" {$dataselected.2}>Triwulan III</option>
+					<option value="4" {$dataselected.3}>Triwulan IV</option>
+				</select>
+					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
+				</div>
+			</div>
+			</form>
+		</div>
+			
+		<div class="table-responsive" style="overflow:scroll;max-height:550px">
+				<table class="table table-bordered" >
+					<thead>
+						<tr>
+							<th class="text-center" rowspan="2">Kode APBN</th>
+							<th class="text-center" rowspan="2">Lembaga
+							Nama Satuan Kerja /
+							Nama Kegiatan /
+							Output</th>
+							<th class="text-center" rowspan="2">Pagu Anggaran</th>
+							<th class="text-center" colspan="3">Belanja Pegawai</th>
+							<th class="text-center" colspan="3">Belanja Barang</th>
+							<th class="text-center" colspan="3">Belanja Modal</th>
+							<th class="text-center" colspan="3">Belanja Perjalanan</th>
+							<th class="text-center" colspan="2">Realisasi Total</th>
+							<th class="text-center" rowspan="2">Sisa Anggaran</th>
+						</tr>
+						<tr>
+							<th class="text-center">Pagu</th>
+							<th class="text-center">Realisasi</th>
+							<th class="text-center">Sisa</th>
+							
+							<th class="text-center">Pagu</th>
+							<th class="text-center">Realisasi</th>
+							<th class="text-center">Sisa</th>
+							
+							<th class="text-center">Pagu</th>
+							<th class="text-center">Realisasi</th>
+							<th class="text-center">Sisa</th>
+							
+							<th class="text-center">Pagu</th>
+							<th class="text-center">Realisasi</th>
+							<th class="text-center">Sisa</th>
+							
+							<th class="text-center">Rupiah</th>
+							<th class="text-center">(%)</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						{if $data_master_induk}
+						<tr>
+							<td>{$data_master_induk.0.kode}</td>
+							<td>{$data_master_induk.2.nmunit}</td>
+							<td class="text-right">{number_format($data_master_induk.1.pagu_menteri,"0",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk.3.pegawai.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.12.realisasi_belanja_pegawai,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.13.sisa_anggaran_pegawai,"0",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk.5.barang.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.14.realisasi_belanja_barang,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.15.sisa_anggaran_barang,"0",",",".")}</td>
+							
+							
+							<td class="text-right">{number_format($data_master_induk.7.modal.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.16.realisasi_belanja_modal,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.17.sisa_anggaran_modal,"0",",",".")}</td>
+							
+							
+							<td class="text-right">{number_format($data_master_induk.9.perjalanan.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.18.realisasi_belanja_perjalanan,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.19.sisa_anggaran_perjalanan,"0",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk.20.total_realisasi_jenis_belanja,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.21.persentase_total_realisasi_jenis_belanja,"2",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk.22.sisa_anggaran_total_realisasi_jenis_belanja,"0",",",".")}</td>
+							
+						</tr>
+						{/if}
+						{if $data_master_induk_sub}
+						<tr>
+							<td>{$data_master_induk_sub.0.kode}</td>
+							<td>{$data_master_induk_sub.2.nama}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.1.pagu,"0",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk_sub.3.pegawai.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.12.realisasi_belanja_pegawai,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.13.sisa_anggaran_pegawai,"0",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk_sub.5.barang.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.14.realisasi_belanja_barang,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.15.sisa_anggaran_barang,"0",",",".")}</td>
+							
+							
+							<td class="text-right">{number_format($data_master_induk_sub.7.modal.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.16.realisasi_belanja_modal,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.17.sisa_anggaran_modal,"0",",",".")}</td>
+							
+							
+							<td class="text-right">{number_format($data_master_induk_sub.9.perjalanan.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.18.realisasi_belanja_perjalanan,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.19.sisa_anggaran_perjalanan,"0",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk_sub.20.total_realisasi_jenis_belanja,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk_sub.21.persentase_total_realisasi_jenis_belanja,"2",",",".")}</td>
+							
+							<td class="text-right">{number_format($data_master_induk_sub.22.sisa_anggaran_total_realisasi_jenis_belanja,"0",",",".")}</td>
+							
+						</tr>
+						{/if}
+							{if $data_master_induk_sub_sub}
+							{foreach $data_master_induk_sub_sub as $valgiat}
+							<tr>
+								<td>{$valgiat.KDGIAT}</td>
+								<td>{$valgiat.nama_kegiatan}</td>
+								<td class="text-right">{number_format($valgiat.pagu_giat,"0",",",".")}</td>
+								
+								<td class="text-right">{number_format($valgiat.pagu_giat_pegawai,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.realisasi_giat_pegawai,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.sisa_anggaran_belanja_menteri_pegawai_giat,"0",",",".")}</td>
+								
+								<td class="text-right">{number_format($valgiat.pagu_giat_barang,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.realisasi_giat_barang,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.sisa_anggaran_belanja_menteri_barang_giat,"0",",",".")}</td>
+								
+								
+								<td class="text-right">{number_format($valgiat.pagu_giat_modal,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.realisasi_giat_modal,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.sisa_anggaran_belanja_menteri_modal_giat,"0",",",".")}</td>
+								
+								
+								<td class="text-right">{number_format($valgiat.pagu_giat_perjalanan,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.realisasi_giat_perjalanan,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.sisa_anggaran_belanja_menteri_perjalanan_giat,"0",",",".")}</td>
+								
+								<td class="text-right">{number_format($valgiat.realisasi_anggaran_belanja_menteri_giat_total,"0",",",".")}</td>
+								<td class="text-right">{number_format($valgiat.persentase_anggaran_belanja_menteri_giat_total,"2",",",".")}</td>
+								
+								<td class="text-right">{number_format($valgiat.sisa_anggaran_belanja_menteri_giat_total,"0",",",".")}</td>
+							</tr>	
+								{if $valgiat.output}
+								{foreach $valgiat.output as $valout}
+								<tr>
+									<td>{$valout.KDOUTPUT}</td>
+									<td>{$valout.namaoutput}</td>
+									<td class="text-right">{number_format($valout.pagu_output,"0",",",".")}</td>
+									
+									<td class="text-right">{number_format($valout.pagu_output_pegawai,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.realisasi_pagu_output_pegawai,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.sisa_pagu_output_pegawai,"0",",",".")}</td>
+									
+									<td class="text-right">{number_format($valout.pagu_output_barang,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.realisasi_pagu_output_barang,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.sisa_pagu_output_barang,"0",",",".")}</td>
+									
+									
+									<td class="text-right">{number_format($valout.pagu_output_modal,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.realisasi_pagu_output_modal,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.sisa_pagu_output_modal,"0",",",".")}</td>
+									
+									
+									<td class="text-right">{number_format($valout.pagu_output_perjalanan,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.realisasi_pagu_output_perjalanan,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.sisa_pagu_output_perjalanan,"0",",",".")}</td>
+									
+									<td class="text-right">{number_format($valout.realisasi_anggaran_belanja_menteri_output_total,"0",",",".")}</td>
+									<td class="text-right">{number_format($valout.persentase_anggaran_belanja_menteri_output_total,"2",",",".")}</td>
+									
+									<td class="text-right">{number_format($valout.sisa_anggaran_belanja_menteri_output_total,"0",",",".")}</td>
+								</tr>	
+								{/foreach}
+								{/if}								
+							{/foreach}
+							{/if}
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

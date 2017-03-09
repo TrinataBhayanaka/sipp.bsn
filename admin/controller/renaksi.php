@@ -32,36 +32,40 @@ class renaksi extends Controller {
 		$data = $this->model->getpk($struktur[0]['kode'],$thn['kode']);
 
 		$this->view->assign('data',$data);
-
+		
 		return $this->loadView('renaksi/bsn');
 
-	}
-
-	public function edit()
-	{
-		$id = $_GET['id'];
-		$thn = $this->model->getTahun();
-		$data = $this->model->getpkid($id,$thn['kode']);
-
-		$this->view->assign('data',$data);
-		$this->view->assign('id',$id);
-
-		return $this->loadView('renaksi/edit');
 	}
 
 	public function edit_eselon1()
 	{
 		$id = $_GET['id'];
+		$thn = $this->model->getTahun();
+		$data = $this->model->getpkid($id,$thn['kode']);
+		$kd = '840000';
+		$nama_unit = $this->model->getNamaStruktur($kd);
+		
+		$this->view->assign('data',$data);
+		$this->view->assign('id',$id);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
+
+		return $this->loadView('renaksi/edit');
+	}
+
+	/*public function edit_eselon1()
+	{
+		$id = $_GET['id'];
 		$kd = $_GET['kd'];
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpkid($id,$thn['kode']);
-
+		$nama_unit = $this->model->getNamaStruktur($kd);
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
 		$this->view->assign('kode',$kd);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
 
 		return $this->loadView('renaksi/edit_eselon1');
-	}
+	}*/
 
 	public function edit_eselon2()
 	{
@@ -69,10 +73,12 @@ class renaksi extends Controller {
 		$kd = $_GET['kd'];
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpkid($id,$thn['kode']);
-
+		$nama_unit = $this->model->getNamaStruktur($kd);
+		
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
 		$this->view->assign('kode',$kd);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
 
 		return $this->loadView('renaksi/edit_eselon2');
 	}
@@ -189,7 +195,8 @@ class renaksi extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);
-
+		//pr($data);
+		//exit;
 		
 		$this->view->assign('data',$data);
 		$this->view->assign('struktur',$struktur);
@@ -210,7 +217,40 @@ class renaksi extends Controller {
 
 		return $data;
 	}
+
+	public function del_renaksi($id){
+		global $basedomain;
+		$id = $_GET['id'];
+		$data = $this->model->del_renaksi($id);
+
+		echo "<script>window.location.href='".$basedomain."renaksi/bsn'</script>";
+		exit;
+	}
 	
+	public function del_renaksi_es1($id){
+		global $basedomain;
+		$id = $_GET['id'];
+		$kode = $_GET['kd'];
+		$data = $this->model->del_renaksi($id);
+
+		echo "<script>window.location.href='".$basedomain."renaksi/eselon1/?kd={$kode}'</script>";
+		exit;
+
+
+	}
+
+	public function del_renaksi_es2($id){
+		global $basedomain;
+		$id = $_GET['id'];
+		$kode = $_GET['kd'];
+		$data = $this->model->del_renaksi($id);
+
+		echo "<script>window.location.href='".$basedomain."renaksi/eselon2/?kd={$kode}'</script>";
+		exit;
+
+
+	}
+
 }
 
 ?>

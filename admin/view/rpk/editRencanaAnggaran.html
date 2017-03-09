@@ -106,25 +106,58 @@ function isNumber(evt) {
 							<label class="col-sm-2 control-label boldGrey">Total Bobot (%)</label>
 							<div class="col-sm-10">						
 								<label class=" control-label boldBlack" id="sumtext">{$sumBobot.total}</label>
-								 / 
-								<label class=" control-label boldBlack" id="bobot">{$bobot.bobot}</label>
-								%
-							
+								 <!--/ 
+								<label class=" control-label boldBlack" id="bobot">{$bobot.bobot}</label>-->
+								 
+							 </div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">Sisa Bobot (%)</label>
+							<div class="col-sm-10">						
+								<label class=" control-label boldBlack" id="sel_bobot">{$selisih|number_format:2:".":","}
+								</label>
+								<!--<input type="text" id="sel_bobot_hidden" value="">-->
+						
+								
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">Anggaran (Rp)</label>
 							<div class="col-sm-10">						
-								<input type="text" class="boldBlack money" id="sumPaguText" size="10%" readonly>
-								 / 
-								<label class=" control-label boldBlack" id="pagu">{number_format($pagu)}</label>
-								
+								<!--<input type="text" class="boldBlack money" id="sumPaguText" size="10%" readonly>-->
+								<label class="control-label boldBlack" id="sumPaguText">
+								{$anggranThpn|number_format:0:",":"."}
+								</label>
+								<!--<label class=" control-label boldBlack" id="pagu">{number_format($pagu)}</label>-->
+									
 							
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey">Sisa Anggaran (Rp)</label>
+							<div class="col-sm-10">						
+								<!--<input type="text" class="boldBlack money" id="sumPaguText" size="10%" readonly>
+								 /--> 
+								<label class=" control-label boldBlack" id="sel_pagu">
+									{$selisihAnggaran|number_format:0:",":"."}
+								</label>
+									
+							
+							</div>
+						</div>
+
+						<input type="hidden" id="pagu" value="{$pagu}">
+						<input type="hidden" id="bobot" value="{$bobot.bobot}">
 						<input type="hidden" id="sumBobot" value="{$sumBobot.total}">
 						<input type="hidden" id="sumPagu" value="{$pagu}">
+						<input type="hidden" id="id_thpn" value="{$get.id}">
+						<input type="hidden" id="id_thn" value="{$get.thn}">
+						<input type="hidden" id="id_kd_unit" value="{$get.kd_unit}">
+						<input type="hidden" id="id_kd_giat" value="{$get.kd_giat}">
+						<input type="hidden" id="id_kd_output" value="{$get.kd_output}">
+						<input type="hidden" id="id_kd_komponen" value="{$get.kd_komponen}">
+						<input type="hidden" id="id_kd_soutput" value="{$get.kd_soutput}">
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey"></label>
 							<div class="col-sm-10" id="helptext"></div>
@@ -176,7 +209,7 @@ function isNumber(evt) {
 															<td><strong>Bobot Kinerja</strong>
 																<!--<span class="input-group-addon">(%)</span>-->
 															</td>
-															<td>
+															<!--<td>
 																<div class="input-group" style="width:100px">
 																	<input type="text" name="target_1" id="target_1" class="form-control span col-sm-2 percent January" value="{number_format($value.target_1,'2',',','.')}" onkeyup="return checkBobot();" disabled>
 																	<span class="input-group-addon">(%)</span>
@@ -251,12 +284,88 @@ function isNumber(evt) {
 																	<input type="text" name="target_12"  id="target_12"class="form-control percent December" value="{number_format($value.target_12,'2',',','.')}" onkeyup="return checkBobot();"  disabled>
 																	<span class="input-group-addon">(%)</span>
 																</div>
+															</td>-->
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_1" id="target_1" class="form-control span col-sm-2 percent January" value="{number_format($value.target_1,'2',',','.')}" onkeyup="return checkBobot();" >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_2" id="target_2" class="form-control percent February" value="{number_format($value.target_2,'2',',','.')}" onkeyup="return checkBobot();" >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_3" id="target_3" class="form-control percent March" value="{number_format($value.target_3,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_4"  id="target_4" class="form-control percent April" value="{number_format($value.target_4,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>	
+																</div>
+															</td>
+															<td>
+																
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_5"  id="target_5" class="form-control percent May" value="{number_format($value.target_5,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_6"  id="target_6" class="form-control percent June" value="{number_format($value.target_6,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_7"  id="target_7" class="form-control percent July" value="{number_format($value.target_7,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_8"  id="target_8" class="form-control percent August" value="{number_format($value.target_8,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_9"  id="target_9" class="form-control percent September" value="{number_format($value.target_9,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_10"  id="target_10" class="form-control percent October" value="{number_format($value.target_10,'2',',','.')}" onkeyup="return checkBobot();" >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_11"  id="target_11"class="form-control percent November" value="{number_format($value.target_11,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
+															</td>
+															<td>
+																<div class="input-group" style="width:100px">
+																	<input type="text" name="target_12"  id="target_12"class="form-control percent December" value="{number_format($value.target_12,'2',',','.')}" onkeyup="return checkBobot();"  >
+																	<span class="input-group-addon">(%)</span>
+																</div>
 															</td>
 														</tr>
 
 														<tr>
 															<td><strong>Jumlah anggaran</strong></td>
-															<td>
+															<!--<td>
 																<input type="text" name="anggaran_1"  id="anggaran_1" class="form-control money January" value="{number_format($value.anggaran_1,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" disabled>
 															</td>
 															<td>
@@ -291,6 +400,42 @@ function isNumber(evt) {
 															</td>
 															<td>
 																<input type="text" name="anggaran_12" id="anggaran_12" class="form-control money December" value="{number_format($value.anggaran_12,'0',',','.')}"  onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" disabled>
+															</td>-->
+															<td>
+																<input type="text" name="anggaran_1"  id="anggaran_1" class="form-control money January" value="{number_format($value.anggaran_1,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_2" id="anggaran_2" class="form-control money February" value="{number_format($value.anggaran_2,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_3" id="anggaran_3" class="form-control money March" value="{number_format($value.anggaran_3,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_4" id="anggaran_4" class="form-control money April" value="{number_format($value.anggaran_4,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_5" id="anggaran_5" class="form-control money May" value="{number_format($value.anggaran_5,'0',',','.')}"  onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" > 
+															</td>
+															<td>
+																<input type="text" name="anggaran_6" id="anggaran_6" class="form-control money June" value="{number_format($value.anggaran_6,'0',',','.')}"  onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_7" id="anggaran_7" class="form-control money July" value="{number_format($value.anggaran_7,'0',',','.')}"  onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_8" id="anggaran_8" class="form-control money August" value="{number_format($value.anggaran_8,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_9" id="anggaran_9" class="form-control money September" value="{number_format($value.anggaran_9,'0',',','.')}"  onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_10" id="anggaran_10" class="form-control money October" value="{number_format($value.anggaran_10,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
+															</td>
+															<td>
+																<input type="text" name="anggaran_11" id="anggaran_11" class="form-control money November" value="{number_format($value.anggaran_11,'0',',','.')}" onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();"  >
+															</td>
+															<td>
+																<input type="text" name="anggaran_12" id="anggaran_12" class="form-control money December" value="{number_format($value.anggaran_12,'0',',','.')}"  onkeypress="return isNumber(event)" onkeyup="return checkAnggaran();" >
 															</td>
 														</tr>
 														{/foreach}
@@ -332,32 +477,71 @@ function isNumber(evt) {
 			sum += tmp;
 		}
 		var sumbobot = parseFloat($("#sumBobot").val());
+		//console.log(sumbobot);
 		var tmp = parseFloat(sumbobot - sum);
+		//console.log(tmp);
+		
 		$("#sumBobot").val(tmp);
 
-		var type = $("#typemember").val();
+		/*var type = $("#typemember").val();
 		if(type != 1){
 			checkMonth();
 		} else {
 			unlockAll();
-		}
+		}*/
 		
-		checkAnggaran();
+		//checkAnggaran();
 	})
 	function checkBobot()
 	{
 		var sum = 0;
-		var bobot = parseFloat($("#bobot").text());
+		//var bobot = parseFloat($("#bobot").text());
+		var bobot = parseFloat($("#bobot").val());
+		//console.log(bobot);
 		var sumbobot = parseFloat($("#sumBobot").val());
+		//console.log(sumbobot);
 		var sumtext = parseFloat($("#sumtext").text());
+		//console.log(sumtext);
+		
 		for(var i=1;i<=12;i++){
 			var tmp = parseFloat($("#target_"+i).val());
 			sum += tmp;
 		}
-		
+		console.log(sum);
 		var total = (parseFloat(sum) + parseFloat(sumbobot)).toFixed(2);
-
+		console.log(total);
+		
 		if(total > bobot){
+			$("#sumtext").text(total);
+		} else {
+			$("#sumtext").text(total);
+		}
+
+		//add by iman
+		var id_thpn = $("#id_thpn").val();
+		var id_thn = $("#id_thn").val();
+		var id_kd_unit = $("#id_kd_unit").val();
+		var id_kd_giat = $("#id_kd_giat").val();
+		var id_kd_output = $("#id_kd_output").val();
+		var id_kd_komponen = $("#id_kd_komponen").val();
+		var id_kd_soutput = $("#id_kd_soutput").val();
+
+		$.post(basedomain+"rpk/getdata",{bobot:bobot,total:total,id_thpn:id_thpn,id_thn:id_thn,id_kd_unit:id_kd_unit,
+		    id_kd_giat:id_kd_giat,id_kd_output:id_kd_output,id_kd_komponen:id_kd_komponen, id_kd_soutput:id_kd_soutput},function(data){
+				//console.log(data);
+				$("#sel_bobot").text(data);
+				if(data < 0){
+					//console.log('udah lebih');
+					$("#helptext").html('<label style="color:red">Bobot melebihi batas</label>');
+					$("#tahapan-simpan").attr('disabled','disabled');
+				}else{	
+					//console.log('masih kurang');
+					$("#helptext").html('');
+					$("#tahapan-simpan").removeAttr('disabled');
+				}
+		},"JSON");
+
+		/*if(total > bobot){
 			$("#sumtext").text(total);
 			$("#helptext").html('<label style="color:red">Bobot melebihi batas</label>');
 			$("#tahapan-simpan").attr('disabled','disabled');
@@ -365,10 +549,12 @@ function isNumber(evt) {
 			$("#sumtext").text(total);
 			$("#helptext").html('');
 			$("#tahapan-simpan").removeAttr('disabled');
-		}
+		}*/
+		
+
 	}
 
-	function checkMonth()
+	/*function checkMonth()
 	{
 		var d = new Date();
 		var month = new Array();
@@ -390,36 +576,74 @@ function isNumber(evt) {
 		if(tgl <= 15){
 			$("."+n).removeAttr('disabled');
 		} 
-	}
+	}*/
 
-	function unlockAll()
+	/*function unlockAll()
 	{
 		$('input[disabled]').removeAttr('disabled');
-	}
+	}*/
 
 	function checkAnggaran()
 	{
 		var sum = 0;
 		
 		var sumbobot = parseInt($("#sumPagu").val());
-		var text = $("#pagu").text();
+		//var text = $("#pagu").text();
+		var text = $("#pagu").val();
+		//console.log(text);
 		var bobot = parseInt(text.replace(/,/g , ""));
+		//console.log(bobot);
 		for(var i=1;i<=12;i++){
 			var tmp = parseFloat($("#anggaran_"+i).val());
 			sum += tmp;
 		}
-		
+		//console.log(sum);
 		var total = parseInt(sum);
+		//console.log(total);
+		
+		if(total > bobot){	
+			var total_fix = total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
+			$("#sumPaguText").text(total_fix);
+		} else {
+			var total_fix = total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
+			$("#sumPaguText").text(total_fix);
+		}
 
-		if(total > bobot){
-			$("#sumPaguText").val(total);
+		//add by iman
+		var id_thpn = $("#id_thpn").val();
+		var id_thn = $("#id_thn").val();
+		var id_kd_unit = $("#id_kd_unit").val();
+		var id_kd_giat = $("#id_kd_giat").val();
+		var id_kd_output = $("#id_kd_output").val();
+		var id_kd_komponen = $("#id_kd_komponen").val();
+		var id_kd_soutput = $("#id_kd_soutput").val();
+
+		$.post(basedomain+"rpk/getdataAnggaran",{bobot:bobot,total:total,id_thpn:id_thpn,id_thn:id_thn,id_kd_unit:id_kd_unit,
+		    id_kd_giat:id_kd_giat,id_kd_output:id_kd_output,id_kd_komponen:id_kd_komponen, id_kd_soutput:id_kd_soutput},function(data){
+				//console.log(data);
+				$("#sel_pagu").text(data);
+				if(data < 0){
+					//console.log('udah lebih');
+					$("#helptext2").html('<label style="color:red">Anggaran melebihi batas</label>');
+					$("#tahapan-simpan").attr('disabled','disabled');
+				}else{	
+					//console.log('masih kurang');
+					$("#helptext2").html('');
+					$("#tahapan-simpan").removeAttr('disabled');
+				}
+		},"JSON");
+
+		/*if(total > bobot){	
+			//$("#sumPaguText").val(total);
+			$("#sumPaguText").text(total);
 			$("#helptext2").html('<label style="color:red">Anggaran melebihi batas</label>');
 			$("#tahapan-simpan").attr('disabled','disabled');
 		} else {
-			$("#sumPaguText").val(total);
+			//$("#sumPaguText").val(total);
+			$("#sumPaguText").text(total);
 			$("#helptext2").html('');
 			$("#tahapan-simpan").removeAttr('disabled');
-		}
+		}*/
 	}
 </script>
 {/literal}

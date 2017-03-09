@@ -35,18 +35,21 @@ class lakip extends Controller {
 			$type = 5;
 			$this->view->assign('isbsn', 1);
 			$parentid = 0;
+			$flag = 1;
 		} 
 		if ($pid ==2){
 			$dataStruktur['type'] = 2;
 			$type = 6;
 			$parentid = $parent_id;
 			$this->view->assign('isbsn', 2);
+			$flag = 0;
 		} 
 		if ($pid ==3){
 			$dataStruktur['type'] = 3;
 			$type = 12;
 			$parentid = $parent_id;
 			$this->view->assign('isbsn', 3);
+			$flag = 0;
 		} 
 
 
@@ -78,7 +81,11 @@ class lakip extends Controller {
 		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2, $parentid);
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3, $parentid);
 		
-		$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parentid);
+		if($flag == 1){
+			$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parent_id);
+		}else{
+			$getDokumen = $this->contentHelper->getVisi(false, 16, 1, $parentid);	
+		}
 		$this->view->assign('cover', $getDokumen[0]['tags']);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {

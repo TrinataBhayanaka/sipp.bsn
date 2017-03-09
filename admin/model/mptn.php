@@ -11,7 +11,7 @@ class mptn extends Database {
 	function selectSS($id,$kd=false)
 	{
 		if($kd){
-			$sql = "SELECT id FROM bsn_struktur WHERE kode = '{$kd}'";
+			$sql = "SELECT id FROM bsn_struktur WHERE kode = '{$kd}' and n_status = '1'";
 			$res = $this->fetch($sql);
 			$id=$res['id'];
 		}
@@ -28,8 +28,11 @@ class mptn extends Database {
 		$res = $this->fetch($sql);
 		// pr($res);
 		$fkd=$res['id'];
-		$sql = "SELECT a.*,b.desc FROM th_pk as a, bsn_news_content as b WHERE a.kdunitkerja = '{$kd}' AND a.th = '{$thn}' AND a.no_sasaran = b.id AND b.parent_id = '{$fkd}' AND b.type='7' AND b.category = '1' {$cond} ORDER BY a.no_sasaran, a.no_pk";
-		// db($sql);
+		//revisi iman
+		$sql = "SELECT a.*,b.desc FROM th_pk as a, bsn_news_content as b WHERE a.kdunitkerja = '{$kd}' AND a.th = '{$thn}' AND a.no_sasaran = b.id AND b.parent_id = '{$fkd}' AND b.type='7' AND b.category = '1'
+			AND b.n_status = 1 {$cond} ORDER BY a.no_sasaran, a.no_pk";
+		//AND b.n_status = 1 
+		 //db($sql);
 		$res = $this->fetch($sql,1);
 
 		foreach ($res as $key => $value) {
@@ -48,7 +51,7 @@ class mptn extends Database {
 	function getpkSS($kd,$fkd,$id=false,$thn)
 	{
 		$sql = "SELECT * FROM th_pk WHERE no_sasaran = '{$id}'";
-		// pr($sql);
+		//pr($sql);
 		$res = $this->fetch($sql,1);
 
 		if ($res) return $res;
@@ -163,7 +166,7 @@ class mptn extends Database {
 
 	function getEselon($data)
 	{
-		$query = "SELECT type FROM bsn_struktur WHERE kode = '{$data['kode']}'";
+		$query = "SELECT type FROM bsn_struktur WHERE kode = '{$data['kode']}' and n_status = '1'";
 		$res = $this->fetch($query);
 
 		if($res['type'] == ""){
@@ -174,11 +177,23 @@ class mptn extends Database {
 	}
 	
 	function nama_pejabat($kd_satker){
-		$query = "SELECT custom_text FROM bsn_struktur WHERE kode = '{$kd_satker}' ";
+		//$query = "SELECT custom_text FROM bsn_struktur WHERE kode = '{$kd_satker}' ";
+		$query_1 = "SELECT id FROM bsn_struktur WHERE kode = '{$kd_satker}' and n_status = '1'";
 		// pr($query);
-		$result = $this->fetch($query);
+		$result_1 = $this->fetch($query_1);
+		$parent_id = $result_1['id']; 
 		
-		return $result;
+		$query_2 = "SELECT `brief`,`desc` FROM bsn_news_content WHERE parent_id = '{$parent_id}' and n_status = '1' and type = '1' and category='33'";
+		$result_2 = $this->fetch($query_2);
+		
+
+		return $result_2;
+	}
+
+	function getNamaStruktur($kode){
+		$query = "SELECT nama_satker FROM bsn_struktur WHERE kode = '{$kode}'";
+		$res = $this->fetch($query);
+		return $res;
 	}
 	
 }

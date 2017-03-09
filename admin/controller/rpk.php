@@ -13,7 +13,7 @@ class rpk extends Controller {
 		$this->loadmodule();
 		$this->view = $this->setSmarty();
 		$sessionAdmin = new Session;
-		$this->admin = $sessionAdmin->get_session();
+		$this->admin = $sessionAdmin->get_session();	
 		// $this->validatePage();
 		$this->view->assign('app_domain',$app_domain);
 	}
@@ -234,16 +234,17 @@ class rpk extends Controller {
 		
 		//$thp kegiatan
 			$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan($thn,$kd_giat,$kd_output);
-			// pr($thp_kegiatan);
-			// exit;
 			foreach ($thp_kegiatan as $key=>$val){
 				$list[] = $val;
 				$komponen = $this->m_penetapanAngaran->komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$val['KDSOUTPUT']);
-				// pr($komponen);
 				$list[$key]['nama_komponen'] = $komponen['URKMPNEN'];
+				$count_bobot = $this->m_penetapanAngaran->count_bobot($thn,$kd_unit,
+							$kd_giat,$kd_output,$val['KDSOUTPUT'],$val['KDKMPNEN']);
+
+				$list[$key]['acuan_bobot'] = $count_bobot['bobot'];
 				
 				$sub_komponen = $this->m_penetapanAngaran->sub_komponen($thn,$kd_giat,$kd_output,$val['KDKMPNEN']);
-				// db($sub_komponen);
+				//db($sub_komponen);
 					foreach($sub_komponen as $sb=>$sub){
 						$list[$key]['bobot']['target_1'] = $list[$key]['bobot']['target_1'] + $sub['target_1']; 
 						$list[$key]['bobot']['target_2'] = $list[$key]['bobot']['target_2'] + $sub['target_2']; 
@@ -275,7 +276,16 @@ class rpk extends Controller {
 						$list[$key]['anggaran_10'] = $list[$key]['anggaran_10'] + $sub['anggaran_10']; 
 						$list[$key]['anggaran_11'] = $list[$key]['anggaran_11'] + $sub['anggaran_11']; 
 						$list[$key]['anggaran_12'] = $list[$key]['anggaran_12'] + $sub['anggaran_12'];
-
+						
+						$list[$key]['total_anggaran_rencana'] = $list[$key]['anggaran_1'] 
+							+ 
+						$list[$key]['anggaran_2'] + $list[$key]['anggaran_3'] + $list[$key]['anggaran_4'] +
+						$list[$key]['anggaran_5'] + $list[$key]['anggaran_6'] + $list[$key]['anggaran_7']
+							+
+						$list[$key]['anggaran_8'] + $list[$key]['anggaran_9'] + $list[$key]['anggaran_10']
+							+
+						$list[$key]['anggaran_11'] + $list[$key]['anggaran_12'];
+						
 						$list[$key]['sub_komponen'][] = $sub;
 						$sum_bobot = $sub['target_1'] + $sub['target_2'] + $sub['target_3'] + $sub['target_4'] + $sub['target_5'] +
 									 $sub['target_6'] + $sub['target_7'] + $sub['target_8'] + $sub['target_9'] + $sub['target_10'] +
@@ -288,42 +298,73 @@ class rpk extends Controller {
 					}
 					// db($thp_kegiatan);
 			}
-		/*pr($list);
-		pr($info);
+		//pr($detail);
+		//pr($list);
+		/*pr($info);
 		pr($rinc);
 		pr($detail);*/
 		// pr($info);
-		
+		if($this->admin['type'] == 1){
+			$akses = '1';
+		}else{
+			$akses = '0';
+		}
 		// exit;
 		$this->view->assign('detail',$detail);
 		$this->view->assign('info',$info);
 		$this->view->assign('rinc',$rinc);
 		$this->view->assign('list',$list);
+		$this->view->assign('akses',$akses);
 		return $this->loadView('rpk/edit');
 	}
 	
 	public function print_rpk(){
 		global $basedomain;
-		// pr($_POST);
 		$thn = $_GET['th'];
 		$kd_unit = $_GET['kdunitkerja'];
 		$kd_giat = $_GET['kdgiat'];
 		$kd_output = $_GET['kdoutput'];
-		
+		$tglcetak = $_GET['tglcetak'];
+
 		//temp:
-		$split = substr($kd_unit,0,3);
-		$join = $split.'000';
+		if($kd_unit === '845100'){
+			$join = '841000';
+		}else{
+			$split = substr($kd_unit,0,3);
+			$join = $split.'000';
+		}
 		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
 		// pr($join);
 		// pr($ttd_nama['nmunit']);
 		
 		//tanggal
-		$tgl = date("Y-m-d");
-		$tgl_format = $this->DateToIndo($tgl);
+		if($tglcetak){
+			$ex = explode("/", $tglcetak);
+			$length_tgl    = strlen($ex['0']);
+			if($length_tgl == 1){
+				$tanggal = "0".$ex['0'];
+			}else{
+				$tanggal = $ex['0'];
+			}
+			
+			$length_bulan  = strlen($ex['1']); 
+			if($length_bulan == 1){
+				$bulan = "0".$ex['1'];
+			}else{
+				$bulan = $ex['1'];
+			}			
+			
+			$thn = $ex['2'];
+			$tgl = $thn.'-'.$bulan.'-'.$tanggal;
+			$tgl_format = $this->DateToIndo($tgl);
+		}else{
+			$tgl = date("Y-m-d");
+			$tgl_format = $this->DateToIndo($tgl);
+		}
 		// pr($tgl);
-		// pr($tgl_format);
+		//pr($tgl_format);
 		
-		
+		//exit;
 		//Deskripsi Kegiatan
 		//nama output
 		$nama_output = $this->m_penetapanAngaran->nama_output($kd_giat,$kd_output);
@@ -438,16 +479,25 @@ class rpk extends Controller {
 		$kd_eselon_I = $join;
 		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
 		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
-		$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		//$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+		$pejabat_eselon_I = $nama_pejabat_eselon_I;
+		//pr($pejabat_eselon_I);
+		$this->view->assign('jabatan_pejabat_eselon_I',$pejabat_eselon_I['brief']);
+		$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['desc']);
 		
 		$kd_eselon_II = $kd_unit;
 		$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
 		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
-		$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
-		
+		//$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+		$pejabat_eselon_II = $nama_pejabat_eselon_II;
+		//pr($pejabat_eselon_II);
+		$this->view->assign('jabatan_pejabat_eselon_II',$pejabat_eselon_II['brief']);
+		$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['desc']);
+		//exit;
 		$html = $this->loadView('rpk/print');
+		//echo $html;
+		//exit;
+		
 		$generate = $this->reportHelper->loadMpdf($html, 'rpk');
 		
 		
@@ -460,7 +510,6 @@ class rpk extends Controller {
 	}
 	
 	public function post(){
-		// pr($_POST);
 		$tujuan = $_POST['tujuan'];
 		$sasaran_1 = $_POST['sasaran_1'];
 		$sasaran_2 = $_POST['sasaran_2'];
@@ -479,15 +528,22 @@ class rpk extends Controller {
 		$th = $_POST['th'];
 		// pr($data);
 		if($_POST['id'] != ''){
-			$update = $this->m_penetapanAngaran->update($tujuan,$sasaran_1,$sasaran_2,$sasaran_3,$sasaran_4,
-														$ursasaran_1,$ursasaran_2,$ursasaran_3,$ursasaran_4,
-														$status,$tgl_kirim,$kdunitkerja,$kdgiat,$kdoutput,
-														$id,$th
-														);
+			$update = $this->m_penetapanAngaran->update($tujuan,
+														$sasaran_1,$ursasaran_1,
+														$sasaran_2,$ursasaran_2,
+														$sasaran_3,$ursasaran_3,
+														$sasaran_4,$ursasaran_4,
+														$status,$tgl_kirim,$kdunitkerja,
+														$kdgiat,$kdoutput,$id,$th
+														);											
 		}else{
-			$insert = $this->m_penetapanAngaran->insert($tujuan,$sasaran_1,$ursasaran_1,$sasaran_2,$ursasaran_2,
-														$sasaran_3,$ursasaran_3,$sasaran_4,$ursasaran_4,$status,
-														$tgl_kirim,$kdunitkerja,$kdgiat,$kdoutput,$id,$th);
+			$insert = $this->m_penetapanAngaran->insert($tujuan,
+														$sasaran_1,$ursasaran_1,
+														$sasaran_2,$ursasaran_2,
+														$sasaran_3,$ursasaran_3,
+														$sasaran_4,$ursasaran_4,
+														$status,$tgl_kirim,$kdunitkerja,
+														$kdgiat,$kdoutput,$id,$th);
 		}
 		exit;
 		// return $this->loadView('rpk/editTahapan');
@@ -663,25 +719,40 @@ class rpk extends Controller {
 					}	
 				
 			}
-		// pr($info);
-		$bobot = $this->m_penetapanAngaran->getBobotRpk($_GET);
-		$sumBobot = $this->m_penetapanAngaran->sumBobot($_GET);
+		$anggranThpn = $this->m_penetapanAngaran->anggranThpn($_GET); 
+		$anggranAllThpn = $this->m_penetapanAngaran->anggranAllThpn($_GET); 
+		$selisihAnggaran = $thp_kegiatan[0]['pagu_kmpnen'] - $anggranAllThpn['0']['total'] ;
 		
+		//acuan total bobot	
+		$bobot = $this->m_penetapanAngaran->getBobotRpk($_GET);
+		//sum bobot perkomponen
+		$AllbobotThpn = $this->m_penetapanAngaran->AllbobotThpn($_GET);
+		//sum bobot pertahapan
+		$sumBobot = $this->m_penetapanAngaran->sumBobot($_GET);
+		//pr($sumBobot);
+		//selisih
+		$selisih = $bobot['bobot'] - $AllbobotThpn['0']['total'];
+		$selisih_fix = number_format($selisih,2); 
 		$this->view->assign('usertype',$this->admin['type']);
 		$this->view->assign('sumBobot',$sumBobot[0]);
 		$this->view->assign('bobot',$bobot);	
+		$this->view->assign('selisih',$selisih_fix);	
 		$this->view->assign('info',$info);
 		$this->view->assign('list',$list);
+		$this->view->assign('get',$_GET);
 		$this->view->assign('pagu',$thp_kegiatan[0]['pagu_kmpnen']);	
+		$this->view->assign('selisihAnggaran',$selisihAnggaran);	
+		//$this->view->assign('anggranThpn',$anggranThpnFix['0']);	
+		$this->view->assign('anggranThpn',$anggranThpn['0']['total']);	
 		return $this->loadView('rpk/editRencanaAnggaran');
 
 	}
 
 	public function ajax_simpan_sub(){
 	
-		// pr($_POST);
+		//pr($_POST);
 		// echo masuk;
-		// exit;
+		//exit;
 		global $basedomain;
 		// pr($_POST);
 		$bad_symbols = array(",", ".");
@@ -725,8 +796,8 @@ class rpk extends Controller {
 		$anggaran_11 =str_replace($bad_symbols, "",$_POST['anggaran_11']);
 		$anggaran_12 =str_replace($bad_symbols, "",$_POST['anggaran_12']);
 		
-		
-		
+		//echo "target 1 =".$target_1;
+		//exit;
 		
 		if ($id != ''){
 			$update = $this->m_penetapanAngaran->update_data_sub($id,$target_1,$target_2,$target_3,$target_4,$target_5,$target_6,
@@ -761,6 +832,26 @@ class rpk extends Controller {
 
 		redirect($basedomain.'rpk/edit/?thn='.$_POST['th'].'&kd_unit='.$_POST['kdunitkerja'].'&kd_giat='.$_POST['kdgiat'].'&kd_output='.$_POST['kdoutput']);
 		exit;
+	}
+
+	public function getdata(){
+	//pr($_POST);
+	$sumBobotAvb = $this->m_penetapanAngaran->sumBobotAvb($_POST);
+	$sisa =  floatval($_POST['bobot']) - floatval($_POST['total']) - 
+	         floatval($sumBobotAvb['total']); 
+	$sisa_fix = number_format($sisa, 2, '.', ',');        
+	echo json_encode($sisa_fix);
+	exit;
+	}	
+
+	public function getdataAnggaran(){
+	$sumAnggaranAvb = $this->m_penetapanAngaran->sumAnggaranAvb($_POST);
+	//pr($sumAnggaranAvb);
+	$sisa =  intval($_POST['bobot']) - intval($_POST['total']) - 
+	         intval($sumAnggaranAvb['total']); 
+	$sisa_fix = number_format($sisa, 0, ',', '.');        
+	echo json_encode($sisa_fix);
+	exit;
 	}
 }
 

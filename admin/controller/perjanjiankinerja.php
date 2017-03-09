@@ -25,12 +25,13 @@ class perjanjiankinerja extends Controller {
 		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
 	}
 	
-	public function bsn(){
+	public function bsn(){	
 		$eselon['type'] = $this->model->getEselon($this->admin);
 		$eselon['level'] = $this->admin['type'];
 
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk('840000',1,false,$thn['kode']);
+		//pr($data);
 		if($data){
 			foreach ($data as $key => $value) {
 				$perspektif[] = $value['perspektif'];
@@ -46,6 +47,7 @@ class perjanjiankinerja extends Controller {
 			}
 		}
 		// db($data_fix);
+		//pr($data_fix);
 		$this->view->assign('data',$data_fix);
 		$this->view->assign('eselon',$eselon);
 
@@ -97,6 +99,7 @@ class perjanjiankinerja extends Controller {
 	{
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpkSS('840000',1,$_GET['id'],$thn['kode']);
+		//pr($data);
 		$ss = $this->getSS(1,'840000');
 		
 		$this->view->assign('ss',$ss);
@@ -229,7 +232,7 @@ class perjanjiankinerja extends Controller {
 	{
 		$es = $_GET['tp'];
 		$struktur = $this->model->getStruktur($es);
-		if($es == '2')$labelEs="I";else $labellEs="II";
+		if($es == '2')$labelEs="I";else $labelEs="II";
 		$this->view->assign('labelEs',$labelEs);
 		$this->view->assign('es',$es);
 
@@ -263,13 +266,17 @@ class perjanjiankinerja extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$parent,false,$thn['kode']);
+		//pr($data);
 		if($data){	
 			foreach ($data as $key => $value) {
 				$perspektif[] = $value['perspektif'];
 			}
 			$fix_per = array_unique($perspektif);
-			
+			//pr($fix_per);
+			//exit;
 			foreach ($fix_per as $key => $val) {
+				//pr($key);
+				//pr($val);
 				foreach ($data as $value) {
 					if($val == $value['perspektif']){
 						$data_fix[$val][] = $value;
@@ -277,7 +284,9 @@ class perjanjiankinerja extends Controller {
 				}
 			}
 		}
-		
+		// exit;
+		//pr($data_fix);
+		//exit;
 		$this->view->assign('data',$data_fix);
 		$this->view->assign('tipe',$es);
 		$this->view->assign('struktur',$struktur);
@@ -289,10 +298,14 @@ class perjanjiankinerja extends Controller {
 	{
 		$ss = $this->getSS($_GET['id']);
 		$thn = $this->model->getTahun();
+		$nama_unit = $this->model->getNamaStruktur($_GET['kd']);
+		
 		$this->view->assign('thn',$thn['kode']);
 		$this->view->assign('tp',$_GET['tp']);
 		$this->view->assign('ss',$ss);
 		$this->view->assign('idpk',$_GET['kd']);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
+
 
 		return $this->loadView('pk/add_eselon');		
 	}
@@ -328,11 +341,14 @@ class perjanjiankinerja extends Controller {
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
 		$ss = $this->getSS($_GET['pr']);
-		
+		$nama_unit = $this->model->getNamaStruktur($_GET['kd']);
+
 		$this->view->assign('ss',$ss);
 		$this->view->assign('tahun',$thn['kode']);
 		$this->view->assign('data',$data[0]);
 		$this->view->assign('kode',$_GET['kd']);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
+
 
 		return $this->loadView('pk/edit_eselon');
 	}
@@ -342,11 +358,13 @@ class perjanjiankinerja extends Controller {
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($_GET['kd'],$_GET['pr'],$_GET['id'],$thn['kode']);
 		$ss = $this->getSS($_GET['pr']);
-		
+		$nama_unit = $this->model->getNamaStruktur($_GET['kd']);
+
 		$this->view->assign('ss',$ss);
 		$this->view->assign('tahun',$thn['kode']);
 		$this->view->assign('data',$data[0]);
 		$this->view->assign('kode',$_GET['kd']);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
 
 		return $this->loadView('pk/edit_eselon2');
 	}
@@ -428,13 +446,14 @@ class perjanjiankinerja extends Controller {
 		$bulan = substr($date, 5, 2); // memisahkan format bulan menggunakan substring
 		$tgl   = substr($date, 8, 2); // memisahkan format tanggal menggunakan substring
 		
-		// $result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
-		$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		$result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		//$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
 		return($result);
 	}
 	
 	function print_bsn(){
 		$thn = $this->model->getTahun();
+		$tahun_fix = $thn['kode'];
 		$data = $this->model->getpk('840000',1,false,$thn['kode']);
 		if($data){
 			foreach ($data as $key => $value) {
@@ -495,8 +514,34 @@ class perjanjiankinerja extends Controller {
 		}
 		
 		//new add		
-		$tgl = date("Y-m-d");
+		/*$tgl = date("Y-m-d");
 		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);*/
+		$tglcetak = $_GET['tglcetak'];
+		if($tglcetak){
+			$ex = explode("/", $tglcetak);
+			$length_tgl    = strlen($ex['0']);
+			if($length_tgl == 1){
+				$tanggal = "0".$ex['0'];
+			}else{
+				$tanggal = $ex['0'];
+			}
+			
+			$length_bulan  = strlen($ex['1']); 
+			if($length_bulan == 1){
+				$bulan = "0".$ex['1'];
+			}else{
+				$bulan = $ex['1'];
+			}			
+			
+			$thn = $ex['2'];
+			$tgl = $thn.'-'.$bulan.'-'.$tanggal;
+			$tgl_format = $this->DateToIndo($tgl);
+		}else{
+			$tgl = date("Y-m-d");
+			$tgl_format = $this->DateToIndo($tgl);
+		}
+		//pr($tgl_format);
 		$this->view->assign('tgl_format',$tgl_format);
 		
 		//ttd nama
@@ -507,18 +552,18 @@ class perjanjiankinerja extends Controller {
 		
 		$kd_bsn = "840000";
 		$nama_pejabat = $this->model->nama_pejabat($kd_bsn);
-		$target = unserialize($nama_pejabat['custom_text']);
-		$this->view->assign('nama_pejabat',$target['pejabat']);
+		//$target = unserialize($nama_pejabat['custom_text']);
+		//$this->view->assign('nama_pejabat',$target['pejabat']);
+		$this->view->assign('nama_pejabat',$nama_pejabat['desc']);
+		$this->view->assign('jabatan',$nama_pejabat['brief']);
 		
 		// exit;
 		$this->view->assign('data',$data_fix);
 		$this->view->assign('program',$data_program_fix);
 		$this->view->assign('all_anggaran',$tot_angaran);
-		$this->view->assign('tahun',$thn['kode']);
+		$this->view->assign('tahun',$tahun_fix);
 
 		$html = $this->loadView('pk/print_bsn');
-		// echo $html;
-		// exit;
 		$this->reportHelper =$this->loadModel('reportHelper');
 		$generate = $this->reportHelper->loadMpdf($html, 'pk-bsn',2);
 	}
@@ -595,32 +640,59 @@ class perjanjiankinerja extends Controller {
 		//bsn
 		$kd_bsn = "840000";
 		$nama_pejabat_bsn = $this->model->nama_pejabat($kd_bsn);
-		$pejabat_bsn = unserialize($nama_pejabat_bsn['custom_text']);
-		$this->view->assign('nama_pejabat_bsn',$pejabat_bsn['pejabat']);
-		
+		//$pejabat_bsn = unserialize($nama_pejabat_bsn['custom_text']);
+		//$this->view->assign('nama_pejabat_bsn',$pejabat_bsn['pejabat']);
+		$this->view->assign('nama_pejabat_bsn',$nama_pejabat_bsn['desc']);
+		//$this->view->assign('jabatan',$nama_pejabat_bsn['brief']);
 		//eselon I
 		$kd_eselon_I = $exp[2];
 		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
 		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
-		$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		//$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+		//$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		$this->view->assign('nama_pejabat_eselon_I',$nama_pejabat_eselon_I['desc']);
+		//$this->view->assign('jabatan',$nama_pejabat_eselon_I['brief']);
 		
 		
 		//new add		
-		$tgl = date("Y-m-d");
+		/*$tgl = date("Y-m-d");
 		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);*/
+		$tglcetak = $_GET['tglcetak'];
+		if($tglcetak){
+			$ex = explode("/", $tglcetak);
+			$length_tgl    = strlen($ex['0']);
+			if($length_tgl == 1){
+				$tanggal = "0".$ex['0'];
+			}else{
+				$tanggal = $ex['0'];
+			}
+			
+			$length_bulan  = strlen($ex['1']); 
+			if($length_bulan == 1){
+				$bulan = "0".$ex['1'];
+			}else{
+				$bulan = $ex['1'];
+			}			
+			
+			$thn = $ex['2'];
+			$tgl = $thn.'-'.$bulan.'-'.$tanggal;
+			$tgl_format = $this->DateToIndo($tgl);
+		}else{
+			$tgl = date("Y-m-d");
+			$tgl_format = $this->DateToIndo($tgl);
+		}
 		$this->view->assign('tgl_format',$tgl_format);
-		
 		// db($data_fix);
 		// db($data_kegiatan_fix);
 		$this->view->assign('data',$data_fix);
 		$this->view->assign('program',$data_kegiatan_fix);
 		$this->view->assign('all_anggaran',$tot_angaran);
-		$this->view->assign('tahun',$thn['kode']);
+		//$this->view->assign('tahun',$thn['kode']);
 		
 		$html = $this->loadView('pk/print_eselon1');
-		// echo $html;
-		// exit;
+		//echo $html;
+		//exit;
 		$this->reportHelper =$this->loadModel('reportHelper');
 		$generate = $this->reportHelper->loadMpdf($html, 'pk-bsn',2);
 	}
@@ -700,24 +772,49 @@ class perjanjiankinerja extends Controller {
 		$kd_eselon_I = $temp_kode_eselon_I."000";
 		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
 		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
-		$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
-		
+		//$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+		//$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		$this->view->assign('nama_pejabat_eselon_I',$nama_pejabat_eselon_I['desc']);
+
 		$kd_eselon_II = $exp[2];
 		$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
 		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
-		$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
-		
+		//$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+		//$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
+		$this->view->assign('nama_pejabat_eselon_II',$nama_pejabat_eselon_II['desc']);
 		
 		//new add		
-		$tgl = date("Y-m-d");
-		$tgl_format = $this->DateToIndo($tgl);
+		/*$tgl = date("Y-m-d");
+		$tgl_format = $this->DateToIndo($tgl);*/
+		$tglcetak = $_GET['tglcetak'];
+		if($tglcetak){
+			$ex = explode("/", $tglcetak);
+			$length_tgl    = strlen($ex['0']);
+			if($length_tgl == 1){
+				$tanggal = "0".$ex['0'];
+			}else{
+				$tanggal = $ex['0'];
+			}
+			
+			$length_bulan  = strlen($ex['1']); 
+			if($length_bulan == 1){
+				$bulan = "0".$ex['1'];
+			}else{
+				$bulan = $ex['1'];
+			}			
+			
+			$thn = $ex['2'];
+			$tgl = $thn.'-'.$bulan.'-'.$tanggal;
+			$tgl_format = $this->DateToIndo($tgl);
+		}else{
+			$tgl = date("Y-m-d");
+			$tgl_format = $this->DateToIndo($tgl);
+		}
 		$this->view->assign('tgl_format',$tgl_format);
 		$this->view->assign('data',$data_fix);
 		$this->view->assign('program',$data_kegiatan_fix);
 		$this->view->assign('all_anggaran',$tot_angaran);
-		$this->view->assign('tahun',$thn['kode']);
+		//$this->view->assign('tahun',$thn['kode']);
 		
 		//nama pejabat eselon I dan eselon II yg terkait 
 		

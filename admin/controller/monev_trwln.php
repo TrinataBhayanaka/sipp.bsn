@@ -451,8 +451,8 @@ class monev_trwln extends Controller {
 		$bulan = substr($date, 5, 2); // memisahkan format bulan menggunakan substring
 		$tgl   = substr($date, 8, 2); // memisahkan format tanggal menggunakan substring
 		
-		// $result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
-		$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		$result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		//$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
 		return($result);
 	}
 	
@@ -1482,12 +1482,14 @@ class monev_trwln extends Controller {
 		$this->view->assign('data',$data);
 		
 		//validator
-		if($this->admin['type'] == 1){
+		//if($this->admin['type'] == 1){
 			$acces = "";
 			$sub = "";
 			$valid = 1;
-		}else{
+			$akses = 1;
+		/*}else{
 			$acces = "disabled";
+			$akses = 0;
 			$ceck_month = date('m');
 			$ceck_date = date('d');
 			$limit_date = 15;
@@ -1562,11 +1564,12 @@ class monev_trwln extends Controller {
 					}
 				}
 			}
-		}
+		}*/
 		
 		$this->view->assign('acces',$acces);
 		$this->view->assign('sub',$sub);
 		$this->view->assign('valid',$valid);
+		$this->view->assign('akses',$akses);
 		
 		return $this->loadView('monev_trwln/editBobotmonev');
 	}
@@ -1905,30 +1908,70 @@ class monev_trwln extends Controller {
 		// pr($yg_capaian_fix);
 		
 		//new add		
-		$tgl = date("Y-m-d");
+		/*$tgl = date("Y-m-d");
 		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);*/
+		//pr($_POST);
+		$tglcetak = $_POST['tglcetak'];
+		if($tglcetak){
+			$ex = explode("/", $tglcetak);
+			$length_tgl    = strlen($ex['0']);
+			if($length_tgl == 1){
+				$tanggal = "0".$ex['0'];
+			}else{
+				$tanggal = $ex['0'];
+			}
+			
+			$length_bulan  = strlen($ex['1']); 
+			if($length_bulan == 1){
+				$bulan = "0".$ex['1'];
+			}else{
+				$bulan = $ex['1'];
+			}			
+			
+			$thn = $ex['2'];
+			$tgl = $thn.'-'.$bulan.'-'.$tanggal;
+			$tgl_format = $this->DateToIndo($tgl);
+		}else{
+			$tgl = date("Y-m-d");
+			$tgl_format = $this->DateToIndo($tgl);
+		}
+		//pr($tgl_format);
+		//exit;
 		$this->view->assign('tgl_format',$tgl_format);
 		
 		//ttd nama
-		$split = substr($kd_unit,0,3);
-		$join = $split.'000';
+		if($kd_unit === '845100'){
+			$join = '841000';
+		}else{
+			$split = substr($kd_unit,0,3);
+			$join = $split.'000';
+		}
+		//$ttd_nama[nmunit]
 		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
 		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
 		
 		$kd_eselon_I = $join;
 		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
 		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+		//$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
 		// $this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
-		$nama_pejabat_eselon_I = $pejabat_eselon_I['pejabat'];
-		
+		//$nama_pejabat_eselon_I = $pejabat_eselon_I['pejabat'];
+		//$this->view->assign('jabatan_pejabat_eselon_I',$nama_pejabat_eselon_I['brief']);
+		//$this->view->assign('nama_pejabat_eselon_I',$nama_pejabat_eselon_I['desc']);
+		$jabatan_pejabat_eselon_I = $nama_pejabat_eselon_I['brief'];
+		$nama_pejabat_eselon_I = $nama_pejabat_eselon_I['desc'];
+
 		$kd_eselon_II = $kd_unit;
 		$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
 		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+		//$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
 		// $this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
-		$nama_pejabat_eselon_II = $pejabat_eselon_II['pejabat'];
-		
+		//$nama_pejabat_eselon_II = $pejabat_eselon_II['pejabat'];
+		//$this->view->assign('jabatan_pejabat_eselon_II',$nama_pejabat_eselon_II['brief']);
+		//$this->view->assign('nama_pejabat_eselon_II',$nama_pejabat_eselon_II['desc']);
+		$jabatan_pejabat_eselon_II = $nama_pejabat_eselon_II['brief'];
+		$nama_pejabat_eselon_II = $nama_pejabat_eselon_II['desc'];
 		//code_for_view_chart_anggaran
 		$scrn_anggaran = $_POST['scrn_anggaran'];
 		$this->view->assign('chart_anggaran',$scrn_anggaran);
@@ -1952,7 +1995,8 @@ class monev_trwln extends Controller {
 		$this->reportHelper =$this->loadModel('reportHelper');
 		$header="<div class=\"row\">
 				<div class=\"col-md-12\">
-					<h3 align=\"center\" style=\"text-transform: uppercase;\">LAPORAN $dataselected[4] $info[thn]</h3>
+					<h3 align=\"center\" style=\"text-transform: uppercase;\">LAPORAN KEGIATAN s.d $dataselected[4]</h3>
+					<h3 align=\"center\" style=\"text-transform: uppercase;\">Tahun $info[thn]</h3>
 				</div>
 			</div>
 		<div>
@@ -2057,7 +2101,7 @@ class monev_trwln extends Controller {
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
-					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">Jakarta,&nbsp; &nbsp; $tgl_format</td>
+					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">Jakarta, $tgl_format</td>
 					</tr>
 					<tr>
 					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">Mengetahui:</td>
@@ -2069,13 +2113,15 @@ class monev_trwln extends Controller {
 					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">Penanggung Jawab Kegiatan</td>
 					</tr>
 					<tr>
-					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">$ttd_nama[nmunit]</td>
+					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\"> 
+					   $jabatan_pejabat_eselon_I </td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
 					   <td>&nbsp;</td>
-					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\">Plh.Kepala $info[unit_eselon]</td>
+					   <td style=\"text-align: center;\" colspan=\"3\" width=\"400px\"> 
+					   $jabatan_pejabat_eselon_II $info[unit_eselon]</td>
 					</tr>
 					<tr>
 					   <td colspan=\"11\" style=\"height: 100px\"></td>

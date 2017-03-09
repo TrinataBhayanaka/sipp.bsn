@@ -76,32 +76,47 @@
 					{foreach $data as $key => $val}
 						<tr>
 							<td>{$key+1}</td>
-							<td>{$val.nm_pk}</td>
-							<td>{$val.formula}</td>
+							<td>{if $val.nm_pk}{limit_words($val.nm_pk,100)}[...]{else}{/if}</td>
+							<td>{if $val.formula}{limit_words($val.formula,10)}[...]{else}{/if}</td>
 							<td>{$val.target}</td>
 							<td>
-								Output:<br>{$val.rencana_1} {$val.ren_hasil_1}<br>
-								Proses/Tahapan:<br>{$val.aksi_1}
+								<strong>Output:</strong><br>{$val.rencana_1} 						{if $val.ren_hasil_1}{limit_words($val.ren_hasil_1,10)}[...]{else}{/if}
+								<br>
+								<strong>Proses/Tahapan:</strong><br>
+								{limit_words($val.aksi_1,10)}[...]
 							</td>
 							<td>{number_format(($val.rencana_1/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.rencana_2} {$val.ren_hasil_2}<br>
-								Proses/Tahapan:<br>{$val.aksi_2}
+								<strong>Output:</strong><br>{$val.rencana_2} 
+								{if $val.ren_hasil_2}{limit_words($val.ren_hasil_2,10)}[...]{else}{/if}
+								<br>
+								<strong>Proses/Tahapan:</strong><br>{limit_words($val.aksi_2,10)}[...]
 							</td>
 							<td>{number_format(($val.rencana_2/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.rencana_3} {$val.ren_hasil_3}<br>
-								Proses/Tahapan:<br>{$val.aksi_3}
+								<strong>Output:</strong><br>{$val.rencana_3} 
+								{if $val.ren_hasil_3}{limit_words($val.ren_hasil_3,10)}[...]{else}{/if}
+								<br>
+								<strong>Proses/Tahapan:</strong><br>{limit_words($val.aksi_3,10)}[...]
 							</td>
 							<td>{number_format(($val.rencana_3/$val.target*100),2)}</td>
 							<td>
-								Output:<br>{$val.rencana_4} {$val.ren_hasil_4}<br>
-								Proses/Tahapan:<br>{$val.aksi_4}
+								<strong>Output:</strong><br>{$val.rencana_4} 
+								{if $val.ren_hasil_4}{limit_words($val.ren_hasil_4,10)}[...]{else}{/if}
+								<br>
+								<strong>Proses/Tahapan:</strong><br>{limit_words($val.aksi_4,10)}[...]
 							</td>
 							<td>{number_format(($val.rencana_4/$val.target*100),2)}</td>
-							{if $eselon.type eq 1 || $eselon.type eq 3 && $eselon.kode eq $kode}<td>
-								<a href="{$basedomain}renaksi/edit_eselon2/?id={$val.id}&kd={$val.kdunitkerja}"><button class="btn btn-warning btn-md fa fa-pencil"></button></a>
-							</td>{/if}
+							<td>
+								{if $eselon.type eq 1 || $eselon.type eq 3 && $eselon.kode eq $kode}
+								<a href="{$basedomain}renaksi/edit_eselon2/?id={$val.id}&kd={$val.kdunitkerja}"><button class="btn btn-warning btn-md fa fa-pencil"></button></a>&nbsp;&nbsp;
+								{/if}
+								{if $eselon.type eq 1}
+								<a href="{$basedomain}renaksi/del_renaksi_es2/?id={$val.id}&kd={$val.kdunitkerja}" onclick="return confirm('Perjanjian Kinerja yang terkait akan di hapus. Yakin Hapus?')">
+										<button class="btn btn-md btn-danger fa fa-times"></button>
+									</a>
+								{/if}
+							</td>
 						</tr>
 					{/foreach}
 					{else}

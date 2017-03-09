@@ -38,7 +38,16 @@ class mcapaian extends Database {
 	}
 	function getpk($kode,$thn)
 	{
-		$sql = "SELECT * FROM th_pk WHERE kdunitkerja = '{$kode}' AND th = '{$thn}'";
+		/*$sql = "SELECT * FROM th_pk WHERE kdunitkerja = '{$kode}' AND th = '{$thn}'";
+		$res = $this->fetch($sql,1);
+		if ($res) return $res;
+		return false;*/
+		//revisi iman
+		//$sql = "SELECT * FROM th_pk WHERE kdunitkerja = '{$kode}' AND th = '{$thn}'";
+		$sql = "SELECT a.* FROM th_pk as a, bsn_news_content as b WHERE a.kdunitkerja = '{$kode}' AND a.th = '{$thn}' AND a.no_sasaran = b.id 
+			AND b.type='7' AND b.category = '1'
+			AND b.n_status = 1 {$cond} ORDER BY a.no_sasaran, a.no_pk";
+		//pr($sql);
 		$res = $this->fetch($sql,1);
 		if ($res) return $res;
 		return false;
@@ -85,6 +94,21 @@ class mcapaian extends Database {
 		$res = $this->fetch($query);
 
 		return $res;
+	}
+
+	function getNamaStruktur($kode){
+		$query = "SELECT nama_satker FROM bsn_struktur WHERE kode = '{$kode}'";
+		$res = $this->fetch($query);
+		return $res;
+	}
+
+	function del_capaian($id){
+		$query = "DELETE FROM th_pk WHERE id= '{$id}'";
+		//pr($query);
+		//exit;
+		$res = $this->query($query);
+		//return true;
+
 	}
 	
 }

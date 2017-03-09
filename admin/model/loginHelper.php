@@ -15,7 +15,7 @@ class loginHelper extends Database {
 		$password = _p('password');
 		
 		
-		$sql = "SELECT * FROM {$this->preftable}_admin_member WHERE username = '{$username}' LIMIT 1";
+		$sql = "SELECT * FROM {$this->preftable}_admin_member WHERE username = '{$username}' and n_status = '1' LIMIT 1";
 		$res = $this->fetch($sql);
 		if ($res){
 			$salt = sha1($password.$res['salt']);

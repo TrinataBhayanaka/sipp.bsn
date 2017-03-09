@@ -131,7 +131,6 @@ class renstra extends Controller {
 
 		global $basedomain;
 		$parent_id = _g('parent_id');
-		
 
 		$dataStruktur['table'] = 'bsn_struktur';
 		$dataStruktur['condition'] = array('type'=>'1,2,3');
@@ -157,6 +156,7 @@ class renstra extends Controller {
 				$start++;
 			}
 		}
+
 
 		$getSasaran = $this->contentHelper->getVisi(false, 7, 1, $parent_id);
 		if ($getSasaran){
@@ -189,7 +189,10 @@ class renstra extends Controller {
 				}
 			}
 		}
-		// pr($getSasaran);
+		//pr($getSasaran);
+		//pr("masuk sini");
+		//exit;
+
 		$this->view->assign('tahuntarget', $arrayTahun);
 		$this->view->assign('kinerja', $getKinerja[0]);
 		$this->view->assign('parent_id', $parent_id);
@@ -286,7 +289,9 @@ class renstra extends Controller {
 		}
 
 		$arrayTahun = $this->tahunRenstra($getSetting);
+		//pr($arrayTahun);
 		$getKegiatan = $this->contentHelper->getVisi(false, 9, 1, $parent_id);
+		//pr($getKegiatan);
 		if ($getKegiatan){
 			foreach ($getKegiatan as $key => $value) {
 				$getData = $this->contentHelper->getVisi(false, 10, 1, $value['id']);
@@ -306,6 +311,7 @@ class renstra extends Controller {
 			}
 			
 		}
+		//pr($getKegiatan);
 		$this->view->assign('tahuntarget', $arrayTahun);
 		$this->view->assign('kinerja', $getKinerja[0]);
 		$this->view->assign('parent_id', $parent_id);
@@ -316,7 +322,7 @@ class renstra extends Controller {
 
 	function output()
 	{	
-		global $basedomain;
+		/*global $basedomain;
 		$parent_id = _g('parent_id');
 		
 
@@ -393,13 +399,151 @@ class renstra extends Controller {
 		$this->view->assign('kinerja', $getKinerja[0]);
 		$this->view->assign('parent_id', $parent_id);
 		$this->view->assign('kegiatan', $getKegiatan);
+		return $this->loadView('renstra/matrik/output');*/
+
+		//rev by iman
+		global $basedomain;
+		$parent_id = _g('parent_id');
+		
+		$dataStruktur['table'] = 'bsn_struktur';
+		$dataStruktur['condition'] = array('type'=>'1,2,3');
+		$dataStruktur['in'] = array('type');
+		$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+		//pr($getStruktur);
+		
+		$getSetting = $this->contentHelper->getSetting();
+		
+		//default value
+		$ref_id = _g('ref');
+		if($ref_id){
+			$ref = $ref_id;
+			$def_val = $ref;
+		}else{
+			$ref ='';
+			$def_val = '3549';
+		}		
+
+		if (!$parent_id && !$ref_id){
+			redirect($basedomain."renstra/output/?parent_id=".$getStruktur[0]['id'].'&ref='.$def_val);
+			//echo "masukkk";
+			exit;
+		}
+
+		// $arrayTahun = $this->tahunRenstra($getSetting);
+		$getSetting = $this->contentHelper->getSetting();
+		// $arrayTahun = $this->tahunRenstra($getSetting);
+		if ($getSetting){
+			list ($tahunawal, $tahunakhir) = explode('-',$getSetting[0]['data']);
+			$start = 1;
+			for($i=1; $i<=5; $i++){
+				if ($start<=5){
+					$arrayTahun[] = $tahunawal;
+				}
+				$tahunawal++;
+				$start++;
+			}
+		}
+		
+		//start revisi 
+		//get program
+		$getProgram = $this->contentHelper->getVisi(false, 9, 1, $parent_id);
+		//pr($getProgram);
+		if($getProgram){
+			foreach ($getProgram as $value) {
+				$idProgram[] =  $value['id'];
+			}
+		}
+		if($idProgram){
+			$impld = implode(',', $idProgram);
+		}
+		
+
+		$out['type'] = 10;
+		$out['category'] = 1;
+		$out['title'] = $def_val;
+		//$out['title'] = $def_val;
+		
+		//dropdown
+		/*$dropdown_output = $this->contentHelper->refOutput('bsn_news_content','1',"
+			type = '{$out[type]}' and category = '$out[category]' and n_status = '1' ",
+			'title asc'); */
+		
+		//get dropdown kegiatan	
+		$dropdown_output = $this->contentHelper->refOutput('bsn_news_content','1',"
+			type = '{$out[type]}' and category = '$out[category]' and n_status = '1' 
+			and parent_id in ($impld)",'title asc'); 
+		//pr($dropdown_output);
+		//exit;
+		
+		//get kegiatan
+		//$getKegiatan = $this->contentHelper->getContent($out);
+		$getKegiatan = $this->contentHelper->refOutput('bsn_news_content','1',"
+			type = '{$out[type]}' and category = '$out[category]' and n_status = '1' 
+			and title = '{$out[title]}'
+			and parent_id in ($impld)",'title asc');
+		//pr($getKegiatan);
+		//exit;
+
+		//end revisi
+		if ($getKegiatan){
+			foreach ($getKegiatan as $key => $value) {
+				//get output
+				$getData = $this->contentHelper->getVisi(false, 11, 1, $value['id']);
+				
+				if ($getData){
+
+					foreach ($getData as $k => $val) {
+						if ($val['data']){
+							$target = unserialize($val['data']);
+							$getData[$k]['target'] = $target['target'];
+							$getData[$k]['satuan_target'] = $target['satuan_target'];
+
+							$getData[$k]['target_anggaran'] = $target['target_anggaran'];
+							$getData[$k]['satuan_target_anggaran'] = $target['satuan_target_anggaran'];
+						} 
+						//get IKK
+						$getDataOut = $this->contentHelper->getVisi(false, 11, 2, $val['id']);
+						if ($getDataOut){
+							foreach ($getDataOut as $ka => $v) {
+								if ($v['data']){
+									$target = unserialize($v['data']);
+									$getDataOut[$ka]['target'] = $target['target'];
+									$getDataOut[$ka]['satuan_target'] = $target['satuan_target'];
+
+									$getDataOut[$ka]['target_anggaran'] = $target['target_anggaran'];
+									$getDataOut[$ka]['satuan_target_anggaran'] = $target['satuan_target_anggaran'];
+								} 
+							}
+
+							$getData[$k]['output'] = $getDataOut;
+						}
+					}
+					
+					$getKegiatan[$key]['kegiatan'] = $getData;
+				} 
+				
+			}
+			
+		}
+		//pr($dropdown_output);
+		//pr($ref);
+		//exit;
+		$this->view->assign('tahuntarget', $arrayTahun);
+		$this->view->assign('kinerja', $getKinerja[0]);
+		$this->view->assign('parent_id', $parent_id);
+		$this->view->assign('kegiatan', $getKegiatan);
+		$this->view->assign('dropdown', $dropdown_output);
+		$this->view->assign('ref_id', $ref);
 		return $this->loadView('renstra/matrik/output');
+
 	}
 
 	function dokumenBsn()
 	{
 		global $basedomain,$app_domain;
 		$parent_id = _g('parent_id');
+		//pr($parent_id);
+		//exit;
 		$pid = _g('pid');
 		$newData = array();
 
@@ -408,23 +552,25 @@ class renstra extends Controller {
 			$type = 5;
 			$this->view->assign('isbsn', 1);
 			$parentid = 0;
+			$flag = 1;
 		} 
 		if ($pid ==2){
 			$dataStruktur['type'] = 2;
 			$type = 6;
 			$parentid = $parent_id;
 			$this->view->assign('isbsn', 2);
+			$flag = 0;
 		} 
 		if ($pid ==3){
 			$dataStruktur['type'] = 3;
 			$type = 12;
 			$parentid = $parent_id;
 			$this->view->assign('isbsn', 3);
+			$flag = 0;
 		} 
 
 
 		$getStruktur = $this->contentHelper->getStruktur($dataStruktur);
-		
 		if ($pid==1){
 			foreach ($getStruktur as $key => $value) {
 				if ($value['kode']=='840000') $bsnid = $value['id'];
@@ -450,8 +596,14 @@ class renstra extends Controller {
 		// pr($getVisiBsn);
 		$getMisiBsn = $this->contentHelper->getVisi(false, $type, 2, $parentid);
 		$getTujuanBsn = $this->contentHelper->getVisi(false, $type, 3, $parentid);
-		
-		$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parentid);
+		//pr($parentid);
+		//exit;
+		if($flag == 1){
+			$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parent_id);
+		}else{
+			$getDokumen = $this->contentHelper->getVisi(false, 15, 1, $parentid);	
+		}
+		//pr($getDokumen);
 		$this->view->assign('cover', $getDokumen[0]['tags']);
 		if ($getDokumen){
 			foreach ($getDokumen as $key => $value) {
@@ -1237,6 +1389,9 @@ class renstra extends Controller {
 		$child_id = _g('child');
 		$req = _g('req');
 
+		$ref_id = _g('ref_id');
+		//pr($_GET);
+		//exit;
 		$dataStruktur['table'] = 'bsn_struktur';
 		$dataStruktur['condition'] = array('type'=>'1,2,3','id'=>_g('parent_id'));
 		$dataStruktur['in'] = array('type');
@@ -1281,6 +1436,7 @@ class renstra extends Controller {
 				$this->view->assign('output', $getOutput);
 				$this->view->assign('satuan_target', $getOutput[0]['satuan_target']);
 				$this->view->assign('satuan_target_anggaran', $getOutput[0]['satuan_target_anggaran']);
+				$this->view->assign('ref_id', $ref_id);
 
 			}else{
 				$brief1 = $getSasaran[0]['title'];
@@ -1301,6 +1457,7 @@ class renstra extends Controller {
 			$this->view->assign('req', 1);
 			$this->view->assign('struktur', $getStruktur);
 			$this->view->assign('tahuntarget', $arrayTahun);
+			$this->view->assign('ref_id', $ref_id);
 
 		}
 
@@ -1364,6 +1521,7 @@ class renstra extends Controller {
 			$this->view->assign('req', _g('req'));
 			$this->view->assign('struktur', $getStruktur);
 			$this->view->assign('tahuntarget', $arrayTahun);
+			$this->view->assign('ref_id', $ref_id);
 
 		}
 
@@ -1376,8 +1534,20 @@ class renstra extends Controller {
 			$_POST['publish_date'] = date('Y-m-d H:i:s');
 			$_POST['n_status'] = 1;
 			
+			//ref alamat
+			$ref_id = $_POST['ref_id'];
 			$save = $this->contentHelper->saveData($_POST);
-			if ($save) redirect($basedomain . 'renstra/output');
+			//if ($save) redirect($basedomain . 'renstra/output');
+			
+			//rev by iman
+			$dataStruktur['table'] = 'bsn_struktur';
+			$dataStruktur['condition'] = array('type'=>'1,2,3');
+			$dataStruktur['in'] = array('type');
+			$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+			if ($save){
+				redirect($basedomain."renstra/output/?parent_id=".$getStruktur[0]['id'].'&ref='.$ref_id);
+			}
+
 		}
 
 		return $this->loadView('renstra/matrik/input-output');
@@ -1389,7 +1559,6 @@ class renstra extends Controller {
 		global $basedomain;
 
 
-		
 		$id = _g('id');
 		$req = _g('req');
 		$pid = _g('pid');
@@ -1505,6 +1674,7 @@ class renstra extends Controller {
 		$id_parent = _g('id_parent');
 		$menu = _g('menu');
 
+		$ref_id = _g('ref_id');	
 		if ($req == 1) $link = 'renstra/visi_bsn';
 		if ($req == 2){
 			if ($menu == 1)$link = 'renstra/visi_eselon/?parent_id='.$id_parent;
@@ -1514,7 +1684,14 @@ class renstra extends Controller {
 		if ($req == 4) $link = 'renstra/kinerja';
 		if ($req == 5) $link = 'renstra/program';
 		if ($req == 6) $link = 'renstra/kegiatan';
-		if ($req == 7) $link = 'renstra/output';
+		if ($req == 7) {
+			$dataStruktur['table'] = 'bsn_struktur';
+			$dataStruktur['condition'] = array('type'=>'1,2,3');
+			$dataStruktur['in'] = array('type');
+			$getStruktur = $this->contentHelper->fetchData($dataStruktur);
+			$link = "renstra/output/parent_id={$getStruktur[0][id]}&ref={$ref_id}";
+
+		}
 		if ($req == 8) $link = 'renstra/dokumenBsn';
 		
 		$data['id'] = $id;

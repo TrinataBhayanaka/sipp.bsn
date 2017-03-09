@@ -318,7 +318,9 @@ class home extends Controller {
 
 	function getDescTableLala()
 	{
+		pr($_GET);	
 		$table = $_GET['tbl'];
+		pr($table);
 		$data = $this->contentHelper->getDesc($table);
 
 		db($data);
@@ -344,6 +346,71 @@ class home extends Controller {
 		$where = "where type = 7 and category = 1";
 		// pr($where);
 		$data = $this->contentHelper->deltable($table,$where);
+	}
+
+	function altertabel(){
+		$data = $this->contentHelper->altertabel();
+	}
+
+	function altertabelmonev(){
+		
+		$data = $this->contentHelper->altertabelmonev();
+		if($data){
+			pr('sukses');
+		}
+
+	}
+
+	function altertabelrpk(){
+		$data = $this->contentHelper->altertabelrpk();
+		if($data){
+			pr('sukses');
+		}
+	}
+
+	function altertabelrpkrevisi(){
+		$data = $this->contentHelper->altertabelrpkrevisi();
+		if($data){
+			pr('sukses');
+		}
+	}
+
+	function altertabelmonevrevisi(){
+		$data = $this->contentHelper->altertabelmonevrevisi();
+		if($data){
+			pr('sukses');
+		}
+	}
+	
+	function altertabelmonevpp39(){
+		$data = $this->contentHelper->altertabelmonevpp39();
+		if($data){
+			pr('sukses');
+		}
+	}
+
+	function selectdebug(){
+		$table  ="bsn_struktur";
+		$where = "where n_status is not null order by id asc";
+		$data = $this->contentHelper->getdatadebug($table,$where);
+
+		db($data);
+
+	}
+
+	function updatedebug(){
+		//$id =$_GET['id'];
+		//pr($id);
+		$table  ="bsn_struktur";
+		$where = "where n_status = '0' and id = '10' order by id asc";
+		$data = $this->contentHelper->getdatadebug($table,$where);
+		$id = $data['0']['id'];
+		//pr($id);
+		//echo "masuk";
+		//exit;
+		$update = $this->contentHelper->upddebug($id);
+		db($data);
+		//echo "masuk last";
 	}
 }
 

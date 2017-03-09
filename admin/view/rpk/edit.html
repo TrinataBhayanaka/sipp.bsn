@@ -98,27 +98,27 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Output</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-5">						
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-10">						
 								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
-							<div class="col-sm-4">						
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.unit_eselon}</label>
 							
 							</div>
@@ -133,13 +133,17 @@ function isNumber(evt) {
 					</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">1. Tujuan Kegiatan</label>
-							<div class="col-sm-7">						
+							<!--<div class="col-sm-7">						
 								<input type="text" name="tujuan" id="tujuan" class="form-control" value="{$rinc.tujuan}">
-							</div>
+							</div>-->
+
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control month " name="tujuan" id="tujuan">{$rinc.tujuan}</textarea>
+							</div>	
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">2. Tahapan Kegiatan</label>
-							<div class="col-sm-4 pull-left">	
+							<div class="col-sm-9 pull-left">	
 								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
 									{foreach $list as $val}
 									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
@@ -149,7 +153,8 @@ function isNumber(evt) {
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">3. Sasaran Kinerja</label>
-							<div class="col-sm-10">
+
+							<!--<div class="col-sm-10">
 								<div class="row">
 									<label class="col-sm-2 control-label align-left">	Triwulan I
 
@@ -228,8 +233,105 @@ function isNumber(evt) {
 								</div>
 								
 
+							</div>-->
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="row">
+									<label class="col-sm-2 control-label align-left boldGrey">Triwulan I
+									</label>
+									<div class="col-sm-9">					
+										<div class="form-group">
+											<div class="col-md-9">
+												<textarea rows="5" class="form-control month " name="ursasaran_1" id="ursasaran_1">{$rinc.sasaran_trw_1}</textarea>
+											</div>	
+
+											<div class="col-sm-3">
+												<div class="input-group">
+													<input type="text" name="sasaran_1" id="sasaran_1" class="form-control" value="{$detail.bobot_1}" onkeypress="return isNumber(event)" readonly>
+													<span class="input-group-addon">(%)</span>
+												</div>
+											</div>
+										</div>
+									
+									</div>
+								</div>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="row">
+									<label class="col-sm-2 control-label align-left boldGrey">Triwulan II
+									</label>
+									<div class="col-sm-9">					
+										<div class="form-group">
+											<div class="col-md-9">
+												<textarea rows="5" class="form-control month " name="ursasaran_2" id="ursasaran_2">{$rinc.sasaran_trw_2}</textarea>
+											</div>	
+
+											<div class="col-sm-3">
+												<div class="input-group">
+													<input type="text" name="sasaran_2" id="sasaran_2" class="form-control" value="{$detail.bobot_2}" onkeypress="return isNumber(event)" readonly>
+													<span class="input-group-addon">(%)</span>
+												</div>
+											</div>
+										</div>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="row">
+									<label class="col-sm-2 control-label align-left boldGrey">Triwulan III
+									</label>
+									<div class="col-sm-9">					
+										<div class="form-group">
+											<div class="col-md-9">
+												<textarea rows="5" class="form-control month " name="ursasaran_3" id="ursasaran_3">{$rinc.sasaran_trw_3}</textarea>
+											</div>	
+
+											<div class="col-sm-3">
+												<div class="input-group">
+													<input type="text" name="sasaran_3" id="sasaran_3" class="form-control" value="{$detail.bobot_3}" onkeypress="return isNumber(event)" readonly>
+													<span class="input-group-addon">(%)</span>
+												</div>
+											</div>
+										</div>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-12">
+								<div class="row">
+									<label class="col-sm-2 control-label align-left boldGrey">Triwulan IV
+									</label>
+									<div class="col-sm-9">					
+										<div class="form-group">
+											<div class="col-md-9">
+												<textarea rows="5" class="form-control month " name="ursasaran_4" id="ursasaran_4">{$rinc.sasaran_trw_4}</textarea>
+											</div>	
+
+											<div class="col-sm-3">
+												<div class="input-group">
+													<input type="text" name="sasaran_4" id="sasaran_4" class="form-control" value="{$detail.bobot_4}" onkeypress="return isNumber(event)" readonly>
+													<span class="input-group-addon">(%)</span>
+												</div>
+											</div>
+										</div>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label boldGrey">Status</label>
 								<div class="col-sm-10">
@@ -257,6 +359,7 @@ function isNumber(evt) {
 											<th class="text-center" rowspan="3">Jumlah Bobot (%)</th>
 											<th class="text-center" rowspan="3">Jumlah Anggaran (Rp)</th>
 											<th class="text-center" rowspan="3">Aksi</th>
+											<th class="text-center" rowspan="3">Informasi</th>
 										</tr>
 
 										<tr>
@@ -307,6 +410,7 @@ function isNumber(evt) {
 											<th class="text-center">(4)</th>
 											<th class="text-center">(5)</th>
 											<th class="text-center">(6)</th>
+											<th class="text-center">(7)</th>
 										</tr>
 									</thead>
 
@@ -315,73 +419,91 @@ function isNumber(evt) {
 											<tr style="color:blue">
 												<td class="text-center" colspan="2">{$value.KDKMPNEN}</td>
 												<td>{$value.nama_komponen}</td>
-												<td>{number_format($value.bobot.target_1,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_1,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_2,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_2,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_3,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_3,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_4,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_4,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_5,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_5,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_6,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_6,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_7,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_7,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_8,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_8,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_9,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_9,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_10,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_10,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_11,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_11,"0",",",".")}</td>
-												<td>{number_format($value.bobot.target_12,"2",",",".")}</td>
-												<td>{number_format($value.anggaran_12,"0",",",".")}</td>
-												<td>{$value.total_bobot}</td>
+												<td class="text-center">{number_format($value.bobot.target_1,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_1,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_2,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_2,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_3,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_3,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_4,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_4,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_5,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_5,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_6,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_6,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_7,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_7,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_8,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_8,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_9,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_9,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_10,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_10,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_11,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_11,"0",",",".")}</td>
+												<td class="text-center">{number_format($value.bobot.target_12,"2",",",".")}</td>
+												<td class="text-right">{number_format($value.anggaran_12,"0",",",".")}</td>
+												<td class="text-center">{$value.total_bobot|number_format:2:".":","}</td>
 												<td class="text-right">{number_format($value.pagu_kmpnen,"0",",",".")}</td>
 												<td>
-													<a href="{$basedomain}rpk/editTahapan/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-primary btn-labeled fa fa-pencil-square-o" type="button">Edit Tahapan</button></a>
+													<a href="{$basedomain}rpk/editTahapan/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-primary btn-labeled fa fa-pencil-square-o tahapan" type="button" >Edit Tahapan</button></a>
 													&nbsp;
-													<a href="{$basedomain}rpk/editBobot/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-purple btn-labeled fa fa-pencil-square-o" type="button">Edit Bobot</button></a>
+													<a href="{$basedomain}rpk/editBobot/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}"><button class="btn btn-purple btn-labeled fa fa-pencil-square-o bobot" type="button">Edit Bobot</button></a>
 
 												</td>
+												<td class="text-center">
+														{if $value.total_anggaran_rencana > $value.pagu_kmpnen}
+														<span class="label label-danger">
+													     Revisi Rencana Anggaran</span>
+													     {else}
+													     <span class="label label-success">
+													     Rencana Anggaran Tidak Melebihi Pagu Komponen</span>
+													     {/if}
+
+											     </td>
 											</tr>
 											{foreach $value.sub_komponen as $sub}
 												<tr>
 													<td>&nbsp;</td>
 													<td>{$sub.kd_tahapan}</td>
 													<td>{$sub.nm_tahapan}</td>
-													<td>{number_format($sub.target_1,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_1,"0",",",".")}</td>
-													<td>{number_format($sub.target_2,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_2,"0",",",".")}</td>
-													<td>{number_format($sub.target_3,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_3,"0",",",".")}</td>
-													<td>{number_format($sub.target_4,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_4,"0",",",".")}</td>
-													<td>{number_format($sub.target_5,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_5,"0",",",".")}</td>
-													<td>{number_format($sub.target_6,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_6,"0",",",".")}</td>
-													<td>{number_format($sub.target_7,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_7,"0",",",".")}</td>
-													<td>{number_format($sub.target_8,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_8,"0",",",".")}</td>
-													<td>{number_format($sub.target_9,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_9,"0",",",".")}</td>
-													<td>{number_format($sub.target_10,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_10,"0",",",".")}</td>
-													<td>{number_format($sub.target_11,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_11,"0",",",".")}</td>
-													<td>{number_format($sub.target_12,"2",",",".")}</td>
-													<td>{number_format($sub.anggaran_12,"0",",",".")}</td>
-													<td>{number_format($sub.sum_bobot,"2",",",".")}</td>
-													<td>{number_format($sub.sum_anggaran,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_1,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_1,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_2,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_2,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_3,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_3,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_4,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_4,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_5,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_5,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_6,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_6,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_7,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_7,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_8,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_8,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_9,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_9,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_10,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_10,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_11,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_11,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.target_12,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.anggaran_12,"0",",",".")}</td>
+													<td class="text-center">{number_format($sub.sum_bobot,"2",",",".")}</td>
+													<td class="text-right">{number_format($sub.sum_anggaran,"0",",",".")}</td>
+													{if $value.acuan_bobot}
 													<td>
 														<a href="{$basedomain}rpk/editRencanaAnggaran/?thn={$info.thn}&kd_unit={$info.kd_unit}&kd_giat={$info.kd_giat}&kd_output={$info.kd_output}&kd_komponen={$value.KDKMPNEN}&kd_soutput={$value.KDSOUTPUT}&id={$sub.id}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o" type="button">Edit Rencana Kinerja & Anggaran</button></a>
 													</td>
+													{else}
+													<td class="text-center">
+														<span class="label label-danger">
+													     Isi Bobot Terlebih Dahulu</span>
+												     </td>
+													{/if}
+													<td>&nbsp;</td>
 												</tr>
 											{/foreach}
 											<tr>
@@ -396,8 +518,29 @@ function isNumber(evt) {
 					</div>
 					<div class="panel-footer text-right">
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<button type="button" id="print"  name="print" value="" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
-						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
+						
+						<!--<button type="button" id="print"  name="print" value="" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+						<input type="button" id="submit" name="submit" value="save" class="btn btn-info">-->
+						{if $akses eq 1}
+						<div class="form-group ">
+							<div class="col-sm-8"><label class="boldGrey">Tanggal Cetak</label></div>
+							<div class="col-sm-4">
+								<div id="demo-dp-component">						
+								<div class="input-group date">
+									<input type="text" class="form-control" id="date">
+									<span class="input-group-addon "><i class="fa fa-calendar fa-lg"></i></span>
+								</div>
+								</div>
+							</div>
+						</div>
+						{/if}		
+						<div class="form-group">
+							<div class="col-sm-8">&nbsp;</div>
+							<div class="col-sm-4">	
+								<button type="button" id="print"  name="print" value="" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+								<input type="button" id="submit" name="submit" value="save" class="btn btn-info">
+							</div>
+						</div>			
 					</div>
 				</form>
 				<!--===================================================-->
@@ -410,38 +553,120 @@ function isNumber(evt) {
 <!--===================================================-->
 {literal}
 <script>
+
+//$(document).ready(function() {
+     /*$('input[type="button"]').prop('disabled', true);
+     $('input[type="text"]').keyup(function() {
+        if($(this).val() != '') {
+           $('input[type="submit"]').prop('disabled', false);
+        }
+     });*/   
+     /*$('.tahapan').prop("disabled", true);
+     $('.bobot').prop("disabled", true);*/
+     //$( ".tahapan" ).button( "disable" );
+ //});
+$(document).ready(function() {
+	$('#demo-dp-component .input-group.date').datepicker({
+	//format: "MM dd, yyyy",
+	format: "d/m/yyyy",
+	autoclose: true,
+	todayHighlight: true
+	});
+});
+
+$(document).ready(function() {
+	/*$('#ursasaran_1,#ursasaran_2,#ursasaran_3,#ursasaran_4,#tujuan').summernote({
+		toolbar: [
+    // [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']]
+				  ],
+		height: 200
+	});*/
+
+	//clear format from other source like word
+	var $editor = $('#ursasaran_1,#ursasaran_2,#ursasaran_3,#ursasaran_4,#tujuan');
+	$editor.summernote({
+			toolbar: [
+    			['style', ['bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']]
+			  ],
+		height: 200,
+	    onpaste: function (e) {
+	    	//console.log('masuk');
+	        //console.log(e);
+	        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+
+	        e.preventDefault();
+
+	        document.execCommand('insertText', false, bufferText);
+	    }
+	});
+})
+
+
 $(document).ready(function() {
 var status_hidden = $('#status_hidden').val();
 if(status_hidden){
 document.getElementById(status_hidden).selected = "true";
 }
+
 //print doc rpk
 $('#print').on('click', function(){
+	var tgl;
+	var tglcetak = $('#date').val();
+	if(tglcetak){
+		tgl = tglcetak;
+	}else{
+		tgl = '';
+	}
+	//console.log(tgl);
 	var th = $('#th').val();
 	var kdunitkerja = $('#kdunitkerja').val();
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
 
-	window.location.href=basedomain+"rpk/print_rpk/?th="+th+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput;
+	window.location.href=basedomain+"rpk/print_rpk/?th="+th+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&tglcetak="+tgl;
 });	
 
 $('#submit').on('click', function(){
 	var status = $('#status').val();
-	var tujuan = $('#tujuan').val();
+	//var tujuan = $('#tujuan').val();
+	var tujuan = $('#tujuan').code();
 	var th = $('#th').val();
 	var id = $('#id').val();
 	var kdunitkerja = $('#kdunitkerja').val();
 	var kdgiat = $('#kdgiat').val();
 	var kdoutput = $('#kdoutput').val();
+	
 	var sasaran_1 = $('#sasaran_1').val();
 	var sasaran_2 = $('#sasaran_2').val();
 	var sasaran_3 = $('#sasaran_3').val();
 	var sasaran_4 = $('#sasaran_4').val();
-	var ursasaran_1 = $('#ursasaran_1').val();
-	var ursasaran_2 = $('#ursasaran_2').val();
-	var ursasaran_3 = $('#ursasaran_3').val();
-	var ursasaran_4 = $('#ursasaran_4').val();
-		
+
+	/*console.log(sasaran_1);
+	console.log(sasaran_2);
+	console.log(sasaran_3);
+	console.log(sasaran_4);*/
+	
+	var ursasaran_1 = $('#ursasaran_1').code();
+	var ursasaran_2 = $('#ursasaran_2').code();
+	var ursasaran_3 = $('#ursasaran_3').code();
+	var ursasaran_4 = $('#ursasaran_4').code();
+	
+	/*console.log(ursasaran_1);
+	console.log(ursasaran_2);
+	console.log(ursasaran_3);
+	console.log(ursasaran_4);
+	exit;*/	
 	/*$.post( basedomain+"rpk/post", { id: id,  tujuan: tujuan, status: status, th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,sasaran_1 : sasaran_1, sasaran_2: sasaran_2, sasaran_3 : sasaran_3, sasaran_4: sasaran_4,ursasaran_1 : ursasaran_1, ursasaran_2 : ursasaran_2, ursasaran_3 : ursasaran_3, ursasaran_4 : ursasaran_4 });
 	alert("Data DiSimpan");
 	setTimeout(

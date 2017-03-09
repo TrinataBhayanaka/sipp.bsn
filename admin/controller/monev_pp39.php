@@ -22,6 +22,8 @@ class monev_pp39 extends Controller {
 	{
 		$this->m_penetapanAngaran = $this->loadModel('m_penetapanAngaran');
 		$this->model = $this->loadModel('mptn');
+		$this->contentHelper = $this->loadModel('contentHelper');
+	
 		
 	}
 	
@@ -457,8 +459,8 @@ class monev_pp39 extends Controller {
 		$bulan = substr($date, 5, 2); // memisahkan format bulan menggunakan substring
 		$tgl   = substr($date, 8, 2); // memisahkan format tanggal menggunakan substring
 		
-		// $result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
-		$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		$result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		//$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
 		return($result);
 	}
 	
@@ -2036,10 +2038,13 @@ class monev_pp39 extends Controller {
 			$kd_unit = $_POST['unit'];
 			if($this->admin['type'] == 1){
 				$akses = '1';
+				$flag  = '1';
 			}elseif($this->admin['kode'] == $kd_unit){
 				$akses = '1';
+				$flag  = '0';
 			}else{
 				$akses = '0';
+				$flag  = '0';
 			}
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
@@ -2095,10 +2100,13 @@ class monev_pp39 extends Controller {
 			$kd_unit = '841100';
 			if($this->admin['type'] == 1){
 				$akses = '1';
+				$flag  = '1';
 			}elseif($this->admin['kode'] == $kd_unit){
 				$akses = '1';
+				$flag  = '0';
 			}else{
 				$akses = '0';
+				$flag  = '0';
 			}
 			$param['kd_unit'] = $kd_unit;
 			$param['thn_temp'] = $thn_temp;
@@ -2140,6 +2148,9 @@ class monev_pp39 extends Controller {
 		$this->view->assign('data',$list);
 		$this->view->assign('param',$param);
 		$this->view->assign('akses',$akses);
+		$this->view->assign('flag',$flag);
+		$download = "download";
+		$this->view->assign('download',$download);
 		// pr($list);
 		//default kode
 		
@@ -2244,11 +2255,11 @@ class monev_pp39 extends Controller {
 		$dataselected[]=$ket;
 		
 		//validator
-		if($this->admin['type'] == 1){
+		//if($this->admin['type'] == 1){
 			$acces = "";
 			$sub = "";
 			$valid = 1;
-		}else{
+		/*}else{
 			$acces = "disabled";
 			$ceck_month = date('m');
 			$ceck_date = date('d');
@@ -2324,7 +2335,7 @@ class monev_pp39 extends Controller {
 					}
 				}
 			}
-		}
+		}*/
 		
 		//$thp kegiatan
 			$thp_kegiatan = $this->m_penetapanAngaran->thp_kegiatan_condotion_monev_rev($thn,$kd_giat,$kd_output);
@@ -2381,13 +2392,32 @@ class monev_pp39 extends Controller {
 			
 			}
 			// pr($list);
+			//revisi add
+			//get program
+			$getProgram = $this->contentHelper->getVisi(false, 9, 1, $parent_id);
+			if($getProgram){
+				foreach ($getProgram as $value) {
+					$idProgram[] =  $value['id'];
+				}
+			}
+			if($idProgram){
+				$impld = implode(',', $idProgram);
+			}
+			
 			//new
-			$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat);
+			//$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat);
+			$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat,$impld);
+			//pr($get_id_kegiatan);
 			$parent_id_kegiatan = $get_id_kegiatan['id'];
+			//pr($parent_id_kegiatan);
 			$get_id_output = $this->m_penetapanAngaran->get_id_output($thn,$parent_id_kegiatan,$kd_output);
+			//pr($get_id_output);
 			$parent_id_output = $get_id_output['id'];
-			$get_data_ikk = $this->m_penetapanAngaran->get_data_ikk($thn,$parent_id_output,$kd_output);
-			// pr($get_data_ikk);
+			//pr($parent_id_output);
+			//$get_data_ikk = $this->m_penetapanAngaran->get_data_ikk($thn,$parent_id_output,$kd_output);
+		    $get_data_ikk = $this->m_penetapanAngaran->get_data_ikk($thn,$parent_id_output);
+			//pr($get_data_ikk);
+			//exit;
 			foreach ($get_data_ikk as $key=>$val){
 				// pr($key);
 				// pr($val);
@@ -2683,11 +2713,22 @@ class monev_pp39 extends Controller {
 				$tot_realisasi_sd_tw_target +=$realisasi_sd_tw_target['total'];
 				
 			}
-			
-			$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat);
+			$getProgram = $this->contentHelper->getVisi(false, 9, 1, $parent_id);
+			if($getProgram){
+				foreach ($getProgram as $value) {
+					$idProgram[] =  $value['id'];
+				}
+			}
+			if($idProgram){
+				$impld = implode(',', $idProgram);
+			}
+
+			//$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat);
+			$get_id_kegiatan = $this->m_penetapanAngaran->get_id_kegiatan($thn,$kd_giat,$impld);
 			// pr($get_id_kegiatan);
 			$parent_id_kegiatan = $get_id_kegiatan['id'];
 			$get_all_output = $this->m_penetapanAngaran->get_all_output($thn,$parent_id_kegiatan,$kd_output);
+			
 			// pr($get_all_output);
 			foreach ($get_all_output as $k => $val) {
 						if ($val['data']){
@@ -2712,6 +2753,7 @@ class monev_pp39 extends Controller {
 					$indx  = $thn_temp - $limit_min_tahun;
 				}
 			}
+
 			//data header
 			//Deskripsi Kegiatan
 			//nama output
@@ -2743,8 +2785,8 @@ class monev_pp39 extends Controller {
 			$info['tot_get_realisasi'] = $tot_get_realisasi;
 			$info['tot_persentase_reals_anggaran'] = $tot_persentase_reals_anggaran;
 			$info['tot_realisasi_sd_tw_target'] = $tot_realisasi_sd_tw_target;
-			
 			$count = $this->m_penetapanAngaran->ceck_id_output($thn,$kd_giat,$kd_output,3);
+
 		if($count['hit'] == 1){
 			$get_data = $this->m_penetapanAngaran->get_data_monev_trwln($count['id'],$trwulan);
 			if($trwulan == 1){
@@ -2793,6 +2835,7 @@ class monev_pp39 extends Controller {
 			}
 		}
 		
+			
 		//data child
 			$parent_id_output = $get_all_output['0']['id'];
 			$get_data_ikk = $this->m_penetapanAngaran->get_data_ikk($thn,$parent_id_output,$kd_output);
@@ -2808,13 +2851,43 @@ class monev_pp39 extends Controller {
 			$this->view->assign('tdklanjut',$data['tindaklanjut']);
 			
 			//new add		
-			$tgl = date("Y-m-d");
+			/*$tgl = date("Y-m-d");
 			$tgl_format = $this->DateToIndo($tgl);
+			$this->view->assign('tgl_format',$tgl_format);*/
+			$tglcetak = $_GET['tglcetak'];
+			if($tglcetak){
+				$ex = explode("/", $tglcetak);
+				$length_tgl    = strlen($ex['0']);
+				if($length_tgl == 1){
+					$tanggal = "0".$ex['0'];
+				}else{
+					$tanggal = $ex['0'];
+				}
+				
+				$length_bulan  = strlen($ex['1']); 
+				if($length_bulan == 1){
+					$bulan = "0".$ex['1'];
+				}else{
+					$bulan = $ex['1'];
+				}			
+				
+				$thn = $ex['2'];
+				$tgl = $thn.'-'.$bulan.'-'.$tanggal;
+				$tgl_format = $this->DateToIndo($tgl);
+			}else{
+				$tgl = date("Y-m-d");
+				$tgl_format = $this->DateToIndo($tgl);
+			}
+			//pr($tgl_format);
 			$this->view->assign('tgl_format',$tgl_format);
-			
+
 			//ttd nama
-			$split = substr($kd_unit,0,3);
-			$join = $split.'000';
+			if($kd_unit === '845100'){
+				$join = '841000';
+			}else{
+				$split = substr($kd_unit,0,3);
+				$join = $split.'000';
+			}
 			$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
 			$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
 			
@@ -2822,15 +2895,19 @@ class monev_pp39 extends Controller {
 			$kd_eselon_I = $join;
 			$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
 			// pr($nama_pejabat_eselon_I);
-			$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
-			$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
-			
+			//$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
+			//$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+			$this->view->assign('jabatan_pejabat_eselon_I',$nama_pejabat_eselon_I['brief']);
+			$this->view->assign('nama_pejabat_eselon_I',$nama_pejabat_eselon_I['desc']);
+		
 			$kd_eselon_II = $kd_unit;
 			$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
 			// pr($nama_pejabat_eselon_I);
-			$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
-			$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
-			
+			//$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+			//$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
+			$this->view->assign('jabatan_pejabat_eselon_II',$nama_pejabat_eselon_II['brief']);
+			$this->view->assign('nama_pejabat_eselon_II',$nama_pejabat_eselon_II['desc']);
+		
 			// return $this->loadView('monev/printAll');
 			$this->reportHelper =$this->loadModel('reportHelper');
 			$html = $this->loadView('monev_pp39/printAll');

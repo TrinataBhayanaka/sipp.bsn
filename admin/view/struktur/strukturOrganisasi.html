@@ -104,7 +104,8 @@
 							{if $user.type == 1}
 							<td class="text-center">	
 								<a href="{$basedomain}struktur/editStruktur/?id={$val.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>	
-								<a href="{$basedomain}struktur/delete/?id={$val.id}&param=1&req=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+								<a href="{$basedomain}struktur/delete/?id={$val.id}&param=1&req=1"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a><br/><br/>
+								<a href="{$basedomain}struktur/detailStruktur/?id={$val.id}"><button class="btn btn-success btn-icon icon-lg fa fa-search-plus"></button></a>
 							</td>
 							{/if}
 						</tr>

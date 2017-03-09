@@ -81,6 +81,7 @@ class contentHelper extends Database {
 	
 	function getVisi($id=false, $type=5, $cat=0, $parent=0, $other=false, $debug=false)
 	{
+
 		$filter = "";
 		if ($id) $filter .= " AND id = {$id}";
 		if ($type) $filter .= " AND type = {$type}";
@@ -97,7 +98,7 @@ class contentHelper extends Database {
                 'field'=>"*",
                 'condition' => "n_status = 1 {$filter}"
                 );
-
+		//pr($sql);
         $res = $this->lazyQuery($sql,$debug);
         if ($res)return $res;
         return false;
@@ -109,7 +110,7 @@ class contentHelper extends Database {
 		$data['n_status'] = 1;
 		foreach ($data as $key => $value) {
 			$field[] = "{$key} = '{$value}'";
-		}
+		}	
 
 		$filter .= implode(' AND ', $field);
 
@@ -118,7 +119,7 @@ class contentHelper extends Database {
                 'field'=>"*",
                 'condition' => "{$filter}"
                 );
-
+		//pr($sql);
         $res = $this->lazyQuery($sql,$debug);
         if ($res)return $res;
         return false;
@@ -243,6 +244,7 @@ class contentHelper extends Database {
     function getDesc($table)
     {
     	$sql = "desc {$table}";
+    	pr($sql);
     	$result = $this->fetch($sql,1);
     	db($result);
     	return 1;	
@@ -263,6 +265,151 @@ class contentHelper extends Database {
 		$result = $this->query($sql);
 		// return $result;	
 	}
+	
+	function altertabel(){
+		$sql_1 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_1` `target_1` DECIMAL(10,2) NULL DEFAULT '0.00'";
+	
+		$sql_2 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_2` `target_2` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_3 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_3` `target_3` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_4 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_4` `target_4` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_5 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_5` `target_5` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_6 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_6` `target_6` DECIMAL(10,2) NULL DEFAULT '0.00'";
+	
+		$sql_7 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_7` `target_7` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_8 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_8` `target_8` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_9 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_9` `target_9` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_10 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_10` `target_10` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_11 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_11` `target_11` DECIMAL(10,2) NULL DEFAULT '0.00'";
+		
+		$sql_12 = "ALTER TABLE `thbp_kak_output_tahapan` CHANGE `target_12` `target_12` DECIMAL(10,2) NULL DEFAULT '0.00'";
+
+		$all_sql = array($sql_1,$sql_2,$sql_3,$sql_4,$sql_5,$sql_6,
+						$sql_7,$sql_8,$sql_9,$sql_10,$sql_11,$sql_12);
+
+		for ($i=0; $i<count($all_sql);$i++){
+			//pr($all_sql[$i]);
+			//exit;
+			$result = $this->query($all_sql[$i]);
+		}
+	
+	}
+
+	function refOutput($table,$loop=0,$where=false,$order=false,$limit=false)
+    {
+    	if($where) $where = "WHERE ".$where;
+        if($order) $order = "ORDER BY ".$order;
+        if($limit) $limit = "LIMIT ".$limit;
+        $sql = "SELECT * FROM {$table} {$where} {$order} {$limit}";
+		$res = $this->fetch($sql,$loop);
+
+        return $res;
+    }
+
+    function altertabelmonev(){
+		$sql = "ALTER TABLE monev_bulanan
+    			  ENGINE=InnoDB
+    			  ROW_FORMAT=COMPRESSED
+    			  KEY_BLOCK_SIZE=8;";
+
+		$result = $this->query($sql);
+		return $result;
+	}
+
+	function altertabelrpk(){
+		$sql = "ALTER TABLE thbp_kak_output
+    			  ENGINE=InnoDB
+    			  ROW_FORMAT=COMPRESSED
+    			  KEY_BLOCK_SIZE=8;";
+    	pr($sql);		  
+		$result = $this->query($sql);
+		if($result)return $result;
+	}
+
+	function altertabelrpkrevisi(){
+		$sql_1 = "ALTER TABLE `thbp_kak_output` CHANGE `ursasaran_1` `ursasaran_1` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+	
+		$sql_2 = "ALTER TABLE `thbp_kak_output` CHANGE `ursasaran_2` `ursasaran_2` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_3 = "ALTER TABLE `thbp_kak_output` CHANGE `ursasaran_3` `ursasaran_3` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_4 = "ALTER TABLE `thbp_kak_output` CHANGE `ursasaran_4` `ursasaran_4` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_5 = "ALTER TABLE `thbp_kak_output` CHANGE `tujuan` `tujuan` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;;";
+
+		$all_sql = array($sql_1,$sql_2,$sql_3,$sql_4,$sql_5);
+
+		for ($i=0; $i<count($all_sql);$i++){
+			//pr($all_sql[$i]);
+			//exit;
+			$result = $this->query($all_sql[$i]);
+		}
+		if($result)return $result;
+
+	}
+
+	function altertabelmonevrevisi(){
+		$sql_1 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan` `keterangan` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+	
+		$sql_2 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_2` `keterangan_2` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_3 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_3` `keterangan_3` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_4 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_4` `keterangan_4` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_5 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_5` `keterangan_5` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+
+		$sql_6 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_6` `keterangan_6` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_7 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_7` `keterangan_7` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+
+		$sql_8 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_8` `keterangan_8` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_9 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_9` `keterangan_9` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_10 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_10` `keterangan_10` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_11 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_11` `keterangan_11` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$sql_12 = "ALTER TABLE `monev_bulanan` CHANGE `keterangan_12` `keterangan_12` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;";
+		
+		$all_sql = array($sql_1,$sql_2,$sql_3,$sql_4,$sql_5,$sql_6,
+						$sql_7,$sql_8,$sql_9,$sql_10,$sql_11,$sql_12);
+
+		for ($i=0; $i<count($all_sql);$i++){
+			//pr($all_sql[$i]);
+			//exit;
+			$result = $this->query($all_sql[$i]);
+		}
+		if($result)return $result;
+
+	}
+
+
+	function upddebug($id){
+		pr("masukk model");
+		$sql = "UPDATE bsn_struktur SET n_status = 1 WHERE id ='{$id}'";
+		//pr($sql);
+		$result = $this->query($sql);
+		//return $result;
+	}
+
+	function altertabelmonevpp39(){
+		$sql = "ALTER TABLE `monev_bulanan` CHANGE `kdkmpnen` `kdkmpnen` VARCHAR(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL";
+		//pr($sql);
+		$result = $this->query($sql);
+		
+		return $result;
+	}
+
+
 	
 }
 ?>

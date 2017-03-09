@@ -22,7 +22,7 @@
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Form Rencana Aksi Penetapan Kinerja </h3>
+			<h3 class="panel-title">Form Rencana Aksi Penetapan Kinerja {$nama_unit}</h3>
 		</div>
 		<form class="form-horizontal form-padding" method="post" action="{$basedomain}renaksi/edt_renaksi_es1">
 		<div class="panel-body">
@@ -89,12 +89,12 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Output</label>
-										<div class="col-md-2">
+										<div class="col-md-9">
 											<input type="text" name="ren_hasil_1" class="form-control" value="{$data.ren_hasil_1}">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/Tahapan</label>
 										<div class="col-md-9">
 											<textarea id="demo-textarea-input" name="aksi_1" rows="4" class="form-control triwulan">{$data.aksi_1}</textarea>
 										</div>
@@ -118,12 +118,12 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Output</label>
-										<div class="col-md-2">
+										<div class="col-md-9">
 											<input type="text" name="ren_hasil_2" class="form-control" value="{$data.ren_hasil_2}">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/Tahapan</label>
 										<div class="col-md-9">
 											<textarea id="demo-textarea-input" name="aksi_2" rows="4" class="form-control triwulan">{$data.aksi_2}</textarea>
 										</div>
@@ -147,12 +147,12 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Output</label>
-										<div class="col-md-2">
+										<div class="col-md-9">
 											<input type="text" name="ren_hasil_3" class="form-control" value="{$data.ren_hasil_3}">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/Tahapan</label>
 										<div class="col-md-9">
 											<textarea id="demo-textarea-input" name="aksi_3" rows="4" class="form-control triwulan">{$data.aksi_3}</textarea>
 										</div>
@@ -176,12 +176,12 @@
 									</div>
 									<div class="form-group">
 										<label class="col-md-3 control-label" for="demo-text-input">Output</label>
-										<div class="col-md-2">
+										<div class="col-md-9">
 											<input type="text" name="ren_hasil_4" class="form-control" value="{$data.ren_hasil_4}">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 control-label" for="demo-textarea-input">Formula</label>
+										<label class="col-md-3 control-label" for="demo-textarea-input">Proses/Tahapan</label>
 										<div class="col-md-9">
 											<textarea id="demo-textarea-input" name="aksi_4" rows="4" class="form-control triwulan">{$data.aksi_4}</textarea>
 										</div>
@@ -198,8 +198,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel-footer text-left">
-			<button class="btn btn-info" type="submit" id="submit">Submit</button>
+		<div class="panel-footer text-right">
+			<button class="btn btn-info" type="submit" id="submit">Simpan</button>
 		</div>
 		</form>
 	</div>
@@ -213,7 +213,7 @@
 {literal}
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('.triwulan').summernote({
+		/*$('.triwulan').summernote({
 		toolbar: [
     // [groupName, [list of button]]
 					['style', ['bold', 'italic', 'underline', 'clear']],
@@ -224,6 +224,28 @@
 					['height', ['height']]
 				  ],
 		height: 200
+	});*/
+	//clear format from other source like word
+	var $editor = $('.triwulan');
+	$editor.summernote({
+			toolbar: [
+    			['style', ['bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']]
+			  ],
+		height: 200,
+	    onpaste: function (e) {
+	    	//console.log('masuk');
+	        //console.log(e);
+	        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+
+	        e.preventDefault();
+
+	        document.execCommand('insertText', false, bufferText);
+	    }
 	});
 		//$(".triwulan").summernote({height:150});
 		 $(document).ready(function(){

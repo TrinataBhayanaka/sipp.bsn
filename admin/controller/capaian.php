@@ -64,10 +64,13 @@ class capaian extends Controller {
 		$kd = $_GET['kd'];
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpkid($id,$thn['kode']);
-
+		$nama_unit = $this->model->getNamaStruktur($kd);
+		
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
 		$this->view->assign('kode',$kd);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
+
 
 		return $this->loadView('capaian/edit_eselon1');
 	}
@@ -78,10 +81,12 @@ class capaian extends Controller {
 		$kd = $_GET['kd'];
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpkid($id,$thn['kode']);
-
+		$nama_unit = $this->model->getNamaStruktur($kd);
+		
 		$this->view->assign('data',$data);
 		$this->view->assign('id',$id);
 		$this->view->assign('kode',$kd);
+		$this->view->assign('nama_unit',$nama_unit['nama_satker']);
 
 		return $this->loadView('capaian/edit_eselon2');
 	}
@@ -146,23 +151,24 @@ class capaian extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);
-
 		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
-		// pr($Struktur);
 		if($data){
 		foreach ($data as $key => $value) {
+			//pr($value['kode']);
 			$data[$key]=$value;
 			if($Struktur[type]==1){
 
 				$data[$key]['linkEdit']=true;
-
+				$data[$key]['prv']=true;
 			}
-			/*elseif($Struktur[type]==3 && $value['kodeUser']==$this->admin[kode]){
-
+			elseif($Struktur[type]== 2 && $value['kdunitkerja']== $this->admin[kode]){
 				$data[$key]['linkEdit']=true;
-			}*/
+				$data[$key]['prv']=false;
+			}
 		}
 		}
+		//pr($data);
+		//exit;
 		$this->view->assign('data',$data);
 		$this->view->assign('struktur',$struktur);
 
@@ -197,7 +203,6 @@ class capaian extends Controller {
 		}
 		$thn = $this->model->getTahun();
 		$data = $this->model->getpk($idpk,$thn['kode']);
-
 		$Struktur=$this->model->getStrukturUser($this->admin[kode]);
 		if($data){
 		foreach ($data as $key => $value) {
@@ -205,14 +210,18 @@ class capaian extends Controller {
 			if($Struktur[type]==1){
 
 				$data[$key]['linkEdit']=true;
-
+				$data[$key]['prv']=true;
+			
 			}elseif($Struktur[type]==3 && $value['kdunitkerja']==$this->admin[kode]){
 
 				$data[$key]['linkEdit']=true;
-
+				$data[$key]['prv']=false;
 			}
+
 		}
 		}
+		//pr($data);
+		//exit;
 		$this->view->assign('data',$data);
 		$this->view->assign('struktur',$struktur);
 
@@ -233,6 +242,38 @@ class capaian extends Controller {
 		return $data;
 	}
 	
+	public function del_capaian($id){
+		global $basedomain;
+		$id = $_GET['id'];
+		$data = $this->model->del_capaian($id);
+
+		echo "<script>window.location.href='".$basedomain."capaian/bsn'</script>";
+		exit;
+	}
+	
+	public function del_capaian_es1($id){
+		global $basedomain;
+		$id = $_GET['id'];
+		$kode = $_GET['kd'];
+		$data = $this->model->del_capaian($id);
+
+		echo "<script>window.location.href='".$basedomain."capaian/eselon1/?kd={$kode}'</script>";
+		exit;
+
+	}
+
+	public function del_capaian_es2($id){
+		global $basedomain;
+		$id = $_GET['id'];
+		$kode = $_GET['kd'];
+		$data = $this->model->del_capaian($id);
+
+		echo "<script>window.location.href='".$basedomain."capaian/eselon2/?kd={$kode}'</script>";
+		exit;
+
+
+	}
+
 }
 
 ?>

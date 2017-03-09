@@ -22,7 +22,7 @@
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Form Penetapan Kinerja Eselon </h3>
+			<h3 class="panel-title">Form Penetapan Kinerja Eselon {$nama_unit}</h3>
 		</div>
 		<form class="form-horizontal form-padding" method="post" action="{$basedomain}perjanjiankinerja/edt_pk_eselon2">
 		<div class="panel-body">
@@ -40,7 +40,7 @@
 								<select class="selectpicker" name="no_sasaran" title="-- Pilih Sasaran Strategis --">
 									<option data-hidden="true"></option>
 									{foreach $ss as $val}
-										<option value="{$val.id}" {if $val.id eq $data.no_sasaran}selected{else}disabled{/if}>{$val.desc}</option>
+										<option value="{$val.id}" {if $val.id eq $data.no_sasaran}selected{else}{/if}>{$val.desc}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -112,8 +112,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel-footer text-left">
-			<button class="btn btn-info" type="submit">Submit</button>
+		<div class="panel-footer text-right">
+			<button class="btn btn-info" type="submit">Simpan</button>
 		</div>
 		</form>
 	</div>

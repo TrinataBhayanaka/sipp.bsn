@@ -1,29 +1,3 @@
-<script>
-{literal}
-	
-	$(document).on('click', '#inputvisi', function(){
-
-		inputsasaran(1);
-	})
-
-	
-
-	$(document).on('click', '#editvisi', function(){
-		var iddata = $(this).attr('data-id');
-		inputsasaran(1, iddata);
-	})
-
-	
-
-	$(document).on('change', '.eselonid', function(){
-		var id = $(this).val();
-		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
-	})
-
-
-{/literal}
-
-</script>
 
 <!--Page Title-->
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -60,16 +34,32 @@
 		<div id="delete-toolbar" class="table-toolbar-left">
 			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
 		</div>
-		{/*}
 		
+		{/*}
+
 		<!--{pr($data)}
 		{pr($data_listgroup)}-->
 		<div class="panel-body">
+			<div class="col-md-12 table-toolbar-right">
+				<div class="form-group">
+	              <!-- <label for="text-input">Eselon 1</label> -->
+	                  <select class="form-control" name="ref" id="kode_kegiatan">
+	                    {if $dropdown}
+	                    {foreach $dropdown as $val}
+	                    <option value="{$val.title}" {if $val.title==$ref_id}selected{/if}>{$val.title}
+	                    </option>
+	                    {/foreach}
+	                    {/if}
+	                  </select>
+	          	</div>
+			</div> 
+			&nbsp;
+			<input type="hidden" name="parent_id" id="parent_id" value="{$parent_id}">
 			<div class="table-responsive">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th colspan="3"class="text-center">Kegiatan</th>
+							<th colspan="3" class="text-center">Kegiatan</th>
 							<th rowspan="2" colspan="3"class="text-center">Aksi</th>
 						</tr>
 						<tr>
@@ -85,7 +75,7 @@
 							<td class="text-center" colspan="3">
 								{if $user.type==1}
 								<div id="create-toolbar" >
-									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$val.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Output</button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$val.id}&ref_id={$ref_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Output</button></a>
 									<!--<a href="{$basedomain}renstra/delete/?id={$val.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>-->
 								</div>
 								{/if}
@@ -100,21 +90,21 @@
 										<tr>
 											<th class="text-center">&nbsp;</th>
 											{foreach $tahuntarget as $tahun}
-											<th>{$tahun}</th>
+											<th class="text-center">{$tahun}</th>
 											{/foreach}
 											<th class="text-center">Satuan</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>Anggaran (Ribuan Rp.)</td>
+											<td class="text-center">Anggaran (Ribuan Rp.)</td>
 											{foreach $v.target_anggaran as $target}
 											<td>{$target}</td>
 											{/foreach}
 											<td>{$v.satuan_target_anggaran}</td>
 										</tr>
 										<tr>
-											<td>Target</td>
+											<td class="text-center">Target</td>
 											{foreach $v.target as $target}
 											<td class="text-center">{$target}</td>
 											{/foreach}
@@ -128,7 +118,7 @@
 								{if $user.type==1}
 
 								<div id="create-toolbar" >
-									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$v.parent_id}&id={$v.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=1&parent_id={$v.parent_id}&id={$v.id}&ref_id={$ref_id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 								{/if}
 							</td>
@@ -136,12 +126,12 @@
 							<td class="text-center">
 								{if $user.type==1}
 
-									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+									<a href="{$basedomain}renstra/delete/?id={$v.id}&req=7&ref_id={$ref_id}" onclick="return confirm('Yakin Hapus?')"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 								{/if}
 							</td>
 							<td>
 								{if $user.type==1}
-								<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$v.id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Ikk</button></a>
+								<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$v.id}&ref_id={$ref_id}"><button class="btn btn-success btn-labeled fa fa-pencil-square-o">Tambah Ikk</button></a>
 								{/if}
 							</td>
 
@@ -174,19 +164,19 @@
 								</table>
 							</td>
 
-							<td>
+							<td class="text-center">
 								{if $user.type==1}
 
 								<div id="create-toolbar" >
-									<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$out.parent_id}&id={$out.id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
+									<a href="{$basedomain}renstra/editOutput/?req=2&parent_id={$out.parent_id}&id={$out.id}&ref_id={$ref_id}"><button class="btn btn-warning btn-icon icon-lg fa fa-pencil"></button></a>
 								</div>
 								{/if}
 							</td>
 
-							<td>
+							<td class="text-center">
 								{if $user.type==1}
 
-									<a href="{$basedomain}renstra/delete/?id={$out.id}&req=7"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
+									<a href="{$basedomain}renstra/delete/?id={$out.id}&req=7&ref_id={$ref_id}" onclick="return confirm('Yakin Hapus?')"><button class="btn btn-danger btn-icon icon-lg fa fa-times"></button></a>
 								{/if}
 							</td>
 							<td>&nbsp;</td>
@@ -212,4 +202,43 @@
 </div>
 <!--===================================================-->
 <!--End page content-->
+<script>
+{literal}
+	
+	$(document).on('click', '#inputvisi', function(){
 
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+	$('#kode_kegiatan').on('change', function(){
+		
+		var parent_id = $('#parent_id').val();
+		var kode_kegiatan = $('#kode_kegiatan').val();
+		console.log(parent_id);
+		console.log(kode_kegiatan);
+
+		setTimeout(
+		   function() 
+		   {
+		window.location.replace(basedomain+"renstra/output/?parent_id="+parent_id+"&ref="+kode_kegiatan);
+		   }, 500);
+	})
+
+
+{/literal}
+
+</script>

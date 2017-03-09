@@ -1,6 +1,15 @@
 <?php
 class m_penetapanAngaran extends Database {
 	
+	function count_bobot($thn,$kd_unit,$kd_giat,$kd_output,$kdsoutput,$kdkmpnen){
+		$query = "select bobot from thbp_kak_output_bobot where th='{$thn}' 
+		          and kdunitkerja ='{$kd_unit}' and kdgiat='{$kd_giat}' 
+		          and kdoutput='{$kd_output}' and kdsoutput = '{$kdsoutput}' 
+		          and kdkmpnen = '{$kdkmpnen}'";
+		$result = $this->fetch($query);
+		return $result; 
+	}
+
 	// m_spmmak dam m_spmind (upload foxpro dari iman)
 	// d_item ,d_trktrm (upload foxpro dari bayu)
 	function get_bobot_trwln($param,$kd_unit,$kd_giat,$kd_output,$kd_komponen){
@@ -1421,8 +1430,12 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function sub_komponen($thn,$kd_giat,$kd_output,$kd_komponen){
+		/*$query = "SELECT * FROM thbp_kak_output_tahapan WHERE th = '{$thn}' AND kdgiat = '{$kd_giat}' 
+				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' ORDER BY  id";*/
+		
 		$query = "SELECT * FROM thbp_kak_output_tahapan WHERE th = '{$thn}' AND kdgiat = '{$kd_giat}' 
-				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' ORDER BY  id";
+				  AND kdoutput = '{$kd_output}' and kdkmpnen = '{$kd_komponen}' ORDER BY  kd_tahapan";
+				  
 		//ORDER BY kd_tahapan		  
 		// pr($query);
 		$result = $this->fetch($query,1);
@@ -1453,35 +1466,55 @@ class m_penetapanAngaran extends Database {
 		return $result;
 	}
 	
-	function update($tujuan,$sasaran_1,$sasaran_2,$sasaran_3,$sasaran_4,
-					$ursasaran_1,$ursasaran_2,$ursasaran_3,$ursasaran_4,
-					$status,$tgl_kirim,$kdunitkerja,$kdgiat,$kdoutput,
-					$id,$th){
+	function update($tujuan,$sasaran_1,$ursasaran_1,$sasaran_2,$ursasaran_2,
+					$sasaran_3,$ursasaran_3,$sasaran_4,$ursasaran_4,$status,
+					$tgl_kirim,$kdunitkerja,$kdgiat,$kdoutput,$id,$th){
 		// pr($sasaran_1);
 		$query = "UPDATE thbp_kak_output SET tujuan = '{$tujuan}', 
-								sasaran_1 = '{$ursasaran_1}' ,  sasaran_2 = '{$ursasaran_1}' ,
-								sasaran_3 = '{$ursasaran_3}' , sasaran_4 = '{$ursasaran_4}' ,
-								ursasaran_1 = '{$sasaran_1}' , ursasaran_2 = '{$sasaran_2}' ,
-								ursasaran_3 = '{$sasaran_3}' , ursasaran_4 = '{$sasaran_4}' ,
-							   status = '{$status}', tgl_kirim = '{$tgl_kirim}' ,
-							   kdunitkerja = '{$kdunitkerja}', kdgiat = '{$kdgiat}' ,kdoutput = '{$kdoutput}',
-							   th = '{$th}'
-							   WHERE id = '{$id}' ";
-		// pr($query);	
-		// exit;		
+					sasaran_1 = '{$sasaran_1}',  
+					sasaran_2 = '{$sasaran_2}',
+					sasaran_3 = '{$sasaran_3}', 
+					sasaran_4 = '{$sasaran_4}' ,
+					ursasaran_1 = '".addslashes(html_entity_decode($ursasaran_1))."',  
+					ursasaran_2 = '".addslashes(html_entity_decode($ursasaran_2))."',
+					ursasaran_3 = '".addslashes(html_entity_decode($ursasaran_3))."',  
+					ursasaran_4 = '".addslashes(html_entity_decode($ursasaran_4))."',
+					status = '{$status}', 
+					tgl_kirim = '{$tgl_kirim}' ,
+					kdunitkerja = '{$kdunitkerja}', 
+					kdgiat = '{$kdgiat}' ,
+					kdoutput = '{$kdoutput}',
+					th = '{$th}'
+					WHERE id = '{$id}' ";
+		//pr($query);	
+		//exit;		
 		$result = $this->query($query);
 	}
 	
 	function insert($tujuan,$sasaran_1,$ursasaran_1,$sasaran_2,$ursasaran_2,
 					$sasaran_3,$ursasaran_3,$sasaran_4,$ursasaran_4,$status,
 					$tgl_kirim,$kdunitkerja,$kdgiat,$kdoutput,$id,$th){
+		/*$query = "INSERT INTO thbp_kak_output (th,kdunitkerja,kdgiat,kdoutput,tujuan,
+						sasaran_1,sasaran_2,sasaran_3,sasaran_4,
+						ursasaran_1,ursasaran_2,ursasaran_3,ursasaran_4)
+						VALUES ( '{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$tujuan}' ,
+						'{$ursasaran_1}' , '{$ursasaran_2}' , 
+						'{$ursasaran_3}' , '{$ursasaran_4}' ,
+						'{$sasaran_1}' , '{$sasaran_2}' , 
+						'{$sasaran_3}' , '{$sasaran_4}'  )";*/
+
 		$query = "INSERT INTO thbp_kak_output (th,kdunitkerja,kdgiat,kdoutput,tujuan,
 						sasaran_1,sasaran_2,sasaran_3,sasaran_4,
 						ursasaran_1,ursasaran_2,ursasaran_3,ursasaran_4)
 						VALUES ( '{$th}' , '{$kdunitkerja}' , '{$kdgiat}' , '{$kdoutput}' , '{$tujuan}' ,
-						'{$ursasaran_1}' , '{$ursasaran_2}' , '{$ursasaran_3}' , '{$ursasaran_4}' ,
-						'{$sasaran_1}' , '{$sasaran_2}' , '{$sasaran_3}' , '{$sasaran_4}'  )";
-		// pr($query);
+						'{$sasaran_1}' , '{$sasaran_2}' , 
+						'{$sasaran_3}' , '{$sasaran_4}' ,
+						'".addslashes(html_entity_decode($ursasaran_1))."', 
+						'".addslashes(html_entity_decode($ursasaran_2))."', 
+						'".addslashes(html_entity_decode($ursasaran_3))."', 
+						'".addslashes(html_entity_decode($ursasaran_4))."')";	
+
+		//pr($query);
 		// exit;
 		$result = $this->query($query);
 	}
@@ -1532,8 +1565,8 @@ class m_penetapanAngaran extends Database {
 													 anggaran_1 ='{$anggaran_1}',anggaran_2 ='{$anggaran_2}',anggaran_3 ='{$anggaran_3}',anggaran_4 ='{$anggaran_4}',anggaran_5 ='{$anggaran_5}',anggaran_6 ='{$anggaran_6}',
 													 anggaran_7 ='{$anggaran_7}',anggaran_8 ='{$anggaran_8}',anggaran_9 ='{$anggaran_9}',anggaran_10 ='{$anggaran_10}',anggaran_11 ='{$anggaran_11}',anggaran_12 ='{$anggaran_12}'
 							  WHERE id = '{$id}' ";
-		// pr($query);	
-		// exit;		
+		//pr($query);	
+		//exit;		
 		$result = $this->query($query);
 	}
 	
@@ -1611,13 +1644,13 @@ class m_penetapanAngaran extends Database {
 			$kat = " and kategori = 1";
 		}
 		switch ($param){
-			case 01:
+			case 1:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3)) as total"; break;
-			case 02:
+			case 2:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6)) as total"; break;
-			case 03:
+			case 3:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7) + sum(target_8) + sum(target_9)) as total"; break;
-			case 04:
+			case 4:
 					$ext_sql = "(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) + sum(target_5) + sum(target_6) +  sum(target_7) + sum(target_8) + sum(target_9) + sum(target_10) + sum(target_11) + sum(target_12)) as total"; break;
 			}
 		
@@ -1691,23 +1724,23 @@ class m_penetapanAngaran extends Database {
 	function monev_realisasi_sd_bulan_anggaran($id,$param){
 		
 		switch ($param){
-			case 01:
+			case 1:
 					$ext_sql = "sum(anggaran_1) as realisasi";break;
-			case 02:
+			case 2:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2)) as realisasi"; break;
-			case 03:
+			case 3:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as realisasi"; break;
-			case 04:
+			case 4:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4)) as realisasi"; break;
-			case 05:
+			case 5:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5)) as realisasi"; break;
-			case 06:
+			case 6:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) as realisasi"; break;
-			case 07:
+			case 7:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7)) as realisasi"; break;
-			case 08:
+			case 8:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8)) as realisasi"; break;
-			case 09:
+			case 9:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9)) as realisasi"; break;
 			case 10:
 					$ext_sql = "(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) +  sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10)) as realisasi"; break;
@@ -2044,47 +2077,47 @@ class m_penetapanAngaran extends Database {
 	function update_monev($th,$bulan,$kendala,$tindaklanjut,$ygmembantu,$target,$keterangan,$id){
 		// pr($sasaran_1);
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_kendala ="kendala";
 						$ext_tindaklanjut = "tindaklanjut";
 						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "target_1";break; 
-				case 02:
+				case 2:
 						$ext_kendala ="kendala_2";
 						$ext_tindaklanjut = "tindaklanjut_2";
 						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "target_2";break;
-				case 03:
+				case 3:
 						$ext_kendala ="kendala_3";
 						$ext_tindaklanjut = "tindaklanjut_3";
 						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "target_3";break;
-				case 04:
+				case 4:
 						$ext_kendala ="kendala_4";
 						$ext_tindaklanjut = "tindaklanjut_4";
 						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "target_4";break;
-				case 05:
+				case 5:
 						$ext_kendala ="kendala_5";
 						$ext_tindaklanjut = "tindaklanjut_5";
 						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "target_5";break;
-				case 06:
+				case 6:
 						$ext_kendala ="kendala_6";
 						$ext_tindaklanjut = "tindaklanjut_6";
 						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "target_6";break;
-				case 07:
+				case 7:
 						$ext_kendala ="kendala_7";
 						$ext_tindaklanjut = "tindaklanjut_7";
 						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "target_7";break;
-				case 08:
+				case 8:
 						$ext_kendala ="kendala_8";
 						$ext_tindaklanjut = "tindaklanjut_8";
 						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "target_8";break;
-				case 09:
+				case 9:
 						$ext_kendala ="kendala_9";
 						$ext_tindaklanjut = "tindaklanjut_9";
 						$ext_ygmembantu = "ygmembantu_9";
@@ -2119,47 +2152,47 @@ class m_penetapanAngaran extends Database {
 	function insert_monev($th,$bulan,$kdunitkerja,$kdgiat,$kdoutput,$kdkmpnen,
 						 $kendala,$tindaklanjut,$ygmembantu,$target,$keterangan){
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_kendala ="kendala";
 						$ext_tindaklanjut = "tindaklanjut";
 						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "target_1";break; 
-				case 02:
+				case 2:
 						$ext_kendala ="kendala_2";
 						$ext_tindaklanjut = "tindaklanjut_2";
 						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "target_2";break;
-				case 03:
+				case 3:
 						$ext_kendala ="kendala_3";
 						$ext_tindaklanjut = "tindaklanjut_3";
 						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "target_3";break;
-				case 04:
+				case 4:
 						$ext_kendala ="kendala_4";
 						$ext_tindaklanjut = "tindaklanjut_4";
 						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "target_4";break;
-				case 05:
+				case 5:
 						$ext_kendala ="kendala_5";
 						$ext_tindaklanjut = "tindaklanjut_5";
 						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "target_5";break;
-				case 06:
+				case 6:
 						$ext_kendala ="kendala_6";
 						$ext_tindaklanjut = "tindaklanjut_6";
 						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "target_6";break;
-				case 07:
+				case 7:
 						$ext_kendala ="kendala_7";
 						$ext_tindaklanjut = "tindaklanjut_7";
 						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "target_7";break;
-				case 08:
+				case 8:
 						$ext_kendala ="kendala_8";
 						$ext_tindaklanjut = "tindaklanjut_8";
 						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "target_8";break;
-				case 09:
+				case 9:
 						$ext_kendala ="kendala_9";
 						$ext_tindaklanjut = "tindaklanjut_9";
 						$ext_ygmembantu = "ygmembantu_9";
@@ -2206,47 +2239,47 @@ class m_penetapanAngaran extends Database {
 	function insert_monev_anggaran($th,$bulan,$kdunitkerja,$kdgiat,$kdoutput,$kdkmpnen,
 						 $kendala,$tindaklanjut,$ygmembantu,$realisasi){
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_kendala ="kendala";
 						$ext_tindaklanjut = "tindaklanjut";
 						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "anggaran_1";break; 
-				case 02:
+				case 2:
 						$ext_kendala ="kendala_2";
 						$ext_tindaklanjut = "tindaklanjut_2";
 						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "anggaran_2";break;
-				case 03:
+				case 3:
 						$ext_kendala ="kendala_3";
 						$ext_tindaklanjut = "tindaklanjut_3";
 						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "anggaran_3";break;
-				case 04:
+				case 4:
 						$ext_kendala ="kendala_4";
 						$ext_tindaklanjut = "tindaklanjut_4";
 						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "anggaran_4";break;
-				case 05:
+				case 5:
 						$ext_kendala ="kendala_5";
 						$ext_tindaklanjut = "tindaklanjut_5";
 						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "anggaran_5";break;
-				case 06:
+				case 6:
 						$ext_kendala ="kendala_6";
 						$ext_tindaklanjut = "tindaklanjut_6";
 						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "anggaran_6";break;
-				case 07:
+				case 7:
 						$ext_kendala ="kendala_7";
 						$ext_tindaklanjut = "tindaklanjut_7";
 						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "anggaran_7";break;
-				case 08:
+				case 8:
 						$ext_kendala ="kendala_8";
 						$ext_tindaklanjut = "tindaklanjut_8";
 						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "anggaran_8";break;
-				case 09:
+				case 9:
 						$ext_kendala ="kendala_9";
 						$ext_tindaklanjut = "tindaklanjut_9";
 						$ext_ygmembantu = "ygmembantu_9";
@@ -2283,47 +2316,47 @@ class m_penetapanAngaran extends Database {
 	function update_monev_anggaran($th,$bulan,$kendala,$tindaklanjut,$ygmembantu,$realisasi,$id){
 		// pr($sasaran_1);
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_kendala ="kendala";
 						$ext_tindaklanjut = "tindaklanjut";
 						$ext_ygmembantu = "ygmembantu";
 						$ext_clm = "anggaran_1 = '{$realisasi}'";break; 
-				case 02:
+				case 2:
 						$ext_kendala ="kendala_2";
 						$ext_tindaklanjut = "tindaklanjut_2";
 						$ext_ygmembantu = "ygmembantu_2";
 						$ext_clm = "anggaran_2 = '{$realisasi}'";break;
-				case 03:
+				case 3:
 						$ext_kendala ="kendala_3";
 						$ext_tindaklanjut = "tindaklanjut_3";
 						$ext_ygmembantu = "ygmembantu_3";
 						$ext_clm = "anggaran_3 = '{$realisasi}'";break;
-				case 04:
+				case 4:
 						$ext_kendala ="kendala_4";
 						$ext_tindaklanjut = "tindaklanjut_4";
 						$ext_ygmembantu = "ygmembantu_4";
 						$ext_clm = "anggaran_4 = '{$realisasi}'";break;
-				case 05:
+				case 5:
 						$ext_kendala ="kendala_5";
 						$ext_tindaklanjut = "tindaklanjut_5";
 						$ext_ygmembantu = "ygmembantu_5";
 						$ext_clm = "anggaran_5 = '{$realisasi}'";break;
-				case 06:
+				case 6:
 						$ext_kendala ="kendala_6";
 						$ext_tindaklanjut = "tindaklanjut_6";
 						$ext_ygmembantu = "ygmembantu_6";
 						$ext_clm = "anggaran_6 = '{$realisasi}'";break;
-				case 07:
+				case 7:
 						$ext_kendala ="kendala_7";
 						$ext_tindaklanjut = "tindaklanjut_7";
 						$ext_ygmembantu = "ygmembantu_7";
 						$ext_clm = "anggaran_7 = '{$realisasi}'";break;
-				case 08:
+				case 8:
 						$ext_kendala ="kendala_8";
 						$ext_tindaklanjut = "tindaklanjut_8";
 						$ext_ygmembantu = "ygmembantu_8";
 						$ext_clm = "anggaran_8 = '{$realisasi}'";break;
-				case 09:
+				case 9:
 						$ext_kendala ="kendala_9";
 						$ext_tindaklanjut = "tindaklanjut_9";
 						$ext_ygmembantu = "ygmembantu_9";
@@ -2358,7 +2391,7 @@ class m_penetapanAngaran extends Database {
 	{
 		$sql = "SELECT * FROM thbp_kak_output_bobot WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'";
 		$bobot = $this->fetch($sql);
-
+		//pr($sql);
 		return $bobot;
 	}
 	
@@ -2385,18 +2418,90 @@ class m_penetapanAngaran extends Database {
 	function rencana_anggaran_rev($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output){
 		switch ($trwln){
 			case 1:
-				$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3"; break;
+				/*$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3"; 
+				*/
+				$ext_sql = "sum(anggaran_1) as rencana_1,
+				(sum(anggaran_1) + sum(anggaran_2)) as rencana_2,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as rencana_3"; 
+				break;
 			case 2:
-				$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3,sum(anggaran_4) as rencana_4,sum(anggaran_5) as rencana_5,sum(anggaran_6) as rencana_6 "; break;
+				/*$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3,sum(anggaran_4) as rencana_4,sum(anggaran_5) as rencana_5,sum(anggaran_6) as rencana_6 ";*/ 
+				$ext_sql = "sum(anggaran_1) as rencana_1,
+				(sum(anggaran_1) + sum(anggaran_2)) as rencana_2,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as rencana_3,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4)) as rencana_4,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5)) as rencana_5,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) as rencana_6"; 
+				break;
 			case 3:
-				$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3,sum(anggaran_4) as rencana_4,sum(anggaran_5) as rencana_5,sum(anggaran_6) as rencana_6,sum(anggaran_7) as rencana_7,sum(anggaran_8) as rencana_8,sum(anggaran_9) as rencana_9 "; break;
+				/*$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3,sum(anggaran_4) as rencana_4,sum(anggaran_5) as rencana_5,sum(anggaran_6) as rencana_6,sum(anggaran_7) as rencana_7,sum(anggaran_8) as rencana_8,sum(anggaran_9) as rencana_9 ";*/ 
+				$ext_sql = "sum(anggaran_1) as rencana_1,
+				(sum(anggaran_1) + sum(anggaran_2)) as rencana_2,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) as rencana_3,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4)) as rencana_4,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5)) as rencana_5,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) as rencana_6,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7)) as rencana_7,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7) + sum(anggaran_8)) as rencana_8,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9))  as rencana_9"; 
+				break;
 			case 4:
-				$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3,sum(anggaran_4) as rencana_4,sum(anggaran_5) as rencana_5,sum(anggaran_6) as rencana_6,sum(anggaran_7) as rencana_7,sum(anggaran_8) as rencana_8,sum(anggaran_9) as rencana_9,sum(anggaran_10) as rencana_10,sum(anggaran_11) as rencana_11,sum(anggaran_12) as rencana_12"; break;
+				/*$ext_sql = "sum(anggaran_1) as rencana_1,sum(anggaran_2) as rencana_2,sum(anggaran_3) as rencana_3,sum(anggaran_4) as rencana_4,sum(anggaran_5) as rencana_5,sum(anggaran_6) as rencana_6,sum(anggaran_7) as rencana_7,sum(anggaran_8) as rencana_8,sum(anggaran_9) as rencana_9,sum(anggaran_10) as rencana_10,sum(anggaran_11) as rencana_11,sum(anggaran_12) as rencana_12"; 
+				*/
+				$ext_sql = "sum(anggaran_1) as rencana_1,
+				(sum(anggaran_1) + sum(anggaran_2)) 
+					as rencana_2,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3)) 
+					as rencana_3,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4)) 
+					as rencana_4,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5)) 
+					as rencana_5,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) 
+					as rencana_6,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7)) 
+					as rencana_7,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7) + sum(anggaran_8)) 
+					as rencana_8,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9)) 
+					as rencana_9,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + 
+					sum(anggaran_10)) 
+					as rencana_10,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + 
+					sum(anggaran_10) + sum(anggaran_11)) 
+					as rencana_11,
+				(sum(anggaran_1) + sum(anggaran_2) + sum(anggaran_3) + 
+					sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + 
+					sum(anggaran_7) + sum(anggaran_8) + sum(anggaran_9) + 
+					sum(anggaran_10) + sum(anggaran_11) + sum(anggaran_12)) 
+					as rencana_12"; 
+				break;
 		}
 		
 		$query = "SELECT {$ext_sql} FROM thbp_kak_output_tahapan  
 				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' ";
-		// pr($query);
+		//pr($query);
 		$result = $this->fetch($query);
 		return $result;
 	}
@@ -2429,12 +2534,71 @@ class m_penetapanAngaran extends Database {
 
 	function sumBobot($data)
 	{
-		$sql = "SELECT SUM(target_1+target_2+target_3+target_4+target_5+target_6+target_7+target_8+target_9+target_10+target_11+target_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'";
+		/*$sql = "SELECT SUM(target_1+target_2+target_3+target_4+target_5+target_6+target_7+target_8+target_9+target_10+target_11+target_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'";*/
 
+		$sql = "SELECT SUM(target_1+target_2+target_3+target_4+target_5+target_6+target_7+target_8+target_9+target_10+target_11+target_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'
+		    AND id= '{$data['id']}'";
+
+		//pr($sql);
 		$res = $this->fetch($sql,1);
 		
 		return $res;
 	}
+
+	function AllbobotThpn($data)
+	{
+		$sql = "SELECT SUM(target_1+target_2+target_3+target_4+target_5+target_6+target_7+target_8+target_9+target_10+target_11+target_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'
+		    ";
+		//pr($sql);    
+		$res = $this->fetch($sql,1);
+		
+		return $res;
+	}
+
+	function sumBobotAvb($data)
+	{
+		$sql = "SELECT SUM(target_1+target_2+target_3+target_4+target_5+target_6+target_7+target_8+target_9+target_10+target_11+target_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['id_thn']}' AND kdunitkerja = '{$data['id_kd_unit']}' AND kdgiat = '{$data['id_kd_giat']}' AND kdoutput = '{$data['id_kd_output']}' AND kdsoutput = '{$data['id_kd_soutput']}' AND kdkmpnen = '{$data['id_kd_komponen']}'
+		    AND id != '{$data['id_thpn']}'";
+
+		//pr($sql);
+		$res = $this->fetch($sql);
+		
+		return $res;
+	}
+
+	function anggranAllThpn($data)
+	{
+		$sql = "SELECT SUM(anggaran_1+anggaran_2+anggaran_3+anggaran_4+anggaran_5+anggaran_6+anggaran_7+anggaran_8+anggaran_9+anggaran_10+anggaran_11+anggaran_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'
+		    ";
+
+		//pr($sql);
+		$res = $this->fetch($sql,1);
+		
+		return $res;
+	}
+
+	function anggranThpn($data)
+	{
+		$sql = "SELECT SUM(anggaran_1+anggaran_2+anggaran_3+anggaran_4+anggaran_5+anggaran_6+anggaran_7+anggaran_8+anggaran_9+anggaran_10+anggaran_11+anggaran_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['thn']}' AND kdunitkerja = '{$data['kd_unit']}' AND kdgiat = '{$data['kd_giat']}' AND kdoutput = '{$data['kd_output']}' AND kdsoutput = '{$data['kd_soutput']}' AND kdkmpnen = '{$data['kd_komponen']}'
+		    AND id= '{$data['id']}'";
+
+		//pr($sql);
+		$res = $this->fetch($sql,1);
+		
+		return $res;
+	}
+
+	function sumAnggaranAvb($data)
+	{
+		$sql = "SELECT SUM(anggaran_1+anggaran_2+anggaran_3+anggaran_4+anggaran_5+anggaran_6+anggaran_7+anggaran_8+anggaran_9+anggaran_10+anggaran_11+anggaran_12) as total FROM thbp_kak_output_tahapan WHERE th = '{$data['id_thn']}' AND kdunitkerja = '{$data['id_kd_unit']}' AND kdgiat = '{$data['id_kd_giat']}' AND kdoutput = '{$data['id_kd_output']}' AND kdsoutput = '{$data['id_kd_soutput']}' AND kdkmpnen = '{$data['id_kd_komponen']}'
+		    AND id != '{$data['id_thpn']}'";
+
+		//pr($sql);
+		$res = $this->fetch($sql);
+		
+		return $res;
+	}
+
 	
 	function realisasi_anggaran($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output,$kd_komponen){
 		switch ($trwln){
@@ -2458,13 +2622,87 @@ class m_penetapanAngaran extends Database {
 	function realisasi_anggaran_rev($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output){
 		switch ($trwln){
 			case 1:
-				$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3"; break;
+				/*$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3"; */
+				$ext_sql = "sum(anggaran_1) 
+					as realisasi_1,
+				(sum(anggaran_1) + sum(anggaran_2)) 
+					as realisasi_2,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3)) 
+					as realisasi_3"; 
+				break;
 			case 2:
-				$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3,sum(anggaran_4) as realisasi_4,sum(anggaran_5) as realisasi_5,sum(anggaran_6) as realisasi_6 "; break;
+				/*$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3,sum(anggaran_4) as realisasi_4,sum(anggaran_5) as realisasi_5,sum(anggaran_6) as realisasi_6 ";*/
+				$ext_sql = "sum(anggaran_1) 
+					as realisasi_1,
+				(sum(anggaran_1) + sum(anggaran_2)) 
+					as realisasi_2,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3)) 
+					as realisasi_3,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4))
+					as realisasi_4,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5)) 
+					as realisasi_5, 
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) 
+					as realisasi_6"; 
+				break;
 			case 3:
-				$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3,sum(anggaran_4) as realisasi_4,sum(anggaran_5) as realisasi_5,sum(anggaran_6) as realisasi_6,sum(anggaran_7) as realisasi_7,sum(anggaran_8) as realisasi_8,sum(anggaran_9) as realisasi_9 "; break;
+				/*$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3,sum(anggaran_4) as realisasi_4,sum(anggaran_5) as realisasi_5,sum(anggaran_6) as realisasi_6,sum(anggaran_7) as realisasi_7,sum(anggaran_8) as realisasi_8,sum(anggaran_9) as realisasi_9 "; 
+				*/
+				$ext_sql = "sum(anggaran_1) 
+					as realisasi_1,
+				(sum(anggaran_1) + sum(anggaran_2)) 
+					as realisasi_2,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3)) 
+					as realisasi_3,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4))
+					as realisasi_4,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5)) 
+					as realisasi_5, 
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) 
+					as realisasi_6,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7)) 
+					as realisasi_7,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) 
+					+ sum(anggaran_8)) 
+					as realisasi_8,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) 
+					+ sum(anggaran_8) + sum(anggaran_9)) 
+					as realisasi_9"; 
+				break;
 			case 4:
-				$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3,sum(anggaran_4) as realisasi_4,sum(anggaran_5) as realisasi_5,sum(anggaran_6) as realisasi_6,sum(anggaran_7) as realisasi_7,sum(anggaran_8) as realisasi_8,sum(anggaran_9) as realisasi_9,sum(anggaran_10) as realisasi_10,sum(anggaran_11) as realisasi_11,sum(anggaran_12) as realisasi_12"; break;
+				/*$ext_sql = "sum(anggaran_1) as realisasi_1,sum(anggaran_2) as realisasi_2,sum(anggaran_3) as realisasi_3,sum(anggaran_4) as realisasi_4,sum(anggaran_5) as realisasi_5,sum(anggaran_6) as realisasi_6,sum(anggaran_7) as realisasi_7,sum(anggaran_8) as realisasi_8,sum(anggaran_9) as realisasi_9,sum(anggaran_10) as realisasi_10,sum(anggaran_11) as realisasi_11,sum(anggaran_12) as realisasi_12"; */
+				$ext_sql = "sum(anggaran_1) 
+					as realisasi_1,
+				(sum(anggaran_1) + sum(anggaran_2)) 
+					as realisasi_2,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3)) 
+					as realisasi_3,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4))
+					as realisasi_4,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5)) 
+					as realisasi_5, 
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6)) 
+					as realisasi_6,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7)) 
+					as realisasi_7,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) 
+					+ sum(anggaran_8)) 
+					as realisasi_8,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) 
+					+ sum(anggaran_8) + sum(anggaran_9)) 
+					as realisasi_9,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) 
+					+ sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10)) 
+					as realisasi_10,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) 
+					+ sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10) 
+					+ sum(anggaran_11)) 
+					as realisasi_11,
+				(sum(anggaran_1) + sum(anggaran_2) +sum(anggaran_3) + sum(anggaran_4) + sum(anggaran_5) + sum(anggaran_6) + sum(anggaran_7) 
+					+ sum(anggaran_8) + sum(anggaran_9) + sum(anggaran_10) 
+					+ sum(anggaran_11) + sum(anggaran_12)) 
+					as realisasi_12"; 
+				break;
 		}
 		
 		$query = "SELECT {$ext_sql} FROM monev_bulanan  
@@ -2496,17 +2734,100 @@ class m_penetapanAngaran extends Database {
 	function rencana_bobot_rev($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output){
 		switch ($trwln){
 			case 1:
-				$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3"; break;
+				/*$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3";*/ 
+				$ext_sql = "sum(target_1) as rencana_1,
+				(sum(target_1) + sum(target_2)) as rencana_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) as rencana_3";
+				break;
 			case 2:
-				$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3,sum(target_4) as rencana_4,sum(target_5) as rencana_5,sum(target_6) as rencana_6 "; break;
+				/*$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3,sum(target_4) as rencana_4,sum(target_5) as rencana_5,sum(target_6) as rencana_6 ";*/
+				$ext_sql = "sum(target_1) 
+					as rencana_1,
+				(sum(target_1) + sum(target_2)) 
+					as rencana_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) 
+					as rencana_3,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4))
+					as rencana_4,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5)) 
+					as rencana_5,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6)) 
+					as rencana_6"; 
+				break;
 			case 3:
-				$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3,sum(target_4) as rencana_4,sum(target_5) as rencana_5,sum(target_6) as rencana_6,sum(target_7) as rencana_7,sum(target_8) as rencana_8,sum(target_9) as rencana_9 "; break;
+				/*$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3,sum(target_4) as rencana_4,sum(target_5) as rencana_5,sum(target_6) as rencana_6,sum(target_7) as rencana_7,sum(target_8) as rencana_8,sum(target_9) as rencana_9 ";*/
+				$ext_sql = "sum(target_1) 
+					as rencana_1,
+				(sum(target_1) + sum(target_2)) 
+					as rencana_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) 
+					as rencana_3,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4))
+					as rencana_4,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5)) 
+					as rencana_5,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6)) 
+					as rencana_6,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7)) 
+					as rencana_7,	
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)) 
+					as rencana_8,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9)) 
+					as rencana_9"; 
+				 break;
 			case 4:
-				$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3,sum(target_4) as rencana_4,sum(target_5) as rencana_5,sum(target_6) as rencana_6,sum(target_7) as rencana_7,sum(target_8) as rencana_8,sum(target_9) as rencana_9,sum(target_10) as rencana_10,sum(target_11) as rencana_11,sum(target_12) as rencana_12"; break;
+				/*$ext_sql = "sum(target_1) as rencana_1,sum(target_2) as rencana_2,sum(target_3) as rencana_3,sum(target_4) as rencana_4,sum(target_5) as rencana_5,sum(target_6) as rencana_6,sum(target_7) as rencana_7,sum(target_8) as rencana_8,sum(target_9) as rencana_9,sum(target_10) as rencana_10,sum(target_11) as rencana_11,sum(target_12) as rencana_12";*/
+				$ext_sql = "sum(target_1) 
+					as rencana_1,
+				(sum(target_1) + sum(target_2)) 
+					as rencana_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) 
+					as rencana_3,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4))
+					as rencana_4,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5)) 
+					as rencana_5,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6)) 
+					as rencana_6,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7)) 
+					as rencana_7,	
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)) 
+					as rencana_8,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9)) 
+					as rencana_9,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9) + sum(target_10)) 
+					as rencana_10,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9) + sum(target_10) + sum(target_11)) 
+					as rencana_11,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9) + sum(target_10) + sum(target_11) 
+					+ sum(target_12)) 
+					as rencana_12"; 
+				 break;
 		}
 		
 		$query = "SELECT {$ext_sql} FROM monev_bulanan  
-				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' and kategori = 1";
+				WHERE th LIKE '{$thn_temp}' AND kdunitkerja LIKE '{$kdunitkerja}' AND kdgiat = '{$kd_giat}' AND kdoutput = '{$kd_output}' 
+					and kategori = 1";
 		// pr($query);
 		$result = $this->fetch($query);
 		return $result;
@@ -2534,13 +2855,87 @@ class m_penetapanAngaran extends Database {
 	function realisasi_bobot_rev($thn_temp,$trwln,$kdunitkerja,$kd_giat,$kd_output){
 		switch ($trwln){
 			case 1:
-				$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3"; break;
+				/*$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3";*/
+				$ext_sql = "sum(target_1) as realisasi_1,
+				(sum(target_1) + sum(target_2)) as realisasi_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) as realisasi_3";
+				 break;
 			case 2:
-				$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3,sum(target_4) as realisasi_4,sum(target_5) as realisasi_5,sum(target_6) as realisasi_6 "; break;
+				/*$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3,sum(target_4) as realisasi_4,sum(target_5) as realisasi_5,sum(target_6) as realisasi_6 "; */
+				$ext_sql = "sum(target_1) as realisasi_1,
+				(sum(target_1) + sum(target_2)) as realisasi_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) as realisasi_3,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4)) 
+					as realisasi_4,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5)) 
+					as realisasi_5,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6)) 
+					as realisasi_6";
+				break;
 			case 3:
-				$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3,sum(target_4) as realisasi_4,sum(target_5) as realisasi_5,sum(target_6) as realisasi_6,sum(target_7) as realisasi_7,sum(target_8) as realisasi_8,sum(target_9) as realisasi_9 "; break;
+				/*$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3,sum(target_4) as realisasi_4,sum(target_5) as realisasi_5,sum(target_6) as realisasi_6,sum(target_7) as realisasi_7,sum(target_8) as realisasi_8,sum(target_9) as realisasi_9 ";
+				*/
+				$ext_sql = "sum(target_1) as realisasi_1,
+				(sum(target_1) + sum(target_2)) as realisasi_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) as realisasi_3,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4)) 
+					as realisasi_4,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5)) 
+					as realisasi_5,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6)) 
+					as realisasi_6,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7)) 
+					as realisasi_7,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)) 
+					as realisasi_8,	
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9)) 
+					as realisasi_9";
+				 break;
 			case 4:
-				$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3,sum(target_4) as realisasi_4,sum(target_5) as realisasi_5,sum(target_6) as realisasi_6,sum(target_7) as realisasi_7,sum(target_8) as realisasi_8,sum(target_9) as realisasi_9,sum(target_10) as realisasi_10,sum(target_11) as realisasi_11,sum(target_12) as realisasi_12"; break;
+				/*$ext_sql = "sum(target_1) as realisasi_1,sum(target_2) as realisasi_2,sum(target_3) as realisasi_3,sum(target_4) as realisasi_4,sum(target_5) as realisasi_5,sum(target_6) as realisasi_6,sum(target_7) as realisasi_7,sum(target_8) as realisasi_8,sum(target_9) as realisasi_9,sum(target_10) as realisasi_10,sum(target_11) as realisasi_11,sum(target_12) as realisasi_12"; */
+				$ext_sql = "sum(target_1) as realisasi_1,
+				(sum(target_1) + sum(target_2)) as realisasi_2,
+				(sum(target_1) + sum(target_2) + sum(target_3)) as realisasi_3,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4)) 
+					as realisasi_4,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5)) 
+					as realisasi_5,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6)) 
+					as realisasi_6,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7)) 
+					as realisasi_7,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)) 
+					as realisasi_8,	
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9)) 
+					as realisasi_9,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9) + sum(target_10)) 
+					as realisasi_10,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9) + sum(target_10) + sum(target_11)) 
+					as realisasi_11,
+				(sum(target_1) + sum(target_2) + sum(target_3) + sum(target_4) 
+					+ sum(target_5) + sum(target_6) + sum(target_7) + sum(target_8)
+					+ sum(target_9) + sum(target_10) + sum(target_11) 
+					+ sum(target_12)) 
+					as realisasi_12";
+				break;
 		}
 		
 		$query = "SELECT {$ext_sql} FROM thbp_kak_output_tahapan  
@@ -2568,47 +2963,47 @@ class m_penetapanAngaran extends Database {
 	
 	function insert_monev_ouput($th,$bulan,$kdunitkerja,$kdgiat,$kdoutput,$kendala,$tindaklanjut,$ygmembantu,$param=1){
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_kendala ="kendala";
 						$ext_tindaklanjut = "tindaklanjut";
 						$ext_ygmembantu = "ygmembantu";
 						break; 
-				case 02:
+				case 2:
 						$ext_kendala ="kendala_2";
 						$ext_tindaklanjut = "tindaklanjut_2";
 						$ext_ygmembantu = "ygmembantu_2";
 						break;
-				case 03:
+				case 3:
 						$ext_kendala ="kendala_3";
 						$ext_tindaklanjut = "tindaklanjut_3";
 						$ext_ygmembantu = "ygmembantu_3";
 						break;
-				case 04:
+				case 4:
 						$ext_kendala ="kendala_4";
 						$ext_tindaklanjut = "tindaklanjut_4";
 						$ext_ygmembantu = "ygmembantu_4";
 						break;
-				case 05:
+				case 5:
 						$ext_kendala ="kendala_5";
 						$ext_tindaklanjut = "tindaklanjut_5";
 						$ext_ygmembantu = "ygmembantu_5";
 						break;
-				case 06:
+				case 6:
 						$ext_kendala ="kendala_6";
 						$ext_tindaklanjut = "tindaklanjut_6";
 						$ext_ygmembantu = "ygmembantu_6";
 						break;
-				case 07:
+				case 7:
 						$ext_kendala ="kendala_7";
 						$ext_tindaklanjut = "tindaklanjut_7";
 						$ext_ygmembantu = "ygmembantu_7";
 						break;
-				case 08:
+				case 8:
 						$ext_kendala ="kendala_8";
 						$ext_tindaklanjut = "tindaklanjut_8";
 						$ext_ygmembantu = "ygmembantu_8";
 						break;
-				case 09:
+				case 9:
 						$ext_kendala ="kendala_9";
 						$ext_tindaklanjut = "tindaklanjut_9";
 						$ext_ygmembantu = "ygmembantu_9";
@@ -2646,49 +3041,49 @@ class m_penetapanAngaran extends Database {
 	}
 	
 	function update_monev_output($th,$bulan,$kendala,$tindaklanjut,$ygmembantu,$id){
-		// pr($sasaran_1);
+		//pr($bulan);
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_kendala ="kendala";
 						$ext_tindaklanjut = "tindaklanjut";
 						$ext_ygmembantu = "ygmembantu";
 						break; 
-				case 02:
+				case 2:
 						$ext_kendala ="kendala_2";
 						$ext_tindaklanjut = "tindaklanjut_2";
 						$ext_ygmembantu = "ygmembantu_2";
 						break;
-				case 03:
+				case 3:
 						$ext_kendala ="kendala_3";
 						$ext_tindaklanjut = "tindaklanjut_3";
 						$ext_ygmembantu = "ygmembantu_3";
 						break;
-				case 04:
+				case 4:
 						$ext_kendala ="kendala_4";
 						$ext_tindaklanjut = "tindaklanjut_4";
 						$ext_ygmembantu = "ygmembantu_4";
 						break;
-				case 05:
+				case 5:
 						$ext_kendala ="kendala_5";
 						$ext_tindaklanjut = "tindaklanjut_5";
 						$ext_ygmembantu = "ygmembantu_5";
 						break;
-				case 06:
+				case 6:
 						$ext_kendala ="kendala_6";
 						$ext_tindaklanjut = "tindaklanjut_6";
 						$ext_ygmembantu = "ygmembantu_6";
 						break;
-				case 07:
+				case 7:
 						$ext_kendala ="kendala_7";
 						$ext_tindaklanjut = "tindaklanjut_7";
 						$ext_ygmembantu = "ygmembantu_7";
 						break;
-				case 08:
+				case 8:
 						$ext_kendala ="kendala_8";
 						$ext_tindaklanjut = "tindaklanjut_8";
 						$ext_ygmembantu = "ygmembantu_8";
 						break;
-				case 09:
+				case 9:
 						$ext_kendala ="kendala_9";
 						$ext_tindaklanjut = "tindaklanjut_9";
 						$ext_ygmembantu = "ygmembantu_9";
@@ -2713,8 +3108,8 @@ class m_penetapanAngaran extends Database {
 								{$ext_tindaklanjut} = '".addslashes(html_entity_decode($tindaklanjut))."' ,  
 								{$ext_ygmembantu} = '".addslashes(html_entity_decode($ygmembantu))."' 
 								WHERE id = '{$id}' ";
-		// pr($query);	
-		// exit;		
+		//pr($query);	
+		//exit;		
 		$result = $this->query($query);
 	}
 	
@@ -2736,40 +3131,40 @@ class m_penetapanAngaran extends Database {
 	function insert_monev_ouput_komponen($th,$bulan,$kdunitkerja,$kdgiat,$kdoutput,$kdkmpnen,
 						 $target,$keterangan){
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_clm = "target_1";
 						$ext_clm_2 = "keterangan";
 						break; 
-				case 02:
+				case 2:
 						$ext_clm = "target_2";
 						$ext_clm_2 = "keterangan_2";
 						
 						break;
-				case 03:
+				case 3:
 						$ext_clm = "target_3";
 						$ext_clm_2 = "keterangan_3";
 						break;
-				case 04:
+				case 4:
 						$ext_clm = "target_4";
 						$ext_clm_2 = "keterangan_4";
 						break;
-				case 05:
+				case 5:
 						$ext_clm = "target_5";
 						$ext_clm_2 = "keterangan_5";
 						break;
-				case 06:
+				case 6:
 						$ext_clm = "target_6";
 						$ext_clm_2 = "keterangan_6";
 						break;
-				case 07:
+				case 7:
 						$ext_clm = "target_7";
 						$ext_clm_2 = "keterangan_7";
 						break;
-				case 08:
+				case 8:
 						$ext_clm = "target_8";
 						$ext_clm_2 = "keterangan_8";
 						break;
-				case 09:
+				case 9:
 						$ext_clm = "target_9";
 						$ext_clm_2 = "keterangan_9";
 						break;
@@ -2802,40 +3197,40 @@ class m_penetapanAngaran extends Database {
 	function update_monev_output_komponen($th,$bulan,$target,$keterangan,$id){
 		// pr($sasaran_1);
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_clm = "target_1";
 						$ext_clm_2 = "keterangan";
 						break; 
-				case 02:
+				case 2:
 						$ext_clm = "target_2";
 						$ext_clm_2 = "keterangan_2";
 						
 						break;
-				case 03:
+				case 3:
 						$ext_clm = "target_3";
 						$ext_clm_2 = "keterangan_3";
 						break;
-				case 04:
+				case 4:
 						$ext_clm = "target_4";
 						$ext_clm_2 = "keterangan_4";
 						break;
-				case 05:
+				case 5:
 						$ext_clm = "target_5";
 						$ext_clm_2 = "keterangan_5";
 						break;
-				case 06:
+				case 6:
 						$ext_clm = "target_6";
 						$ext_clm_2 = "keterangan_6";
 						break;
-				case 07:
+				case 7:
 						$ext_clm = "target_7";
 						$ext_clm_2 = "keterangan_7";
 						break;
-				case 08:
+				case 8:
 						$ext_clm = "target_8";
 						$ext_clm_2 = "keterangan_8";
 						break;
-				case 09:
+				case 9:
 						$ext_clm = "target_9";
 						$ext_clm_2 = "keterangan_9";
 						break;
@@ -3038,23 +3433,23 @@ class m_penetapanAngaran extends Database {
 	
 	function insert_monev_anggaran_komponen($th,$bulan,$kdunitkerja,$kdgiat,$kdoutput,$kdkmpnen,$realisasi){
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_clm = "anggaran_1";break; 
-				case 02:
+				case 2:
 						$ext_clm = "anggaran_2";break;
-				case 03:
+				case 3:
 						$ext_clm = "anggaran_3";break;
-				case 04:
+				case 4:
 						$ext_clm = "anggaran_4";break;
-				case 05:
+				case 5:
 						$ext_clm = "anggaran_5";break;
-				case 06:
+				case 6:
 						$ext_clm = "anggaran_6";break;
-				case 07:
+				case 7:
 						$ext_clm = "anggaran_7";break;
-				case 08:
+				case 8:
 						$ext_clm = "anggaran_8";break;
-				case 09:
+				case 9:
 						$ext_clm = "anggaran_9";break;
 				case 10:
 						$ext_clm = "anggaran_10";break;
@@ -3076,23 +3471,23 @@ class m_penetapanAngaran extends Database {
 	function update_monev_anggaran_komponen($th,$bulan,$realisasi,$id){
 		// pr($sasaran_1);
 		switch ($bulan){
-				case 01:
+				case 1:
 						$ext_clm = "anggaran_1 = '{$realisasi}'";break; 
-				case 02:
+				case 2:
 						$ext_clm = "anggaran_2 = '{$realisasi}'";break;
-				case 03:
+				case 3:
 						$ext_clm = "anggaran_3 = '{$realisasi}'";break;
-				case 04:
+				case 4:
 						$ext_clm = "anggaran_4 = '{$realisasi}'";break;
-				case 05:
+				case 5:
 						$ext_clm = "anggaran_5 = '{$realisasi}'";break;
-				case 06:
+				case 6:
 						$ext_clm = "anggaran_6 = '{$realisasi}'";break;
-				case 07:
+				case 7:
 						$ext_clm = "anggaran_7 = '{$realisasi}'";break;
-				case 08:
+				case 8:
 						$ext_clm = "anggaran_8 = '{$realisasi}'";break;
-				case 09:
+				case 9:
 						$ext_clm = "anggaran_9 = '{$realisasi}'";break;
 				case 10:
 						$ext_clm = "anggaran_10 = '{$realisasi}'";break;
@@ -3102,7 +3497,7 @@ class m_penetapanAngaran extends Database {
 						$ext_clm = "anggaran_12 = '{$realisasi}'";break;		
 			}	
 		$query = "UPDATE monev_bulanan SET {$ext_clm} WHERE id = '{$id}' ";
-		// pr($query);	
+		pr($query);	
 		// exit;		
 		$result = $this->query($query);
 	}
@@ -3348,36 +3743,40 @@ class m_penetapanAngaran extends Database {
 						'{$target_fix}','{$satuan_fix}','{$pagu_kmpnen_fix}','{$rencana_anggaran_sd_tw_fix}','{$persentase_rencana_anggaran_fix}',
 						'{$rencana_target_sd_tw_fix}','{$realisasi_anggaran_sd_tw_fix}','{$persentase_realisasi_anggaran_fix}','{$realisasi_target_sd_tw_fix}','{$outikk_fix}')";	
 			
-		// pr($query);
-		// exit;
+		//pr($query);
+		//exit;
 		$result = $this->query($query);
 	}
 	
 	//monev pp39 add
-	function get_id_kegiatan($th,$kd_giat){
-		$query = "select id,title from bsn_news_content where year = '{$th}' and title = '{$kd_giat}' and type = '10' and category = '1' and n_status = '1'";
-		// pr($query);
+	function get_id_kegiatan($th,$kd_giat,$impld){
+		$query = "select id,title from bsn_news_content where year = '{$th}' and title = '{$kd_giat}' and type = '10' and category = '1' and n_status = '1' and parent_id in ($impld)";
+		//pr($query);
 		$result = $this->fetch($query);
 		return $result;
 	}
 	
 	function get_id_output($th,$parent_id,$kd_output){
 		$query = "select id,parent_id,title from bsn_news_content where parent_id = '{$parent_id}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '1' and n_status = '1'";
-		// pr($query);
+		//pr($query);
 		$result = $this->fetch($query);
 		return $result;
 	}
 	
 	function get_all_output($th,$parent_id,$kd_output){
 		$query = "select * from bsn_news_content where parent_id = '{$parent_id}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '1' and n_status = '1'";
-		// pr($query);
+		//pr($query);
 		$result = $this->fetch($query,1);
 		return $result;
 	}
 	
-	function get_data_ikk($th,$parent_id_output,$kd_output){
-		$query = "select * from bsn_news_content where parent_id = '{$parent_id_output}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '2' and n_status = '1'";
-		// pr($query);
+	//function get_data_ikk($th,$parent_id_output,$kd_output){
+	function get_data_ikk($th,$parent_id_output){
+		/*$query = "select * from bsn_news_content where parent_id = '{$parent_id_output}' and year = '{$th}' and title = '{$kd_output}' and type = '11' and category = '2' and n_status = '1'";*/
+		$query = "select * from bsn_news_content where parent_id = '{$parent_id_output}' 
+			      and year = '{$th}'  and type = '11' and category = '2' and n_status = '1'";
+		
+		//pr($query);
 		$result = $this->fetch($query,1);
 		return $result;
 	}

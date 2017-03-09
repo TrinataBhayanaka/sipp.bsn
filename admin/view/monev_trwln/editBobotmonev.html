@@ -1,8 +1,6 @@
 <script>
 $(document).ready(function() {
-	//$('#keterangan,#kendala,#tindaklanjut,#ygmembantu').summernote({
-	//$('.note').summernote({
-	$('#keterangan,#kendala,#tindaklanjut,#ygmembantu').summernote({
+	/*$('#keterangan,#kendala,#tindaklanjut,#ygmembantu').summernote({
 		toolbar: [
     // [groupName, [list of button]]
 					['style', ['bold', 'italic', 'underline', 'clear']],
@@ -12,7 +10,69 @@ $(document).ready(function() {
 					['para', ['ul', 'ol', 'paragraph']],
 					['height', ['height']]
 				  ],
-		height: 200
+		height: 200,
+		callbacks: {
+	    onKeyup: function(e) {
+	      console.log('Key is released:', e.keyCode);
+	    }
+	  }
+	});*/
+	/*not working cleaner plugin summernote
+	$('#keterangan,#kendala,#tindaklanjut,#ygmembantu').summernote({
+		toolbar:[
+	        ['cleaner',['cleaner']], // The Button
+	        ['style',['style']],
+	        ['font',['bold','italic','underline','clear']],
+	        ['fontname',['fontname']],
+	        ['color',['color']],
+	        ['para',['ul','ol','paragraph']],
+	        ['height',['height']],
+	        ['table',['table']],
+	        ['insert',['media','link','hr']],
+	        ['view',['fullscreen','codeview']],
+	        ['help',['help']]
+    	],
+    	cleaner:{
+            notTime:2400, // Time to display Notifications.
+            action:'both', // both|button|paste 'button' only cleans via toolbar button, 'paste' only clean when pasting content, both does both options.
+            newline:'<br>', // Summernote's default is to use '<p><br></p>'
+            notStyle:'position:absolute;bottom:0;left:2px', // Position of Notification
+            icon:'<i class="note-icon">[Your Button]</i>'
+    	}
+	});*/
+
+	/*view format from other source in summernote editor
+	var editor=$("#keterangan");
+    editor.summernote({
+        onpaste: function(content) {
+        	 console.log('masuk');
+        	 console.log(content);
+            setTimeout(function () {
+                editor.code(content.target.textContent);
+            }, 5);
+        }
+    });*/
+	//clear format from other source like word
+	var $editor = $('#keterangan,#kendala,#tindaklanjut,#ygmembantu');
+	$editor.summernote({
+			toolbar: [
+    			['style', ['bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']]
+			  ],
+		height: 200,
+	    onpaste: function (e) {
+	    	//console.log('masuk');
+	        //console.log(e);
+	        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+
+	        e.preventDefault();
+
+	        document.execCommand('insertText', false, bufferText);
+	    }
 	});
 })
 </script>
@@ -90,27 +150,27 @@ $(document).ready(function() {
 						</div>
 					</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">1. Output</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">1. Output</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">2. Kegiatan</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">3. Anggaran</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
+							<label class="col-sm-2 control-label boldGrey text-justify">4. Unit Eselon II</label>
 							<div class="col-sm-8">						
 								<label class=" control-label">{$info.unit_eselon}</label>
 							
@@ -124,44 +184,8 @@ $(document).ready(function() {
 							</div>
 						</div>
 					</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
-							<div class="col-sm-8 pull-left">	
-								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
-									{foreach $list as $val}
-									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
-									{/foreach}
-								</ul>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">2. Capaian Kinerja</label>
-							<div class="col-md-9">
-								<textarea rows="5" class="form-control" name="keterangan" id="keterangan">{$data.keterangan}</textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">3. Kendala-kendala yang dihadapi</label>
-							<div class="col-md-9">
-								<textarea rows="5" class="form-control" name="kendala" id="kendala">{$data.kendala}</textarea>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">4. Rencana Tindak Lanjut</label>
-							<div class="col-md-9">
-								<textarea rows="5" class="form-control" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">5. Pihak yang dapat membantu penyelesaian kendala/permasalahan</label>
-							<div class="col-md-9">
-								<textarea rows="5" class="form-control" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
-							</div>
-						</div>
-						<div class="form-group">
-						<label class="col-sm-2 control-label boldGrey">Sampe Triwulan</label>
+					<div class="form-group">
+						<label class="col-sm-2 control-label boldGrey">Sampai Triwulan</label>
 							<!--<select name="bulan" id="bulan" class="selectpicker" width="100%">
 								{foreach $bulan as $key=> $valbln}
 									{if $keybln == $key}
@@ -178,7 +202,44 @@ $(document).ready(function() {
 								<option value="3" {$dataselected.2}>Triwulan III</option>
 								<option value="4" {$dataselected.3}>Triwulan IV</option>
 							</select>
+					</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">1. Tahapan Kegiatan</label>
+							<div class="col-sm-8 pull-left">	
+								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
+									{foreach $list as $val}
+									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
+									{/foreach}
+								</ul>
+							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">2. Capaian Kinerja</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="keterangan" id="keterangan">{$data.keterangan}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">3. Kendala-kendala yang dihadapi</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="kendala" id="kendala">{$data.kendala}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">4. Rencana Tindak Lanjut</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">5. Pihak yang dapat membantu penyelesaian kendala/permasalahan</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
+							</div>
+						</div>
+						
 						<div class="row">
 							<div class="col-lg-12">
 							<div class="panel">
@@ -255,15 +316,40 @@ $(document).ready(function() {
 						
 					</div>
 					<div class="panel-footer text-right">
+					<div class="form-horizontal">
+						{if $akses eq 1}
+						<div class="form-group ">
+							<div class="col-sm-8 "><label class="boldGrey">Tanggal Cetak</label></div>
+							<div class="col-sm-4">
+								<div id="demo-dp-component">						
+								<div class="input-group date">
+									<input type="text" class="form-control" id="date" 
+									name="tglcetak">
+									<span class="input-group-addon "><i class="fa fa-calendar fa-lg"></i></span>
+								</div>
+								</div>
+							</div>
+						</div>
+						{/if}
+						<div class="form-group">
+							<div class="col-sm-8">&nbsp;</div>
+							<div class="col-sm-4">	
+								<button type="button" id="convert" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+								<button type="submit" id="download" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+								<input type="button" id="btnSubmit" name="btnSubmit" value="save" class="btn btn-info" {$sub}>
+							</div>
+						</div>	
 						<!--<input type="button" id="convert" name="convert" value="Download pdf" class="btn btn-danger">-->
 						<!--convert image-->
-						<button type="button" id="convert" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+						<!--<button type="button" id="convert" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>-->
 						<!--download-->
-						<button type="submit" id="download" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+						<!--<button type="submit" id="download" value="1" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>-->
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button" id="btnSubmit" name="btnSubmit" value="save" class="btn btn-info" {$sub}>
-					</div>
+						<!--<input type="button" id="btnSubmit" name="btnSubmit" value="save" class="btn btn-info" {$sub}>-->
+					<!--<div class="panel-footer text-right"></div>-->
 				</form>
+				</div>
+				</div>
 				<!--===================================================-->
 				<!--End Horizontal Form-->
 	
@@ -275,6 +361,21 @@ $(document).ready(function() {
 {literal}
 <script>
 $(document).ready(function() {
+  /*$('#keterangan').on('summernote.paste', function (customEvent, nativeEvent) {
+		console.log('masuk');
+		setTimeout(function () {
+		$('.note-editable').selectText();
+		$("#keterangan").summernote("removeFormat");
+		}, 100);
+	});*/
+
+  $('#demo-dp-component .input-group.date').datepicker({
+	//format: "MM dd, yyyy",
+	format: "d/m/yyyy",
+	autoclose: true,
+	todayHighlight: true
+ });
+
   $('#download').hide();
   $('#canvas').hide();
   $('#canvas2').hide();
@@ -335,11 +436,19 @@ $('#print').on('click', function(){
 		var kdoutput = $('#kdoutput').val();
 		var scrn_anggaran = $('#scrn_anggaran').val(); 
 		var scrn_kinerja = $("#scrn_kinerja").val();
+		//var tglcetak = $('#date').val();
+		var tgl;
+		var tglcetak = $('#date').val();
+		if(tglcetak){
+			tgl = tglcetak;
+		}else{
+			tgl = '';
+		}
 		//console.log(scrn_anggaran);
 		//console.log(scrn_kinerja);
 		//window.location.href=basedomain+"monev_trwln/print_triwulan_rev/?thn="+th+"&kdtriwulan="+kdtriwulan+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&scrn_anggaran="+scrn_anggaran+"&scrn_kinerja="+scrn_kinerja";
 		//window.location.href=basedomain+"monev_trwln/print_triwulan_rev/?thn="+th+"&kdtriwulan="+kdtriwulan+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&scrn_anggaran="+scrn_anggaran+"&scrn_kinerja="+scrn_kinerja;
-		$.post( basedomain+"monev_trwln/print_triwulan_rev", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kdtriwulan: kdtriwulan, scrn_anggaran: scrn_anggaran, scrn_kinerja : scrn_kinerja});										
+		$.post( basedomain+"monev_trwln/print_triwulan_rev", { th: th, kdunitkerja: kdunitkerja, kdgiat : kdgiat,kdoutput : kdoutput,kdtriwulan: kdtriwulan, scrn_anggaran: scrn_anggaran, scrn_kinerja : scrn_kinerja, tglcetak : tgl});										
 				
 		//window.location.href=basedomain+"monev_trwln/print_triwulan_rev/?thn="+th+"&kdtriwulan="+kdtriwulan+"&kd_unit="+kdunitkerja+"&kd_giat="+kdgiat+"&kd_output="+kdoutput+"&kd_komponen="+kd_komponen;
 		//alert(test);
@@ -637,7 +746,7 @@ $('#print').on('click', function(){
 	var tindaklanjut = $('#tindaklanjut').code();
 	var ygmembantu = $('#ygmembantu').code();
 	
-	if(kendala != '' && kendala != '<p><br></p>' && tindaklanjut != '' && tindaklanjut != '<p><br></p>' && ygmembantu != '' && ygmembantu != '<p><br></p>' && keterangan != '' && keterangan != '<p><br></p>'){
+	if(kendala != '' || kendala != '<p><br></p>' || tindaklanjut != '' || tindaklanjut != '<p><br></p>' || ygmembantu != '' || ygmembantu != '<p><br></p>' || keterangan != '' || keterangan != '<p><br></p>'){
 	
 		var kdunitkerja = $('#kdunitkerja').val();
 		var kdgiat = $('#kdgiat').val();

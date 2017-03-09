@@ -1,0 +1,456 @@
+	
+<!--MAIN NAVIGATION-->
+<!--===================================================-->
+<nav id="mainnav-container">
+	<div id="mainnav">
+
+		<!--Shortcut buttons-->
+		<!--================================-->
+		<div id="mainnav-shortcut">
+			<ul class="list-unstyled">
+				<li class="col-xs-4">
+					<div class="brand-title">
+						<span class="brand-text" style="font-size:14px">Tahun {$TahunAktif}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!--================================-->
+		<!--End shortcut buttons-->
+		<!--{pr($page.function)}
+		{pr($page.page)}-->
+
+		<!--Menu-->
+		<!--================================-->
+		<div id="mainnav-menu-wrap">
+			<div class="nano">
+				<div class="nano-content">
+					<ul id="mainnav-menu" class="list-group">
+						
+						<li class="list-header">Menu</li>
+
+						<li class="{if $page.page eq 'home' && $page.function eq 'index'}active-link{/if}">
+							<a href="{$basedomain}">
+								<i class="fa fa-home"></i>
+								<span class="menu-title">
+									<strong>Home</strong>
+								</span>
+							</a>
+						</li>
+						{*}
+						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}course/viewvisitor">
+								
+								<span class="menu-title">Setting Tahun </span>
+							</a>
+			
+						</li>
+						{/*}
+						<li class="list-divider"></li>
+
+						<!--Category name-->
+						<li class="list-header">Struktur Organisasi</li>
+			
+						<!--Menu list item-->
+						<li class="{if $page.page eq 'struktur' && $page.function eq 'index'}active-link{/if}">
+							<a href="{$basedomain}struktur">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Struktur Organisasi</strong> </span>
+							</a>
+			
+						</li>
+						<li class="{if $page.page eq 'struktur' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Tugas dan Fungsi</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'struktur' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}struktur/bsn">BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}struktur/eselon1">Eselon I</a></li>
+								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}struktur/eselon2">Eselon II</a></li>
+							</ul>
+						</li>
+						
+						<li class="list-divider"></li>
+
+						<!--Category name-->
+						<li class="list-header">Renstra</li>
+			
+						<!--Menu list item-->
+						<li class="{if $page.page eq 'renstra' && ($page.function eq 'visi_bsn' || $page.function eq 'visi_eselon' || $page.function eq 'visi_eselon2')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Visi, Misi dan Tujuan</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'renstra' && ($page.function eq 'visi_bsn' || $page.function eq 'visi_eselon' || $page.function eq 'visi_eselon2')}in{/if}">
+								<li  class="{if $page.function eq 'visi_bsn'}active{/if}"><a href="{$basedomain}renstra/visi_bsn">BSN</a></li>
+								<li class="{if $page.function eq 'visi_eselon'}active{/if}"><a href="{$basedomain}renstra/visi_eselon">Eselon I</a></li>
+								<li class="{if $page.function eq 'visi_eselon2'}active{/if}"><a href="{$basedomain}renstra/visi_eselon2">Eselon II</a></li>
+							</ul>
+						</li>
+
+						<li class="{if $page.page eq 'renstra' && ($page.function eq 'sasaran' || $page.function eq 'kinerja' || $page.function eq 'program' || $page.function eq 'kegiatan' || $page.function eq 'output')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Matrik Kinerja</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'renstra' && ($page.function eq 'sasaran' || $page.function eq 'kinerja' || $page.function eq 'program' || $page.function eq 'kegiatan' || $page.function eq 'output')}in{/if}">
+								<li class="{if $page.function eq 'sasaran'}active{/if}"><a href="{$basedomain}renstra/sasaran">Sasaran Utama</a></li>
+								<li class="{if $page.function eq 'kinerja'}active{/if}"><a href="{$basedomain}renstra/kinerja">SS dan IKSS BSN</a></li>
+								<li class="{if $page.function eq 'program'}active{/if}"><a href="{$basedomain}renstra/program">Program, SP & IKP</a></li>
+								<li class="{if $page.function eq 'kegiatan'}active{/if}"><a href="{$basedomain}renstra/kegiatan">Nama Kegiatan</a></li>
+								<li class="{if $page.function eq 'output'}active{/if}"><a href="{$basedomain}renstra/output">Output dan IKK</a></li>
+							</ul>
+						</li>
+
+						<li class="{if $page.page eq 'renstra' && ($page.function eq 'dokumenBsn')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Dokumen Renstra</strong></span>
+								<i class="arrow"></i>
+							</a>
+							
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'renstra' && ($page.function eq 'dokumenBsn')}in{/if}">
+								<li class="{if $page.function eq 'dokumenBsn' && $page.param[1] eq 'pid=1'}active{/if}"><a href="{$basedomain}renstra/dokumenBsn/?pid=1">Renstra Tk BSN</a></li>
+								<li class="{if $page.function eq 'dokumenBsn' && $page.param[1] eq 'pid=2'}active{/if}"><a href="{$basedomain}renstra/dokumenBSN/?pid=2">Renstra Tk Eselon I</a></li>
+								<li class="{if $page.function eq 'dokumenBsn' && $page.param[1] eq 'pid=3'}active{/if}"><a href="{$basedomain}renstra/dokumenBSN/?pid=3">Renstra Tk Eselon II</a></li>
+							</ul>
+						</li>
+
+						<li class="list-divider"></li>
+			
+						{*}<!--Category name-->
+						<li class="list-header">Perencanaan N+1</li>
+			
+						<!--Menu list item-->
+						<li>
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>RKT</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'news'}in{/if}">
+								<li><a href="#">RKT Tingkat BSN</a></li>
+								<li><a href="#">RKT Tingkat Eselon I</a></li>
+								<li><a href="#">RKT Tingkat Eselon II</a></li>
+							</ul>
+						</li>
+
+						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}course/viewvisitor">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Baseline Kegiatan</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}course/viewvisitor">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>TOR Output</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="list-divider"></li>
+						{/*}
+						<li class="list-header">Penetapan Tahun N</li>
+
+						<!--Menu list item-->
+						<li class="{if $page.page eq 'penetapanAnggaran' && $page.function eq 'penetapananggaran'}active-link{/if}">
+							<a href="{$basedomain}penetapanAnggaran/penetapananggaran">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Penetapan Anggaran</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="{if $page.page eq 'rpk' && $page.function eq 'index'}active-link{/if}">
+							<a href="{$basedomain}rpk/">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>RPK</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="{if $page.page eq 'perjanjiankinerja' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Perjanjian Kinerja</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'perjanjiankinerja' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'pk_eselon2')}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}perjanjiankinerja/bsn">PK Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}perjanjiankinerja/eselon1/?tp=2">PK Tingkat Eselon I</a></li>
+								<li class="{if $page.function eq 'pk_eselon2'}active{/if}"><a href="{$basedomain}perjanjiankinerja/pk_eselon2/?tp=3">PK Tingkat Eselon II</a></li>
+							</ul>
+						</li>
+
+						<li class="{if $page.page eq 'renaksi' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Rencana Aksi PK</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'renaksi' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}renaksi/bsn">RenAksi Tk BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}renaksi/eselon1">RenAksi Tk Eselon I</a></li>
+								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}renaksi/eselon2">RenAksi Tk Eselon II</a></li>
+							</ul>
+						</li>
+
+						<li class="list-divider"></li>
+
+						<li class="list-header">Pelaporan Keuangan</li>
+
+						<!--Menu list item-->
+						<li class="{if $page.page eq 'pelaporanKeuangan' && $page.function eq 'index'}active-link{/if}">
+							<a href="{$basedomain}pelaporanKeuangan">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Realisasi Keuangan</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="{if $page.page eq 'pelaporanKeuangan' && ($page.function eq 'realisasiBulanan' || $page.function eq 'realisasisdBulanan' || $page.function eq 'realisasisdBulananRp' || $page.function eq 'anggaranTotalBulanan' || $page.function eq 'anggaranJenisBelanja' || $page.function eq 'anggaranAkunBsn' || $page.function eq 'anggaranAkunSatker' || $page.function eq 'anggaranAkunGiat' || $page.function eq 'anggaranOutput')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Laporan Bulanan</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'pelaporanKeuangan'}in{/if}">
+								<li class="{if $page.function eq 'realisasiBulanan'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/realisasiBulanan">Realisasi Bulanan</a></li>
+								<li class="{if $page.function eq 'realisasisdBulanan'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/realisasisdBulanan">Realisasi s.d Bln (%)</a></li>
+								<li class="{if $page.function eq 'realisasisdBulananRp'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/realisasisdBulananRp">Realisasi s.d Bln (Rp.)</a></li>
+								<li class="{if $page.function eq 'anggaranTotalBulanan'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranTotalBulanan">Anggaran Total</a></li>
+								<li class="{if $page.function eq 'anggaranJenisBelanja'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranJenisBelanja">Anggaran Jenis Belanja</a></li>
+								<li class="{if $page.function eq 'anggaranAkunBsn'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranAkunBsn">Anggaran Akun BSN</a></li>
+								<li class="{if $page.function eq 'anggaranAkunSatker'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranAkunSatker">Anggaran Akun Satker</a></li>
+								<li class="{if $page.function eq 'anggaranAkunGiat'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranAkunGiat">Anggaran Akun Giat</a></li>
+								<li class="{if $page.function eq 'anggaranOutput'}active{/if}"><a href="{$basedomain}pelaporanKeuangan/anggaranOutput">Anggaran Output</a></li>
+							</ul>
+						</li>
+
+						<li class="{if $page.page eq 'pelaporanKeuanganTrwln' && ($page.function eq 'anggaranTotal' || $page.function eq 'anggaranJenisBelanja' || $page.function eq 'anggaranAkunBsn' || $page.function eq 'anggaranAkunSatker' || $page.function eq 'anggaranAkunGiat' || $page.function eq 'anggaranOutput')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Laporan Triwulan</strong></span>
+								<i class="arrow"></i>
+							</a>
+			
+							<!--Submenu-->
+							<ul class="collapse {if $page.page eq 'pelaporanKeuanganTrwln'}in{/if}">
+								<li class="{if $page.function eq 'anggaranTotal'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranTotal">Anggaran Total</a></li>
+								<li class="{if $page.function eq 'anggaranJenisBelanja'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranJenisBelanja">Anggaran Jenis Belanja</a></li>
+								<li class="{if $page.function eq 'anggaranAkunBsn'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranAkunBsn">Anggaran Akun BSN</a></li>
+								<li class="{if $page.function eq 'anggaranAkunSatker'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranAkunSatker">Anggaran Akun Satker</a></li>
+								<li class="{if $page.function eq 'anggaranAkunGiat'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranAkunGiat">Anggaran Akun Giat</a></li>
+								<li class="{if $page.function eq 'anggaranOutput'}active{/if}"><a href="{$basedomain}pelaporanKeuanganTrwln/anggaranOutput">Anggaran Output</a></li>
+							</ul>
+						</li>
+
+						<li class="list-divider"></li>
+
+						<li class="list-header">Pelaporan Kegiatan</li>
+
+						<!--Menu list item-->
+						<li class="{if $page.page eq 'capaian' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Capaian</strong></span>
+								<i class="arrow"></i>
+							</a>
+							<ul class="collapse {if $page.page eq 'capaian' && ($page.function eq 'bsn' || $page.function eq 'eselon1' || $page.function eq 'eselon2')}in{/if}">
+								<li class="{if $page.function eq 'bsn'}active{/if}"><a href="{$basedomain}capaian/bsn">Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'eselon1'}active{/if}"><a href="{$basedomain}capaian/eselon1">Tingkat Eselon I</a></li>
+								<li class="{if $page.function eq 'eselon2'}active{/if}"><a href="{$basedomain}capaian/eselon2">Tingkat Eselon II</a></li>
+							</ul>
+						</li>
+						
+						<li class="{if $page.page eq 'lakip' && $page.function eq 'dokumenLakip'}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Dokumen LAKIP</strong></span>
+								<i class="arrow"></i>
+							</a>
+							<ul class="collapse {if $page.page eq 'lakip' && $page.function eq 'dokumenLakip'}in{/if}">
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=1'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=1">Tingkat BSN</a></li>
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=2'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=2">Tingkat Eselon I</a></li>
+								<li class="{if $page.function eq 'dokumenLakip' && $page.param[1] eq 'pid=3'}active{/if}"><a href="{$basedomain}lakip/dokumenLakip/?pid=3">Tingkat Eselon II</a></li>
+							</ul>
+						</li>
+						<!-- <li>
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Capaian PK</strong></span>
+								<i class="arrow"></i>
+							</a> -->
+			
+							<!--Submenu-->
+						<!-- 	<ul class="collapse {if $page.page eq 'news'}in{/if}">
+								<li><a href="{$basedomain}pelaporanKegiatan">Tingkat BSN</a></li>
+								<li><a href="#">Tingkat Eselon I</a></li>
+								<li><a href="#">Tingkat Eselon II</a></li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Dokumen LAKIP</strong></span>
+								<i class="arrow"></i>
+							</a> -->
+			
+							<!--Submenu-->
+							<!-- <ul class="collapse {if $page.page eq 'news'}in{/if}">
+								<li><a href="#">Tingkat Lembaga</a></li>
+								<li><a href="#">Tingkat Eselon I</a></li>
+								<li><a href="#">Tingkat Eselon II</a></li>
+							</ul>
+						</li> -->
+
+						<li class="list-divider"></li>
+						
+						<li class="list-header">Monitoring Evaluasi</li>
+
+						<!--Menu list item-->
+						<!--<li class="{if $page.page eq 'monev'}active-link{/if}">
+							<a href="{$basedomain}monev/">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Monev Bulanan</strong> </span>
+							</a>
+						</li>-->
+
+						<li class="{if $page.page eq 'monev'}active-link{/if}">
+							<a href="{$basedomain}monev/monev_bulan">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Monev Bulanan </strong> </span>
+							</a>
+						</li>
+
+						
+						<!--<li class="{if $page.page eq 'monev_trwln'}active-link{/if}">
+							<a href="{$basedomain}monev_trwln/">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Monev Triwulan</strong> </span>
+							</a>
+			
+						</li>-->
+						
+						<li class="{if $page.page eq 'monev_trwln'}active-link{/if}">
+							<a href="{$basedomain}monev_trwln/monev_trwln">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Monev Triwulan </strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="{if $page.page eq 'monev_pp39' && $page.function eq 'monev_pp39'}active-link{/if}">
+							<a href="{$basedomain}monev_pp39/monev_pp39">
+								<i class="fa fa-minus-square"></i>
+								<span class="menu-title"><strong>Monev Format PP.39</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="list-divider"></li>
+						{if $admin.type eq 1}
+						<li class="list-header">Pengaturan Sistem</li>
+
+						<!--Menu list item-->
+						<li class="{if $page.page eq 'setting' && $page.function eq 'tahun'}active-link{/if}">
+							<a href="{$basedomain}setting/tahun">
+								<i class="fa fa-calendar"></i>
+								<span class="menu-title"><strong>Pengaturan Tahun Aktif</strong> </span>
+							</a>
+			
+						</li>
+						
+						<li class="{if $page.page eq 'sistem' && $page.function eq 'pengguna'}active-link{/if}">
+							<a href="{$basedomain}sistem/pengguna">
+								<i class="fa fa-users"></i>
+								<span class="menu-title"><strong>Pengaturan Pengguna </strong> </span>
+							</a>
+			
+						</li>
+						<li class="{if $page.page eq 'referensi' && ($page.function eq 'ref_kegiatan' || $page.function eq 'ref_output' || $page.function eq 'ref_akun')}active-link{/if}">
+							<a href="#">
+								<i class="fa fa-plus-square"></i>
+								<span class="menu-title"><strong>Referensi</strong></span>
+								<i class="arrow"></i>
+							</a>
+							<ul class="collapse {if $page.page eq 'referensi' && ($page.function eq 'ref_kegiatan' || $page.function eq 'ref_output' )}in{/if}">
+								<li class="{if $page.function eq 'ref_kegiatan'}active{/if}"><a href="{$basedomain}referensi/ref_kegiatan">Referensi Kegiatan</a></li>
+								<li class="{if $page.function eq 'ref_output'}active{/if}"><a href="{$basedomain}referensi/ref_output">Referensi Output</a></li>
+								<li class="{if $page.function eq 'ref_akun'}active{/if}"><a href="{$basedomain}referensi/ref_akun">Referensi Akun</a></li>
+							</ul>
+						</li>
+						{/if}
+						
+						
+						
+						
+						{*}<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}course/viewvisitor">
+								<i class="fa fa-cog"></i>
+								<span class="menu-title"><strong>Pengaturan Menu</strong> </span>
+							</a>
+			
+						</li>{/*}
+
+						
+
+						{*}<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}course/viewvisitor">
+								<i class="fa fa-info-circle"></i>
+								<span class="menu-title"><strong>Info Tentang Sistem</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}course/viewvisitor">
+								<i class="fa fa-lock"></i>
+								<span class="menu-title"><strong>Ubah Password</strong> </span>
+							</a>
+			
+						</li>
+
+						<li class="{if $page.page eq 'course' && $page.function eq 'viewvisitor'}active-link{/if}">
+							<a href="{$basedomain}course/viewvisitor">
+								<i class="fa fa-question-circle"></i>
+								<span class="menu-title"><strong>Help</strong> </span>
+							</a>
+			
+						</li>{/*}
+						
+					</ul>
+
+				</div>
+			</div>
+		</div>
+		<!--================================-->
+		<!--End menu-->
+
+	</div>
+</nav>
+<!--===================================================-->
+<!--END MAIN NAVIGATION-->

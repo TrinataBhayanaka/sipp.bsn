@@ -103,28 +103,28 @@ table td .asd {
 						</div>
 					</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">1. Output</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">1. Output</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">2. Kegiatan</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">3. Anggaran</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">4. Unit Eselon II</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.unit_eselon}</label>
 							
 							</div>
@@ -137,8 +137,17 @@ table td .asd {
 							</div>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label boldGrey">Sampai</label>
+							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
+								<option value="1" {$dataselected.0}>Triwulan I</option>
+								<option value="2" {$dataselected.1}>Triwulan II</option>
+								<option value="3" {$dataselected.2}>Triwulan III</option>
+								<option value="4" {$dataselected.3}>Triwulan IV</option>
+							</select>
+						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
+							<label class="col-sm-2 control-label boldGrey text-justify">1. Tahapan Kegiatan</label>
 							<div class="col-sm-8 pull-left">	
 								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
 									{foreach $list2 as $val}
@@ -149,14 +158,14 @@ table td .asd {
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">2. Kendala yang dihadapi</label>
+							<label class="col-sm-2 control-label boldGrey text-justify">2. Kendala yang dihadapi</label>
 							<div class="col-md-9">
 								<textarea rows="5" class="form-control month" name="kendala" id="kendala" readonly>{$data.kendala}</textarea>
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">3. Tindak Lanjut yang diperlukan</label>
+							<label class="col-sm-2 control-label boldGrey" text-justify>3. Tindak Lanjut yang diperlukan</label>
 							<div class="col-md-9">
 								<textarea rows="5" class="form-control month" name="tindaklanjut" id="tindaklanjut" readonly>{$data.tindaklanjut}</textarea>
 							</div>
@@ -168,15 +177,7 @@ table td .asd {
 								<textarea rows="5" class="form-control month" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
 							</div>
 						</div>-->
-						<div class="form-group">
-						<label class="col-sm-2 control-label boldGrey">Sampe</label>
-							<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
-								<option value="1" {$dataselected.0}>Triwulan I</option>
-								<option value="2" {$dataselected.1}>Triwulan II</option>
-								<option value="3" {$dataselected.2}>Triwulan III</option>
-								<option value="4" {$dataselected.3}>Triwulan IV</option>
-							</select>
-						</div>
+						
 						
 						<!--<div class="row">
 							<div class="col-md-12 table-responsive" style="overflow:scroll;max-height:600px">
@@ -396,7 +397,7 @@ table td .asd {
 					</div>
 					<div class="panel-footer text-right">
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button"  name="save" id="save" value="save" class="btn btn-info">
+						<input type="button"  name="save" id="save" value="simpan" class="btn btn-info">
 					</div>
 				</form>
 				<!--===================================================-->

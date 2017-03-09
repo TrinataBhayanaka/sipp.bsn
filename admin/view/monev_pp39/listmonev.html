@@ -62,7 +62,20 @@ $(window).on('load', function() {
 		
 		<div id="delete-toolbar" class="table-toolbar-right">
 			<form method="POST" action ="{$basedomain}monev_pp39/monev_pp39">
-			<div class="form-horizontal">
+			<div class="form-horizontal">	
+				{if $flag eq 1}
+				<div class="form-group ">
+					<div class="col-sm-8 "><label class="boldGrey">Tanggal Cetak</label></div>
+					<div class="col-sm-4">
+						<div id="demo-dp-component">						
+						<div class="input-group date">
+							<input type="text" class="form-control" id="date">
+							<span class="input-group-addon "><i class="fa fa-calendar fa-lg"></i></span>
+						</div>
+						</div>
+					</div>
+				</div>
+				{/if}
 				<div class="form-group">
 				<!--<select name="bulan" id="bulan" class="selectpicker" width="100%">
 					{foreach $bulan as $key=> $valbln}
@@ -75,7 +88,7 @@ $(window).on('load', function() {
 					{/foreach}
 				</select>-->
 				<input type="hidden" name="param" id="param-tw" value="{$dataselected.5}">
-				<label class="control-label boldGrey"></label>
+				<label class="control-label boldGrey">Sampai</label>
 					<select name="kdtriwulan" id="kdtriwulan" class="selectpicker" width="100%">
 						<option value="1" {$dataselected.0}>Triwulan I</option>
 						<option value="2" {$dataselected.1}>Triwulan II</option>
@@ -130,7 +143,8 @@ $(window).on('load', function() {
 								{if $akses == 1}
 									<td class="text-center"><a href="{$basedomain}monev_pp39/edit_pp39/?thn={$param.thn_temp}&kd_unit={$param.kd_unit}&kd_giat={$val.kdgiat}&kd_output={$out.KDOUTPUT}"><button class="btn btn-info btn-labeled fa fa-pencil-square-o">Edit PP.39</button></a></td>
 									<td class="text-center"><!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger btn-labeled fa fa-file-pdf-o">-->
-										<button type="button" id="print"  name="print" value="{}" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+										<button type="button" 
+										id="{$download|cat:'_'|cat:$val.kdgiat|cat:'_'|cat:$out.KDOUTPUT}"  name="print" value="{}" class="btn btn-danger btn-labeled fa fa-file-pdf-o print">Download pdf</button>
 										<input type="hidden" name="kdgiat" id="kdgiat" value="{$val.kdgiat}">
 										<input type="hidden" name="kdoutput" id="kdoutput" value="{$out.KDOUTPUT}">
 									</td>
@@ -157,15 +171,40 @@ $(window).on('load', function() {
 
 {literal}
 <script>
-$('#print').on('click', function(){
+
+$(document).ready(function() {
+	$('#demo-dp-component .input-group.date').datepicker({
+	//format: "MM dd, yyyy",
+	format: "d/m/yyyy",
+	autoclose: true,
+	todayHighlight: true
+	});
+});
+
+$('.print').on('click', function(){
+	//var tglcetak = $('#date').val();
+	var tgl;
+	var tglcetak = $('#date').val();
+	if(tglcetak){
+		tgl = tglcetak;
+	}else{
+		tgl = '';
+	}
 	var th = $('#th').val();
 	var kdtriwulan = $('#kdtriwulan').val();
 	var kdunitkerja = $('#kdunitkerja').val();
-	var kdgiat = $('#kdgiat').val();
-	var kdoutput = $('#kdoutput').val();
+
+	//get id 
+	var param_dwnld = $(this).attr('id');
+	//split 
+	var val_split = param_dwnld.split("_");
+
+	var kdgiat = val_split[1];
+	var kdoutput = val_split[2];
+
 	var param = $('#param-tw').val();
-	
-	window.location.href=basedomain+"monev_pp39/print_pp39/?th="+th+"&kdtriwulan="+kdtriwulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&param="+param;
+
+	window.location.href=basedomain+"monev_pp39/print_pp39/?th="+th+"&kdtriwulan="+kdtriwulan+"&kdunitkerja="+kdunitkerja+"&kdgiat="+kdgiat+"&kdoutput="+kdoutput+"&param="+param+"&tglcetak="+tgl;
 	
 });	
 </script>

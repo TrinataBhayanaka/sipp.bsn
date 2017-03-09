@@ -1,0 +1,149 @@
+<script>
+{literal}
+	
+	$(document).on('click', '#inputvisi', function(){
+
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Anggaran Akun Satker</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<div id="delete-toolbar" class="table-toolbar-right">
+			<form action="{$basedomain}pelaporanKeuangan/anggaranAkunSatker" method="post">
+			<div class="form-horizontal">
+				<div class="form-group">
+				Sampai dengan Bulan : 
+				<select name="bulan" class="selectpicker" width="100%">
+					{foreach $bulan as $key=> $valbln}
+						{if $keybln == $key}
+							{$select_list = 'selected'}
+						{else}
+							{$select_list = ''}
+						{/if}	
+						<option value="{$key}" {$select_list}>{$valbln}</option>
+					{/foreach}
+					
+				</select>
+					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
+				</div>
+			</div>
+			</form>
+		</div>
+			<div class="table-responsive" style="overflow:scroll;max-height:600px">
+				<table class="table table-bordered" >
+					<thead>
+						<tr>
+							<th class="text-center" rowspan="2">Kode APBN</th>
+							<th class="text-center" rowspan="2">Lembaga / AKun 
+							Output</th>
+							<th class="text-center" rowspan="2">Pagu Anggaran</th>
+							<th class="text-center" colspan="3">Realisasi Anggaran</th>
+							<th class="text-center" rowspan="2">Sisa Anggaran</th>
+						</tr>
+						<tr>
+							<th class="text-center">Bulan ini</th>
+							<th class="text-center">s.d Bulan Ini</th>
+							<th class="text-center">(%)</th>
+						</tr>
+					</thead>
+					<tbody>
+						{if $unit}
+						{foreach $unit as $val}
+							<tr>
+								<td>{$val.kode}</td>
+								<td>{$val.nama}</td>
+								<td class="text-right">{number_format($val.pagu,"0",",",".")}</td>
+								<td class="text-right">{number_format($val.pagu_bulan,"0",",",".")}</td>
+								<td class="text-right">{number_format($val.pagu_sdbulan,"0",",",".")}</td>
+								<td class="text-center">{number_format($val.persentase,"2",",",".")}</td>
+								<td class="text-right">{number_format($val.sisa_anggaran,"0",",",".")}</td>
+							</tr>
+						{/foreach}
+						{/if}
+						
+						{if $satker}
+						{foreach $satker as $val_sat}
+							<tr>
+								<td>{$val_sat.kode}</td>
+								<td>{$val_sat.nama}</td>
+								<td class="text-right">{number_format($val_sat.pagu,"0",",",".")}</td>
+								<td class="text-right">{number_format($val_sat.pagu_bulan,"0",",",".")}</td>
+								<td class="text-right">{number_format($val_sat.pagu_sdbulan,"0",",",".")}</td>
+								<td class="text-center">{number_format($val_sat.persentase,"2",",",".")}</td>
+								<td class="text-right">{number_format($val_sat.sisa_anggaran,"0",",",".")}</td>
+							</tr>
+						{/foreach}
+						{/if}
+						
+						{if $list_akun}
+						{foreach $list_akun as $valAkun}
+						<tr>
+							<td>{$valAkun.KDAKUN}</td>
+							<td>{$valAkun.nama}</td>
+							<td class="text-right">{number_format($valAkun.pagu_akun,"0",",",".")}</td>
+							<td class="text-right">{number_format($valAkun.pagu_akun_bulan,"0",",",".")}</td>
+							<td class="text-right">{number_format($valAkun.pagu_akun_sdbulan,"0",",",".")}</td>
+							<td class="text-center">{number_format($valAkun.persentase_pagu_akun,"2",",",".")}</td>
+							<td class="text-right">{number_format($valAkun.sisa_anggaran_pagu_akun,"0",",",".")}</td>
+						</tr>
+						{/foreach}
+						{/if}
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

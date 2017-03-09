@@ -22,8 +22,8 @@ $(document).ready(function() {
 	// Require Summernote
 	// http://hackerwins.github.io/summernote/
 	// =================================================================
-	$('#add-info').summernote({height: 150});
-	$('#review').summernote({height: 150});
+	//$('#add-info').summernote({height: 150});
+	//$('#review').summernote({height: 150});
 
 	// $('#deskripsi').code("tesss");
 

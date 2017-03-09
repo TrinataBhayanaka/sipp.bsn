@@ -22,19 +22,42 @@
 	<!--===================================================-->
 	<div class="panel">
 		<div class="panel-heading">
-			<h3 class="panel-title">Penetapan Kinerja </h3>
+			<h3 class="panel-title">Badan Standardisasi Nasional</h3>
 		</div>
 		
 		<div class="panel-body">
-			<div class="pad-btm form-inline">
-				<div class="row">
-					<div class="col-sm-6 table-toolbar-left">
+			<div id="" class="table-toolbar-right">
+			<!--<div class="pad-btm form-inline">
+				<div class="row">-->
+					<div class="form-horizontal">
 						{if $eselon.type eq 1}
-						<a href="{$basedomain}perjanjiankinerja/add"><button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
-						<button type="button" id="print" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+						<div class="form-group ">
+							<div class="col-sm-8 "><label class="boldGrey">Tanggal Cetak</label></div>
+							<div class="col-sm-4">
+								<div id="demo-dp-component">						
+								<div class="input-group date">
+									<input type="text" class="form-control" id="date">
+									<span class="input-group-addon "><i class="fa fa-calendar fa-lg"></i></span>
+								</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group ">
+							<div class="col-sm-8 "><label class="boldGrey">&nbsp;</label></div>
+							<div class="col-sm-4">
+								<a href="{$basedomain}perjanjiankinerja/add"><button id="demo-btn-addrow" class="btn btn-purple btn-labeled fa fa-plus">Tambah</button></a>
+								<button type="button" id="print" class="btn btn-danger btn-labeled fa fa-file-pdf-o">Download pdf</button>
+							</div>
+						</div>
+						{/if}
+					</div>
+					<!--<div class="col-sm-6 table-toolbar-left">
+						{if $eselon.type eq 1}
+						
 						{/if}
 					</div>
 				</div>
+			</div>-->
 			</div>
 			<table id="newslist" class="table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
@@ -84,8 +107,24 @@
 <!--End page content-->
 {literal}
 <script>
+	$(document).ready(function() {
+	$('#demo-dp-component .input-group.date').datepicker({
+	//format: "MM dd, yyyy",
+	format: "d/m/yyyy",
+	autoclose: true,
+	todayHighlight: true
+	});
+});
 	$('#print').on('click', function(){
-		window.location.href=basedomain+"perjanjiankinerja/print_bsn/";
+		//var tglcetak = $('#date').val();
+		var tgl;
+		var tglcetak = $('#date').val();
+		if(tglcetak){
+			tgl = tglcetak;
+		}else{
+			tgl = '';
+		}
+		window.location.href=basedomain+"perjanjiankinerja/print_bsn/?tglcetak="+tgl;
 	});	
 </script>
 {/literal}

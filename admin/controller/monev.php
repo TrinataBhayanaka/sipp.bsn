@@ -456,8 +456,8 @@ class monev extends Controller {
 		$bulan = substr($date, 5, 2); // memisahkan format bulan menggunakan substring
 		$tgl   = substr($date, 8, 2); // memisahkan format tanggal menggunakan substring
 		
-		// $result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
-		$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		$result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
+		//$result = " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;
 		return($result);
 	}
 	
@@ -2127,6 +2127,9 @@ class monev extends Controller {
 		$this->view->assign('data',$list);
 		$this->view->assign('param',$param);
 		$this->view->assign('akses',$akses);
+		$param = "download";
+		$this->view->assign('download',$param);
+		
 		// pr($list);
 		//default kode
 		
@@ -2195,13 +2198,13 @@ class monev extends Controller {
 		// pr($bl);
 		// exit;
 		switch ($bl){
-			case 01:$param = 1;break;
-			case 02:$param = 2;break;
-			case 03:$param = 3;break;
-			case 04:$param = 4;break;
-			case 05:$param = 5;break;
-			case 06:$param = 6;break;
-			case 07:$param = 7;break;
+			case 1:$param = 1;break;
+			case 2:$param = 2;break;
+			case 3:$param = 3;break;
+			case 4:$param = 4;break;
+			case 5:$param = 5;break;
+			case 6:$param = 6;break;
+			case 7:$param = 7;break;
 			case 8:$param = 8;break;
 			case 9:$param = 9;break;
 			case 10:$param = 10;break;
@@ -2432,11 +2435,11 @@ class monev extends Controller {
 		$this->view->assign('tagetsd',$var_targetsd);
 		
 		//validator
-		if($this->admin['type'] == 1){
+		//if($this->admin['type'] == 1){
 			$acces = "";
 			$sub = "";
 			$valid = 1;
-		}else{
+		/*}else{
 			$acces = "disabled";
 			$ceck_date = date('d');
 			$limit_date = 10;
@@ -2449,7 +2452,7 @@ class monev extends Controller {
 				$sub = "disabled";
 				$valid = 0;
 			}
-		}
+		}*/
 		
 		$this->view->assign('acces',$acces);
 		$this->view->assign('sub',$sub);
@@ -2517,13 +2520,13 @@ class monev extends Controller {
 		
 		// pr($tgl);
 		switch ($bl){
-			case 01:$param = 1;break;
-			case 02:$param = 2;break;
-			case 03:$param = 3;break;
-			case 04:$param = 4;break;
-			case 05:$param = 5;break;
-			case 06:$param = 6;break;
-			case 07:$param = 7;break;
+			case 1:$param = 1;break;
+			case 2:$param = 2;break;
+			case 3:$param = 3;break;
+			case 4:$param = 4;break;
+			case 5:$param = 5;break;
+			case 6:$param = 6;break;
+			case 7:$param = 7;break;
 			case 8:$param = 8;break;
 			case 9:$param = 9;break;
 			case 10:$param = 10;break;
@@ -2555,7 +2558,7 @@ class monev extends Controller {
 				$list[$key]['realisasi_sd_bulan'] = $realisasi_sd_bulan['total'];
 				
 				//keterangan
-				$get_keterangan = $this->m_penetapanAngaran->get_keterangan($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$param);
+				$get_keterangan = $this->m_penetapanAngaran->get_keterangan_rev($thn,$kd_giat,$kd_output,$val['KDKMPNEN'],$param);
 				$list[$key]['keterangan'] = $get_keterangan['keterangan'];
 				
 				//sisa capaian bobot kinerja
@@ -2572,7 +2575,7 @@ class monev extends Controller {
 				// exit;
 			}
 		
-		// pr($list);
+		//pr($list);
 		//add	
 		
 		// pr($rencana_sd_bulan);
@@ -2585,47 +2588,47 @@ class monev extends Controller {
 			$get_data = $this->m_penetapanAngaran->get_data_monev_bln($count['id'],$param);
 			
 			switch ($bl){
-				case 01:
+				case 1:
 					$data['kendala'] = $get_data ['kendala'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu'];
 				break;
-				case 02:
+				case 2:
 					$data['kendala'] = $get_data ['kendala_2'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_2'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_2'];
 				break;
-				case 03:
+				case 3:
 					$data['kendala'] = $get_data ['kendala_3'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_3'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_3'];
 				break;
-				case 04:
+				case 4:
 					$data['kendala'] = $get_data ['kendala_4'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_4'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_4'];
 				break;
-				case 05:
+				case 5:
 					$data['kendala'] = $get_data ['kendala_5'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_5'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_5'];
 				break;
-				case 06:
+				case 6:
 					$data['kendala'] = $get_data ['kendala_6'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_6'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_6'];
 				break;
-				case 07:
+				case 7:
 					$data['kendala'] = $get_data ['kendala_7'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_7'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_7'];
 				break;
-				case 08:
+				case 8:
 					$data['kendala'] = $get_data ['kendala_8'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_8'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_8'];
 				break;
-				case 09:
+				case 9:
 					$data['kendala'] = $get_data ['kendala_9'];
 					$data['tindaklanjut'] = $get_data['tindaklanjut_9'] ;
 					$data['ygmembantu'] = $get_data['ygmembantu_9'];
@@ -2649,47 +2652,47 @@ class monev extends Controller {
 			
 		}else{
 			switch ($bl){
-				case 01:
+				case 1:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 02:
+				case 2:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 03:
+				case 3:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 04:
+				case 4:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 05:
+				case 5:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 06:
+				case 6:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 07:
+				case 7:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 08:
+				case 8:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
 				break;
-				case 09:
+				case 9:
 					$data['kendala'] = '';
 					$data['tindaklanjut'] = '';
 					$data['ygmembantu'] = '';
@@ -2744,7 +2747,8 @@ class monev extends Controller {
 		$this->view->assign('jml_renc_sd_bln',$jml_renc_sd_bln);
 		$this->view->assign('jml_reals_bln',$jml_reals_bln);
 		$this->view->assign('jml_reals_sd_bln',$jml_reals_sd_bln);
-		$this->view->assign('sisacapaian',$sisacapaian);
+		//$this->view->assign('sisacapaian',$sisacapaian);
+		$this->view->assign('sisacapaian',$jml_sisa_cpn);
 		
 		//Anggaran
 		//$thp kegiatan
@@ -2799,47 +2803,47 @@ class monev extends Controller {
 			$get_data2 = $this->m_penetapanAngaran->get_data_monev_bln_anggaran($count2['id'],$param);
 			
 			switch ($bl){
-				case 01:
+				case 1:
 					$data2['kendala'] = $get_data2 ['kendala'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu'];
 				break;
-				case 02:
+				case 2:
 					$data2['kendala'] = $get_data2 ['kendala_2'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_2'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_2'];
 				break;
-				case 03:
+				case 3:
 					$data2['kendala'] = $get_data2 ['kendala_3'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_3'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_3'];
 				break;
-				case 04:
+				case 4:
 					$data2['kendala'] = $get_data2 ['kendala_4'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_4'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_4'];
 				break;
-				case 05:
+				case 5:
 					$data2['kendala'] = $get_data2 ['kendala_5'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_5'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_5'];
 				break;
-				case 06:
+				case 6:
 					$data2['kendala'] = $get_data2 ['kendala_6'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_6'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_6'];
 				break;
-				case 07:
+				case 7:
 					$data2['kendala'] = $get_data2 ['kendala_7'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_7'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_7'];
 				break;
-				case 08:
+				case 8:
 					$data2['kendala'] = $get_data2 ['kendala_8'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_8'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_8'];
 				break;
-				case 09:
+				case 9:
 					$data2['kendala'] = $get_data2 ['kendala_9'];
 					$data2['tindaklanjut'] = $get_data2['tindaklanjut_9'] ;
 					$data2['ygmembantu'] = $get_data2['ygmembantu_9'];
@@ -2863,47 +2867,47 @@ class monev extends Controller {
 			
 		}else{
 			switch ($bl){
-				case 01:
+				case 1:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 02:
+				case 2:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 03:
+				case 3:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 04:
+				case 4:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 05:
+				case 5:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 06:
+				case 6:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 07:
+				case 7:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 08:
+				case 8:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
 				break;
-				case 09:
+				case 9:
 					$data2['kendala'] = '';
 					$data2['tindaklanjut'] = '';
 					$data2['ygmembantu'] = '';
@@ -2932,43 +2936,105 @@ class monev extends Controller {
 		$this->view->assign('tdklanjut2',$data2['tindaklanjut']);
 		$this->view->assign('ygmembantu2',$data2['ygmembantu']);
 		
-		
+		//kolom 3
 		$this->view->assign('jml_tot_pagu',$jml_tot_pagu);
+		//kolom 4
 		$this->view->assign('jml_renc_sd_bln_anggaran',$jml_renc_sd_bln_anggaran);
+		//kolom 5
 		$this->view->assign('jml_reals_bln_anggaran',$jml_reals_bln_anggaran);
+		//kolom 6
 		$this->view->assign('jml_reals_sd_bln_anggaran',$jml_reals_sd_bln_anggaran);
+		
+		//kolom 7 = (kolom 6 / kolom 4) * 100 
+		if($jml_renc_sd_bln_anggaran != 0){
+			$tmp_jml_persentase_rencana = 
+			round(($jml_reals_sd_bln_anggaran / $jml_renc_sd_bln_anggaran) * 100,2);
+		}else{
+			$tmp_jml_persentase_rencana = 0;
+		}
+		//$this->view->assign('jml_persentase_rencana',$jml_persentase_rencana);
+		$this->view->assign('jml_persentase_rencana',$tmp_jml_persentase_rencana);
+		
+		//kolom 8 = (kolom 6 / kolom 3) * 100
+		if($jml_tot_pagu != 0){
+			$tmp_jml_persentase_pagu = 
+			round(($jml_reals_sd_bln_anggaran / $jml_tot_pagu) * 100,2);
+		}else{
+			$tmp_jml_persentase_pagu = 0;
+		}
+		//$this->view->assign('jml_persentase_pagu',$jml_persentase_pagu);
+		$this->view->assign('jml_persentase_pagu',$tmp_jml_persentase_pagu);
+		
 		$this->view->assign('sisa_anggaran',$sisa_anggaran);
-		$this->view->assign('jml_persentase_rencana',$jml_persentase_rencana);
-		$this->view->assign('jml_persentase_pagu',$jml_persentase_pagu);
 		
 		//new add		
-		$tgl = date("Y-m-d");
+		/*$tgl = date("Y-m-d");
 		$tgl_format = $this->DateToIndo($tgl);
+		$this->view->assign('tgl_format',$tgl_format);*/
+		$tglcetak = $_GET['tglcetak'];
+		if($tglcetak){
+			$ex = explode("/", $tglcetak);
+			$length_tgl    = strlen($ex['0']);
+			if($length_tgl == 1){
+				$tanggal = "0".$ex['0'];
+			}else{
+				$tanggal = $ex['0'];
+			}
+			
+			$length_bulan  = strlen($ex['1']); 
+			if($length_bulan == 1){
+				$bulan = "0".$ex['1'];
+			}else{
+				$bulan = $ex['1'];
+			}			
+			
+			$thn = $ex['2'];
+			$tgl = $thn.'-'.$bulan.'-'.$tanggal;
+			$tgl_format = $this->DateToIndo($tgl);
+		}else{
+			$tgl = date("Y-m-d");
+			$tgl_format = $this->DateToIndo($tgl);
+		}
+		//pr($tgl_format);
 		$this->view->assign('tgl_format',$tgl_format);
 		
 		//ttd nama
-		$split = substr($kd_unit,0,3);
-		$join = $split.'000';
+		if($kd_unit === '845100'){
+			$join = '841000';
+		}else{
+			$split = substr($kd_unit,0,3);
+			$join = $split.'000';
+		}
 		$ttd_nama = $this->m_penetapanAngaran->nama_unit($join);
 		$this->view->assign('ttd_nama',$ttd_nama['nmunit']);
 		
 		//eselon I
 		$kd_eselon_I = $join;
 		$nama_pejabat_eselon_I = $this->model->nama_pejabat($kd_eselon_I);
-		// pr($nama_pejabat_eselon_I);
+		//pr($nama_pejabat_eselon_I);
+		/*$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
 		$pejabat_eselon_I = unserialize($nama_pejabat_eselon_I['custom_text']);
-		$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);
+		$this->view->assign('nama_pejabat_eselon_I',$pejabat_eselon_I['pejabat']);*/
+
+		//$pejabat_eselon_I = $nama_pejabat_eselon_I;
+		$this->view->assign('jabatan_pejabat_eselon_I',$nama_pejabat_eselon_I['brief']);
+		$this->view->assign('nama_pejabat_eselon_I',$nama_pejabat_eselon_I['desc']);
+		
 		
 		$kd_eselon_II = $kd_unit;
 		$nama_pejabat_eselon_II = $this->model->nama_pejabat($kd_eselon_II);
-		// pr($nama_pejabat_eselon_I);
-		$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
-		$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);
+		//pr($nama_pejabat_eselon_II);
+		/*$pejabat_eselon_II = unserialize($nama_pejabat_eselon_II['custom_text']);
+		$this->view->assign('nama_pejabat_eselon_II',$pejabat_eselon_II['pejabat']);*/
+		$this->view->assign('jabatan_pejabat_eselon_II',$nama_pejabat_eselon_II['brief']);
+		$this->view->assign('nama_pejabat_eselon_II',$nama_pejabat_eselon_II['desc']);
 		
 		// return $this->loadView('monev/printAll');
 		$this->reportHelper =$this->loadModel('reportHelper');
 		$html = $this->loadView('monev/printAll');
-		$generate = $this->reportHelper->loadMpdf($html, 'monev-bulanan-bobot',2);
+		//echo $html;
+		//exit;
+		$generate = $this->reportHelper->loadMpdf($html, 'monev-bulanan-bobot',1);
 		// exit;
 	}
 	
@@ -3093,13 +3159,13 @@ class monev extends Controller {
 		
 		// pr($tgl);
 		switch ($bl){
-			case 01:$param = 1;break;
-			case 02:$param = 2;break;
-			case 03:$param = 3;break;
-			case 04:$param = 4;break;
-			case 05:$param = 5;break;
-			case 06:$param = 6;break;
-			case 07:$param = 7;break;
+			case 1:$param = 1;break;
+			case 2:$param = 2;break;
+			case 3:$param = 3;break;
+			case 4:$param = 4;break;
+			case 5:$param = 5;break;
+			case 6:$param = 6;break;
+			case 7:$param = 7;break;
 			case 8:$param = 8;break;
 			case 9:$param = 9;break;
 			case 10:$param = 10;break;
@@ -3296,11 +3362,11 @@ class monev extends Controller {
 		$this->view->assign('realisasisdbulan',$var_realisasi_sdbulan);
 		
 		//validator
-		if($this->admin['type'] == 1){
+		//if($this->admin['type'] == 1){
 			$acces = "";
 			$sub = "";
 			$valid = 1;
-		}else{
+		/*}else{
 			$acces = "disabled";
 			$ceck_date = date('d');
 			$limit_date = 10;
@@ -3313,7 +3379,7 @@ class monev extends Controller {
 				$sub = "disabled";
 				$valid = 0;
 			}
-		}
+		}*/
 		$this->view->assign('acces',$acces);
 		$this->view->assign('sub',$sub);
 		$this->view->assign('valid',$valid);

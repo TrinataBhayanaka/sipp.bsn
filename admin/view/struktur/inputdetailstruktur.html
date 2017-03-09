@@ -1,0 +1,89 @@
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Struktur Organisasi</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li><a href="{$basedomain}">Home</a></li>
+	<li><a href="{$basedomain}"struktur>Struktur Organisasi</a></li>
+	<li class="active">Detail Struktur Organisasi</li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">Form Detail Struktur Organisasi</h3>
+		</div>
+		<form class="form-horizontal form-padding" method="post" action="{$basedomain}struktur/ajax_insert">
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-lg-12">
+						<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Tahun</label> 
+									<div class="col-md-3"> 
+										<input id="th" name="tahun" type="text" class="form-control input-md" 
+										value="{$param.year}" readonly> 
+									</div>
+							</div>
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Nama Satker</label> 
+									<div class="col-md-5"> 
+										<input id="nm_satker" name="nm_satker" type="text" class="form-control input-md" 
+										value="{$param2.nama_satker}" readonly> 
+									</div>
+							</div>
+							
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Jabatan</label> 
+									<div class="col-md-5"> 
+										<!--<select name="jabatan" id="jabatan" class="selectpicker" width="100%" >
+										<option value="deputi">deputi</option>
+										<option value="kepala">kepala</option>
+										<option value="plt.Deputi">plt.Deputi</option>
+										<option value="plt.kepala">plt.kepala</option>
+										<option value="plh.Deputi">plh.Deputi</option>
+										<option value="plh.kepala">plh.kepala</option>
+										</select>-->
+										<input id="jabatan" name="jabatan" type="text" class="form-control input-md" 
+										value="" required=""> 
+									</div>
+							</div>
+							<div class="form-group"> 
+								<label class="col-md-3 control-label" for="name">Nama Pejabat</label> 
+									<div class="col-md-5"> 
+										<input id="nama_pejabat" name="nama_pejabat" type="text" class="form-control input-md" required=""> 
+									</div>
+							</div>
+						
+						<!-- HIDDEN -->
+						<input type="hidden" id ="id" name="id" value="{$param.parent_id}">
+			
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer text-right">
+			<button class="btn btn-info" type="submit">Simpan</button>
+		</div>
+		</form>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+
+

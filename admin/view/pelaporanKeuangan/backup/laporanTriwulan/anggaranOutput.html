@@ -1,0 +1,180 @@
+<script>
+{literal}
+	
+	$(document).on('click', '#inputvisi', function(){
+
+		inputsasaran(1);
+	})
+
+	
+
+	$(document).on('click', '#editvisi', function(){
+		var iddata = $(this).attr('data-id');
+		inputsasaran(1, iddata);
+	})
+
+	
+
+	$(document).on('change', '.eselonid', function(){
+		var id = $(this).val();
+		redirect(basedomain+"renstra/sasaran/?parent_id="+id);
+	})
+
+
+{/literal}
+
+</script>
+
+<!--Page Title-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<div id="page-title">
+	<h1 class="page-header text-overflow">Anggaran Total</h1>
+</div>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End page title-->
+
+<!--Breadcrumb-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ol class="breadcrumb">
+	<li class="active"><a href="{$basedomain}">Home</a></li>
+</ol>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--End breadcrumb-->
+
+<!--Page content-->
+<!--===================================================-->
+<div id="page-content">
+	
+	<!-- Row selection and deletion (multiple rows) -->
+	<!--===================================================-->
+	<div class="panel">
+		<!--<div class="panel-heading">
+			<h3 class="panel-title">Anggaran Total</h3>
+			<form action="{$basedomain}pelaporanKeuangan/anggaranTotal" method="post">
+			Sampai dengan Triwulan : 
+			<select name="kdtriwulan">
+				<option value="1" {$dataselected.0}>Triwulan I</option>
+				<option value="2" {$dataselected.1}>Triwulan II</option>
+				<option value="3" {$dataselected.2}>Triwulan III</option>
+				<option value="4" {$dataselected.3}>Triwulan IV</option>
+			</select>
+			<input type="submit" value="Tampilkan" name="cari"/>
+		</form>
+		</div>-->
+		
+		{*}
+		<div id="create-toolbar" class="table-toolbar-left">
+			<a href="javascript:void(0)"><button class="btn btn-success btn-labeled fa fa-pencil-square-o" id="inputvisi">Input Sasaran Strategis</button></a>
+		</div>
+		<div id="separator-toolbar" class="table-toolbar-left">&nbsp;</div>
+		
+		<div id="delete-toolbar" class="table-toolbar-left">
+			<button id="demo-dt-delete-btn-course-list" class="btn btn-danger btn-labeled fa fa-times">Delete</button>
+		</div>
+		{/*}
+		
+		<!--{pr($data)}
+		{pr($data_listgroup)}-->
+		<div class="panel-body">
+			<div id="delete-toolbar" class="table-toolbar-right">
+			<form action="{$basedomain}pelaporanKeuanganTrwln/anggaranOutput" method="post">
+			<div class="form-horizontal">
+				<div class="form-group">
+				Sampai dengan Triwulan : 
+				<select name="kdtriwulan" class="selectpicker" width="100%">
+					<option value="1" {$dataselected.0}>Triwulan I</option>
+					<option value="2" {$dataselected.1}>Triwulan II</option>
+					<option value="3" {$dataselected.2}>Triwulan III</option>
+					<option value="4" {$dataselected.3}>Triwulan IV</option>
+				</select>
+					<button class="btn btn-primary btn-labeled fa fa-list">Tampilkan</button>
+				</div>
+			</div>
+			</form>
+		</div>
+			<div class="table-responsive" style="overflow:scroll;max-height:600px">
+				<table class="table table-bordered" >
+					<thead>
+						<tr>
+							<th class="text-center" rowspan="2">Unit Eselon II</th>
+							<th class="text-center" rowspan="2">Kode APBN</th>
+							<th class="text-center" rowspan="2">Lembaga
+							Nama Satuan Kerja /
+							Nama Kegiatan /
+							Output</th>
+							<th class="text-center" rowspan="2">Pagu Anggaran</th>
+							<th class="text-center" colspan="3">Realisasi Anggaran</th>
+							<th class="text-center" rowspan="2">Sisa Anggaran</th>
+						</tr>
+						<tr>
+							<th class="text-center">Triwulan Ini </th>
+							<th class="text-center">s.d Triwulan Ini </th>
+							<th class="text-center">(%) </th>
+						</tr>
+					</thead>
+					<tbody>
+						{if $data_master_induk}
+						<tr>
+							<td>&nbsp;</td>
+							<td>{$data_master_induk.0.kode}</td>
+							<td>{$data_master_induk.2.nmunit}</td>
+							<td class="text-right">{number_format($data_master_induk.1.pagu_menteri,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.4.jml,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.5.jml,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.7.persentase_thn_pagu,"2",",",".")}</td>
+							<td class="text-right">{number_format($data_master_induk.8.sisa_anggaran,"0",",",".")}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>{$data_master.0.kode}</td>
+							<td>{$data_master.2.NMSATKER}</td>
+							<td class="text-right">{number_format($data_master.1.pagu_satker,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master.4.jml,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master.5.jml,"0",",",".")}</td>
+							<td class="text-right">{number_format($data_master.7.persentase_thn_pagu_satker,"2",",",".")}</td>
+							<td class="text-right">{number_format($data_master.8.sisa_anggaran_satker,"0",",",".")}</td>
+						</tr>
+						{/if}
+						{if $data_master_sub}
+						{foreach $data_master_sub as $value}
+						<tr>
+							<td>{$value.nama_unit}</td>
+							<td>{$value.KDGIAT}</td>
+							<td>{$value.nama_kegiatan}</td>
+							<td class="text-right">{number_format($value.pagu_giat,"0",",",".")}</td>
+							<td class="text-right">{number_format($value.real_giat_triwulan,"0",",",".")}</td>
+							<td class="text-right">{number_format($value.real_giat_sdtriwulan,"0",",",".")}</td>
+							<td class="text-right">{number_format($value.persentase_thn_pagu_satker_kegiatan,"2",",",".")}</td>
+							<td class="text-right">{number_format($value.sisa_anggaran_kegiatan,"0",",",".")}</td>
+						</tr>
+							{if $value.output}
+							{foreach $value.output as $val}
+							<tr>
+								<td>&nbsp;</td>
+								<td>{$val.KDOUTPUT}</td>
+								<td>{$val.namaoutput}</td>
+								<td class="text-right">{number_format($val.pagu_output,"0",",",".")}</td>
+								<td class="text-right">{number_format($val.real_output_triwulan,"0",",",".")}</td>
+								<td class="text-right">{number_format($val.real_output_sdtriwulan,"0",",",".")}</td>
+								<td class="text-right">{number_format($val.persentase_pagu_output,"2",",",".")}</td>
+								<td class="text-right">{number_format($val.sisa_anggaran_kegiatan_output,"0",",",".")}</td>
+							</tr>
+							{/foreach}
+							{/if}
+						{/foreach}
+						{/if}
+					</tbody>
+				</table>
+			</div>
+			
+			
+		</div>
+	</div>
+	<!--===================================================-->
+	<!-- End Row selection and deletion (multiple rows) -->
+	
+	
+</div>
+<!--===================================================-->
+<!--End page content-->
+

@@ -1,6 +1,7 @@
 <div class="row">
 	<div class="col-md-12">
-		<h3 align="center">RENCANA PELAKSANAAN KEGIATAN {$info.thn}</h3>
+		<h3 align="center">RENCANA PELAKSANAAN KEGIATAN</h3>
+		<h3 align="center">TAHUN {$info.thn}</h3>
 	</div>
 </div>
 
@@ -48,6 +49,10 @@
 		<tr>
 			<td >&nbsp;</td>
 			<td colspan="4">{$rinc.tujuan}</td>
+			<!--<dl>
+  				<dt><strong></strong></dt>
+  				{$rinc.tujuan}
+  			</dl>-->
 		</tr>
 		<tr>
 			<td colspan="5">&nbsp;</td>
@@ -73,35 +78,34 @@
 			<td style="width:10px">c.</td>
 			<td colspan="4">Sasaran kinerja per triwulan (diisi sasaran kinerja per triwulan dan bobotnya)</td>
 		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td style="width:10px">1.</td>
-			<td style="width:150px">Triwulan I</td>
-			<td>{$rinc.sasaran_trw_1}</td>
-			<td >{$detail.bobot_1|cat:'%'}</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td style="width:10px">2.</td>
-			<td style="width:150px">Triwulan II</td>
-			<td>{$rinc.sasaran_trw_2}</td>
-			<td>{$detail.bobot_2|cat:'%'}</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td style="width:10px">3.</td>
-			<td style="width:150px">Triwulan III</td>
-			<td>{$rinc.sasaran_trw_3}</td>
-			<td>{$detail.bobot_3|cat:'%'}</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td style="width:10px">4.</td>
-			<td style="width:150px">Triwulan IV</td>
-			<td >{$rinc.sasaran_trw_4}</td>
-			<td>{$detail.bobot_4|cat:'%'}</td>
-		</tr>
 	</table>
+	<p><strong>Triwulan I ({$detail.bobot_1|cat:'%'})</strong></p>
+	{$rinc.sasaran_trw_1}
+	<p><strong>Triwulan II ({$detail.bobot_2|cat:'%'})</strong></p>
+	{$rinc.sasaran_trw_2}
+	<p><strong>Triwulan III ({$detail.bobot_3|cat:'%'})</strong></p>
+	{$rinc.sasaran_trw_3}
+	<p><strong>Triwulan IV ({$detail.bobot_4|cat:'%'})</strong></p>
+	{$rinc.sasaran_trw_4}
+	<!--<dl>
+  		<dt> {$rinc.sasaran_trw_1}</dt>
+  		
+	</dl>
+	<p><strong>Triwulan II ({$detail.bobot_2|cat:'%'})</strong></p>
+	<dl>
+  		<dt>{$rinc.sasaran_trw_2}</dt>
+  		 
+	</dl>
+	<p><strong>Triwulan III ({$detail.bobot_3|cat:'%'})</strong></p>
+	<dl>
+  		<dt>{$rinc.sasaran_trw_3}</dt>
+  		 
+	</dl>
+	<p><strong>Triwulan IV ({$detail.bobot_4|cat:'%'})</strong></p>
+	<dl>
+  		<dt>{$rinc.sasaran_trw_4}</dt>
+  		 
+	</dl>-->
 </div>
 <br/>
 <div>
@@ -342,13 +346,14 @@
 	   <td style="text-align: center;" colspan="3" width="400px">&nbsp;</td>
 	</tr>
 	<tr>
-	   <td style="text-align: center;" colspan="3" width="400px">{$ttd_nama}</td>
+	   <td style="text-align: center;" colspan="3" width="400px">{$jabatan_pejabat_eselon_I} 
+	   <!--{$ttd_nama}--></td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
 	   <td>&nbsp;</td>
-	   <td style="text-align: center;" colspan="3" width="400px">Kepala {$info.unit_eselon}</td>
+	   <td style="text-align: center;" colspan="3" width="400px"> {$jabatan_pejabat_eselon_II} {$info.unit_eselon}</td>
 	</tr>
 	<tr>
 	   <td colspan="11" style="height: 100px"></td>

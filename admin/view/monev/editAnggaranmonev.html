@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function() {
-	$('#kendala,#tindaklanjut,#ygmembantu').summernote({
+	/*$('#kendala,#tindaklanjut,#ygmembantu').summernote({
 		toolbar: [
     // [groupName, [list of button]]
 					['style', ['bold', 'italic', 'underline', 'clear']],
@@ -11,6 +11,28 @@ $(document).ready(function() {
 					['height', ['height']]
 				  ],
 		height: 200
+	});*/
+	//clear format from other source like word
+	var $editor = $('#kendala,#tindaklanjut,#ygmembantu');
+	$editor.summernote({
+			toolbar: [
+    			['style', ['bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']]
+			  ],
+		height: 200,
+	    onpaste: function (e) {
+	    	//console.log('masuk');
+	        //console.log(e);
+	        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+
+	        e.preventDefault();
+
+	        document.execCommand('insertText', false, bufferText);
+	    }
 	});
 })	
 //for ceck number
@@ -94,28 +116,28 @@ function isNumber(evt) {
 						</div>
 					</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">1. Output</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">1. Output</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_output}</label>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">2. Kegiatan</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">2. Kegiatan</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.nama_kegiatan}</label>
 							 
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">3. Anggaran</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">3. Anggaran</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{number_format($info.pagu_output,"0",",",".")}</label>
 							
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">4. Unit Eselon II</label>
-							<div class="col-sm-8">						
+							<label class="col-sm-2 control-label boldGrey text-justify">4. Unit Eselon II</label>
+							<div class="col-sm-10">						
 								<label class=" control-label">{$info.unit_eselon}</label>
 							
 							</div>
@@ -123,44 +145,13 @@ function isNumber(evt) {
 					<div class="row">
 						<div class="col-sm-6">	
 							<div class="form-group pull-left">
-								<label class="control-label"><strong>B. Bobot Kinerja</strong></label>
+								<label class="control-label"><strong>B. Anggaran</strong></label>
 								
 							</div>
 						</div>
 					</div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">1. Tahapan Kegiatan</label>
-							<div class="col-sm-8 pull-left">	
-								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
-									{foreach $list as $val}
-									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
-									{/foreach}
-								</ul>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">2. Kendala yang dihadapi</label>
-							<div class="col-md-9">
-								<textarea rows="5" class="form-control month" name="kendala" id="kendala">{$data.kendala}</textarea>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">3. Tindak Lanjut yang diperlukan</label>
-							<div class="col-md-9">
-								<textarea rows="5" class="form-control month" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-2 control-label boldGrey">4. Pihak yang dapat mengatasi masalah</label>
-							<div class="col-md-9">
-								<textarea rows="5" class="form-control month" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
-							</div>
-						</div>
-						<div class="form-group">
-						<label class="col-sm-2 control-label boldGrey">Bulan</label>
+						<label class="col-sm-2 control-label boldGrey text-justify">Bulan</label>
 							<select name="bulan" id="bulan" class="selectpicker" width="100%" {$acces}>
 								{foreach $bulan as $key=> $valbln}
 									{if $keybln == $key}
@@ -171,6 +162,37 @@ function isNumber(evt) {
 									<option value="{$key}" {$select_list}>{$valbln}</option>
 								{/foreach}
 							</select>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">1. Tahapan Kegiatan</label>
+							<div class="col-sm-10 pull-left">	
+								<ul style="list-style:none;list-style-position:outside;padding-left:0px" >
+									{foreach $list as $val}
+									<li>{$val.KDKMPNEN|cat:' '|cat:$val.nama_komponen}</li>
+									{/foreach}
+								</ul>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">2. Kendala yang dihadapi</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control month" name="kendala" id="kendala">{$data.kendala}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">3. Tindak Lanjut yang diperlukan</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control month" name="tindaklanjut" id="tindaklanjut">{$data.tindaklanjut}</textarea>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label boldGrey text-justify">4. Pihak yang dapat mengatasi masalah</label>
+							<div class="col-md-9">
+								<textarea rows="5" class="form-control month" name="ygmembantu" id="ygmembantu">{$data.ygmembantu}</textarea>
+							</div>
 						</div>
 						
 						<div class="row">
@@ -259,7 +281,7 @@ function isNumber(evt) {
 					</div>
 					<div class="panel-footer text-right">
 						<!--<input type="button" id="print" name="print" value="Print PDF" class="btn btn-danger">-->
-						<input type="button" id="submit" name="submit" value="save" class="btn btn-info" {$sub}>
+						<input type="button" id="submit" name="submit" value="simpan" class="btn btn-info" {$sub}>
 					</div>
 				</form>
 				<!--===================================================-->
